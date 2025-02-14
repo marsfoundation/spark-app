@@ -32,7 +32,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
       >
         <div className="flex max-w-[420px] flex-col gap-1">
           <div className="typography-label-2 sm:typography-heading-5 text-primary">
-            Upgrade your Savings DAI to Savings USDS
+            Upgrade your DAI Savings to USDS Savings
             {apyImprovement ? (
               <>
                 {' '}
@@ -46,7 +46,7 @@ export function UpgradeSavingsBanner({ onUpgradeSavingsClick, apyImprovement }: 
           <div className="typography-body-4 hidden text-secondary lg:flex">
             Upgrade at any size with no slippage. The upgrade is optional,
             <br />
-            and you can continue using Savings DAI.
+            and you can continue using DAI Savings.
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 lg:min-w-64 lg:gap-4">

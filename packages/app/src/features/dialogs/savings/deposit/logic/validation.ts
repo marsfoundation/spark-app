@@ -6,7 +6,7 @@ export type DepositToSavingsValidationIssue = TransferFromUserValidationIssue | 
 export const depositValidationIssueToMessage: Record<DepositToSavingsValidationIssue, string> = {
   'value-not-positive': 'Deposit value should be positive',
   'exceeds-balance': 'Exceeds your balance',
-  'exceeds-psm3-balance': 'Savings USDS deposit cap temporarily reached',
+  'exceeds-psm3-balance': 'Savings deposit cap temporarily reached',
 }
 
 export interface ValidateDepositToSavingsOnBaseParams {

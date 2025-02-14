@@ -35,7 +35,7 @@ export function SavingsDepositView({
 }: SavingsDepositViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Deposit to Savings {underlyingToken.symbol}</DialogTitle>
+      <DialogTitle>Deposit to {underlyingToken.symbol} Savings</DialogTitle>
 
       <FormAndOverviewWrapper>
         <DialogForm form={form} assetsFields={assetsFields} selectorAssets={selectableAssets} />
