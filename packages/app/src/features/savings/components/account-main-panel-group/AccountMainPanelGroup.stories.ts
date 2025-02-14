@@ -9,7 +9,7 @@ import { AccountMainPanelGroup } from './AccountMainPanelGroup'
 const meta: Meta<typeof AccountMainPanelGroup> = {
   title: 'Features/Savings/Components/AccountMainPanelGroup',
   component: AccountMainPanelGroup,
-  decorators: [WithTooltipProvider(), WithClassname('max-w-[1200px]')],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-[1200px] md:h-[320px] grid grid-cols-1')],
   args: {
     underlyingToken: tokens.USDS,
     savingsToken: tokens.sUSDS,

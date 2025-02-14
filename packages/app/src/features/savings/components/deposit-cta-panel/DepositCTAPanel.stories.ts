@@ -10,7 +10,7 @@ import { DepositCTAPanel } from './DepositCTAPanel'
 const meta: Meta<typeof DepositCTAPanel> = {
   title: 'Features/Savings/Components/DepositCTAPanel',
   component: DepositCTAPanel,
-  decorators: [WithTooltipProvider(), withRouter(), WithClassname('max-w-6xl grid md:h-[352px]')],
+  decorators: [WithTooltipProvider(), withRouter(), WithClassname('max-w-6xl grid md:h-[320px]')],
   args: {
     savingsRate: Percentage(0.12),
     actions: {

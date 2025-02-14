@@ -29,7 +29,7 @@ export function SidePanelGroup({
 }: SidePanelGroupProps) {
   return (
     <div className={className}>
-      <div className="grid grid-rows-3 gap-2">
+      <div className="grid h-full grid-rows-3 gap-2">
         <SidePanel>
           <AdditionalInfo.Label
             tooltipContent={
@@ -90,7 +90,7 @@ export function SidePanelGroup({
 
 function SidePanel({ children }: { children: React.ReactNode }) {
   return (
-    <Panel variant="secondary" className="flex w-[325px] flex-col gap-2 py-7">
+    <Panel variant="secondary" spacing="s" className="flex w-[325px] flex-col justify-center gap-2 md:px-8 md:py-0">
       {children}
     </Panel>
   )
