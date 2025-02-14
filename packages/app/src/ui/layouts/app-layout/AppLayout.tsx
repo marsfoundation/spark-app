@@ -31,7 +31,6 @@ export function AppLayout({ children }: AppLayoutProps) {
       <LayoutBackground />
 
       {import.meta.env.VITE_FEATURE_TOP_BANNER === '1' &&
-        import.meta.env.VITE_FEATURE_USDC_ACCOUNT === '1' &&
         showBanner && <SavingsAccountsTopBanner onClose={handleCloseBanner} className="col-span-full " />}
       <div className="z-30 col-start-2 col-end-2 my-2 sm:mb-8 lg:mt-6 lg:mb-10">
         <TopbarContainer />
