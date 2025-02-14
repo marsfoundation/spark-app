@@ -1,10 +1,15 @@
 import { susdsAddresses } from '@/config/chain/constants'
-import { psm3Config, savingsDaiConfig } from '@/config/contracts-generated'
+import {
+  psmActionsConfig,
+  savingsDaiConfig,
+  usdcVaultAddress,
+  usdsPsmActionsConfig,
+} from '@/config/contracts-generated'
 import { JSONStringifyRich } from '@/utils/object'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { Abi, Address, ContractFunctionName, erc4626Abi, isAddressEqual } from 'viem'
 import { estimateContractGas } from 'viem/actions'
-import { base, mainnet } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { UseSimulateContractParameters, useAccount, useChainId, usePublicClient } from 'wagmi'
 import { useOriginChainId } from './useOriginChainId'
 
@@ -20,7 +25,31 @@ const TRANSACTIONS_WITH_INCREASED_GAS_LIMIT = [
     chainId: mainnet.id,
     address: savingsDaiConfig.address[mainnet.id],
     abi: savingsDaiConfig.abi,
+    functionName: 'redeem',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: savingsDaiConfig.address[mainnet.id],
+    abi: savingsDaiConfig.abi,
     functionName: 'deposit',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: psmActionsConfig.address[mainnet.id],
+    abi: psmActionsConfig.abi,
+    functionName: 'withdrawAndSwap',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: psmActionsConfig.address[mainnet.id],
+    abi: psmActionsConfig.abi,
+    functionName: 'redeemAndSwap',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: psmActionsConfig.address[mainnet.id],
+    abi: psmActionsConfig.abi,
+    functionName: 'swapAndDeposit',
   }),
   createConfigEntry({
     chainId: mainnet.id,
@@ -32,19 +61,49 @@ const TRANSACTIONS_WITH_INCREASED_GAS_LIMIT = [
     chainId: mainnet.id,
     address: susdsAddresses[mainnet.id],
     abi: erc4626Abi,
+    functionName: 'redeem',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: susdsAddresses[mainnet.id],
+    abi: erc4626Abi,
     functionName: 'deposit',
   }),
   createConfigEntry({
-    chainId: base.id,
-    address: psm3Config.address[base.id],
-    abi: psm3Config.abi,
-    functionName: 'swapExactIn',
+    chainId: mainnet.id,
+    address: usdsPsmActionsConfig.address[mainnet.id],
+    abi: usdsPsmActionsConfig.abi,
+    functionName: 'withdrawAndSwap',
   }),
   createConfigEntry({
-    chainId: base.id,
-    address: psm3Config.address[base.id],
-    abi: psm3Config.abi,
-    functionName: 'swapExactOut',
+    chainId: mainnet.id,
+    address: usdsPsmActionsConfig.address[mainnet.id],
+    abi: usdsPsmActionsConfig.abi,
+    functionName: 'redeemAndSwap',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: usdsPsmActionsConfig.address[mainnet.id],
+    abi: usdsPsmActionsConfig.abi,
+    functionName: 'swapAndDeposit',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: usdcVaultAddress[mainnet.id],
+    abi: erc4626Abi,
+    functionName: 'withdraw',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: usdcVaultAddress[mainnet.id],
+    abi: erc4626Abi,
+    functionName: 'redeem',
+  }),
+  createConfigEntry({
+    chainId: mainnet.id,
+    address: usdcVaultAddress[mainnet.id],
+    abi: erc4626Abi,
+    functionName: 'deposit',
   }),
 ]
 
