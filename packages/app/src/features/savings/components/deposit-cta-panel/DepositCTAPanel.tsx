@@ -48,13 +48,13 @@ export function DepositCTAPanel({
     <Panel
       spacing="m"
       className={cn(
-        'grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]',
+        'grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr]',
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
         className,
       )}
       data-testid={testIds.savings.account.depositCTA.panel}
     >
-      <div className="flex flex-col gap-4 md:justify-between">
+      <div className="flex flex-col gap-4 lg:justify-between">
         <Header
           savingsRate={savingsRate}
           savingsToken={savingsToken}
