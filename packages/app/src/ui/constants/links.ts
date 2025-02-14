@@ -17,6 +17,7 @@ export const links = {
       sdai: 'https://docs.spark.fi/user-guides/earning-savings/sdai',
       withdrawSavings: 'https://docs.spark.fi/user-guides/earning-savings/#withdraw-savings',
       sparkPSM: 'https://docs.spark.fi/user-guides/spark-liquidity-layer/#cross-chain-liquidity-using-spark-psm',
+      gnosisSdai: 'https://docs.spark.fi/user-guides/earning-savings/sdai#savings-xdai-on-gnosis-chain',
     },
   },
   aaveTechnicalPaper: 'https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf',
