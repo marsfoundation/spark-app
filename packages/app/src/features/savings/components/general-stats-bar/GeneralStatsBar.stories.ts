@@ -19,6 +19,7 @@ const meta: Meta<typeof GeneralStatsBar> = {
       isError: false,
       error: null,
     },
+    psmSupplier: 'sky',
   },
 }
 

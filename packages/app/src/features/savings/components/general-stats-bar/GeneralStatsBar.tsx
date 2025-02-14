@@ -3,6 +3,7 @@ import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
+import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ExternalLinkIcon } from 'lucide-react'
@@ -12,9 +13,10 @@ import { UseGeneralStatsResult } from '../../logic/general-stats/useGeneralStats
 export interface GeneralStatsBarProps {
   accountSavingsToken: Token
   generalStatsResult: UseGeneralStatsResult
+  psmSupplier: 'sky' | 'spark'
 }
 
-export function GeneralStatsBar({ accountSavingsToken, generalStatsResult }: GeneralStatsBarProps) {
+export function GeneralStatsBar({ accountSavingsToken, generalStatsResult, psmSupplier }: GeneralStatsBarProps) {
   if (generalStatsResult.isPending) {
     return <Skeleton className="h-10 w-full max-w-[400px]" />
   }
@@ -38,13 +40,16 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult }: Gen
       <Stat>
         <Label>Liquidity:</Label>
         <Value>
-          {liquidity.isFinite() ? (
-            USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })
-          ) : (
-            <>
-              ∞<span className="hidden sm:inline"> (No limits)</span>
-            </>
-          )}
+          <div className="flex items-center gap-1">
+            {liquidity.isFinite() ? (
+              USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })
+            ) : (
+              <div>
+                ∞<span className="hidden sm:inline"> (No limits)</span>
+              </div>
+            )}
+            {psmSupplier === 'sky' ? <SkyPsmLiquidityInfo /> : <SparkPsmLiquidityInfo />}
+          </div>
         </Value>
       </Stat>
       <Stat>
@@ -64,10 +69,34 @@ function Label({ children }: { children: string }) {
   return <div className="typography-label-3 text-secondary">{children}</div>
 }
 
-function Value({ children }: { children: ReactNode }) {
-  return <div className="typography-label-3 text-primary">{children}</div>
+function Value({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={cn('typography-label-3 text-primary', className)}>{children}</div>
 }
 
 function formatUsersNumber(users: number): string {
   return Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(users)
+}
+
+function SkyPsmLiquidityInfo() {
+  return (
+    <Info>
+      The liquidity is provided by the Sky Peg Stability Module which allows 1:1 swaps between USDC and USDS without
+      slippage or fees beyond network fees.{' '}
+      <Link to={links.docs.savings.withdrawSavings} external>
+        Learn more
+      </Link>
+    </Info>
+  )
+}
+
+function SparkPsmLiquidityInfo() {
+  return (
+    <Info>
+      The liquidity is provided by the Spark Peg Stability Module which allows 1:1 swaps between USDC and USDS without
+      slippage or fees beyond network fees.{' '}
+      <Link to={links.docs.savings.sparkPSM} external>
+        Learn more
+      </Link>
+    </Info>
+  )
 }

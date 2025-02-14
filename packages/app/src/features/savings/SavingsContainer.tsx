@@ -17,6 +17,7 @@ function SavingsContainer() {
     openSendDialog,
     openWithdrawDialog,
     isInSandbox,
+    psmSupplier,
   } = useSavings()
   const { isGuestMode, openConnectModal, openSandboxModal } = useUnsupportedChain()
 
@@ -34,6 +35,7 @@ function SavingsContainer() {
       openSendDialog={openSendDialog}
       openWithdrawDialog={openWithdrawDialog}
       isInSandbox={isInSandbox}
+      psmSupplier={psmSupplier}
     />
   )
 }

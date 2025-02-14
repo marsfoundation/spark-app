@@ -9,6 +9,7 @@ import { SavingsAccount } from '../components/savings-account/SavingsAccount'
 import { UseGeneralStatsResult } from '../logic/general-stats/useGeneralStats'
 import { ShortAccountDefinition } from '../logic/useSavings'
 import { AccountDefinition } from '../logic/useSavings'
+import { PsmSupplier } from '../types'
 
 export interface SavingsViewProps {
   selectedAccount: AccountDefinition
@@ -23,6 +24,7 @@ export interface SavingsViewProps {
   allAccounts: ShortAccountDefinition[]
   setSelectedAccount: (savingsTokenSymbol: TokenSymbol) => void
   isInSandbox: boolean
+  psmSupplier: PsmSupplier
 }
 
 export function SavingsView({
@@ -38,6 +40,7 @@ export function SavingsView({
   allAccounts,
   generalStats,
   isInSandbox,
+  psmSupplier,
 }: SavingsViewProps) {
   const showNavigation = allAccounts.length > 1
 
@@ -45,7 +48,11 @@ export function SavingsView({
     <PageLayout>
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
         <PageHeader />
-        <GeneralStatsBar accountSavingsToken={selectedAccount.savingsToken} generalStatsResult={generalStats} />
+        <GeneralStatsBar
+          accountSavingsToken={selectedAccount.savingsToken}
+          generalStatsResult={generalStats}
+          psmSupplier={psmSupplier}
+        />
       </div>
       <div className={cn('grid grid-cols-1 gap-6', showNavigation && 'xl:grid-cols-[202px_1fr]')}>
         {showNavigation && (
