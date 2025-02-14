@@ -229,6 +229,7 @@ const savingsViewSusdsArgs = {
     isError: false,
     error: null,
   },
+  psmSupplier: 'sky',
 } satisfies SavingsViewProps
 
 const meta: Meta<typeof SavingsView> = {

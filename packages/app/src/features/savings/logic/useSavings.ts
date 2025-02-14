@@ -1,6 +1,8 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { psm3Address } from '@/config/contracts-generated'
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
+import { getOptionalContractAddress } from '@/domain/hooks/useContractAddress'
 import { useGetBlockExplorerAddressLink } from '@/domain/hooks/useGetBlockExplorerAddressLink'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
@@ -17,13 +19,14 @@ import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw
 import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useCallback, useState } from 'react'
-import { AccountMetadata } from '../types'
+import { AccountMetadata, PsmSupplier } from '../types'
 import { getAccountMetadata } from '../utils/getAccountMetadata'
 import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
 import { usePrefetchValidators } from './usePrefetchValidators'
+
 export interface InterestData {
   APY: Percentage
   oneYearProjection: NormalizedUnitNumber
@@ -67,6 +70,7 @@ export interface UseSavingsResults {
   openWithdrawDialog: () => void
   openConvertStablesDialog: () => void
   isInSandbox: boolean
+  psmSupplier: PsmSupplier
 }
 
 export function useSavings(): UseSavingsResults {
@@ -163,6 +167,8 @@ export function useSavings(): UseSavingsResults {
     })
   }
 
+  const psmSupplier = getOptionalContractAddress(psm3Address, chainId) ? 'spark' : 'sky'
+
   return {
     allAccounts,
     setSelectedAccount,
@@ -172,6 +178,7 @@ export function useSavings(): UseSavingsResults {
     openWithdrawDialog,
     openConvertStablesDialog,
     isInSandbox,
+    psmSupplier,
     selectedAccount: {
       chartsData: savingsChartsData,
       interestData,

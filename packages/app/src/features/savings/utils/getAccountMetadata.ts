@@ -39,7 +39,7 @@ function getApyExplainer({ underlyingToken, chainId }: GetAccountMetadataArgs): 
 
 function getDocsLink({ underlyingToken, chainId }: GetAccountMetadataArgs): string {
   if (chainId === gnosis.id) {
-    return links.docs.savings.sdai
+    return links.docs.savings.gnosisSdai
   }
   if (underlyingToken === TokenSymbol('DAI')) {
     return links.docs.savings.sdai
