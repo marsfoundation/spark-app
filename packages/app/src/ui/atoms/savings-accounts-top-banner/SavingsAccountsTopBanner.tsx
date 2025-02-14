@@ -33,7 +33,7 @@ export function SavingsAccountsTopBanner({ onClose, className }: SavingsAccounts
         )}
       >
         <div className="typography-body-3 flex max-w-[80%] items-center text-primary-inverse">
-          Savings Page redesigned! Enjoy a more intuitive way to manage your funds.
+          Savings Page redesigned! <br className="sm:hidden" /> Enjoy a more intuitive way to manage your funds.
         </div>
 
         <IconButton
