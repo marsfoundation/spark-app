@@ -4,6 +4,7 @@ import {
   Address,
   ContractFunctionArgs,
   ContractFunctionName,
+  Hex,
   PartialBy,
   PublicActions,
   WalletClient,
@@ -15,6 +16,7 @@ export interface TestnetClient extends WalletClient, PublicActions, TestnetClien
   setErc20Balance(tkn: Address, usr: Address, amount: bigint): Promise<void>
   setBalance(usr: Address, amount: bigint): Promise<void>
   setStorageAt(addr: Address, slot: Hash, value: string): Promise<void>
+  setCode(addr: Address, code: Hex): Promise<void>
   snapshot(): Promise<string>
   revert(snapshotId: string): Promise<string> // @note: returns new snapshot id (may be the same as the input)
   mineBlocks(blocks: bigint): Promise<void>

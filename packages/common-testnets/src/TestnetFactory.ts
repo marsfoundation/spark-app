@@ -4,6 +4,7 @@ import { TestnetClient } from './TestnetClient.js'
 export interface TestnetCreateResult {
   client: TestnetClient
   rpcUrl: string
+  publicRpcUrl?: string // url that it's safe to leak as "cheat" methods like setting balances are disabled. Not all testnets supports this so it's optional
   cleanup: () => Promise<void>
 }
 /**

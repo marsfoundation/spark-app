@@ -1,5 +1,5 @@
 import { Hash } from '@marsfoundation/common-universal'
-import { http, Address, Chain, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
+import { http, Address, Chain, Hex, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { TestnetClient } from '../../TestnetClient.js'
 import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
 
@@ -54,6 +54,12 @@ export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: num
           await c.request({
             method: 'tenderly_setNextBlockTimestamp',
             params: [numberToHex(timestamp)],
+          } as any)
+        },
+        async setCode(addr: Address, code: Hex): Promise<void> {
+          await c.request({
+            method: 'tenderly_setCode',
+            params: [addr.toString(), code],
           } as any)
         },
       }

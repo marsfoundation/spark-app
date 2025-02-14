@@ -1,5 +1,5 @@
 import { assert, Hash } from '@marsfoundation/common-universal'
-import { http, Address, Chain, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
+import { http, Address, Chain, Hex, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { dealActions } from 'viem-deal'
 import { TestnetClient } from '../../TestnetClient.js'
 import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
@@ -62,6 +62,12 @@ export function getAnvilClient(rpc: string, chain: Chain, forkChainId: number): 
             method: 'evm_setNextBlockTimestamp',
             params: [numberToHex(timestamp)],
           })
+        },
+        async setCode(addr: Address, code: Hex): Promise<void> {
+          await c.request({
+            method: 'anvil_setCode',
+            params: [addr.toString(), code],
+          } as any)
         },
       }
     })

@@ -1,3 +1,4 @@
+import { CheckedAddress, Hex } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
 import { base, mainnet } from 'viem/chains'
@@ -110,6 +111,16 @@ describe('TestnetFactory', () => {
           expect(await testnetClient.getChainId()).toEqual(expectedChainId)
 
           expect(testnetClient.chain).toEqual({ ...base, id: expectedChainId })
+        })
+
+        it('setCode works correctly', async () => {
+          const randomContract = CheckedAddress.random('contract')
+          const newBytecode = Hex('0x123456')
+
+          await testnetClient.setCode(randomContract, newBytecode)
+
+          const actualCode = await testnetClient.getCode({ address: randomContract })
+          expect(actualCode).toEqual(newBytecode)
         })
       })
     })
