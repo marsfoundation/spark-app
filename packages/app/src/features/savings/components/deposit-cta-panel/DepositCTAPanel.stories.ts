@@ -35,7 +35,7 @@ export const usds: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
+      text: 'Deposit your stablecoins into USDS Savings to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
       docsLink: links.docs.savings.susds,
     },
     apyExplainer:
@@ -51,7 +51,7 @@ export const usdsDisconnected: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sUSDS,
     description: {
-      text: 'Deposit your stablecoins into Savings USDS to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
+      text: 'Deposit your stablecoins into USDS Savings to tap into the Sky Savings Rate, which grants you a predictable APY in USDS.',
       docsLink: links.docs.savings.susds,
     },
     actions: {
@@ -75,7 +75,7 @@ export const usdc: Story = {
     entryTokens: [tokens.USDC],
     savingsToken: tokens.sUSDC,
     description: {
-      text: 'Deposit your stablecoins into Savings USDC to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
+      text: 'Deposit your stablecoins into USDC Savings to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
       docsLink: links.docs.savings.susds,
     },
     apyExplainer:
@@ -91,7 +91,7 @@ export const dai: Story = {
     entryTokens: [tokens.USDS, tokens.DAI, tokens.USDC],
     savingsToken: tokens.sDAI,
     description: {
-      text: 'Deposit your stablecoins into Savings DAI to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
+      text: 'Deposit your stablecoins into DAI Savings to tap into the Sky Savings Rate, which grants you a predictable APY in DAI.',
       docsLink: links.docs.savings.sdai,
     },
     apyExplainer:

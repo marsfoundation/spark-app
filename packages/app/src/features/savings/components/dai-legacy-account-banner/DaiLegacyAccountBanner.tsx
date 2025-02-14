@@ -26,7 +26,7 @@ export function DaiLegacyAccountBanner({ apyImprovement }: UpgradeSavingsBannerP
         <div className="flex flex-col gap-1">
           <div className="typography-label-2 sm:typography-heading-5 text-primary">
             This is a legacy Savings Account. <br className="hidden sm:inline" />
-            You can deposit your DAI to Savings USDS <br className="hidden sm:inline" />
+            You can deposit your DAI into USDS Savings <br className="hidden sm:inline" />
             {apyImprovement ? (
               <>
                 and get <span className="text-system-success-primary">{formatPercentage(apyImprovement)}</span> higher

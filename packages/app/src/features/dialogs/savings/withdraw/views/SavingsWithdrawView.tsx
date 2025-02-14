@@ -38,7 +38,7 @@ export function SavingsWithdrawView({
 }: SavingsWithdrawViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from Savings ${underlyingToken.symbol}`}</DialogTitle>
+      <DialogTitle>{`${sendModeExtension ? 'Send' : 'Withdraw'} from ${underlyingToken.symbol} Savings`}</DialogTitle>
 
       <FormAndOverviewWrapper>
         <SavingsWithdrawDialogForm
