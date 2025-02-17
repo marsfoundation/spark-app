@@ -104,7 +104,7 @@ function BorrowCapInfoTile({ token, borrowCap, capAutomatorInfo }: BorrowCapInfo
   return (
     <InfoTile>
       <InfoTile.Label>Borrow cap</InfoTile.Label>
-      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.maxCap}>
+      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
         {token.format(maxCap, { style: 'compact' })} {token.symbol}
       </InfoTile.Value>
       <InfoTile.ComplementaryLine>{token.formatUSD(maxCap, { compact: true })}</InfoTile.ComplementaryLine>
@@ -130,7 +130,7 @@ function BorrowLiquidityInfoTile({
   return (
     <InfoTile>
       <InfoTile.Label>Instantly available liquidity</InfoTile.Label>
-      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
+      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.borrowLiquidity}>
         {token.format(borrowLiquidity, { style: 'compact' })} {token.symbol}
         {limitedByBorrowCap && (
           <CooldownTimer

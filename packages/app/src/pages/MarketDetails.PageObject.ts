@@ -39,6 +39,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
   }
 
+  locateBorrowLiquidity(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.borrowLiquidity)
+  }
+
   locatePanelAutomatorMaxCap(panelLocator: Locator): Locator {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.maxCap)
   }
@@ -175,12 +179,12 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(tooltipLocator).toContainText(value)
   }
 
-  async expectBorrowCap(value: string): Promise<void> {
-    await expect(this.locatePanelAutomatorCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  async expectBorrowLiquidity(value: string): Promise<void> {
+    await expect(this.locateBorrowLiquidity(this.locateBorrowStatusPanel())).toHaveText(value)
   }
 
-  async expectBorrowMaxCap(value: string): Promise<void> {
-    await expect(this.locatePanelAutomatorMaxCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  async expectBorrowCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(this.locateBorrowStatusPanel())).toHaveText(value)
   }
 
   async expectBorrowMaxCapNotVisible(): Promise<void> {

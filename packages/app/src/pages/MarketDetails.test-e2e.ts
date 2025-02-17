@@ -352,8 +352,8 @@ test.describe('Market details Mainnet', () => {
       await marketDetailsPage.expectSupplyMaxCap('2M WETH')
       await marketDetailsPage.expectSupplyCapCooldown('0h 00m 00s')
 
-      await marketDetailsPage.expectBorrowCap('368.2K WETH')
-      await marketDetailsPage.expectBorrowMaxCap('1M WETH')
+      await marketDetailsPage.expectBorrowLiquidity('20.65K WETH')
+      await marketDetailsPage.expectBorrowCap('1M WETH')
       await marketDetailsPage.expectBorrowCapCooldown('0h 00m 00s')
     })
 
@@ -371,9 +371,8 @@ test.describe('Market details Mainnet', () => {
 
       await marketDetailsPage.expectSupplyPanelNotVisible()
 
-      await marketDetailsPage.expectBorrowCap('7.678M USDC')
-      await marketDetailsPage.expectBorrowMaxCap('57M USDC')
-      await marketDetailsPage.expectBorrowCapCooldown('0h 00m 00s')
+      await marketDetailsPage.expectBorrowLiquidity('67.12K USDC')
+      await marketDetailsPage.expectBorrowCap('57M USDC')
     })
 
     test('WBTC', async ({ page }) => {
