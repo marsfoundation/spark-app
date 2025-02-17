@@ -1,6 +1,6 @@
 /**
  * Prevents the inclusion of the `<?xml` tag in SVG files. This tag will cause rendering issues.
- * Example: https://github.com/marsfoundation/spark-app/pull/107
+ * Example: https://github.com/sparkdotfi/spark-app/pull/107
  */
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
