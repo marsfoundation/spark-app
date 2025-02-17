@@ -10,6 +10,7 @@ import { getConfig } from '@/config/wagmi'
 import { rootRouter } from './RootRouter'
 import { queryClient } from './config/query-client'
 import { useViteErrorOverlay } from './domain/errors/useViteErrorOverlay'
+import { useAutoSwitchToInjectedChain } from './domain/hooks/useAutoSwitchToInjectedChain'
 import { useStore } from './domain/state'
 import { useAutoConnect } from './domain/wallet/useAutoConnect'
 import { TooltipProvider } from './ui/atoms/tooltip/Tooltip'
@@ -24,6 +25,11 @@ function App() {
   if (import.meta.env.MODE === 'development') {
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     useViteErrorOverlay()
+  }
+
+  if (import.meta.env.VITE_FEATURE_RPC_INJECTION_VIA_URL === '1') {
+    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+    useAutoSwitchToInjectedChain({ config })
   }
 
   return (
