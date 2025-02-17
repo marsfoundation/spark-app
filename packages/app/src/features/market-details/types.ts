@@ -50,6 +50,8 @@ export interface MarketOverview {
     hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
     totalBorrowed: NormalizedUnitNumber
+    borrowLiquidity: NormalizedUnitNumber
+    limitedByBorrowCap: boolean
     borrowCap?: NormalizedUnitNumber
     apy: Percentage | undefined
     reserveFactor: Percentage

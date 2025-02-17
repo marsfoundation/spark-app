@@ -1,6 +1,7 @@
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 
 import { CapAutomatorInfo } from '@/domain/cap-automator/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
@@ -22,6 +23,10 @@ export function makeMarketOverview({
     marketInfo,
     token: reserve.token.symbol,
   })
+  const capLessThanLiquidity = Boolean(reserve.borrowCap?.lt(reserve.totalLiquidity))
+  const borrowLiquidity = NormalizedUnitNumber(
+    capLessThanLiquidity ? reserve.borrowCap!.minus(reserve.totalDebt) : reserve.availableLiquidity,
+  )
 
   return {
     supply: {
@@ -44,7 +49,9 @@ export function makeMarketOverview({
       hasSparkAirdrop: hasAirdropForBorrowing,
       status: reserve.borrowEligibilityStatus,
       totalBorrowed: reserve.totalDebt,
+      borrowLiquidity,
       borrowCap: reserve.borrowCap,
+      limitedByBorrowCap: capLessThanLiquidity,
       apy: reserve.variableBorrowApy,
       reserveFactor: reserve.reserveFactor,
       chartProps: {
