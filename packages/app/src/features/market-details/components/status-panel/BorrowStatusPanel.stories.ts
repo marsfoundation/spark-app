@@ -36,6 +36,8 @@ export const CanBeBorrowed: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps,
   },
 }
@@ -55,6 +57,8 @@ export const OnlyInSiloedMode: Story = {
     status: 'only-in-siloed-mode',
     token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(1244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
@@ -71,6 +75,8 @@ export const BorrowCapReached: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(0),
+    limitedByBorrowCap: true,
     chartProps,
   },
 }
@@ -83,6 +89,8 @@ export const CannotBeBorrowed: Story = {
     totalBorrowed: NormalizedUnitNumber(0),
     apy: Percentage(0),
     reserveFactor: Percentage(0.05),
+    borrowLiquidity: NormalizedUnitNumber(0),
+    limitedByBorrowCap: true,
     chartProps,
   },
 }
@@ -96,6 +104,8 @@ export const WithCapAutomatorInfo: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps,
     capAutomatorInfo: {
       maxCap: NormalizedUnitNumber(2944),
@@ -121,6 +131,8 @@ export const DAI: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps: {
       optimalUtilizationRate: Percentage('1'),
       utilizationRate: Percentage('0.97012653796557908901'),

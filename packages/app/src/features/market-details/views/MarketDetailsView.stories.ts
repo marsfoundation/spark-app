@@ -67,6 +67,8 @@ const args: MarketDetailsViewProps = {
       totalBorrowed: NormalizedUnitNumber(1244),
       apy: Percentage(0.01),
       borrowCap: NormalizedUnitNumber(2244),
+      borrowLiquidity: NormalizedUnitNumber(1244),
+      limitedByBorrowCap: true,
       reserveFactor: Percentage(0.05),
       chartProps: {
         optimalUtilizationRate: Percentage('0.45'),

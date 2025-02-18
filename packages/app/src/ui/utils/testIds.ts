@@ -207,6 +207,7 @@ export const testIds = makeTestIds({
       cap: true,
       maxCap: true,
       cooldownTimer: true,
+      borrowLiquidity: true,
     },
     oraclePanel: {
       asset: true,

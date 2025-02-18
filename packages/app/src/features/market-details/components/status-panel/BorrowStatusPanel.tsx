@@ -5,7 +5,6 @@ import { Token } from '@/domain/types/Token'
 import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
-import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
@@ -21,6 +20,8 @@ interface BorrowStatusPanelProps {
   status: BorrowEligibilityStatus
   token: Token
   totalBorrowed: NormalizedUnitNumber
+  borrowLiquidity: NormalizedUnitNumber
+  limitedByBorrowCap: boolean
   borrowCap?: NormalizedUnitNumber
   reserveFactor: Percentage
   apy: Percentage | undefined
@@ -34,6 +35,8 @@ export function BorrowStatusPanel({
   status,
   token,
   totalBorrowed,
+  borrowLiquidity,
+  limitedByBorrowCap,
   borrowCap,
   reserveFactor,
   apy,
@@ -70,7 +73,15 @@ export function BorrowStatusPanel({
           <InfoTile.Value>{formatPercentage(reserveFactor)}</InfoTile.Value>
         </InfoTile>
 
-        {borrowCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} borrowCap={borrowCap} />}
+        {borrowCap && <BorrowCapInfoTile token={token} borrowCap={borrowCap} capAutomatorInfo={capAutomatorInfo} />}
+        {capAutomatorInfo && (
+          <BorrowLiquidityInfoTile
+            token={token}
+            borrowLiquidity={borrowLiquidity}
+            limitedByBorrowCap={limitedByBorrowCap}
+            capAutomatorInfo={capAutomatorInfo}
+          />
+        )}
       </InfoTilesGrid>
 
       <div className="col-span-3 mt-6 sm:mt-10">
@@ -81,40 +92,67 @@ export function BorrowStatusPanel({
   )
 }
 
-interface CapAutomatorInfoTileProps {
+interface BorrowCapInfoTileProps {
   token: Token
-  capAutomatorInfo?: CapAutomatorConfig
   borrowCap: NormalizedUnitNumber
+  capAutomatorInfo?: CapAutomatorConfig
 }
 
-function CapAutomatorInfoTile({ token, capAutomatorInfo, borrowCap }: CapAutomatorInfoTileProps) {
-  return (
-    <div className={cn('grid grid-cols-subgrid gap-[inherit]', capAutomatorInfo && 'sm:col-span-2')}>
-      {capAutomatorInfo && (
-        <InfoTile>
-          <InfoTile.Label>Borrow cap</InfoTile.Label>
-          <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.maxCap}>
-            {token.format(capAutomatorInfo.maxCap, { style: 'compact' })} {token.symbol}
-          </InfoTile.Value>
-          <InfoTile.ComplementaryLine>
-            {token.formatUSD(capAutomatorInfo.maxCap, { compact: true })}
-          </InfoTile.ComplementaryLine>
-        </InfoTile>
-      )}
+function BorrowCapInfoTile({ token, borrowCap, capAutomatorInfo }: BorrowCapInfoTileProps) {
+  const maxCap = capAutomatorInfo?.maxCap ?? borrowCap
 
-      <InfoTile>
-        <InfoTile.Label>{capAutomatorInfo ? 'Instantly available borrow cap:' : 'Borrow cap'}</InfoTile.Label>
-        <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
-          {token.format(borrowCap, { style: 'compact' })} {token.symbol}
-          {capAutomatorInfo && (
-            <CooldownTimer
-              renewalPeriod={capAutomatorInfo.increaseCooldown}
-              latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
-            />
-          )}
-        </InfoTile.Value>
-        <InfoTile.ComplementaryLine>{token.formatUSD(borrowCap, { compact: true })}</InfoTile.ComplementaryLine>
-      </InfoTile>
-    </div>
+  return (
+    <InfoTile>
+      <InfoTile.Label>Borrow cap</InfoTile.Label>
+      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.cap}>
+        {token.format(maxCap, { style: 'compact' })} {token.symbol}
+      </InfoTile.Value>
+      <InfoTile.ComplementaryLine>{token.formatUSD(maxCap, { compact: true })}</InfoTile.ComplementaryLine>
+    </InfoTile>
   )
+}
+
+interface BorrowLiquidityInfoTileProps {
+  token: Token
+  borrowLiquidity: NormalizedUnitNumber
+  limitedByBorrowCap: boolean
+  capAutomatorInfo: CapAutomatorConfig
+}
+
+function BorrowLiquidityInfoTile({
+  token,
+  capAutomatorInfo,
+  borrowLiquidity,
+  limitedByBorrowCap,
+}: BorrowLiquidityInfoTileProps) {
+  const renewalPeriod = capAutomatorInfo.increaseCooldown
+
+  return (
+    <InfoTile>
+      <InfoTile.Label>Instantly available liquidity</InfoTile.Label>
+      <InfoTile.Value data-testid={testIds.marketDetails.capAutomator.borrowLiquidity}>
+        {token.format(borrowLiquidity, { style: 'compact' })} {token.symbol}
+        {limitedByBorrowCap && (
+          <CooldownTimer
+            renewalPeriod={capAutomatorInfo.increaseCooldown}
+            latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
+            cooldownOverContent={
+              <>The available liquidity is constrained by the borrow cap, which may be adjusted at any time. </>
+            }
+            cooldownActiveContent={
+              <>
+                The liquidity is constrained by the borrow cap, which has a renewal time of{' '}
+                {secondsToHours(renewalPeriod)} hours.{' '}
+              </>
+            }
+          />
+        )}
+      </InfoTile.Value>
+      <InfoTile.ComplementaryLine>{token.formatUSD(borrowLiquidity, { compact: true })}</InfoTile.ComplementaryLine>
+    </InfoTile>
+  )
+}
+
+function secondsToHours(seconds: number) {
+  return Math.floor(seconds / 3600)
 }
