@@ -136,11 +136,13 @@ function BorrowLiquidityInfoTile({
           <CooldownTimer
             renewalPeriod={capAutomatorInfo.increaseCooldown}
             latestUpdateTimestamp={capAutomatorInfo.lastIncreaseTimestamp}
-            cooldownOverContent={<>The liquidity is limited by the borrow cap which might be changed at any time. </>}
+            cooldownOverContent={
+              <>The available liquidity is constrained by the borrow cap, which may be adjusted at any time. </>
+            }
             cooldownActiveContent={
               <>
-                The liquidity is limited by the borrow cap which has a renewal time of {secondsToHours(renewalPeriod)}{' '}
-                hours.{' '}
+                The liquidity is constrained by the borrow cap, which has a renewal time of{' '}
+                {secondsToHours(renewalPeriod)} hours.{' '}
               </>
             }
           />
