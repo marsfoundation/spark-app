@@ -71,4 +71,4 @@ const WithCanvas: Story = {
 }
 
 export const Mobile = getMobileStory(WithCanvas)
-export const Tablet = getTabletStory(WithCanvas)
+export const Tablet = getTabletStory(Desktop)

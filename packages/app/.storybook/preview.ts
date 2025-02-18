@@ -1,4 +1,5 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 import { Preview } from '@storybook/react'
 import { WithFixedDate, WithQueryClient } from './decorators'
 
@@ -23,20 +24,8 @@ const preview: Preview = {
     },
     viewport: {
       options: {
-        mobile: {
-          name: 'mobile',
-          styles: {
-            width: '375px',
-            height: '667px',
-          },
-        },
-        tablet: {
-          name: 'tablet',
-          styles: {
-            width: '760px',
-            height: '1024px',
-          },
-        },
+        mobile: INITIAL_VIEWPORTS.iphonese2,
+        tablet: INITIAL_VIEWPORTS.ipad,
         desktop: {
           name: 'desktop',
           styles: {
