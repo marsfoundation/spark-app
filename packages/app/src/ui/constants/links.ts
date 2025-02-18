@@ -23,6 +23,6 @@ export const links = {
   aaveTechnicalPaper: 'https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf',
   termsOfUse: 'https://spark.fi/terms-of-use',
   privacyPolicy: 'https://spark.fi/privacy-policy',
-  github: 'https://github.com/marsfoundation/spark-app',
+  github: 'https://github.com/sparkdotfi/spark-app',
   skyInfoSavingsDashboard: 'https://info.sky.money/savings',
 } as const
