@@ -1,8 +1,8 @@
 import { StoryObj } from '@storybook/react'
 
 export const chromatic = {
-  mobile: 375,
-  tablet: 760,
+  mobile: 375, // iPhone 6, iPhone SE
+  tablet: 768, // iPad
 } as const
 
 export function getMobileStory<T>(story: StoryObj<T>): StoryObj<T> {
