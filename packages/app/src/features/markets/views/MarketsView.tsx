@@ -24,38 +24,40 @@ export function MarketsView({
   const [showFrozenAssets, setShowFrozenAssets] = useState(false)
 
   return (
-    <PageLayout className="gap-8">
+    <PageLayout className="gap-5 md:gap-8">
       <div className="flex flex-row items-center gap-4">
         <h1 className="typography-heading-1 text-primary">Markets</h1>
         <NetworkBadge chainId={chainId} />
       </div>
-      <SummaryTiles marketStats={marketStats} />
-      <Panel className="flex flex-col gap-5">
-        <MarketsTable
-          entries={activeAndPausedMarketEntries}
-          chainId={chainId}
-          data-testid={testIds.markets.table.active}
-        />
-        {frozenMarketEntries.length > 0 && (
-          <>
-            <LabeledSwitch
-              checked={showFrozenAssets}
-              onCheckedChange={setShowFrozenAssets}
-              data-testid={testIds.markets.frozenAssetsSwitch}
-            >
-              Show Frozen Assets
-            </LabeledSwitch>
-            {showFrozenAssets && (
-              <MarketsTable
-                entries={frozenMarketEntries}
-                chainId={chainId}
-                hideTableHeader
-                data-testid={testIds.markets.table.frozen}
-              />
-            )}
-          </>
-        )}
-      </Panel>
+      <div className="flex flex-col gap-5">
+        <SummaryTiles marketStats={marketStats} />
+        <Panel className="flex flex-col gap-5">
+          <MarketsTable
+            entries={activeAndPausedMarketEntries}
+            chainId={chainId}
+            data-testid={testIds.markets.table.active}
+          />
+          {frozenMarketEntries.length > 0 && (
+            <>
+              <LabeledSwitch
+                checked={showFrozenAssets}
+                onCheckedChange={setShowFrozenAssets}
+                data-testid={testIds.markets.frozenAssetsSwitch}
+              >
+                Show Frozen Assets
+              </LabeledSwitch>
+              {showFrozenAssets && (
+                <MarketsTable
+                  entries={frozenMarketEntries}
+                  chainId={chainId}
+                  hideTableHeader
+                  data-testid={testIds.markets.table.frozen}
+                />
+              )}
+            </>
+          )}
+        </Panel>
+      </div>
     </PageLayout>
   )
 }

@@ -24,10 +24,10 @@ test.describe('Markets', () => {
 
   test('summary', async () => {
     await marketsPage.expectSummary([
-      { description: 'Total market size', value: '$8.145B' },
-      { description: 'Total value locked', value: '$5.038B' },
-      { description: 'Total available', value: '$5.149B' },
-      { description: 'Total borrows', value: '$2.997B' },
+      { description: 'Total Market Size', value: '$8.145B' },
+      { description: 'Total Value Locked', value: '$5.038B' },
+      { description: 'Total Available', value: '$5.149B' },
+      { description: 'Total Borrows', value: '$2.997B' },
     ])
   })
 
