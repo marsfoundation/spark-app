@@ -16,31 +16,11 @@ export interface ActiveRewardsPanelProps {
 
 export function ActiveRewardsPanel({ activeRewardsQueryResult, openClaimDialog }: ActiveRewardsPanelProps) {
   if (activeRewardsQueryResult.isPending) {
-    return (
-      <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
-        <Header />
-        <div className="flex flex-col gap-5">
-          <Skeleton className="h-4 w-44" />
-          <div className="flex flex-col gap-7">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-        </div>
-      </Panel>
-    )
+    return <PendingPanel />
   }
 
   if (activeRewardsQueryResult.isError) {
-    return (
-      <Panel spacing="m" className="flex min-h-60 flex-col sm:min-h-72">
-        <Header />
-        <div className="my-auto flex items-center justify-center">
-          <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
-            <AlertTriangleIcon className="icon-xs" /> Failed to load active rewards data
-          </div>
-        </div>
-      </Panel>
-    )
+    return <ErrorPanel />
   }
 
   return (
@@ -114,5 +94,33 @@ function Header() {
     <h3 className="typography-heading-5 flex items-baseline gap-1">
       Active rewards <Info>Tooltip text</Info>
     </h3>
+  )
+}
+
+function PendingPanel() {
+  return (
+    <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
+      <Header />
+      <div className="flex flex-col gap-5">
+        <Skeleton className="h-4 w-44" />
+        <div className="flex flex-col gap-7">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    </Panel>
+  )
+}
+
+function ErrorPanel() {
+  return (
+    <Panel spacing="m" className="flex min-h-60 flex-col sm:min-h-72">
+      <Header />
+      <div className="my-auto flex items-center justify-center">
+        <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
+          <AlertTriangleIcon className="icon-xs" /> Failed to load active rewards data
+        </div>
+      </div>
+    </Panel>
   )
 }
