@@ -156,6 +156,6 @@ export const tokens = {
     decimals: 18,
     name: 'Spark',
     symbol: TokenSymbol('SPK'),
-    unitPriceUsd: '0',
+    unitPriceUsd: '0.12',
   }),
 }

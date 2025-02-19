@@ -1,82 +1,60 @@
 import { Token } from '@/domain/types/Token'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-
 import { MobileViewOptions } from '../types'
 
-interface CompactValueCellProps {
-  token: Token
-  value: NormalizedUnitNumber
-  compactValue?: boolean
+export interface CompactAmountCellFormattingOptions {
+  style?: 'auto' | 'compact'
   dimmed?: boolean
-  hideEmpty?: boolean
+  zeroAmountHandling?: 'show-amount' | 'show-placeholder'
+}
+
+interface AmountCellProps {
+  token: Token
+  amount: NormalizedUnitNumber
+  formattingOptions?: CompactAmountCellFormattingOptions
   mobileViewOptions?: MobileViewOptions
   'data-testid'?: string
 }
 
-export function CompactValueCell({
-  value,
+export function AmountCell({
+  amount,
   token,
-  compactValue,
-  dimmed,
-  hideEmpty = false,
+  formattingOptions,
   mobileViewOptions,
   'data-testid': dataTestId,
-}: CompactValueCellProps) {
+}: AmountCellProps) {
   if (mobileViewOptions?.isMobileView) {
     return (
       <div className="flex flex-row items-center justify-between">
         <div className="typography-label-4 w-full text-secondary">{mobileViewOptions.rowTitle}</div>
-        <CompactValue
-          token={token}
-          value={value}
-          dimmed={dimmed}
-          hideEmpty={hideEmpty}
-          compactValue={compactValue}
-          data-testid={dataTestId}
-        />
+        <Amount token={token} amount={amount} formattingOptions={formattingOptions} data-testid={dataTestId} />
       </div>
     )
   }
 
-  return (
-    <CompactValue
-      token={token}
-      value={value}
-      dimmed={dimmed}
-      hideEmpty={hideEmpty}
-      compactValue={compactValue}
-      data-testid={dataTestId}
-    />
-  )
+  return <Amount token={token} amount={amount} formattingOptions={formattingOptions} data-testid={dataTestId} />
 }
 
 interface CompactValueProps {
   token: Token
-  value: NormalizedUnitNumber
-  compactValue?: boolean
-  dimmed?: boolean
-  hideEmpty?: boolean
+  amount: NormalizedUnitNumber
   className?: string
   'data-testid'?: string
+  formattingOptions?: CompactAmountCellFormattingOptions
 }
 
-function CompactValue({
-  token,
-  value,
-  compactValue,
-  dimmed,
-  hideEmpty,
-  className,
-  'data-testid': dataTestId,
-}: CompactValueProps) {
-  if (hideEmpty && value.isZero()) {
+function Amount({ token, amount, formattingOptions, className, 'data-testid': dataTestId }: CompactValueProps) {
+  const { zeroAmountHandling = 'show-placeholder', style = 'auto', dimmed = false } = formattingOptions ?? {}
+
+  if (amount.isZero() && zeroAmountHandling === 'show-placeholder') {
     return (
       <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-secondary/70')} data-testid={dataTestId}>
         —
       </div>
     )
   }
+
   return (
     <div className={cn('flex flex-col', className)} data-testid={dataTestId}>
       <div
@@ -85,11 +63,11 @@ function CompactValue({
           dimmed && 'text-neutral-600/70',
         )}
       >
-        {token.format(value, { style: compactValue ? 'compact' : 'auto' })}
+        {token.format(amount, { style: style === 'compact' ? 'compact' : 'auto' })}
       </div>
       <div className="flex w-full flex-row justify-end">
         <div className={cn('typography-body-4 text-secondary', dimmed && 'text-neutral-600/30')}>
-          {token.formatUSD(value, { compact: compactValue })}
+          {token.formatUSD(amount, { compact: style === 'compact' })}
         </div>
       </div>
     </div>

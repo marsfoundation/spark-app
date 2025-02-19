@@ -3,7 +3,7 @@ import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
 import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
-import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
+import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
 import { generatePath } from 'react-router-dom'
@@ -40,13 +40,14 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           sortable: true,
           sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'totalSupplied'),
           renderCell: ({ token, totalSupplied, reserveStatus }, mobileViewOptions) => (
-            <CompactValueCell
+            <AmountCell
               token={token}
-              value={totalSupplied}
-              dimmed={reserveStatus !== 'active'}
+              amount={totalSupplied}
+              formattingOptions={{
+                dimmed: reserveStatus !== 'active',
+                style: 'compact',
+              }}
               mobileViewOptions={mobileViewOptions}
-              compactValue
-              hideEmpty
               data-testid={testIds.markets.table.cell.totalSupplied}
             />
           ),
@@ -72,13 +73,14 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           sortable: true,
           sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'totalBorrowed'),
           renderCell: ({ token, totalBorrowed, reserveStatus }, mobileViewOptions) => (
-            <CompactValueCell
+            <AmountCell
               token={token}
-              value={totalBorrowed}
-              dimmed={reserveStatus !== 'active'}
+              amount={totalBorrowed}
+              formattingOptions={{
+                dimmed: reserveStatus !== 'active',
+                style: 'compact',
+              }}
               mobileViewOptions={mobileViewOptions}
-              compactValue
-              hideEmpty
               data-testid={testIds.markets.table.cell.totalBorrowed}
             />
           ),
