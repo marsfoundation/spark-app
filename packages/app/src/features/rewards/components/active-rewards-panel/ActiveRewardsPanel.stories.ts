@@ -1,5 +1,5 @@
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { WithTooltipProvider } from '@sb/decorators'
+import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
@@ -8,7 +8,7 @@ import { ActiveRewardsPanel, ActiveRewardsPanelProps } from './ActiveRewardsPane
 
 const meta: Meta<typeof ActiveRewardsPanel> = {
   title: 'Features/Rewards/Components/ActiveRewardsPanel',
-  decorators: [WithTooltipProvider()],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-4xl')],
   component: ActiveRewardsPanel,
 }
 
@@ -19,12 +19,12 @@ const data: ActiveReward[] = [
   {
     token: tokens.REDSTONE,
     amountPending: NormalizedUnitNumber(123.4323),
-    amountToClaim: NormalizedUnitNumber(24224.23423),
+    amountToClaim: NormalizedUnitNumber(224_093.23423),
   },
   {
     token: tokens.SPK,
-    amountPending: NormalizedUnitNumber(44224.22),
-    amountToClaim: NormalizedUnitNumber(121.21),
+    amountPending: NormalizedUnitNumber(44_224.22),
+    amountToClaim: NormalizedUnitNumber(12_213.21),
   },
   {
     token: tokens.USDS,

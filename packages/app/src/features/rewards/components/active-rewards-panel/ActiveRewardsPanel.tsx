@@ -27,7 +27,7 @@ export function ActiveRewardsPanel({ activeRewardsQueryResult, openClaimDialog }
     <Panel spacing="m" className="flex flex-col gap-6">
       <Header />
       <ResponsiveDataTable
-        gridTemplateColumnsClassName="grid-cols-[2fr_1fr_1fr_1fr]"
+        gridTemplateColumnsClassName="grid-cols-[3fr_2fr_2fr_140px]"
         data={activeRewardsQueryResult.data}
         columnDefinition={{
           token: {
@@ -68,7 +68,7 @@ export function ActiveRewardsPanel({ activeRewardsQueryResult, openClaimDialog }
             header: '',
             renderCell: ({ token, amountToClaim }) => {
               return (
-                <div className="flex justify-end sm:pl-6">
+                <div className="flex justify-end sm:pl-10">
                   <Button
                     variant="secondary"
                     size="s"
