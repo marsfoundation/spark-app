@@ -73,7 +73,7 @@ function OneTokenWithoutPrice({ tokens }: { tokens: TokenWithValue[] }) {
   return (
     <div className="typography-heading-2 flex items-center gap-2 text-primary-inverse">
       <div>{token.format(value, { style: 'compact' })}</div>
-      <TokenIconOrSymbol token={token} iconClassName="size-8" />
+      <TokenIconOrSymbol token={token} iconClassName="size-6 md:size-8" />
     </div>
   )
 }
@@ -83,7 +83,8 @@ function MultipleTokensWithoutPrice({ tokens }: { tokens: TokenWithValue[] }) {
     <div className="flex flex-col gap-2">
       {tokens.map(({ token, value }) => (
         <div key={token.symbol} className="typography-heading-4 flex items-center gap-1 text-primary-inverse">
-          {token.format(value, { style: 'compact' })} <TokenIconOrSymbol token={token} iconClassName="size-6" />
+          {token.format(value, { style: 'compact' })}{' '}
+          <TokenIconOrSymbol token={token} iconClassName="size-4 md:size-6" />
         </div>
       ))}
     </div>

@@ -65,7 +65,7 @@ const iconVariants = cva('rounded-full', {
   variants: {
     size: {
       base: 'size-6',
-      m: 'size-8',
+      m: 'size-6 md:size-8',
       lg: 'size-10',
     },
     iconBorder: {
@@ -78,7 +78,7 @@ const stackVariants = cva('isolate flex flex-row', {
   variants: {
     size: {
       base: '-space-x-2',
-      m: '-space-x-2.5',
+      m: '-space-x-2 md:-space-x-2.5',
       lg: '-space-x-3',
     },
   },
