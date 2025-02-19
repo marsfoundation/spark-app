@@ -6,7 +6,8 @@ import { MobileViewOptions } from '../types'
 export interface CompactAmountCellFormattingOptions {
   style?: 'auto' | 'compact'
   dimmed?: boolean
-  zeroAmountHandling?: 'show-amount' | 'show-placeholder'
+  zeroAmountHandling?: 'show-zero' | 'show-dash'
+  priceUnavailablePlaceholder?: string
 }
 
 interface AmountCellProps {
@@ -45,9 +46,14 @@ interface CompactValueProps {
 }
 
 function Amount({ token, amount, formattingOptions, className, 'data-testid': dataTestId }: CompactValueProps) {
-  const { zeroAmountHandling = 'show-placeholder', style = 'auto', dimmed = false } = formattingOptions ?? {}
+  const {
+    zeroAmountHandling = 'show-dash',
+    style = 'auto',
+    dimmed = false,
+    priceUnavailablePlaceholder,
+  } = formattingOptions ?? {}
 
-  if (amount.isZero() && zeroAmountHandling === 'show-placeholder') {
+  if (amount.isZero() && zeroAmountHandling === 'show-dash') {
     return (
       <div className={cn('flex w-full flex-row justify-end', dimmed && 'text-secondary/70')} data-testid={dataTestId}>
         —
@@ -67,7 +73,7 @@ function Amount({ token, amount, formattingOptions, className, 'data-testid': da
       </div>
       <div className="flex w-full flex-row justify-end">
         <div className={cn('typography-body-4 text-secondary', dimmed && 'text-neutral-600/30')}>
-          {token.formatUSD(amount, { compact: style === 'compact' })}
+          {token.formatUSD(amount, { compact: style === 'compact', priceUnavailablePlaceholder })}
         </div>
       </div>
     </div>

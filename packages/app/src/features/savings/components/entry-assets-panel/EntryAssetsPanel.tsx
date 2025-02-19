@@ -6,9 +6,9 @@ import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
+import { TokenCell } from '../../../../ui/molecules/data-table/components/TokenCell'
 import { SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
-import { TokenCell } from './components/TokenCell'
 
 export interface EntryAssetsPanelProps {
   assets: SavingsAccountSupportedStablecoin[]

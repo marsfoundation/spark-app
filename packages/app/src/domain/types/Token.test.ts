@@ -108,9 +108,9 @@ describe(Token.name, () => {
     })
 
     test('returns custom placeholer for zero price', () => {
-      expect(zeroPriceToken.formatUSD(NormalizedUnitNumber(0), { noPricePlaceholder: 'not available' })).toEqual(
-        'not available',
-      )
+      expect(
+        zeroPriceToken.formatUSD(NormalizedUnitNumber(0), { priceUnavailablePlaceholder: 'not available' }),
+      ).toEqual('not available')
     })
   })
 

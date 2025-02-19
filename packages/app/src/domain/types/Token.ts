@@ -52,10 +52,10 @@ export class Token {
 
   public formatUSD(
     value: NormalizedUnitNumber,
-    { compact = false, showCents = 'always', noPricePlaceholder = '$ N/A' }: FormatUSDOptions = {},
+    { compact = false, showCents = 'always', priceUnavailablePlaceholder = '$ N/A' }: FormatUSDOptions = {},
   ): string {
     if (this.unitPriceUsd.isZero()) {
-      return noPricePlaceholder
+      return priceUnavailablePlaceholder
     }
 
     const USDValue = this.toUSD(value)
@@ -138,7 +138,7 @@ export class Token {
 export interface FormatUSDOptions {
   compact?: boolean
   showCents?: 'always' | 'when-not-round' | 'never'
-  noPricePlaceholder?: string
+  priceUnavailablePlaceholder?: string
 }
 
 export interface FormatOptions {
