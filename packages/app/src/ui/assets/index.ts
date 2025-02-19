@@ -240,6 +240,10 @@ export const assets = {
   },
 }
 
+export function hasTokenImage(symbol: TokenSymbol): boolean {
+  return typeof assets.token[symbol.toLocaleLowerCase() as keyof typeof assets.token] === 'string'
+}
+
 export function getTokenImage(symbol: TokenSymbol): string {
   const image = assets.token[symbol.toLocaleLowerCase() as keyof typeof assets.token]
   if (!image) {

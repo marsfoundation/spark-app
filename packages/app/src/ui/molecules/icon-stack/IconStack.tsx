@@ -6,7 +6,7 @@ import { cva } from 'class-variance-authority'
 interface IconStackProps {
   items: (string | Token)[]
   maxIcons?: number
-  size?: 'base' | 'lg'
+  size?: 'base' | 'm' | 'lg'
   stackingOrder?: 'first-on-top' | 'last-on-top'
   iconBorder?: { borderColorClass: string }
   className?: string
@@ -65,6 +65,7 @@ const iconVariants = cva('rounded-full', {
   variants: {
     size: {
       base: 'size-6',
+      m: 'size-8',
       lg: 'size-10',
     },
     iconBorder: {
@@ -77,6 +78,7 @@ const stackVariants = cva('isolate flex flex-row', {
   variants: {
     size: {
       base: '-space-x-2',
+      m: '-space-x-2.5',
       lg: '-space-x-3',
     },
   },
