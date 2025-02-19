@@ -1,4 +1,5 @@
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
@@ -26,6 +27,7 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult, psmSu
   }
 
   const liquidity = generalStatsResult.data.getLiquidity(accountSavingsToken)
+  const isSavingsUsdc = accountSavingsToken.symbol === TokenSymbol('sUSDC')
 
   return (
     <div className={cn('inline-flex divide-x divide-secondary rounded-[10px]', 'bg-primary/80 py-3 backdrop-blur-lg')}>
@@ -48,7 +50,7 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult, psmSu
                 ∞<span className="hidden sm:inline"> (No limits)</span>
               </div>
             )}
-            {psmSupplier === 'sky' ? <SkyPsmLiquidityInfo /> : <SparkPsmLiquidityInfo />}
+            {isSavingsUsdc && <UsdcPsmLiquidityInfo psmSupplier={psmSupplier} />}
           </div>
         </Value>
       </Stat>
@@ -75,6 +77,10 @@ function Value({ children, className }: { children: ReactNode; className?: strin
 
 function formatUsersNumber(users: number): string {
   return Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(users)
+}
+
+function UsdcPsmLiquidityInfo({ psmSupplier }: { psmSupplier: 'sky' | 'spark' }) {
+  return psmSupplier === 'sky' ? <SkyPsmLiquidityInfo /> : <SparkPsmLiquidityInfo />
 }
 
 function SkyPsmLiquidityInfo() {
