@@ -51,7 +51,7 @@ import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
-import redstone from './oracle-providers/redstone.svg'
+import redstoneOracle from './oracle-providers/redstone.svg'
 import borrowIcon from './page/borrow-icon.svg'
 import farmsIcon from './page/farms-icon.svg'
 import savingsIcon from './page/savings-icon.svg'
@@ -76,9 +76,11 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
+import redstone from './tokens/redstone.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
 import sky from './tokens/sky.svg'
+import spk from './tokens/spk.svg'
 import steth from './tokens/steth.svg'
 import susdc from './tokens/susdc.svg'
 import susds from './tokens/susds.svg'
@@ -192,6 +194,8 @@ export const assets = {
     xdai,
     cbbtc,
     cle,
+    redstone,
+    spk,
     unknown,
   },
   walletIcons: {
@@ -215,7 +219,7 @@ export const assets = {
   oracleProviders: {
     chainlink,
     chronicle,
-    redstone,
+    redstone: redstoneOracle,
     lido,
   },
 
@@ -277,4 +281,6 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('XDAI')]: '255 192 70',
   [TokenSymbol('CLE')]: '47 208 91',
   [TokenSymbol('cbBTC')]: '0 82 255',
+  [TokenSymbol('REDSTONE')]: '350 96 68',
+  [TokenSymbol('SPK')]: '358 54 99',
 }

@@ -3,12 +3,12 @@ import { assets as uiAssets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table/DataTable'
+import { TokenCell } from '@/ui/molecules/data-table/components/TokenCell'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { useMemo } from 'react'
 import { SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
 import { MoreDropdown } from './components/MoreDropdown'
-import { TokenCell } from './components/TokenCell'
 
 export interface EntryAssetsPanelProps {
   assets: SavingsAccountSupportedStablecoin[]

@@ -8,7 +8,7 @@ import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
-import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
+import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { PercentageCell } from '@/ui/molecules/data-table/components/PercentageCell'
 import { TokenWithLogo } from '@/ui/molecules/data-table/components/TokenWithLogo'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
@@ -46,7 +46,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
             sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'available'),
             headerAlign: 'right',
             renderCell: ({ token, available }, mobileViewOptions) => (
-              <CompactValueCell token={token} value={available} mobileViewOptions={mobileViewOptions} hideEmpty />
+              <AmountCell token={token} amount={available} mobileViewOptions={mobileViewOptions} />
             ),
           },
           deposit: {
@@ -55,7 +55,7 @@ export function BorrowTable({ assets, openDialog, eModeCategoryId }: BorrowTable
             sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'debt'),
             headerAlign: 'right',
             renderCell: ({ token, debt }, mobileViewOptions) => (
-              <CompactValueCell token={token} value={debt} mobileViewOptions={mobileViewOptions} hideEmpty />
+              <AmountCell token={token} amount={debt} mobileViewOptions={mobileViewOptions} />
             ),
           },
           apy: {

@@ -144,4 +144,18 @@ export const tokens = {
     symbol: TokenSymbol('CLE'),
     unitPriceUsd: '0',
   }),
+  REDSTONE: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'RedStone',
+    symbol: TokenSymbol('REDSTONE'),
+    unitPriceUsd: '0',
+  }),
+  SPK: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'Spark',
+    symbol: TokenSymbol('SPK'),
+    unitPriceUsd: '0.12',
+  }),
 }
