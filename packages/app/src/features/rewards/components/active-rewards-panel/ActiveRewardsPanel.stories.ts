@@ -1,8 +1,9 @@
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 import { ActiveReward } from '../../types'
 import { ActiveRewardsPanel, ActiveRewardsPanelProps } from './ActiveRewardsPanel'
 
@@ -44,7 +45,15 @@ const args: ActiveRewardsPanelProps = {
 }
 
 export const Desktop: Story = { args }
-export const Mobile = getMobileStory(Desktop)
+export const Mobile: Story = {
+  ...getMobileStory(Desktop),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.ownerDocument.body)
+    const rows = await canvas.findAllByRole('switch')
+    const firstRow = rows[0] ?? raise('No table row found')
+    await userEvent.click(firstRow)
+  },
+}
 export const Tablet = getTabletStory(Desktop)
 
 export const Pending: Story = {
