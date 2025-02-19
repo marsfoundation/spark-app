@@ -4,6 +4,7 @@ import { zeroAddress } from 'viem'
 import { findSignificantPrecision } from '../common/format'
 import { TokenSymbol } from './TokenSymbol'
 
+const ZERO_PRICE_FORMAT_PLACEHOLDER = '$ N/A'
 const FALLBACK_FORMAT_PRECISION = 4
 
 export interface TokenConstructorParams {
@@ -52,10 +53,10 @@ export class Token {
 
   public formatUSD(
     value: NormalizedUnitNumber,
-    { compact = false, showCents = 'always', priceUnavailablePlaceholder = '$ N/A' }: FormatUSDOptions = {},
+    { compact = false, showCents = 'always' }: FormatUSDOptions = {},
   ): string {
     if (this.unitPriceUsd.isZero()) {
-      return priceUnavailablePlaceholder
+      return ZERO_PRICE_FORMAT_PLACEHOLDER
     }
 
     const USDValue = this.toUSD(value)
@@ -138,7 +139,6 @@ export class Token {
 export interface FormatUSDOptions {
   compact?: boolean
   showCents?: 'always' | 'when-not-round' | 'never'
-  priceUnavailablePlaceholder?: string
 }
 
 export interface FormatOptions {

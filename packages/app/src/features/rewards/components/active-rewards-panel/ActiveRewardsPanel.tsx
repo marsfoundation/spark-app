@@ -14,55 +14,56 @@ export interface ActiveRewardsPanelProps {
 }
 
 export function ActiveRewardsPanel({ rewards, openClaimDialog }: ActiveRewardsPanelProps) {
-  const columnDef: DataTableColumnDefinitions<ActiveReward> = useMemo(
-    () => ({
-      token: {
-        header: 'Reward',
-        renderCell: ({ token }) => <TokenCell token={token} />,
-      },
-      amountPending: {
-        header: 'Pending',
-        headerAlign: 'right',
-        renderCell: ({ amountPending, token }, mobileViewOptions) => (
-          <AmountCell
-            token={token}
-            amount={amountPending}
-            mobileViewOptions={mobileViewOptions}
-            formattingOptions={{ priceUnavailablePlaceholder: '', zeroAmountHandling: 'show-zero' }}
-          />
-        ),
-      },
-      amountToClaim: {
-        header: 'Available to claim',
-        headerAlign: 'right',
-        renderCell: ({ amountToClaim, token }, mobileViewOptions) => (
-          <AmountCell
-            token={token}
-            amount={amountToClaim}
-            mobileViewOptions={mobileViewOptions}
-            formattingOptions={{ priceUnavailablePlaceholder: '', zeroAmountHandling: 'show-zero' }}
-          />
-        ),
-      },
-      actions: {
-        header: '',
-        renderCell: ({ token, amountToClaim }) => {
-          return (
-            <div className="flex justify-end sm:pl-6">
-              <Button
-                variant="secondary"
-                size="s"
-                disabled={amountToClaim.eq(0)}
-                onClick={() => openClaimDialog(token)}
-                className="w-full"
-              >
-                Claim
-              </Button>
-            </div>
-          )
+  const columnDef = useMemo(
+    () =>
+      ({
+        token: {
+          header: 'Reward',
+          renderCell: ({ token }) => <TokenCell token={token} />,
         },
-      },
-    }),
+        amountPending: {
+          header: 'Pending',
+          headerAlign: 'right',
+          renderCell: ({ amountPending, token }, mobileViewOptions) => (
+            <AmountCell
+              token={token}
+              amount={amountPending}
+              mobileViewOptions={mobileViewOptions}
+              formattingOptions={{ zeroAmountHandling: 'show-zero', showUsdValue: token.unitPriceUsd.isGreaterThan(0) }}
+            />
+          ),
+        },
+        amountToClaim: {
+          header: 'Available to claim',
+          headerAlign: 'right',
+          renderCell: ({ amountToClaim, token }, mobileViewOptions) => (
+            <AmountCell
+              token={token}
+              amount={amountToClaim}
+              mobileViewOptions={mobileViewOptions}
+              formattingOptions={{ zeroAmountHandling: 'show-zero', showUsdValue: token.unitPriceUsd.isGreaterThan(0) }}
+            />
+          ),
+        },
+        actions: {
+          header: '',
+          renderCell: ({ token, amountToClaim }) => {
+            return (
+              <div className="flex justify-end sm:pl-6">
+                <Button
+                  variant="secondary"
+                  size="s"
+                  disabled={amountToClaim.eq(0)}
+                  onClick={() => openClaimDialog(token)}
+                  className="w-full"
+                >
+                  Claim
+                </Button>
+              </div>
+            )
+          },
+        },
+      }) satisfies DataTableColumnDefinitions<ActiveReward>,
     [openClaimDialog],
   )
 

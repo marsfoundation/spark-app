@@ -7,7 +7,7 @@ export interface CompactAmountCellFormattingOptions {
   style?: 'auto' | 'compact'
   dimmed?: boolean
   zeroAmountHandling?: 'show-zero' | 'show-dash'
-  priceUnavailablePlaceholder?: string
+  showUsdValue?: boolean
 }
 
 interface AmountCellProps {
@@ -50,7 +50,7 @@ function Amount({ token, amount, formattingOptions, className, 'data-testid': da
     zeroAmountHandling = 'show-dash',
     style = 'auto',
     dimmed = false,
-    priceUnavailablePlaceholder,
+    showUsdValue = true,
   } = formattingOptions ?? {}
 
   if (amount.isZero() && zeroAmountHandling === 'show-dash') {
@@ -71,11 +71,13 @@ function Amount({ token, amount, formattingOptions, className, 'data-testid': da
       >
         {token.format(amount, { style: style === 'compact' ? 'compact' : 'auto' })}
       </div>
-      <div className="flex w-full flex-row justify-end">
-        <div className={cn('typography-body-4 text-secondary', dimmed && 'text-neutral-600/30')}>
-          {token.formatUSD(amount, { compact: style === 'compact', priceUnavailablePlaceholder })}
+      {showUsdValue && (
+        <div className="flex w-full flex-row justify-end">
+          <div className={cn('typography-body-4 text-secondary', dimmed && 'text-neutral-600/30')}>
+            {token.formatUSD(amount, { compact: style === 'compact' })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
