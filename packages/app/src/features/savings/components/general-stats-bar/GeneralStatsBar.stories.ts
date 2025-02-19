@@ -1,5 +1,6 @@
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
+import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
@@ -21,6 +22,7 @@ const meta: Meta<typeof GeneralStatsBar> = {
       error: null,
     },
     psmSupplier: 'sky',
+    accountSavingsToken: tokens.sUSDS,
   },
 }
 
