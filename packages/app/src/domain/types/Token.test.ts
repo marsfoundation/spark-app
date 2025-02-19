@@ -103,8 +103,14 @@ describe(Token.name, () => {
       expect(token.formatUSD(NormalizedUnitNumber(123456789.12))).toEqual('$123,456,789.12')
     })
 
-    test('returns placeholer for zero price', () => {
+    test('returns default placeholer for zero price', () => {
       expect(zeroPriceToken.formatUSD(NormalizedUnitNumber(0))).toEqual('$ N/A')
+    })
+
+    test('returns custom placeholer for zero price', () => {
+      expect(zeroPriceToken.formatUSD(NormalizedUnitNumber(0), { noPricePlaceholder: 'not available' })).toEqual(
+        'not available',
+      )
     })
   })
 
