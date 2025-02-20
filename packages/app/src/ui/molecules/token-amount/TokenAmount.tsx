@@ -7,6 +7,7 @@ export interface TokenAmountProps {
   amount: NormalizedUnitNumber
   usdAmount?: NormalizedUnitNumber
   variant?: 'vertical' | 'horizontal'
+  showZeroUsdAmount?: boolean
   amountDataTestId?: string
   usdAmountDataTestId?: string
 }
@@ -16,11 +17,13 @@ export function TokenAmount({
   amount,
   usdAmount,
   variant = 'vertical',
+  showZeroUsdAmount = true,
   amountDataTestId,
   usdAmountDataTestId,
 }: TokenAmountProps) {
   const formattedAmount = token.format(amount, { style: 'auto' })
   const formattedUsdAmount = usdAmount ? USD_MOCK_TOKEN.formatUSD(usdAmount) : token.formatUSD(amount)
+  const showUsdAmount = Boolean(showZeroUsdAmount || (amount.gt(0) && token.unitPriceUsd.gt(0)))
 
   if (variant === 'horizontal') {
     return (
@@ -32,9 +35,11 @@ export function TokenAmount({
             {/* @note: next line is need to maintain backward compatibility with e2e test - amount should include token symbol */}
             <span className="hidden"> {token.symbol}</span>
           </div>
-          <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
-            {formattedUsdAmount}
-          </div>
+          {showUsdAmount && (
+            <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
+              {formattedUsdAmount}
+            </div>
+          )}
         </div>
       </div>
     )
@@ -48,9 +53,11 @@ export function TokenAmount({
         <span className="hidden"> {token.symbol}</span>
       </div>
       <div />
-      <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
-        {formattedUsdAmount}
-      </div>
+      {showUsdAmount && (
+        <div className="typography-body-4 text-secondary" data-testid={usdAmountDataTestId}>
+          {formattedUsdAmount}
+        </div>
+      )}
     </div>
   )
 }
