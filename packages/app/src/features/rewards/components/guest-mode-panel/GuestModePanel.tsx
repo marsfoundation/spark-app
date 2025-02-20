@@ -1,3 +1,4 @@
+import { assets } from '@/ui/assets'
 import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
@@ -13,7 +14,7 @@ export function GuestModePanel() {
         'flex flex-col gap-3 bg-cover bg-primary-inverse bg-no-repeat',
       )}
     >
-      <img src="/src/ui/assets/rewards/guest-mode-panel-icon.svg" className="w-full" alt="Earn Spark Rewards icon" />
+      <img src={assets.rewards.guestModePanelIcon} className="w-full" alt="Earn Spark Rewards icon" />
       <div className="flex flex-col gap-6 p-3 text-center sm:gap-10 sm:p-4 md:p-6">
         <div className="flex flex-col gap-2">
           <div className="typography-heading-3 text-primary-inverse">Earn Spark Rewards</div>
