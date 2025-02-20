@@ -144,6 +144,12 @@ export default defineConfig({
             [base.id]: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
           },
         },
+        {
+          name: 'SparkRewards',
+          address: {
+            [mainnet.id]: '0xaf76856f788519704a9411839614e144fed52d8a',
+          },
+        },
       ],
     }),
     etherscan({
