@@ -158,4 +158,11 @@ export const tokens = {
     symbol: TokenSymbol('SPK'),
     unitPriceUsd: '0.12',
   }),
+  ABC: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'Token with no price and image',
+    symbol: TokenSymbol('ABC'),
+    unitPriceUsd: '0',
+  }),
 }
