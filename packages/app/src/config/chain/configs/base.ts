@@ -52,6 +52,14 @@ export const baseConfig: ChainConfigEntry = {
   markets: undefined,
   savings: {
     accounts: [
+      {
+        savingsToken: susds.symbol,
+        underlyingToken: usds.symbol,
+        supportedStablecoins: [usds.symbol, usdc.symbol],
+        fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
+        savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
+        myEarningsQueryOptions: baseMyEarningsQueryOptions,
+      },
       ...(USDC_ACCOUNT_ENABLED
         ? [
             {
@@ -64,14 +72,6 @@ export const baseConfig: ChainConfigEntry = {
             },
           ]
         : []),
-      {
-        savingsToken: susds.symbol,
-        underlyingToken: usds.symbol,
-        supportedStablecoins: [usds.symbol, usdc.symbol],
-        fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
-        savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
-        myEarningsQueryOptions: baseMyEarningsQueryOptions,
-      },
     ],
     psmStables: [usdc.symbol, usds.symbol],
   },
