@@ -291,6 +291,19 @@ export function useCreateActions({
         ]
       }
 
+      case 'claimSparkRewards': {
+        return [
+          {
+            type: 'claimSparkRewards',
+            token: objective.token,
+            epoch: objective.epoch,
+            cumulativeAmount: objective.cumulativeAmount,
+            merkleRoot: objective.merkleRoot,
+            merkleProof: objective.merkleProof,
+          },
+        ]
+      }
+
       case 'convertStables': {
         return createConvertStablesActions(objective, context)
       }
