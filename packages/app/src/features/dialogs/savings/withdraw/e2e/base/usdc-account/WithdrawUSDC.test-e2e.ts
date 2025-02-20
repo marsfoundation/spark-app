@@ -89,7 +89,7 @@ test.describe('Withdraw USDC', () => {
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1')
   })
 
-  test('fails validation if psm3 usds balance is too low', async ({ page }) => {
+  test('fails validation if psm3 usdc balance is too low', async ({ page }) => {
     await testContext.testnetController.client.setErc20Balance(
       TOKENS_ON_FORK[base.id].USDC.address,
       psm3Address[base.id],
@@ -97,6 +97,7 @@ test.describe('Withdraw USDC', () => {
     )
     await testContext.testnetController.progressSimulation(5)
     await page.reload()
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
 
     await savingsPage.clickWithdrawFromAccountButtonAction()
     withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
