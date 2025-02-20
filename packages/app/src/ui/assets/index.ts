@@ -56,6 +56,7 @@ import borrowIcon from './page/borrow-icon.svg'
 import farmsIcon from './page/farms-icon.svg'
 import savingsIcon from './page/savings-icon.svg'
 import pause from './pause.svg'
+import guestModePanelIcon from './rewards/guest-mode-panel-icon.svg'
 import rocket from './rocket.svg'
 import daiUpgrade from './savings/dai-upgrade.webp'
 import savingsWelcome from './savings/savings-welcome.webp'
@@ -212,6 +213,9 @@ export const assets = {
     daiUpgrade,
     sdaiUpgrade,
     savingsWelcome,
+  },
+  rewards: {
+    guestModePanelIcon,
   },
   banners: {
     mkrToSkyTransform,
