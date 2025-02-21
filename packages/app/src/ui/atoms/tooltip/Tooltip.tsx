@@ -84,6 +84,6 @@ TooltipContent.displayName = 'TooltipContent'
 
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TooltipContentLayout }
 
-function isTouchScreen(): boolean {
+export function isTouchScreen(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }

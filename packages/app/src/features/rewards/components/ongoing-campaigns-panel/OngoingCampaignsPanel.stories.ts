@@ -3,7 +3,7 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
-import { base, mainnet } from 'viem/chains'
+import { arbitrum, base, mainnet } from 'viem/chains'
 import { OngoingCampaign } from '../../types'
 import { OngoingCampaignsPanel } from './OngoingCampaignsPanel'
 
@@ -31,6 +31,17 @@ const data: OngoingCampaign[] = [
   {
     id: '2',
     type: 'sparklend',
+    chainId: arbitrum.id,
+    apy: Percentage(0.2),
+    shortDescription: 'Deposit wstETH, Borrow USDS or USDC on Arbitrum. Get SKY tokens. Limited time offer.',
+    longDescription:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
+    rewardToken: tokens.SKY,
+    involvedTokens: [tokens.wstETH, tokens.USDS],
+  },
+  {
+    id: '3',
+    type: 'sparklend',
     chainId: mainnet.id,
     apy: Percentage(0.1),
     shortDescription: 'Borrow USDS and get REDSTONE airdrop',
@@ -40,7 +51,7 @@ const data: OngoingCampaign[] = [
     involvedTokens: [tokens.USDS],
   },
   {
-    id: '3',
+    id: '4',
     type: 'savings',
     chainId: base.id,
     apy: Percentage(0.1),
@@ -49,6 +60,16 @@ const data: OngoingCampaign[] = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     rewardToken: tokens.SPK,
     involvedTokens: [tokens.sUSDS],
+  },
+  {
+    id: '5',
+    type: 'external',
+    link: 'https://www.google.com',
+    shortDescription: 'Search the web and get SPK tokens',
+    longDescription:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    rewardToken: tokens.SPK,
+    involvedTokens: [],
   },
 ]
 
