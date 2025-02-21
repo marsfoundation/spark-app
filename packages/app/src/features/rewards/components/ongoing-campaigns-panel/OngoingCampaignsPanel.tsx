@@ -32,7 +32,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
       <Accordion type="multiple">
         <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary">
           <div>Task</div>
-          <div className="hidden sm:mr-[47px] sm:block">Action</div>
+          <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
         {ongoingCampaignsQueryResult.data.map((campaign) => (
           <AccordionItem key={campaign.id} value={campaign.id} className="border-primary border-t">
@@ -40,6 +40,8 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
               className={cn(
                 'grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-3 py-6',
                 'sm:grid-cols-[auto_1fr_auto_auto] [&[data-state=open]>svg]:rotate-180',
+                'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring',
+                'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
               )}
             >
               <IconStack
@@ -48,19 +50,18 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
                 iconBorder={{ borderColorClass: 'border-base-white' }}
               />
               <Title campaign={campaign} />
-              {/* @todo: Rewards: Add onclick logic */}
-              <EngagementButton className="hidden sm:block" onClick={() => {}} />
+              <EngagementButton className="hidden sm:block" onClick={campaign.engage} />
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
             </AccordionTrigger>
             <AccordionContent
               className={cn(
                 'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
-                '-translate-y-2 overflow-hidden transition-all',
+                'overflow-hidden transition-all',
               )}
             >
               <div className="flex flex-col gap-4 pb-6">
                 <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
-                <EngagementButton className="w-full sm:hidden" onClick={() => {}} />
+                <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -81,7 +82,7 @@ function Header() {
 
 function PendingPanel() {
   return (
-    <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
+    <Panel spacing="m" className="flex min-h-60 flex-col gap-8 sm:min-h-72">
       <Header />
       <div className="flex flex-col gap-5">
         <Skeleton className="h-4 w-44" />

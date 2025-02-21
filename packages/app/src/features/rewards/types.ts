@@ -18,6 +18,7 @@ export type OngoingCampaign = {
   longDescription: string
   rewardToken: Token
   involvedTokens: Token[]
+  engage: () => void
 } & (
   | {
       type: 'sparklend'
