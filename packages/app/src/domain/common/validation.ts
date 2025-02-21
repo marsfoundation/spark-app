@@ -1,7 +1,7 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
+import { CheckedAddress, Hex } from '@marsfoundation/common-universal'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { Address, isAddress } from 'viem'
+import { Address, Hex as ViemHex, isAddress, isHex } from 'viem'
 import * as z from 'zod'
 
 // number schemas
@@ -20,3 +20,4 @@ export const normalizedUnitNumberSchema = numberLikeSchema.transform((a) => Norm
 // address schemas
 export const checkedAddressSchema = z.string().transform((a) => CheckedAddress(a))
 export const viemAddressSchema = z.custom<Address>((address) => isAddress(address as string))
+export const hexSchema = z.custom<ViemHex>((hex) => isHex(hex)).transform((hex) => Hex(hex))

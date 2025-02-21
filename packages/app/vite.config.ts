@@ -63,6 +63,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/info-sky-api/, ''),
       },
+      '/spark2-api': {
+        target: 'https://spark2-api.blockanalitica.com/api/v1/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/spark2-api/, ''),
+      },
     },
   },
 
