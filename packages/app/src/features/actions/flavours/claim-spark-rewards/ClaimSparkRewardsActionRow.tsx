@@ -14,7 +14,7 @@ export function ClaimSparkRewardsActionRow({ action, ...props }: ClaimSparkRewar
 
       <ActionRow.Title>
         <ActionRow.Title.Tokens tokens={[action.token]} />
-        Claim rewards
+        Claim {action.token.symbol}
       </ActionRow.Title>
 
       <ActionRow.ErrorWarning />

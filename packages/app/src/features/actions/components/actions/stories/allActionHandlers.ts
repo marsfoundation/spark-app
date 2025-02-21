@@ -5,6 +5,7 @@ import { ActionHandler, ActionType } from '@/features/actions/logic/types'
 import { getMockReserve } from '@/test/integration/constants'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { CheckedAddress } from '@marsfoundation/common-universal'
+import { times } from 'remeda'
 
 export const allActionHandlers: Record<ActionType, ActionHandler> = {
   approve: {
@@ -194,7 +195,7 @@ export const allActionHandlers: Record<ActionType, ActionHandler> = {
       epoch: 1,
       cumulativeAmount: NormalizedUnitNumber(1),
       merkleRoot: Hex.random(),
-      merkleProof: Array.from({ length: 7 }, () => Hex.random()),
+      merkleProof: times(7, () => Hex.random()),
     },
     state: { status: 'ready' },
     onAction: () => {},

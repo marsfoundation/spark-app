@@ -6,6 +6,7 @@ import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
 import { Hex, NormalizedUnitNumber, toBigInt } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
+import { times } from 'remeda'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createClaimSparkRewardsActionConfig } from './claimSparkRewardsAction'
@@ -16,7 +17,7 @@ const epoch = 123
 const token = getMockToken()
 const cumulativeAmount = NormalizedUnitNumber(100)
 const merkleRoot = Hex.random()
-const merkleProof = Array.from({ length: 7 }, () => Hex.random())
+const merkleProof = times(7, () => Hex.random())
 
 const hookRenderer = setupUseContractActionRenderer({
   account,

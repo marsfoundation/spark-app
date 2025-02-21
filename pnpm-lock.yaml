@@ -191,6 +191,9 @@ importers:
       react-router-dom:
         specifier: ^6.14.2
         version: 6.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      remeda:
+        specifier: ^2.20.2
+        version: 2.20.2
       size-limit:
         specifier: ^10.0.1
         version: 10.0.1
@@ -7016,6 +7019,9 @@ packages:
     resolution: {integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==}
     hasBin: true
 
+  remeda@2.20.2:
+    resolution: {integrity: sha512-38pfm5aUq6mUkNYbt7TdY2WEk9mSqRVV+6UsoTjabwmbu8obLbh8sYYSX2WQ3W4u6EYp3XxUKqIiwGFZu+OY9g==}
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -7645,6 +7651,10 @@ packages:
   type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
+
+  type-fest@4.35.0:
+    resolution: {integrity: sha512-2/AwEFQDFEy30iOLjrvHDIH7e4HEWH+f1Yl1bI5XMqzuoCUqwYCdxachgsgv0og/JdVZUhbfjcJAoHj5L1753A==}
+    engines: {node: '>=16'}
 
   typescript-eslint@7.11.0:
     resolution: {integrity: sha512-ZKe3yHF/IS/kCUE4CGE3UgtK+Q7yRk1e9kwEI0rqm9XxMTd9P1eHe0LVVtrZ3oFuIQ2unJ9Xn0vTsLApzJ3aPw==}
@@ -16638,6 +16648,10 @@ snapshots:
       jsesc: 3.0.2
     optional: true
 
+  remeda@2.20.2:
+    dependencies:
+      type-fest: 4.35.0
+
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
@@ -17322,6 +17336,8 @@ snapshots:
     optional: true
 
   type-fest@2.19.0: {}
+
+  type-fest@4.35.0: {}
 
   typescript-eslint@7.11.0(eslint@9.3.0)(typescript@5.6.2):
     dependencies:
