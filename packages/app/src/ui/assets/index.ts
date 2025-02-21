@@ -65,6 +65,8 @@ import sdaiUpgrade from './savings/sdai-upgrade.webp'
 import upgradeBannerBg from './savings/upgrade-banner-bg.svg'
 import sliderThumb from './slider-thumb.svg'
 import snowflake from './snowflake.svg'
+import discord from './social-platforms/discord.svg'
+import x from './social-platforms/x.svg'
 import sparkIcon from './spark-icon.svg'
 import sparkLogo from './spark-logo.svg'
 import success from './success.svg'
@@ -199,6 +201,10 @@ export const assets = {
     spk,
     unknown,
   },
+  socialPlatforms: {
+    x,
+    discord,
+  },
   walletIcons: {
     coinbase,
     enjin,
@@ -255,6 +261,14 @@ export function getTokenImage(symbol: TokenSymbol): string {
   }
 
   return image
+}
+
+export function getSocialPlatformIcon(platform: string): string {
+  const icon = assets.socialPlatforms[platform as keyof typeof assets.socialPlatforms]
+  if (!icon) {
+    return assets.token.unknown
+  }
+  return icon
 }
 
 export function getTokenColor(symbol: TokenSymbol, options?: { alpha?: Percentage; fallback?: string }): string {
