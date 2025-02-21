@@ -15,9 +15,10 @@ import { OngoingCampaign, OngoingCampaignsQueryResult } from '../../types'
 
 export interface OngoingCampaignsPanelProps {
   ongoingCampaignsQueryResult: OngoingCampaignsQueryResult
+  guestMode: boolean
 }
 
-export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCampaignsPanelProps) {
+export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult, guestMode }: OngoingCampaignsPanelProps) {
   if (ongoingCampaignsQueryResult.isPending) {
     return <PendingPanel />
   }
@@ -42,6 +43,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
                 'sm:grid-cols-[auto_1fr_auto_auto] [&[data-state=open]>svg]:rotate-180',
                 'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring',
                 'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+                guestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
               <IconStack
@@ -50,7 +52,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
                 iconBorder={{ borderColorClass: 'border-base-white' }}
               />
               <Title campaign={campaign} />
-              <EngagementButton className="hidden sm:block" onClick={campaign.engage} />
+              {!guestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
             </AccordionTrigger>
             <AccordionContent
@@ -60,8 +62,11 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult }: OngoingCa
               )}
             >
               <div className="flex flex-col gap-4 pb-6">
-                <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
-                <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />
+                <div className="flex flex-col gap-2">
+                  <div className="typography-body-4 text-primary sm:hidden">{campaign.shortDescription}</div>
+                  <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
+                </div>
+                {!guestMode && <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />}
               </div>
             </AccordionContent>
           </AccordionItem>
