@@ -9,7 +9,7 @@ import { z } from 'zod'
 export interface GeneralStatsQueryResult {
   tvl: NormalizedUnitNumber
   users: number
-  getLiquidity: (accountSavingsToken: Token) => NormalizedUnitNumber
+  getLiquidityCap: (accountSavingsToken: Token) => NormalizedUnitNumber | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -27,10 +27,8 @@ export function generalStatsQueryOptions() {
       return {
         tvl: parsedResult.tvl,
         users: parsedResult.users,
-        getLiquidity: (accountSavingsToken: Token) =>
-          accountSavingsToken.symbol === TokenSymbol('sUSDC')
-            ? parsedResult.liquidityMap.usdc
-            : NormalizedUnitNumber(Number.POSITIVE_INFINITY),
+        getLiquidityCap: (accountSavingsToken: Token) =>
+          accountSavingsToken.symbol === TokenSymbol('sUSDC') ? parsedResult.liquidityMap.usdc : undefined,
       }
     },
   })

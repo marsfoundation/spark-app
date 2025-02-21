@@ -222,7 +222,7 @@ const savingsViewSusdsArgs = {
   generalStats: {
     data: {
       tvl: NormalizedUnitNumber(2_320_691_847),
-      getLiquidity: () => NormalizedUnitNumber(2_320_691_847),
+      getLiquidityCap: () => NormalizedUnitNumber(2_320_691_847),
       users: 4_967,
     },
     isPending: false,
