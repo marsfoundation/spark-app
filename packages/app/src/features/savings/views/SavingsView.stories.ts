@@ -222,7 +222,7 @@ const savingsViewSusdsArgs = {
   generalStats: {
     data: {
       tvl: NormalizedUnitNumber(2_320_691_847),
-      getLiquidity: () => NormalizedUnitNumber(2_320_691_847),
+      getLiquidityCap: () => undefined,
       users: 4_967,
     },
     isPending: false,
@@ -282,6 +282,16 @@ export const DaiNoDepositTablet = getTabletStory(DaiNoDeposit)
 export const Usdc: Story = {
   args: {
     ...savingsViewSusdsArgs,
+    generalStats: {
+      data: {
+        tvl: NormalizedUnitNumber(2_320_691_847),
+        getLiquidityCap: () => NormalizedUnitNumber(4_234_221_093),
+        users: 4_967,
+      },
+      isPending: false,
+      isError: false,
+      error: null,
+    },
     selectedAccount: savingsUsdcAccountDefinition,
   } satisfies SavingsViewProps,
 }

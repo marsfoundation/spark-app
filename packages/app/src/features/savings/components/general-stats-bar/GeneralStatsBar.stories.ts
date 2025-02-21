@@ -14,7 +14,7 @@ const meta: Meta<typeof GeneralStatsBar> = {
     generalStatsResult: {
       data: {
         tvl: NormalizedUnitNumber(5_000_123_000),
-        getLiquidity: () => NormalizedUnitNumber(1_000_000),
+        getLiquidityCap: () => undefined,
         users: 43_232,
       },
       isPending: false,
@@ -38,7 +38,7 @@ export const HighValues: Story = {
     generalStatsResult: {
       data: {
         tvl: NormalizedUnitNumber(10_000_000_000),
-        getLiquidity: () => NormalizedUnitNumber(Number.POSITIVE_INFINITY),
+        getLiquidityCap: () => undefined,
         users: 1_000_000,
       },
       isPending: false,
@@ -53,7 +53,22 @@ export const LowValues: Story = {
     generalStatsResult: {
       data: {
         tvl: NormalizedUnitNumber(100_000),
-        getLiquidity: () => NormalizedUnitNumber(50_000),
+        getLiquidityCap: () => undefined,
+        users: 100,
+      },
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  },
+}
+
+export const WithLiquidityCap: Story = {
+  args: {
+    generalStatsResult: {
+      data: {
+        tvl: NormalizedUnitNumber(100_000),
+        getLiquidityCap: () => NormalizedUnitNumber(1_000_000),
         users: 100,
       },
       isPending: false,

@@ -1,5 +1,4 @@
 import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
@@ -26,8 +25,7 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult, psmSu
     return null
   }
 
-  const liquidity = generalStatsResult.data.getLiquidity(accountSavingsToken)
-  const isSavingsUsdc = accountSavingsToken.symbol === TokenSymbol('sUSDC')
+  const liquidityCap = generalStatsResult.data.getLiquidityCap(accountSavingsToken)
 
   return (
     <div className={cn('inline-flex divide-x divide-secondary rounded-[10px]', 'bg-primary/80 py-3 backdrop-blur-lg')}>
@@ -39,21 +37,17 @@ export function GeneralStatsBar({ accountSavingsToken, generalStatsResult, psmSu
         <Label>Users</Label>
         <Value>{formatUsersNumber(generalStatsResult.data.users)}</Value>
       </Stat>
-      <Stat>
-        <Label>Liquidity:</Label>
-        <Value>
-          <div className="flex items-center gap-1">
-            {liquidity.isFinite() ? (
-              USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidity), { compact: true })
-            ) : (
-              <div>
-                ∞<span className="hidden sm:inline"> (No limits)</span>
-              </div>
-            )}
-            {isSavingsUsdc && <UsdcPsmLiquidityInfo psmSupplier={psmSupplier} />}
-          </div>
-        </Value>
-      </Stat>
+      {liquidityCap && (
+        <Stat>
+          <Label>Liquidity:</Label>
+          <Value>
+            <div className="flex items-center gap-1">
+              {USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(liquidityCap), { compact: true })}
+              <LiquidityCapInfo psmSupplier={psmSupplier} />
+            </div>
+          </Value>
+        </Stat>
+      )}
       <Stat>
         <Link to={links.skyInfoSavingsDashboard} variant="decorator" className="flex" external>
           <IconButton variant="transparent" size="s" icon={ExternalLinkIcon} />
@@ -79,7 +73,7 @@ function formatUsersNumber(users: number): string {
   return Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(users)
 }
 
-function UsdcPsmLiquidityInfo({ psmSupplier }: { psmSupplier: 'sky' | 'spark' }) {
+function LiquidityCapInfo({ psmSupplier }: { psmSupplier: 'sky' | 'spark' }) {
   return psmSupplier === 'sky' ? <SkyPsmLiquidityInfo /> : <SparkPsmLiquidityInfo />
 }
 
