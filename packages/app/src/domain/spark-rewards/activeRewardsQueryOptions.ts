@@ -32,7 +32,7 @@ export function activeRewardsQueryOptions({ wagmiConfig, account, chainId }: Act
             chainId,
           })
 
-          const res = await fetch(`${spark2ApiUrl}/rewards/roots/${expectedMerkleRoot}/${account}/?format=json`)
+          const res = await fetch(`${spark2ApiUrl}/rewards/roots/${expectedMerkleRoot}/${account}/`)
           if (!res.ok) {
             throw new Error('Failed to fetch rewards')
           }
