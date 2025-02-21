@@ -11,6 +11,7 @@ import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
 import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
+import { ClaimSparkRewardsAction, ClaimSparkRewardsObjective } from '../flavours/claim-spark-rewards/types'
 import { ConvertStablesObjective } from '../flavours/convert-stables/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
@@ -48,6 +49,7 @@ export type Objective =
   | UnstakeObjective
   | ClaimFarmRewardsObjective
   | ConvertStablesObjective
+  | ClaimSparkRewardsObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -69,6 +71,7 @@ export type Action =
   | UnstakeAction
   | PsmConvertAction
   | ClaimFarmRewardsAction
+  | ClaimSparkRewardsAction
 export type ActionType = Action['type']
 
 type BaseActionHandlerState<ErrorKind extends string> =

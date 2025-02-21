@@ -35,6 +35,15 @@ export function stringifyObjectivesToStableActions(objectives: Objective[]): str
           return [objective.type, objective.token.address, objective.amount]
         case 'claimFarmRewards':
           return [objective.type, objective.farm]
+        case 'claimSparkRewards':
+          return [
+            objective.type,
+            objective.token.address,
+            objective.epoch,
+            objective.cumulativeAmount,
+            objective.merkleRoot,
+            objective.merkleProof,
+          ]
         case 'convertStables':
           return [objective.type, objective.inToken.symbol, objective.outToken.symbol, objective.amount]
         default:

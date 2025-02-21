@@ -239,6 +239,8 @@ function actionToTitle(action: SimplifiedAction): string {
         : `Withdraw ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
       return 'Claim rewards'
+    case 'claimSparkRewards':
+      return 'Claim rewards'
     case 'psmConvert':
       return `Convert ${action.inToken} to ${action.outToken}`
   }

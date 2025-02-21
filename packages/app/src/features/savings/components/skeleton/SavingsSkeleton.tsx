@@ -1,6 +1,7 @@
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { PageLayout } from '@/ui/layouts/PageLayout'
 import { cn } from '@/ui/utils/style'
+import { times } from 'remeda'
 
 export interface SavingsSkeletonProps {
   numberOfAccounts: number
@@ -16,7 +17,7 @@ export function SavingsSkeleton({ numberOfAccounts }: SavingsSkeletonProps) {
       <div className={cn('grid grid-cols-1 gap-6', numberOfAccounts > 1 && 'lg:grid-cols-[202px_1fr]')}>
         {numberOfAccounts > 1 && (
           <div className="flex flex-row gap-2 lg:flex-col">
-            {Array.from({ length: numberOfAccounts }, (_, k) => (
+            {times(numberOfAccounts, (k) => (
               <NavigationItemSkeleton key={k} />
             ))}
           </div>

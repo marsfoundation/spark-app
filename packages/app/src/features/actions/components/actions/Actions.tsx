@@ -4,6 +4,7 @@ import { ApproveActionRow } from '../../flavours/approve/ApproveActionRow'
 import { BorrowActionRow } from '../../flavours/borrow/BorrowActionRow'
 import { ClaimFarmRewardsActionRow } from '../../flavours/claim-farm-rewards/ClaimFarmRewardsActionRow'
 import { ClaimMarketRewardsActionRow } from '../../flavours/claim-market-rewards/ClaimMarketRewardsActionRow'
+import { ClaimSparkRewardsActionRow } from '../../flavours/claim-spark-rewards/ClaimSparkRewardsActionRow'
 import { DepositToSavingsActionRow } from '../../flavours/deposit-to-savings/DepositToSavingsActionRow'
 import { DepositActionRow } from '../../flavours/deposit/DepositActionRow'
 import { DowngradeActionRow } from '../../flavours/downgrade/DowngradeActionRow'
@@ -84,6 +85,8 @@ export function Actions({ actionHandlers, batchActionHandler, layout }: ActionsP
               return <PsmConvertActionRow action={handler.action} {...props} />
             case 'claimFarmRewards':
               return <ClaimFarmRewardsActionRow action={handler.action} {...props} />
+            case 'claimSparkRewards':
+              return <ClaimSparkRewardsActionRow action={handler.action} {...props} />
             default:
               assertNever(handler.action)
           }
