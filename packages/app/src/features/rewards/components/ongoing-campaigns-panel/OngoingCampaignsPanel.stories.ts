@@ -1,3 +1,4 @@
+import { OngoingCampaign } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { Percentage, raise } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
@@ -6,7 +7,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent } from '@storybook/test'
 import { within } from '@storybook/test'
 import { arbitrum, base, mainnet } from 'viem/chains'
-import { OngoingCampaign } from '../../types'
 import { OngoingCampaignsPanel } from './OngoingCampaignsPanel'
 
 const meta: Meta<typeof OngoingCampaignsPanel> = {
@@ -22,14 +22,15 @@ const data: OngoingCampaign[] = [
   {
     id: '1',
     type: 'social',
+    chainId: mainnet.id,
     platform: 'x',
     link: 'https://x.com/marsfoundation',
     shortDescription: 'Follow us on X/Twitter and get SPK tokens',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rewardToken: tokens.SPK,
-    involvedTokens: [],
-    engage: () => {},
+    rewardTokenSymbol: tokens.SPK.symbol,
+    involvedTokensSymbols: [],
+    restrictedCountryCodes: ['US'],
   },
   {
     id: '2',
@@ -39,9 +40,9 @@ const data: OngoingCampaign[] = [
     shortDescription: 'Deposit wstETH, Borrow USDS or USDC on Arbitrum. Get SKY tokens. Limited time offer.',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
-    rewardToken: tokens.SKY,
-    involvedTokens: [tokens.wstETH, tokens.USDS],
-    engage: () => {},
+    rewardTokenSymbol: tokens.SKY.symbol,
+    involvedTokensSymbols: [tokens.wstETH.symbol, tokens.USDS.symbol],
+    restrictedCountryCodes: ['US'],
   },
   {
     id: '3',
@@ -51,9 +52,9 @@ const data: OngoingCampaign[] = [
     shortDescription: 'Borrow USDS and get REDSTONE airdrop',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rewardToken: tokens.REDSTONE,
-    involvedTokens: [tokens.USDS],
-    engage: () => {},
+    rewardTokenSymbol: tokens.REDSTONE.symbol,
+    involvedTokensSymbols: [tokens.USDS.symbol],
+    restrictedCountryCodes: ['US'],
   },
   {
     id: '4',
@@ -63,26 +64,30 @@ const data: OngoingCampaign[] = [
     shortDescription: 'Deposit USDS and get SPK tokens',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rewardToken: tokens.SPK,
-    involvedTokens: [tokens.sUSDS],
-    engage: () => {},
+    rewardTokenSymbol: tokens.SPK.symbol,
+    involvedTokensSymbols: [tokens.sUSDS.symbol],
+    restrictedCountryCodes: ['US'],
   },
   {
     id: '5',
     type: 'external',
+    chainId: mainnet.id,
     link: 'https://www.google.com',
     shortDescription: 'Search the web and get SPK tokens',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rewardToken: tokens.SPK,
-    involvedTokens: [],
-    engage: () => {},
+    rewardTokenSymbol: tokens.SPK.symbol,
+    involvedTokensSymbols: [],
+    restrictedCountryCodes: ['US'],
   },
 ]
 
 const args: Story['args'] = {
-  ongoingCampaignsQueryResult: {
-    data,
+  ongoingCampaignsResult: {
+    data: data.map((campaign) => ({
+      ...campaign,
+      engage: () => Promise.resolve(),
+    })),
     isPending: false,
     isError: false,
     error: null,
@@ -105,7 +110,7 @@ export const Tablet = getTabletStory(Desktop)
 export const Pending: Story = {
   args: {
     ...args,
-    ongoingCampaignsQueryResult: { data: undefined, isPending: true, isError: false, error: null },
+    ongoingCampaignsResult: { data: undefined, isPending: true, isError: false, error: null },
   },
 }
 export const PendingMobile = getMobileStory(Pending)
@@ -114,7 +119,7 @@ export const PendingTablet = getTabletStory(Pending)
 export const ErrorState: Story = {
   args: {
     ...args,
-    ongoingCampaignsQueryResult: {
+    ongoingCampaignsResult: {
       data: undefined,
       isPending: false,
       isError: true,
