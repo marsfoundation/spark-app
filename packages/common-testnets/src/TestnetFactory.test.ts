@@ -131,8 +131,10 @@ describe('TestnetFactory', () => {
           }
           const initialBlock = await testnetClient.getBlock()
           const initialBaseFee = initialBlock.baseFeePerGas || 0n
+
           await testnetClient.setNextBlockBaseFee(initialBaseFee + baseFee)
           await testnetClient.mineBlocks(1n)
+
           const nextBlock = await testnetClient.getBlock()
           const nextBaseFee = nextBlock.baseFeePerGas
           expect(nextBaseFee).toEqual(initialBaseFee + baseFee)
