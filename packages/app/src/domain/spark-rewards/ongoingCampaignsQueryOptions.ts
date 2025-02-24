@@ -63,12 +63,12 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig }: OngoingCampaignsQu
               chainId: domainToChainId(campaign.domain),
             })
           }
-          const rewardTokenSymbol = await fetchTokenSymbol(campaign.reward_token_address)
-          const involvedTokensSymbols = await Promise.all(
-            campaign.involved_tokens_addresses.map(async (tokenAddress) => {
-              return await fetchTokenSymbol(tokenAddress)
+          const [rewardTokenSymbol, ...involvedTokensSymbols] = await Promise.all([
+            fetchTokenSymbol(campaign.reward_token_address),
+            ...campaign.involved_tokens_addresses.map((tokenAddress) => {
+              return fetchTokenSymbol(tokenAddress)
             }),
-          )
+          ])
 
           const commonProps = {
             id: campaign.campaign_uid,
