@@ -74,7 +74,7 @@ export function getAnvilClient(rpc: string, chain: Chain, forkChainId: number): 
             method: 'anvil_setNextBlockBaseFeePerGas',
             params: [numberToHex(baseFee)],
           })
-        }
+        },
       }
     })
     .extend(walletActions)

@@ -122,6 +122,20 @@ describe('TestnetFactory', () => {
           const actualCode = await testnetClient.getCode({ address: randomContract })
           expect(actualCode).toEqual(newBytecode)
         })
+
+        it('sets next block base fee correctly', async () => {
+          const baseFee = 200000n
+          if (factory.constructor.name === 'TenderlyTestnetFactory') {
+            return
+          }
+          const initialBlock = await testnetClient.getBlock()
+          const initialBaseFee = initialBlock.baseFeePerGas || 0n
+          await testnetClient.setNextBlockBaseFee(initialBaseFee + baseFee)
+          await testnetClient.mineBlocks(1n)
+          const nextBlock = await testnetClient.getBlock()
+          const nextBaseFee = nextBlock.baseFeePerGas
+          expect(nextBaseFee).toEqual(initialBaseFee + baseFee)
+        })
       })
     })
   }
