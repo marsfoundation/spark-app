@@ -1,4 +1,5 @@
 import { getChainConfigEntry } from '@/config/chain'
+import { OngoingCampaign } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { getSocialPlatformIcon, getTokenImage } from '@/ui/assets'
 import { Button, ButtonProps } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -11,19 +12,19 @@ import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion'
 import { AlertTriangleIcon, ChevronDownIcon } from 'lucide-react'
 import { mainnet } from 'viem/chains'
-import { OngoingCampaign, OngoingCampaignsQueryResult } from '../../types'
+import { UseOngoingCampaignsResult } from '../../logic/useOngoingCampaigns'
 
 export interface OngoingCampaignsPanelProps {
-  ongoingCampaignsQueryResult: OngoingCampaignsQueryResult
+  ongoingCampaignsResult: UseOngoingCampaignsResult
   guestMode: boolean
 }
 
-export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult, guestMode }: OngoingCampaignsPanelProps) {
-  if (ongoingCampaignsQueryResult.isPending) {
+export function OngoingCampaignsPanel({ ongoingCampaignsResult, guestMode }: OngoingCampaignsPanelProps) {
+  if (ongoingCampaignsResult.isPending) {
     return <PendingPanel />
   }
 
-  if (ongoingCampaignsQueryResult.isError) {
+  if (ongoingCampaignsResult.isError) {
     return <ErrorPanel />
   }
 
@@ -35,7 +36,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsQueryResult, guestMode }
           <div>Task</div>
           <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
-        {ongoingCampaignsQueryResult.data.map((campaign) => (
+        {ongoingCampaignsResult.data.map((campaign) => (
           <AccordionItem key={campaign.id} value={campaign.id} className="border-primary border-t">
             <AccordionTrigger
               className={cn(
@@ -153,8 +154,8 @@ function getStackIcons(campaign: OngoingCampaign): string[] {
   const socialPlatformIcon =
     campaign.type === 'social' && campaign.platform ? getSocialPlatformIcon(campaign.platform) : undefined
   // tokens
-  const tokens = [...campaign.involvedTokens, campaign.rewardToken]
-  const tokenIcons = tokens.map((token) => getTokenImage(token.symbol))
+  const tokens = [...campaign.involvedTokensSymbols, campaign.rewardTokenSymbol]
+  const tokenIcons = tokens.map((token) => getTokenImage(token))
   // chains
   const chainId = 'chainId' in campaign && campaign.chainId !== mainnet.id ? campaign.chainId : undefined
   const chainIcon = chainId ? getChainConfigEntry(chainId).meta.logo : undefined
