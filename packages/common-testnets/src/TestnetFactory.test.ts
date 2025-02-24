@@ -126,6 +126,7 @@ describe('TestnetFactory', () => {
         it('sets next block base fee correctly', async () => {
           const baseFee = 200000n
           if (factory.constructor.name === 'TenderlyTestnetFactory') {
+            await expect(testnetClient.setNextBlockBaseFee(baseFee)).toBeRejected()
             return
           }
           const initialBlock = await testnetClient.getBlock()
