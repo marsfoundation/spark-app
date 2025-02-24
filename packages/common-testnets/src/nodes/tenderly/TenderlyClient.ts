@@ -62,6 +62,9 @@ export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: num
             params: [addr.toString(), code],
           } as any)
         },
+        async setNextBlockBaseFee(_: bigint) {
+          throw new Error('Method not supported')
+        },
       }
     })
     .extend(walletActions)

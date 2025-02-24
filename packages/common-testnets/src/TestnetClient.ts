@@ -21,6 +21,7 @@ export interface TestnetClient extends WalletClient, PublicActions, TestnetClien
   revert(snapshotId: string): Promise<string> // @note: returns new snapshot id (may be the same as the input)
   mineBlocks(blocks: bigint): Promise<void>
   setNextBlockTimestamp(timestamp: bigint): Promise<void>
+  setNextBlockBaseFee(baseFee: bigint): Promise<void>
 }
 
 export type TestnetClientHelperActions = {

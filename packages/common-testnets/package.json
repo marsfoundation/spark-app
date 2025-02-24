@@ -33,7 +33,7 @@
     "verify": "concurrently --names \"LINT,TEST,TYPECHECK,LINT-CUSTOM\" -c \"bgMagenta.bold,bgGreen.bold,bgBlue.bold,bgCyan.bold\" \"pnpm run lint\"  \"pnpm run test --silent\" \"pnpm run typecheck\"",
     "fix": "cd ../../ && pnpm run check:fix && cd - && pnpm run verify",
     "test": "true",
-    "test-e2e": "mocha src/**/*.test.ts",
+    "test-e2e": "mocha \"src/**/*.test.ts\"",
     "typecheck": "tsc --noEmit",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
