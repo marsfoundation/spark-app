@@ -69,6 +69,12 @@ export function getAnvilClient(rpc: string, chain: Chain, forkChainId: number): 
             params: [addr.toString(), code],
           } as any)
         },
+        async setNextBlockBaseFee(baseFee: bigint) {
+          await c.request({
+            method: 'anvil_setNextBlockBaseFeePerGas',
+            params: [numberToHex(baseFee)],
+          })
+        }
       }
     })
     .extend(walletActions)
