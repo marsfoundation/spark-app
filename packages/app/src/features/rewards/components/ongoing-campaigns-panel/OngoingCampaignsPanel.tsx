@@ -16,10 +16,10 @@ import { UseOngoingCampaignsResult } from '../../logic/useOngoingCampaigns'
 
 export interface OngoingCampaignsPanelProps {
   ongoingCampaignsResult: UseOngoingCampaignsResult
-  guestMode: boolean
+  isGuestMode: boolean
 }
 
-export function OngoingCampaignsPanel({ ongoingCampaignsResult, guestMode }: OngoingCampaignsPanelProps) {
+export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: OngoingCampaignsPanelProps) {
   if (ongoingCampaignsResult.isPending) {
     return <PendingPanel />
   }
@@ -44,7 +44,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, guestMode }: Ong
                 'sm:grid-cols-[auto_1fr_auto_auto] [&[data-state=open]>svg]:rotate-180',
                 'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring',
                 'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
-                guestMode && 'sm:grid-cols-[auto_1fr_auto]',
+                isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
               <IconStack
@@ -53,7 +53,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, guestMode }: Ong
                 iconBorder={{ borderColorClass: 'border-base-white' }}
               />
               <Title campaign={campaign} />
-              {!guestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
+              {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
             </AccordionTrigger>
             <AccordionContent
@@ -67,7 +67,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, guestMode }: Ong
                   <div className="typography-body-4 text-primary sm:hidden">{campaign.shortDescription}</div>
                   <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
                 </div>
-                {!guestMode && <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />}
+                {!isGuestMode && <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />}
               </div>
             </AccordionContent>
           </AccordionItem>

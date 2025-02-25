@@ -10,22 +10,25 @@ const meta: Meta<typeof ClaimAllPanel> = {
   component: ClaimAllPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {
-    tokensToClaimQueryResult: {
+    activeRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
       data: [
         {
           token: tokens.wstETH,
-          value: NormalizedUnitNumber(0.02),
+          amountPending: NormalizedUnitNumber(0.01),
+          amountToClaim: NormalizedUnitNumber(0.02),
         },
         {
           token: tokens.sUSDS,
-          value: NormalizedUnitNumber(97),
+          amountPending: NormalizedUnitNumber(23),
+          amountToClaim: NormalizedUnitNumber(97),
         },
         {
           token: tokens.REDSTONE,
-          value: NormalizedUnitNumber(1721),
+          amountPending: NormalizedUnitNumber(122),
+          amountToClaim: NormalizedUnitNumber(1721),
         },
       ],
     },
@@ -42,7 +45,7 @@ export const Tablet = getTabletStory(Desktop)
 
 export const Pending: Story = {
   args: {
-    tokensToClaimQueryResult: {
+    activeRewardsResult: {
       isPending: true,
       isError: false,
       error: null,
@@ -53,7 +56,7 @@ export const Pending: Story = {
 
 export const ErrorState: Story = {
   args: {
-    tokensToClaimQueryResult: {
+    activeRewardsResult: {
       isPending: false,
       isError: true,
       error: new Error('Failed to load active rewards data'),
@@ -64,14 +67,15 @@ export const ErrorState: Story = {
 
 export const OneTokenWithoutPrice: Story = {
   args: {
-    tokensToClaimQueryResult: {
+    activeRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
       data: [
         {
           token: tokens.REDSTONE,
-          value: NormalizedUnitNumber(1721),
+          amountPending: NormalizedUnitNumber(1232),
+          amountToClaim: NormalizedUnitNumber(1721),
         },
       ],
     },
@@ -79,18 +83,20 @@ export const OneTokenWithoutPrice: Story = {
 }
 export const TwoTokensWithoutPrice: Story = {
   args: {
-    tokensToClaimQueryResult: {
+    activeRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
       data: [
         {
           token: tokens.REDSTONE,
-          value: NormalizedUnitNumber(1721),
+          amountPending: NormalizedUnitNumber(1232),
+          amountToClaim: NormalizedUnitNumber(1721),
         },
         {
           token: tokens.ABC,
-          value: NormalizedUnitNumber(243),
+          amountPending: NormalizedUnitNumber(12),
+          amountToClaim: NormalizedUnitNumber(243),
         },
       ],
     },

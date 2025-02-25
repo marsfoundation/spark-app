@@ -7,19 +7,19 @@ import { TokenCell } from '@/ui/molecules/data-table/components/TokenCell'
 import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { AlertTriangleIcon } from 'lucide-react'
-import { ActiveRewardsQueryResult } from '../../types'
+import { ActiveRewardsResult } from '../../logic/useActiveRewards'
 
 export interface ActiveRewardsPanelProps {
-  activeRewardsQueryResult: ActiveRewardsQueryResult
+  activeRewardsResult: ActiveRewardsResult
   openClaimDialog: (reward: Token) => void
 }
 
-export function ActiveRewardsPanel({ activeRewardsQueryResult, openClaimDialog }: ActiveRewardsPanelProps) {
-  if (activeRewardsQueryResult.isPending) {
+export function ActiveRewardsPanel({ activeRewardsResult, openClaimDialog }: ActiveRewardsPanelProps) {
+  if (activeRewardsResult.isPending) {
     return <PendingPanel />
   }
 
-  if (activeRewardsQueryResult.isError) {
+  if (activeRewardsResult.isError) {
     return <ErrorPanel />
   }
 
@@ -28,7 +28,7 @@ export function ActiveRewardsPanel({ activeRewardsQueryResult, openClaimDialog }
       <Header />
       <ResponsiveDataTable
         gridTemplateColumnsClassName="grid-cols-[3fr_2fr_2fr_140px]"
-        data={activeRewardsQueryResult.data}
+        data={activeRewardsResult.data}
         columnDefinition={{
           token: {
             header: 'Reward',

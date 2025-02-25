@@ -92,7 +92,7 @@ const args: Story['args'] = {
     isError: false,
     error: null,
   },
-  guestMode: false,
+  isGuestMode: false,
 }
 
 export const Desktop: Story = {
@@ -133,7 +133,7 @@ export const ErrorStateTablet = getTabletStory(ErrorState)
 export const GuestMode: Story = {
   args: {
     ...args,
-    guestMode: true,
+    isGuestMode: true,
   },
 }
 export const GuestModeMobile = getMobileStory(GuestMode)
