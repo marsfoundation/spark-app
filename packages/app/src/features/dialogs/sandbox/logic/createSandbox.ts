@@ -27,7 +27,7 @@ export async function createSandbox(opts: {
   )
 
   await Promise.all(
-    Object.entries(opts.mintBalances.tokens).map(async ([_, token]) => {
+    Object.values(opts.mintBalances.tokens).map(async (token) => {
       const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
       await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
     }),
