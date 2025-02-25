@@ -17,7 +17,7 @@ function ClaimSparkRewardsDialog({ open, setOpen, tokensToClaim }: ClaimSparkRew
   )
 }
 
-export const claimRewardsDialogConfig: DialogConfig<ClaimSparkRewardsDialogProps> = {
+export const claimSparkRewardsDialogConfig: DialogConfig<ClaimSparkRewardsDialogProps> = {
   options: {
     closeOnChainChange: true,
   },

@@ -1,4 +1,3 @@
-import { Token } from '@/domain/types/Token'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
@@ -6,15 +5,15 @@ import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { TokenCell } from '@/ui/molecules/data-table/components/TokenCell'
 import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
+import { testIds } from '@/ui/utils/testIds'
 import { AlertTriangleIcon } from 'lucide-react'
 import { ActiveRewardsResult } from '../../logic/useActiveRewards'
 
 export interface ActiveRewardsPanelProps {
   activeRewardsResult: ActiveRewardsResult
-  openClaimDialog: (reward: Token) => void
 }
 
-export function ActiveRewardsPanel({ activeRewardsResult, openClaimDialog }: ActiveRewardsPanelProps) {
+export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelProps) {
   if (activeRewardsResult.isPending) {
     return <PendingPanel />
   }
@@ -57,6 +56,7 @@ export function ActiveRewardsPanel({ activeRewardsResult, openClaimDialog }: Act
                 token={token}
                 amount={amountToClaim}
                 mobileViewOptions={mobileViewOptions}
+                data-testid={testIds.sparkRewards.activeRewardsPanel.amountToClaim}
                 formattingOptions={{
                   zeroAmountHandling: 'show-zero',
                   showUsdValue: token.unitPriceUsd.isGreaterThan(0),
@@ -66,14 +66,14 @@ export function ActiveRewardsPanel({ activeRewardsResult, openClaimDialog }: Act
           },
           actions: {
             header: '',
-            renderCell: ({ token, amountToClaim }) => {
+            renderCell: ({ amountToClaim, openClaimDialog }) => {
               return (
                 <div className="flex justify-end sm:pl-10">
                   <Button
                     variant="secondary"
                     size="s"
                     disabled={amountToClaim.eq(0)}
-                    onClick={() => openClaimDialog(token)}
+                    onClick={() => openClaimDialog()}
                     className="w-full"
                   >
                     Claim

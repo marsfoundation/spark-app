@@ -1,3 +1,4 @@
+import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { Token } from '@/domain/types/Token'
 import { ClaimSparkRewardsObjective } from '@/features/actions/flavours/claim-spark-rewards/types'
 import { Objective } from '@/features/actions/logic/types'
@@ -36,10 +37,14 @@ export function useClaimSparkRewardsDialog({
     merkleRoot: reward.merkleRoot,
     merkleProof: reward.merkleProof,
   }))
-  const rewardsToClaim = filteredRewards.map((reward) => ({
-    token: reward.token,
-    amountToClaim: reward.amountToClaim,
-  }))
+  const rewardsToClaim = useConditionalFreeze(
+    filteredRewards.map((reward) => ({
+      token: reward.token,
+      amountToClaim: reward.amountToClaim,
+    })),
+    pageStatus === 'success',
+  )
+
   return {
     pageStatus: {
       state: pageStatus,

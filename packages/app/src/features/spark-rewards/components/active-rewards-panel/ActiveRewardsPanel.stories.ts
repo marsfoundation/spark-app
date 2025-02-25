@@ -21,16 +21,19 @@ const data: ActiveReward[] = [
     token: tokens.REDSTONE,
     amountPending: NormalizedUnitNumber(123.4323),
     amountToClaim: NormalizedUnitNumber(224_093.23423),
+    openClaimDialog: () => {},
   },
   {
     token: tokens.SPK,
     amountPending: NormalizedUnitNumber(44_224.22),
     amountToClaim: NormalizedUnitNumber(12_213.21),
+    openClaimDialog: () => {},
   },
   {
     token: tokens.USDS,
     amountPending: NormalizedUnitNumber(11.22),
     amountToClaim: NormalizedUnitNumber(0),
+    openClaimDialog: () => {},
   },
 ]
 
@@ -41,7 +44,6 @@ const args: ActiveRewardsPanelProps = {
     isError: false,
     error: null,
   },
-  openClaimDialog: () => {},
 }
 
 export const Desktop: Story = { args }

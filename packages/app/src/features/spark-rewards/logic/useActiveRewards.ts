@@ -1,5 +1,7 @@
 import { activeRewardsQueryOptions } from '@/domain/spark-rewards/activeRewardsQueryOptions'
+import { useOpenDialog } from '@/domain/state/dialogs'
 import { Token } from '@/domain/types/Token'
+import { claimSparkRewardsDialogConfig } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -17,10 +19,12 @@ export interface ActiveReward {
   token: Token
   amountPending: NormalizedUnitNumber
   amountToClaim: NormalizedUnitNumber
+  openClaimDialog: () => void
 }
 
 export function useActiveRewards({ account, chainId }: ActiveRewardsParams): ActiveRewardsResult {
   const wagmiConfig = useConfig()
+  const openDialog = useOpenDialog()
 
   return useQuery({
     ...activeRewardsQueryOptions({ wagmiConfig, account, chainId }),
@@ -32,6 +36,10 @@ export function useActiveRewards({ account, chainId }: ActiveRewardsParams): Act
           token: rewardToken,
           amountPending: pendingAmount,
           amountToClaim,
+          openClaimDialog: () =>
+            openDialog(claimSparkRewardsDialogConfig, {
+              tokensToClaim: [rewardToken],
+            }),
         }
       }),
   })

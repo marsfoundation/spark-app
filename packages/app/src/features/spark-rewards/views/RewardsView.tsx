@@ -15,7 +15,7 @@ export function RewardsView({ ongoingCampaignsResult, activeRewardsResult }: Rew
     <PageLayout>
       <h1 className="typography-heading-1">Rewards</h1>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[11fr_5fr]">
-        <ActiveRewardsPanel activeRewardsResult={activeRewardsResult} openClaimDialog={() => {}} />
+        <ActiveRewardsPanel activeRewardsResult={activeRewardsResult} />
         <ClaimAllPanel activeRewardsResult={activeRewardsResult} onClaimAll={() => {}} className="self-start" />
         <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={false} />
       </div>

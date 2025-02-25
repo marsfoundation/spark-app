@@ -113,6 +113,7 @@ describe(useActiveRewards.name, () => {
         token: rewardToken,
         amountPending: pendingAmountNormalized,
         amountToClaim: NormalizedUnitNumber(cumulativeAmountNormalized.minus(preClaimed)),
+        openClaimDialog: expect.any(Function),
       },
     ])
   })
