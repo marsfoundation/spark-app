@@ -30,6 +30,8 @@ export function useTokenRepositoryForFeature(
         return chainConfig.savings
       case 'farms':
         return chainConfig.farms
+      case 'rewards':
+        return undefined
       default:
         assertNever(featureGroup)
     }

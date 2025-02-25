@@ -9,6 +9,7 @@ import { Farms } from './pages/Farms'
 import { MarketDetails } from './pages/MarketDetails'
 import { Markets } from './pages/Markets'
 import { MyPortfolioPage } from './pages/MyPortfolio'
+import { Rewards } from './pages/Rewards'
 import { RootRoute } from './pages/Root'
 import { Savings } from './pages/Savings'
 
@@ -48,6 +49,7 @@ export const rootRouter = createBrowserRouter([
             path: paths.farmDetails,
             element: <FarmDetails />,
           },
+          ...(import.meta.env.VITE_DEV_REWARDS === '1' ? [{ path: paths.rewards, element: <Rewards /> }] : []),
           ...createAliasRoutes([
             {
               path: paths.marketDetails,

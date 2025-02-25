@@ -18,6 +18,11 @@ const pageGradients = {
     via: '#FFE6A4',
     to: '#FFFFFF',
   },
+  rewards: {
+    from: '#FA43BD',
+    via: '#FFA930',
+    to: '#FFFFFF',
+  },
 }
 
 export function LayoutBackground() {
