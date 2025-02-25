@@ -7,7 +7,7 @@ import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SuccessView } from './SuccessView'
 
 const meta: Meta<typeof SuccessView> = {
-  title: 'Features/Dialogs/Views/ClaimRewards/Success',
+  title: 'Features/Dialogs/Views/ClaimSparkRewards/Success',
   component: SuccessView,
   decorators: [WithClassname('max-w-xl')],
   args: {
