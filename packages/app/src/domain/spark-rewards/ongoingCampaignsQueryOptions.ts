@@ -24,12 +24,8 @@ export type OngoingCampaign = {
   restrictedCountryCodes: string[]
 } & (
   | {
-      type: 'sparklend'
-      apy: Percentage
-    }
-  | {
-      type: 'savings'
-      apy: Percentage
+      type: 'sparklend' | 'savings'
+      apy?: Percentage
     }
   | {
       type: 'social'
@@ -82,16 +78,11 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig }: OngoingCampaignsQu
 
           switch (campaign.type) {
             case 'sparklend':
-              return {
-                ...commonProps,
-                type: 'sparklend',
-                apy: Percentage(campaign.apy),
-              }
             case 'savings':
               return {
                 ...commonProps,
-                type: 'savings',
-                apy: Percentage(campaign.apy),
+                type: campaign.type,
+                apy: campaign.apy ? Percentage(campaign.apy) : undefined,
               }
             case 'social':
               return {
@@ -131,12 +122,8 @@ const baseOngoingCampaignSchema = z.object({
 const ongoingCampaignsResponseSchema = z.array(
   z.discriminatedUnion('type', [
     baseOngoingCampaignSchema.extend({
-      type: z.literal('sparklend'),
-      apy: percentageSchema,
-    }),
-    baseOngoingCampaignSchema.extend({
-      type: z.literal('savings'),
-      apy: percentageSchema,
+      type: z.enum(['sparklend', 'savings']),
+      apy: percentageSchema.nullable(),
     }),
     baseOngoingCampaignSchema.extend({
       type: z.literal('social'),
