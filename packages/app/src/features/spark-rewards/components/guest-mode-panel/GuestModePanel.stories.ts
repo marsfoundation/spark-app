@@ -5,7 +5,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 import { GuestModePanel } from './GuestModePanel'
 
 const meta: Meta<typeof GuestModePanel> = {
-  title: 'Features/Rewards/Components/GuestModePanel',
+  title: 'Features/SparkRewards/Components/GuestModePanel',
   decorators: [WithClassname('max-w-md'), withRouter()],
   component: GuestModePanel,
 }

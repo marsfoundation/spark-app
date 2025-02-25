@@ -11,6 +11,7 @@ import { Markets } from './pages/Markets'
 import { MyPortfolioPage } from './pages/MyPortfolio'
 import { RootRoute } from './pages/Root'
 import { Savings } from './pages/Savings'
+import { SparkRewards } from './pages/SparkRewards'
 
 export const rootRouter = createBrowserRouter([
   {
@@ -48,6 +49,9 @@ export const rootRouter = createBrowserRouter([
             path: paths.farmDetails,
             element: <FarmDetails />,
           },
+          ...(import.meta.env.VITE_DEV_SPARK_REWARDS === '1'
+            ? [{ path: paths.sparkRewards, element: <SparkRewards /> }]
+            : []),
           ...createAliasRoutes([
             {
               path: paths.marketDetails,

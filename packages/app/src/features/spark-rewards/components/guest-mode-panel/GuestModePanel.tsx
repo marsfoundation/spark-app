@@ -5,13 +5,18 @@ import { cn } from '@/ui/utils/style'
 import { ExternalLinkIcon } from 'lucide-react'
 
 // @todo: Rewards: Ask for copy and button link
-export function GuestModePanel() {
+export interface GuestModePanelProps {
+  className?: string
+}
+
+export function GuestModePanel({ className }: GuestModePanelProps) {
   return (
     <Panel
       spacing="none"
       className={cn(
         'bg-[url(/src/ui/assets/rewards/guest-mode-panel-bg.svg)]',
         'flex flex-col gap-3 bg-cover bg-primary-inverse bg-no-repeat',
+        className,
       )}
     >
       <img src={assets.rewards.guestModePanelIcon} className="w-full" alt="Earn Spark Rewards icon" />

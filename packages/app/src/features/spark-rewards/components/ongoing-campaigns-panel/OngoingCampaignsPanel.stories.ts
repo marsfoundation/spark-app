@@ -10,7 +10,7 @@ import { arbitrum, base, mainnet } from 'viem/chains'
 import { OngoingCampaignsPanel } from './OngoingCampaignsPanel'
 
 const meta: Meta<typeof OngoingCampaignsPanel> = {
-  title: 'Features/Rewards/Components/OngoingCampaignsPanel',
+  title: 'Features/SparkRewards/Components/OngoingCampaignsPanel',
   decorators: [WithClassname('max-w-4xl'), WithTooltipProvider()],
   component: OngoingCampaignsPanel,
 }
@@ -92,7 +92,7 @@ const args: Story['args'] = {
     isError: false,
     error: null,
   },
-  guestMode: false,
+  isGuestMode: false,
 }
 
 export const Desktop: Story = {
@@ -133,7 +133,7 @@ export const ErrorStateTablet = getTabletStory(ErrorState)
 export const GuestMode: Story = {
   args: {
     ...args,
-    guestMode: true,
+    isGuestMode: true,
   },
 }
 export const GuestModeMobile = getMobileStory(GuestMode)
