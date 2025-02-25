@@ -4,7 +4,7 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { ActiveReward } from '../../types'
+import { ActiveReward } from '../../logic/useActiveRewards'
 import { ActiveRewardsPanel, ActiveRewardsPanelProps } from './ActiveRewardsPanel'
 
 const meta: Meta<typeof ActiveRewardsPanel> = {
@@ -35,7 +35,7 @@ const data: ActiveReward[] = [
 ]
 
 const args: ActiveRewardsPanelProps = {
-  activeRewardsQueryResult: {
+  activeRewardsResult: {
     data,
     isPending: false,
     isError: false,
@@ -59,7 +59,7 @@ export const Tablet = getTabletStory(Desktop)
 export const Pending: Story = {
   args: {
     ...args,
-    activeRewardsQueryResult: { data: undefined, isPending: true, isError: false, error: null },
+    activeRewardsResult: { data: undefined, isPending: true, isError: false, error: null },
   },
 }
 export const PendingMobile = getMobileStory(Pending)
@@ -68,7 +68,7 @@ export const PendingTablet = getTabletStory(Pending)
 export const ErrorState: Story = {
   args: {
     ...args,
-    activeRewardsQueryResult: {
+    activeRewardsResult: {
       data: undefined,
       isPending: false,
       isError: true,
