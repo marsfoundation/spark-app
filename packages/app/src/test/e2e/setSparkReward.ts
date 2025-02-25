@@ -9,7 +9,7 @@ import { TestContext } from './setup'
 export interface SetSparkRewardParams {
   testContext: TestContext
   account: CheckedAddress
-  token: keyof (typeof TOKENS_ON_FORK)[1]
+  token: keyof (typeof TOKENS_ON_FORK)[typeof mainnet.id]
   cumulativeAmount: NormalizedUnitNumber
 }
 
@@ -20,7 +20,7 @@ export async function setSparkReward({
   cumulativeAmount,
 }: SetSparkRewardParams): Promise<void> {
   const epoch = 1
-  const { address: tokenAddress, decimals: tokenDecimals } = TOKENS_ON_FORK[1][token]
+  const { address: tokenAddress, decimals: tokenDecimals } = TOKENS_ON_FORK[mainnet.id][token]
   const cumulativeAmountBigInt = parseUnits(cumulativeAmount.toFixed(), tokenDecimals)
 
   const { testnetController, page } = testContext
