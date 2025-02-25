@@ -86,6 +86,7 @@ export function activeRewardsQueryOptions({ wagmiConfig, account, chainId }: Act
                 pendingAmount: claim.pending_amount_normalized,
                 restrictedCountryCodes: claim.restricted_country_codes,
                 preClaimed: rewardToken.fromBaseUnit(BaseUnitNumber(preClaimed)),
+                merkleProof: claim.proof,
               }
             }),
           )

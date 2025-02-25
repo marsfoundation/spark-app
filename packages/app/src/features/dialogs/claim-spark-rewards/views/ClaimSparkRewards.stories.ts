@@ -44,11 +44,11 @@ const meta: Meta<typeof ClaimSparkRewardsView> = {
     claims: [
       {
         token: tokens.REDSTONE,
-        value: NormalizedUnitNumber(100),
+        amountToClaim: NormalizedUnitNumber(100),
       },
       {
         token: tokens.USDS,
-        value: NormalizedUnitNumber(1000),
+        amountToClaim: NormalizedUnitNumber(1000),
       },
     ],
   },
