@@ -1,4 +1,3 @@
-import { TokenWithValue } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { isTokenImageAvailable } from '@/ui/assets'
@@ -8,35 +7,39 @@ import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { Info } from '@/ui/molecules/info/Info'
-import { SimplifiedQueryResult } from '@/utils/types'
+import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { AlertTriangleIcon } from 'lucide-react'
+import { ActiveReward, ActiveRewardsResult } from '../../logic/useActiveRewards'
 
 export interface ClaimAllPanelProps {
-  tokensToClaimQueryResult: SimplifiedQueryResult<TokenWithValue[]>
+  activeRewardsResult: ActiveRewardsResult
   onClaimAll: () => void
+  className?: string
 }
 
-export function ClaimAllPanel({ tokensToClaimQueryResult, onClaimAll }: ClaimAllPanelProps) {
-  if (tokensToClaimQueryResult.isPending) {
-    return <PendingPanel />
+export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: ClaimAllPanelProps) {
+  if (activeRewardsResult.isPending) {
+    return <PendingPanel className={className} />
   }
 
-  if (tokensToClaimQueryResult.isError) {
-    return <ErrorPanel />
+  if (activeRewardsResult.isError) {
+    return <ErrorPanel className={className} />
   }
 
-  const tokensToClaim = tokensToClaimQueryResult.data
+  const tokensToClaim = activeRewardsResult.data
 
-  const nonZeroPriceTokens = tokensToClaim.filter(({ token, value }) => token.toUSD(value).gt(0))
-  const zeroPriceTokens = tokensToClaim.filter(({ token, value }) => token.toUSD(value).eq(0))
+  const nonZeroPriceTokens = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
+  const zeroPriceClaimableTokens = tokensToClaim.filter(
+    ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).eq(0),
+  )
 
-  const usdSum = nonZeroPriceTokens.reduce((acc, { token, value }) => {
-    return NormalizedUnitNumber(acc.plus(token.toUSD(value)))
+  const usdSum = nonZeroPriceTokens.reduce((acc, { token, amountToClaim }) => {
+    return NormalizedUnitNumber(acc.plus(token.toUSD(amountToClaim)))
   }, NormalizedUnitNumber(0))
 
   return (
-    <MainPanel>
+    <MainPanel className={className}>
       {usdSum.gt(0) && (
         <SubPanel>
           <div className="flex items-center gap-1">
@@ -48,9 +51,10 @@ export function ClaimAllPanel({ tokensToClaimQueryResult, onClaimAll }: ClaimAll
             <IconStack size="m" items={nonZeroPriceTokens.map(({ token }) => token)} />
           </div>
           <div className="flex flex-col gap-2">
-            {zeroPriceTokens.map(({ token, value }) => (
+            {zeroPriceClaimableTokens.map(({ token, amountToClaim }) => (
               <div key={token.symbol} className="typography-label-2 flex items-center gap-1 text-tertiary">
-                +{token.format(value, { style: 'compact' })} <TokenIconOrSymbol token={token} iconClassName="size-4" />
+                +{token.format(amountToClaim, { style: 'compact' })}{' '}
+                <TokenIconOrSymbol token={token} iconClassName="size-4" />
               </div>
             ))}
           </div>
@@ -62,10 +66,10 @@ export function ClaimAllPanel({ tokensToClaimQueryResult, onClaimAll }: ClaimAll
             <div className="typography-label-2 text-tertiary">Total to claim</div>
             <Info>All tokens you can claim.</Info>
           </div>
-          {zeroPriceTokens.length === 1 ? (
-            <OneTokenWithoutPrice tokens={zeroPriceTokens} />
+          {zeroPriceClaimableTokens.length === 1 ? (
+            <OneTokenWithoutPrice tokens={zeroPriceClaimableTokens} />
           ) : (
-            <MultipleTokensWithoutPrice tokens={zeroPriceTokens} />
+            <MultipleTokensWithoutPrice tokens={zeroPriceClaimableTokens} />
           )}
         </SubPanel>
       )}
@@ -74,9 +78,9 @@ export function ClaimAllPanel({ tokensToClaimQueryResult, onClaimAll }: ClaimAll
   )
 }
 
-function PendingPanel() {
+function PendingPanel({ className }: { className?: string }) {
   return (
-    <MainPanel>
+    <MainPanel className={className}>
       <SubPanel>
         <Loader size={20} />
       </SubPanel>
@@ -85,9 +89,9 @@ function PendingPanel() {
   )
 }
 
-function ErrorPanel() {
+function ErrorPanel({ className }: { className?: string }) {
   return (
-    <MainPanel>
+    <MainPanel className={className}>
       <SubPanel>
         <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
@@ -121,9 +125,9 @@ function Actions({ claim }: ActionsProps) {
   )
 }
 
-function MainPanel({ children }: { children: React.ReactNode }) {
+function MainPanel({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <Panel variant="secondary" spacing="none" className="rounded-md p-2">
+    <Panel variant="secondary" spacing="none" className={cn('rounded-md p-2', className)}>
       {children}
     </Panel>
   )
@@ -141,23 +145,23 @@ function SubPanel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function OneTokenWithoutPrice({ tokens }: { tokens: TokenWithValue[] }) {
-  const { token, value } = tokens[0] ?? raise('No token to display')
+function OneTokenWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
+  const { token, amountToClaim } = tokens[0] ?? raise('No token to display')
 
   return (
     <div className="typography-heading-2 flex items-center gap-2 text-primary-inverse">
-      <div>{token.format(value, { style: 'compact' })}</div>
+      <div>{token.format(amountToClaim, { style: 'compact' })}</div>
       <TokenIconOrSymbol token={token} iconClassName="size-6 md:size-8" />
     </div>
   )
 }
 
-function MultipleTokensWithoutPrice({ tokens }: { tokens: TokenWithValue[] }) {
+function MultipleTokensWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
   return (
     <div className="flex flex-col gap-2">
-      {tokens.map(({ token, value }) => (
+      {tokens.map(({ token, amountToClaim }) => (
         <div key={token.symbol} className="typography-heading-4 flex items-center gap-1 text-primary-inverse">
-          {token.format(value, { style: 'compact' })}{' '}
+          {token.format(amountToClaim, { style: 'compact' })}{' '}
           <TokenIconOrSymbol token={token} iconClassName="size-4 md:size-6" />
         </div>
       ))}

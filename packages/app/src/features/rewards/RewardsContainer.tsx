@@ -1,10 +1,15 @@
 import { useUnsupportedChain } from '@/domain/hooks/useUnsupportedChain'
 import { useRewards } from './logic/useRewards'
+import { GuestView } from './views/GuestView'
 import { RewardsView } from './views/RewardsView'
 
 export function RewardsContainer() {
-  const { ongoingCampaignsResult } = useRewards()
+  const rewards = useRewards()
   const { isGuestMode } = useUnsupportedChain()
 
-  return <RewardsView ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={isGuestMode} />
+  if (isGuestMode) {
+    return <GuestView ongoingCampaignsResult={rewards.ongoingCampaignsResult} />
+  }
+
+  return <RewardsView {...rewards} />
 }
