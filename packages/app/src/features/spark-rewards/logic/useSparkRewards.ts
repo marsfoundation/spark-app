@@ -3,12 +3,12 @@ import { useAccount } from 'wagmi'
 import { ActiveRewardsResult, useActiveRewards } from './useActiveRewards'
 import { UseOngoingCampaignsResult, useOngoingCampaigns } from './useOngoingCampaigns'
 
-export interface UseRewardsResult {
+export interface UseSparkRewardsResult {
   ongoingCampaignsResult: UseOngoingCampaignsResult
   activeRewardsResult: ActiveRewardsResult
 }
 
-export function useRewards(): UseRewardsResult {
+export function useSparkRewards(): UseSparkRewardsResult {
   const { chainId } = usePageChainId()
   const { address: account } = useAccount()
   const activeRewardsResult = useActiveRewards({ chainId, account })

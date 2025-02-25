@@ -8,7 +8,7 @@ import { ActiveReward } from '../../logic/useActiveRewards'
 import { ActiveRewardsPanel, ActiveRewardsPanelProps } from './ActiveRewardsPanel'
 
 const meta: Meta<typeof ActiveRewardsPanel> = {
-  title: 'Features/Rewards/Components/ActiveRewardsPanel',
+  title: 'Features/SparkRewards/Components/ActiveRewardsPanel',
   decorators: [WithTooltipProvider(), WithClassname('max-w-4xl')],
   component: ActiveRewardsPanel,
 }

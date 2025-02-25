@@ -1,15 +1,15 @@
-import { Percentage } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { mainnet } from 'viem/chains'
-import { GuestView, GuestViewProps } from './GuestView'
+import { RewardsView, RewardsViewProps } from './RewardsView'
 
-const meta: Meta<typeof GuestView> = {
-  title: 'Features/Rewards/Views/GuestView',
-  component: GuestView,
+const meta: Meta<typeof RewardsView> = {
+  title: 'Features/SparkRewards/Views/SparkRewardsView',
+  component: RewardsView,
   parameters: {
     layout: 'fullscreen',
   },
@@ -47,19 +47,47 @@ const meta: Meta<typeof GuestView> = {
       isError: false,
       error: null,
     },
-  } satisfies GuestViewProps,
+    activeRewardsResult: {
+      data: [
+        {
+          token: tokens.REDSTONE,
+          amountPending: NormalizedUnitNumber(123.4323),
+          amountToClaim: NormalizedUnitNumber(224_093.23423),
+        },
+        {
+          token: tokens.SPK,
+          amountPending: NormalizedUnitNumber(44_224.22),
+          amountToClaim: NormalizedUnitNumber(12_213.21),
+        },
+        {
+          token: tokens.USDS,
+          amountPending: NormalizedUnitNumber(11.22),
+          amountToClaim: NormalizedUnitNumber(0),
+        },
+      ],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  } satisfies RewardsViewProps,
 }
 
 export default meta
-type Story = StoryObj<typeof GuestView>
+type Story = StoryObj<typeof RewardsView>
 
 export const Desktop: Story = {}
-export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
+export const Mobile = getMobileStory(Desktop)
 
 export const Loading: Story = {
   args: {
     ongoingCampaignsResult: {
+      data: undefined,
+      isPending: true,
+      isError: false,
+      error: null,
+    },
+    activeRewardsResult: {
       data: undefined,
       isPending: true,
       isError: false,
@@ -78,6 +106,12 @@ export const ErrorState: Story = {
       isError: true,
       error: new Error('Failed to load campaigns'),
     },
+    activeRewardsResult: {
+      data: undefined,
+      isPending: false,
+      isError: true,
+      error: new Error('Failed to load active rewards'),
+    },
   },
 }
 export const ErrorStateMobile = getMobileStory(ErrorState)
@@ -95,3 +129,16 @@ export const NoCampaigns: Story = {
 }
 export const NoCampaignsMobile = getMobileStory(NoCampaigns)
 export const NoCampaignsTablet = getTabletStory(NoCampaigns)
+
+export const NoActiveRewards: Story = {
+  args: {
+    activeRewardsResult: {
+      data: [],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  },
+}
+export const NoActiveRewardsMobile = getMobileStory(NoActiveRewards)
+export const NoActiveRewardsTabler = getTabletStory(NoActiveRewards)

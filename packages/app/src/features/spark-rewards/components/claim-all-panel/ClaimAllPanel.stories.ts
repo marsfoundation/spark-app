@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { ClaimAllPanel } from './ClaimAllPanel'
 
 const meta: Meta<typeof ClaimAllPanel> = {
-  title: 'Features/Rewards/Components/ClaimAllPanel',
+  title: 'Features/SparkRewards/Components/ClaimAllPanel',
   component: ClaimAllPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {

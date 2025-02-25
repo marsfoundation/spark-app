@@ -44,5 +44,5 @@ const pageNamesMap: Record<Path, string> = {
   savings: 'Savings',
   farms: 'Farms',
   farmDetails: 'Farm',
-  rewards: 'Rewards',
+  sparkRewards: 'Rewards',
 }

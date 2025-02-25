@@ -10,7 +10,7 @@ import { arbitrum, base, mainnet } from 'viem/chains'
 import { OngoingCampaignsPanel } from './OngoingCampaignsPanel'
 
 const meta: Meta<typeof OngoingCampaignsPanel> = {
-  title: 'Features/Rewards/Components/OngoingCampaignsPanel',
+  title: 'Features/SparkRewards/Components/OngoingCampaignsPanel',
   decorators: [WithClassname('max-w-4xl'), WithTooltipProvider()],
   component: OngoingCampaignsPanel,
 }

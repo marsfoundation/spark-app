@@ -4,6 +4,7 @@ import { ClaimAllPanel } from '../components/claim-all-panel/ClaimAllPanel'
 import { OngoingCampaignsPanel } from '../components/ongoing-campaigns-panel/OngoingCampaignsPanel'
 import { ActiveRewardsResult } from '../logic/useActiveRewards'
 import { UseOngoingCampaignsResult } from '../logic/useOngoingCampaigns'
+
 export interface RewardsViewProps {
   ongoingCampaignsResult: UseOngoingCampaignsResult
   activeRewardsResult: ActiveRewardsResult
