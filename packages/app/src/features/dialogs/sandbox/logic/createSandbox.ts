@@ -26,12 +26,12 @@ export async function createSandbox(opts: {
     BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
   )
 
-  // @note: tenderly doesn't support parallel calls
-  for (const [_, token] of Object.entries(opts.mintBalances.tokens)) {
-    const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
-
-    await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
-  }
+  await Promise.all(
+    Object.values(opts.mintBalances.tokens).map(async (token) => {
+      const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
+      await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+    }),
+  )
 
   trackEvent('sandbox-created')
 
