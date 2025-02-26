@@ -75,7 +75,22 @@ const iconVariants = cva('rounded-full', {
   compoundVariants: [
     {
       border: ['white', 'transparent'],
-      className: 'box-content border-2',
+      className: 'box-content',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'base',
+      className: 'border-2',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'm',
+      className: 'border-[2.5px]',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'lg',
+      className: 'border-[3px]',
     },
   ],
 })

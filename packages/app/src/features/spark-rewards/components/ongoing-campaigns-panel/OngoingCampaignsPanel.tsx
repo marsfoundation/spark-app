@@ -1,6 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { OngoingCampaign } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
-import { getSocialPlatformIcon, getTokenImage } from '@/ui/assets'
+import { assets, getSocialPlatformIcon, getTokenImage } from '@/ui/assets'
 import { Button, ButtonProps } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
@@ -26,6 +26,10 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: O
 
   if (ongoingCampaignsResult.isError) {
     return <ErrorPanel />
+  }
+
+  if (ongoingCampaignsResult.data.length === 0) {
+    return <NoCampaigns />
   }
 
   return (
@@ -82,10 +86,27 @@ function Header() {
   )
 }
 
-function PendingPanel() {
+function NoCampaigns() {
+  const icons = [assets.page.savingsCircle, assets.page.farmsCircle, assets.page.borrowCircle]
+  return (
+    <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
+      <div className="my-auto flex flex-col items-center gap-5">
+        <IconStack size="lg" items={icons} iconBorder="white" />
+        <div className="flex flex-col items-center gap-2 text-center">
+          <div className="typography-heading-5 text-primary">No active rewards programs right now</div>
+          <div className="typography-body-3 max-w-[36ch] text-secondary">
+            Don't miss out when they launch. Follow our socials for announcements and updates.
+          </div>
+        </div>
+      </div>
+    </Panel>
+  )
+}
+
+export function PendingPanel() {
   return (
     <Panel spacing="m" className="flex min-h-60 flex-col gap-8 sm:min-h-72">
-      <Header />
+      <Skeleton className="h-6 w-28" />
       <div className="flex flex-col gap-5">
         <Skeleton className="h-4 w-44" />
         <div className="flex flex-col gap-7">
@@ -100,10 +121,10 @@ function PendingPanel() {
 function ErrorPanel() {
   return (
     <Panel spacing="m" className="flex min-h-60 flex-col sm:min-h-72">
-      <Header />
       <div className="my-auto flex items-center justify-center">
         <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
-          <AlertTriangleIcon className="icon-xs" /> Failed to load ongoing campaigns data
+          <AlertTriangleIcon className="icon-xs" />
+          Failed to load ongoing campaigns data
         </div>
       </div>
     </Panel>

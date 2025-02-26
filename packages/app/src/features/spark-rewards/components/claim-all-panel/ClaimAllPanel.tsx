@@ -11,6 +11,7 @@ import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { AlertTriangleIcon } from 'lucide-react'
 import { ActiveReward, ActiveRewardsResult } from '../../logic/useActiveRewards'
+import { EarnRewardsBanner } from '../earn-rewards-banner/EarnRewardsBanner'
 
 export interface ClaimAllPanelProps {
   activeRewardsResult: ActiveRewardsResult
@@ -27,6 +28,10 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
     return <ErrorPanel className={className} />
   }
 
+  if (activeRewardsResult.data.length === 0) {
+    return <EarnRewardsBanner />
+  }
+
   const tokensToClaim = activeRewardsResult.data
 
   const nonZeroPriceTokens = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
@@ -39,7 +44,7 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
   }, NormalizedUnitNumber(0))
 
   return (
-    <MainPanel className={className}>
+    <MainPanel className={cn(className)}>
       {usdSum.gt(0) && (
         <SubPanel>
           <div className="flex items-center gap-1">
@@ -78,7 +83,7 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
   )
 }
 
-function PendingPanel({ className }: { className?: string }) {
+export function PendingPanel({ className }: { className?: string }) {
   return (
     <MainPanel className={cn(className)}>
       <SubPanel>
@@ -94,18 +99,15 @@ function PendingPanel({ className }: { className?: string }) {
 
 function ErrorPanel({ className }: { className?: string }) {
   return (
-    <MainPanel className={className}>
-      <SubPanel>
-        <div
-          className={cn(
-            'typography-label-3 flex items-center gap-2 rounded-full',
-            'my-[42px] bg-secondary/20 px-3 py-1 text-primary-inverse/60',
-          )}
-        >
-          <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
-        </div>
-      </SubPanel>
-      <Actions claim={{ isDisabled: true }} />
+    <MainPanel className={cn('flex h-72 items-center justify-center', className)}>
+      <div
+        className={cn(
+          'typography-label-3 inline-flex items-center gap-2 rounded-full',
+          'mb-1 bg-secondary/20 px-3 py-1 text-primary-inverse/60',
+        )}
+      >
+        <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
+      </div>
     </MainPanel>
   )
 }

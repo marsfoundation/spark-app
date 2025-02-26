@@ -52,8 +52,11 @@ import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
 import redstoneOracle from './oracle-providers/redstone.svg'
+import borrowCircleIcon from './page/borrow-icon-circle.svg'
 import borrowIcon from './page/borrow-icon.svg'
+import farmsCircleIcon from './page/farms-icon-circle.svg'
 import farmsIcon from './page/farms-icon.svg'
+import savingsCircleIcon from './page/savings-icon-circle.svg'
 import savingsIcon from './page/savings-icon.svg'
 import pause from './pause.svg'
 import guestModePanelIcon from './rewards/guest-mode-panel-icon.svg'
@@ -235,8 +238,11 @@ export const assets = {
 
   page: {
     savings: savingsIcon,
+    savingsCircle: savingsCircleIcon,
     farms: farmsIcon,
+    farmsCircle: farmsCircleIcon,
     borrow: borrowIcon,
+    borrowCircle: borrowCircleIcon,
   },
 
   brand: {

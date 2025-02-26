@@ -5,11 +5,11 @@ import { cn } from '@/ui/utils/style'
 import { ExternalLinkIcon } from 'lucide-react'
 
 // @todo: Rewards: Ask for copy and button link
-export interface GuestModePanelProps {
+export interface EarnRewardsBannerProps {
   className?: string
 }
 
-export function GuestModePanel({ className }: GuestModePanelProps) {
+export function EarnRewardsBanner({ className }: EarnRewardsBannerProps) {
   return (
     <Panel
       spacing="none"

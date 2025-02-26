@@ -8,7 +8,7 @@ import { mainnet } from 'viem/chains'
 import { RewardsView, RewardsViewProps } from './RewardsView'
 
 const meta: Meta<typeof RewardsView> = {
-  title: 'Features/SparkRewards/Views/SparkRewardsView',
+  title: 'Features/SparkRewards/Views/RewardsView',
   component: RewardsView,
   parameters: {
     layout: 'fullscreen',
@@ -144,4 +144,23 @@ export const NoActiveRewards: Story = {
   },
 }
 export const NoActiveRewardsMobile = getMobileStory(NoActiveRewards)
-export const NoActiveRewardsTabler = getTabletStory(NoActiveRewards)
+export const NoActiveRewardsTablet = getTabletStory(NoActiveRewards)
+
+export const Nothing: Story = {
+  args: {
+    ongoingCampaignsResult: {
+      data: [],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+    activeRewardsResult: {
+      data: [],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  },
+}
+export const NothingMobile = getMobileStory(Nothing)
+export const NothingTablet = getTabletStory(Nothing)

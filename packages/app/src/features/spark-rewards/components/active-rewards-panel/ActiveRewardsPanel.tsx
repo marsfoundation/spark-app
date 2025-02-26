@@ -1,8 +1,11 @@
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { getTokenImage } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { TokenCell } from '@/ui/molecules/data-table/components/TokenCell'
+import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
@@ -20,6 +23,10 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
 
   if (activeRewardsResult.isError) {
     return <ErrorPanel />
+  }
+
+  if (activeRewardsResult.data.length === 0) {
+    return <NoRewards />
   }
 
   return (
@@ -97,10 +104,10 @@ function Header() {
   )
 }
 
-function PendingPanel() {
+export function PendingPanel() {
   return (
     <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
-      <Header />
+      <Skeleton className="h-6 w-28" />
       <div className="flex flex-col gap-5">
         <Skeleton className="h-4 w-44" />
         <div className="flex flex-col gap-7">
@@ -115,10 +122,26 @@ function PendingPanel() {
 function ErrorPanel() {
   return (
     <Panel spacing="m" className="flex min-h-60 flex-col sm:min-h-72">
-      <Header />
       <div className="my-auto flex items-center justify-center">
         <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
+        </div>
+      </div>
+    </Panel>
+  )
+}
+
+function NoRewards() {
+  const rewards = [TokenSymbol('wstETH'), TokenSymbol('USDS'), TokenSymbol('SPK')].map(getTokenImage)
+  return (
+    <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
+      <div className="my-auto flex flex-col items-center gap-5">
+        <IconStack size="lg" items={rewards} iconBorder="white" />
+        <div className="flex flex-col items-center gap-2 text-center">
+          <div className="typography-heading-5 text-primary">You don't have any rewards yet</div>
+          <div className="typography-body-3 max-w-[32ch] text-secondary">
+            Explore our ongoing campaigns and begin your journey to earning rewards today!
+          </div>
         </div>
       </div>
     </Panel>

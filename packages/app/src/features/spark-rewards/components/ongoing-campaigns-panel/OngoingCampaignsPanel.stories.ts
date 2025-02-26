@@ -107,6 +107,15 @@ export const Desktop: Story = {
 export const Mobile = getMobileStory(Desktop)
 export const Tablet = getTabletStory(Desktop)
 
+export const NoCampaigns: Story = {
+  args: {
+    ...args,
+    ongoingCampaignsResult: { data: [], isPending: false, isError: false, error: null },
+  },
+}
+export const NoCampaignsMobile = getMobileStory(NoCampaigns)
+export const NoCampaignsTablet = getTabletStory(NoCampaigns)
+
 export const Pending: Story = {
   args: {
     ...args,
