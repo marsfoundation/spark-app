@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import { TopbarAirdrop, TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarNavigationDialog } from '../topbar-navigation/TopbarNavigationDialog'
 import { TopbarRewards, TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
+import { TopbarSparkRewards } from '../topbar-spark-rewards/TopbarSparkRewards'
 
 export interface TopbarProps {
   walletInfo: TopbarWalletProps
@@ -56,6 +57,7 @@ export function Topbar({
       <div className={cn(boxClasses, 'hidden h-full w-full justify-between gap-2 sm:flex')}>
         <TopbarNavigation {...navigationInfo} />
         <div className="flex gap-2">
+          <TopbarSparkRewards />
           <TopbarRewards {...rewardsInfo} />
           <TopbarAirdrop {...airdropInfo} />
         </div>
