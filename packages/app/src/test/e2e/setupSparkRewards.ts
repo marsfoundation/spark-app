@@ -10,6 +10,7 @@ export interface SetupSparkRewardsParams {
   rewardsConfig: {
     rewardTokenSymbol: keyof (typeof TOKENS_ON_FORK)[typeof mainnet.id]
     cumulativeAmount: NormalizedUnitNumber
+    rewardTokenPrice?: NormalizedUnitNumber
   }[]
 }
 
@@ -19,12 +20,13 @@ export async function setupSparkRewards({
   rewardsConfig,
 }: SetupSparkRewardsParams): Promise<void> {
   const epoch = 1
-  const rewards = rewardsConfig.map(({ rewardTokenSymbol, cumulativeAmount }) => {
+  const rewards = rewardsConfig.map(({ rewardTokenSymbol, rewardTokenPrice, cumulativeAmount }) => {
     const tokenConfig = TOKENS_ON_FORK[mainnet.id][rewardTokenSymbol]
 
     return {
       tokenSymbol: rewardTokenSymbol,
       tokenAddress: CheckedAddress(tokenConfig.address),
+      rewardTokenPrice,
       cumulativeAmount,
       cumulativeAmountBaseUnit: NormalizedUnitNumber.toBaseUnit(cumulativeAmount, tokenConfig.decimals),
     }
@@ -50,21 +52,23 @@ export async function setupSparkRewards({
       await route.fulfill({
         status: 200,
         body: JSON.stringify(
-          rewards.map(({ tokenAddress, tokenSymbol, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
-            root_hash: merkleRoot,
-            epoch,
-            wallet_address: account,
-            token_address: tokenAddress,
-            token_price: null,
-            pending_amount: '0',
-            pending_amount_normalized: '0',
-            cumulative_amount: cumulativeAmountBaseUnit.toFixed(),
-            cumulative_amount_normalized: cumulativeAmount,
-            proof:
-              proofs.find(({ token }) => token === tokenAddress)?.proof ??
-              raise(`Proof for token ${tokenSymbol} not found`),
-            restricted_country_codes: [],
-          })),
+          rewards.map(
+            ({ tokenAddress, tokenSymbol, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
+              root_hash: merkleRoot,
+              epoch,
+              wallet_address: account,
+              token_address: tokenAddress,
+              token_price: rewardTokenPrice?.toFixed() ?? null,
+              pending_amount: '0',
+              pending_amount_normalized: '0',
+              cumulative_amount: cumulativeAmountBaseUnit.toFixed(),
+              cumulative_amount_normalized: cumulativeAmount,
+              proof:
+                proofs.find(({ token }) => token === tokenAddress)?.proof ??
+                raise(`Proof for token ${tokenSymbol} not found`),
+              restricted_country_codes: [],
+            }),
+          ),
         ),
       })
     },

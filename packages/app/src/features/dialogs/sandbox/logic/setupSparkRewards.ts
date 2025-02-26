@@ -15,15 +15,20 @@ export interface SetupSparkRewardsParams {
 const REWARDS_CONFIG: {
   rewardTokenSymbol: keyof (typeof TOKENS_ON_FORK)[typeof mainnet.id]
   cumulativeAmount: NormalizedUnitNumber
+  rewardTokenPrice?: NormalizedUnitNumber
 }[] = [
-  { rewardTokenSymbol: 'USDC', cumulativeAmount: NormalizedUnitNumber(152) },
-  { rewardTokenSymbol: 'wstETH', cumulativeAmount: NormalizedUnitNumber(0.0178) },
+  { rewardTokenSymbol: 'USDC', cumulativeAmount: NormalizedUnitNumber(152), rewardTokenPrice: NormalizedUnitNumber(1) },
+  {
+    rewardTokenSymbol: 'wstETH',
+    cumulativeAmount: NormalizedUnitNumber(0.0178),
+    rewardTokenPrice: NormalizedUnitNumber(2893.09),
+  },
 ]
 
 export async function setupSparkRewards({ forkUrl, account }: SetupSparkRewardsParams): Promise<void> {
   const testnetClient = getTenderlyClient(forkUrl, mainnet, mainnet.id)
 
-  const rewards = REWARDS_CONFIG.map(({ rewardTokenSymbol, cumulativeAmount }) => {
+  const rewards = REWARDS_CONFIG.map(({ rewardTokenSymbol, rewardTokenPrice, cumulativeAmount }) => {
     const tokenConfig = TOKENS_ON_FORK[mainnet.id][rewardTokenSymbol]
 
     return {
@@ -31,6 +36,7 @@ export async function setupSparkRewards({ forkUrl, account }: SetupSparkRewardsP
       tokenAddress: CheckedAddress(tokenConfig.address),
       cumulativeAmount,
       cumulativeAmountBaseUnit: NormalizedUnitNumber.toBaseUnit(cumulativeAmount, tokenConfig.decimals),
+      rewardTokenPrice,
     }
   })
 
@@ -45,12 +51,12 @@ export async function setupSparkRewards({ forkUrl, account }: SetupSparkRewardsP
   const worker = setupWorker(
     http.get(`${spark2ApiUrl}/rewards/roots/${merkleRoot}/${account}/`, async () => {
       return HttpResponse.json(
-        rewards.map(({ tokenAddress, tokenSymbol, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
+        rewards.map(({ tokenAddress, tokenSymbol, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
           root_hash: merkleRoot,
           epoch: 1,
           wallet_address: account,
           token_address: tokenAddress,
-          token_price: '1',
+          token_price: rewardTokenPrice?.toFixed() ?? null,
           pending_amount: '0',
           pending_amount_normalized: '0',
           cumulative_amount: cumulativeAmountBaseUnit.toFixed(),
