@@ -47,11 +47,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: O
                 isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
-              <IconStack
-                items={getStackIcons(campaign)}
-                size="base"
-                iconBorder={{ borderColorClass: 'border-base-white' }}
-              />
+              <IconStack items={getStackIcons(campaign)} size="base" iconBorder="white" />
               <Title campaign={campaign} />
               {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
