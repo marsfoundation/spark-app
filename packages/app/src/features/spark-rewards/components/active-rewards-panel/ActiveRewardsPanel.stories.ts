@@ -58,6 +58,15 @@ export const Mobile: Story = {
 }
 export const Tablet = getTabletStory(Desktop)
 
+export const NoRewards: Story = {
+  args: {
+    ...args,
+    activeRewardsResult: { data: [], isPending: false, isError: false, error: null },
+  },
+}
+export const NoRewardsMobile = getMobileStory(NoRewards)
+export const NoRewardsTablet = getTabletStory(NoRewards)
+
 export const Pending: Story = {
   args: {
     ...args,

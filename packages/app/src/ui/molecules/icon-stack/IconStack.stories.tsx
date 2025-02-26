@@ -48,14 +48,21 @@ export const FirstOnTop: Story = {
 
 export const IconBorder: Story = {
   args: {
-    iconBorder: { borderColorClass: 'border-primary' },
+    iconBorder: 'white',
+    items: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
+  },
+}
+
+export const CustomIconClassName: Story = {
+  args: {
+    iconClassName: 'border-4 border-box border-cyan-300',
     items: [tokens.DAI, tokens.ETH, tokens.USDC, tokens.USDT, tokens.GNO].map(({ symbol }) => getTokenImage(symbol)),
   },
 }
 
 export const WithATokens: Story = {
   args: {
-    iconBorder: { borderColorClass: 'border-primary' },
+    iconBorder: 'white',
     items: [tokens.wstETH, tokens.wstETH.createAToken(tokens.wstETH.address)],
   },
 }

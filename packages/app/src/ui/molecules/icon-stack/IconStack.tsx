@@ -8,8 +8,9 @@ interface IconStackProps {
   maxIcons?: number
   size?: 'base' | 'm' | 'lg'
   stackingOrder?: 'first-on-top' | 'last-on-top'
-  iconBorder?: { borderColorClass: string }
   className?: string
+  iconBorder?: 'white' | 'transparent'
+  iconClassName?: string
 }
 
 export function IconStack({
@@ -17,8 +18,9 @@ export function IconStack({
   maxIcons = Number.MAX_SAFE_INTEGER,
   size = 'base',
   stackingOrder = 'last-on-top',
-  iconBorder,
   className,
+  iconBorder,
+  iconClassName,
 }: IconStackProps) {
   if (maxIcons + 1 === items.length) {
     // let's make sure we show +2 minimum
@@ -33,10 +35,7 @@ export function IconStack({
       {slicedItems.map((item, index, items) => {
         const style = stackingOrder === 'first-on-top' ? { zIndex: items.length - index } : undefined
         const commonProps = {
-          className: cn(
-            iconVariants({ size, iconBorder: iconBorder !== undefined }),
-            iconBorder ? iconBorder.borderColorClass : '',
-          ),
+          className: cn(iconVariants({ size, border: iconBorder }), iconClassName),
           style,
         }
 
@@ -68,10 +67,32 @@ const iconVariants = cva('rounded-full', {
       m: 'size-6 md:size-8',
       lg: 'size-10',
     },
-    iconBorder: {
-      true: 'box-content border-2',
+    border: {
+      white: 'border-base-white',
+      transparent: 'border-transparent',
     },
   },
+  compoundVariants: [
+    {
+      border: ['white', 'transparent'],
+      className: 'box-content',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'base',
+      className: 'border-2',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'm',
+      className: 'border-[2.5px]',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'lg',
+      className: 'border-[3px]',
+    },
+  ],
 })
 
 const stackVariants = cva('isolate flex flex-row', {
