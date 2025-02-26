@@ -11,6 +11,7 @@ import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
 
 export interface OngoingCampaignsQueryOptionsParams {
+  chainId: number
   wagmiConfig: Config
 }
 
@@ -39,9 +40,9 @@ export type OngoingCampaign = {
 )
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function ongoingCampaignsQueryOptions({ wagmiConfig }: OngoingCampaignsQueryOptionsParams) {
+export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCampaignsQueryOptionsParams) {
   return queryOptions<OngoingCampaign[]>({
-    queryKey: ['ongoing-campaigns'],
+    queryKey: ['ongoing-campaigns', chainId],
     queryFn: async () => {
       const response = await fetch(`${spark2ApiUrl}/rewards/campaigns/`)
       if (!response.ok) {
