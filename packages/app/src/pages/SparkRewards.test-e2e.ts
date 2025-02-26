@@ -3,8 +3,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { ClaimSparkRewardsDialogPageObject } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog.PageObject'
-import { setSparkReward } from '@/test/e2e/setSparkReward'
-import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SparkRewardsPageObject } from './SparkRewards.PageObject'
 
 test.describe('Spark Rewards', () => {
@@ -17,14 +16,11 @@ test.describe('Spark Rewards', () => {
       initialPage: 'sparkRewards',
       account: {
         type: 'connected-random',
+        sparkRewards: {
+          token: 'USDS',
+          cumulativeAmount: NormalizedUnitNumber(101),
+        },
       },
-    })
-
-    await setSparkReward({
-      testContext,
-      account: CheckedAddress(testContext.account),
-      token: 'USDS',
-      cumulativeAmount: NormalizedUnitNumber(101),
     })
 
     sparkRewardsPage = new SparkRewardsPageObject(testContext)
