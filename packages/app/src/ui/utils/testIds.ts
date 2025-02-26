@@ -293,6 +293,11 @@ export const testIds = makeTestIds({
       pointsSyncWarning: true,
     },
   },
+  sparkRewards: {
+    activeRewardsPanel: {
+      amountToClaim: true,
+    },
+  },
 })
 
 function makeTestIds<T extends Object>(obj: T, prefix?: string): MapValuesToString<T> {

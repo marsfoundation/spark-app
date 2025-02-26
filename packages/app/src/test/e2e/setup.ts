@@ -1,12 +1,13 @@
 import { Path, paths } from '@/config/paths'
 import { TestnetClient } from '@marsfoundation/common-testnets'
-import { assert, assertNever, extractUrlFromClient } from '@marsfoundation/common-universal'
+import { assert, CheckedAddress, assertNever, extractUrlFromClient } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
 import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import { injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
+import { SetSparkRewardParams, setSparkReward } from './setSparkReward'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -36,6 +37,7 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
       type: T
       atomicBatchSupported?: boolean
       assetBalances?: Partial<Record<AssetsInTests, number>>
+      sparkRewards?: Omit<SetSparkRewardParams, 'testContext' | 'account'>
     }
 
 export interface BlockchainOptions {
@@ -82,7 +84,6 @@ export async function setup<K extends Path, T extends ConnectionType>(
 
   const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options })
   const address = await setupAccount({ page, testnetClient, options: options.account })
-  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
   async function progressSimulation(seconds: number): Promise<void> {
     const { timestamp: currentTimestamp } = await testnetClient.getBlock()
@@ -108,11 +109,23 @@ export async function setup<K extends Path, T extends ConnectionType>(
     autoProgressSimulationController,
   }
 
-  return {
+  const testContext = {
     page,
     account: address,
     testnetController,
-  } as any
+  }
+
+  if (options.account.type !== 'not-connected' && options.account.sparkRewards && address) {
+    await setSparkReward({
+      testContext,
+      account: CheckedAddress(address),
+      ...options.account.sparkRewards,
+    })
+  }
+
+  await page.goto(buildUrl(options.initialPage, options.initialPageParams))
+
+  return testContext as any
 }
 
 async function injectFunds(
