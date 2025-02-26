@@ -6,7 +6,6 @@ import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
 import { BaseUnitNumber, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
-import { setupSparkRewards } from './setupSparkRewards'
 
 export async function createSandbox(opts: {
   originChainId: number
@@ -35,6 +34,7 @@ export async function createSandbox(opts: {
   )
 
   if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
+    const { setupSparkRewards } = await import('./setupSparkRewards')
     await setupSparkRewards({ forkUrl, account: CheckedAddress(opts.userAddress) })
   }
 
