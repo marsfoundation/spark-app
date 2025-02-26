@@ -1,6 +1,7 @@
 import { spark2ApiUrl } from '@/config/consts'
 import { setSparkRewards } from '@/domain/spark-rewards/setSparkRewards'
 import { TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { randomHexId } from '@/utils/random'
 import { CheckedAddress, NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { http, HttpResponse } from 'msw'
 import { setupWorker } from 'msw/browser'
@@ -65,6 +66,21 @@ export async function setupSparkRewards({ forkUrl, account }: SetupSparkRewardsP
             proofs.find(({ token }) => token === tokenAddress)?.proof ??
             raise(`Proof for token ${tokenSymbol} not found`),
           restricted_country_codes: [],
+        })),
+      )
+    }),
+    http.get(`${spark2ApiUrl}/rewards/campaigns/`, async () => {
+      return HttpResponse.json(
+        rewards.map(({ tokenAddress, tokenSymbol }) => ({
+          campaign_uid: randomHexId(),
+          short_description: `Get ${tokenSymbol}`,
+          long_description: `Get ${tokenSymbol}`,
+          domain: 'mainnet',
+          type: 'sparklend',
+          apy: null,
+          restricted_country_codes: [],
+          involved_tokens_addresses: [],
+          reward_token_address: tokenAddress,
         })),
       )
     }),
