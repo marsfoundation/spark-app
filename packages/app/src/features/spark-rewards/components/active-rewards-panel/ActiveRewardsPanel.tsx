@@ -118,7 +118,7 @@ function ErrorPanel() {
       <Header />
       <div className="my-auto flex items-center justify-center">
         <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
-          <AlertTriangleIcon className="icon-xs" /> Failed to load active rewards data
+          <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
         </div>
       </div>
     </Panel>

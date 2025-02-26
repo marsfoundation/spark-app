@@ -2,8 +2,8 @@ import { Token } from '@/domain/types/Token'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { isTokenImageAvailable } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
-import { Loader } from '@/ui/atoms/loader/Loader'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { Info } from '@/ui/molecules/info/Info'
@@ -80,11 +80,14 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
 
 function PendingPanel({ className }: { className?: string }) {
   return (
-    <MainPanel className={className}>
+    <MainPanel className={cn(className)}>
       <SubPanel>
-        <Loader size={20} />
+        <Skeleton className="h-5 w-24 bg-primary/10" />
+        <Skeleton className="mb-7 h-12 w-52 bg-primary/10" />
       </SubPanel>
-      <Actions claim={{ isPending: true }} />
+      <div className="flex flex-col gap-2 p-4">
+        <Skeleton className="h-10 w-full bg-primary/10" />
+      </div>
     </MainPanel>
   )
 }
@@ -93,7 +96,12 @@ function ErrorPanel({ className }: { className?: string }) {
   return (
     <MainPanel className={className}>
       <SubPanel>
-        <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
+        <div
+          className={cn(
+            'typography-label-3 flex items-center gap-2 rounded-full',
+            'my-[42px] bg-secondary/20 px-3 py-1 text-primary-inverse/60',
+          )}
+        >
           <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
         </div>
       </SubPanel>
@@ -127,7 +135,7 @@ function Actions({ claim }: ActionsProps) {
 
 function MainPanel({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <Panel variant="secondary" spacing="none" className={cn('rounded-md p-2', className)}>
+    <Panel variant="secondary" spacing="none" className={cn('rounded-sm p-2', className)}>
       {children}
     </Panel>
   )
