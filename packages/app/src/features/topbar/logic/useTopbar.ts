@@ -93,6 +93,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
       isMobileDisplay,
       airdropInfo,
       rewardsInfo,
+      sparkRewardsInfo,
     },
     navigationInfo,
     networkInfo: {
