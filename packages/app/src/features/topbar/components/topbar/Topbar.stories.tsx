@@ -118,6 +118,9 @@ const args = {
     isLoading: false,
     isError: false,
   },
+  sparkRewardsInfo: {
+    totalUsdAmount: NormalizedUnitNumber(100),
+  },
   isMobileDisplay: false,
 } satisfies TopbarProps
 
