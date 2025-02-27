@@ -7,7 +7,7 @@ import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
 import { getTestnetContext } from './getTestnetContext'
 import { injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
-import { SetSparkRewardParams, setSparkReward } from './setSparkReward'
+import { SetupSparkRewardsParams, setupSparkRewards } from './setupSparkRewards'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -37,7 +37,7 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
       type: T
       atomicBatchSupported?: boolean
       assetBalances?: Partial<Record<AssetsInTests, number>>
-      sparkRewards?: Omit<SetSparkRewardParams, 'testContext' | 'account'>
+      sparkRewards?: SetupSparkRewardsParams['rewardsConfig']
     }
 
 export interface BlockchainOptions {
@@ -116,10 +116,10 @@ export async function setup<K extends Path, T extends ConnectionType>(
   }
 
   if (options.account.type !== 'not-connected' && options.account.sparkRewards && address) {
-    await setSparkReward({
+    await setupSparkRewards({
       testContext,
       account: CheckedAddress(address),
-      ...options.account.sparkRewards,
+      rewardsConfig: options.account.sparkRewards,
     })
   }
 

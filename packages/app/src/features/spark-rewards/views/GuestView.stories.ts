@@ -1,4 +1,3 @@
-import { Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
@@ -26,7 +25,6 @@ const meta: Meta<typeof GuestView> = {
           rewardTokenSymbol: tokens.SPK.symbol,
           involvedTokensSymbols: [tokens.sUSDS.symbol],
           restrictedCountryCodes: [],
-          apy: Percentage(0.1),
           engage: () => Promise.resolve(),
         },
         {

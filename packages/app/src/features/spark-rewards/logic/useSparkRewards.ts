@@ -12,7 +12,7 @@ export function useSparkRewards(): UseSparkRewardsResult {
   const { chainId } = usePageChainId()
   const { address: account } = useAccount()
   const activeRewardsResult = useActiveRewards({ chainId, account })
-  const ongoingCampaignsResult = useOngoingCampaigns()
+  const ongoingCampaignsResult = useOngoingCampaigns({ chainId })
 
   return {
     ongoingCampaignsResult,

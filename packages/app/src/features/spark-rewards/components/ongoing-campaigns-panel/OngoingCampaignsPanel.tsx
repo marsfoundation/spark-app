@@ -1,5 +1,4 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { OngoingCampaign } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { assets, getSocialPlatformIcon, getTokenImage } from '@/ui/assets'
 import { Button, ButtonProps } from '@/ui/atoms/button/Button'
 import { Panel } from '@/ui/atoms/panel/Panel'
@@ -13,6 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@r
 import { AlertTriangleIcon, ChevronDownIcon } from 'lucide-react'
 import { mainnet } from 'viem/chains'
 import { UseOngoingCampaignsResult } from '../../logic/useOngoingCampaigns'
+import { OngoingCampaignRow } from '../../types'
 
 export interface OngoingCampaignsPanelProps {
   ongoingCampaignsResult: UseOngoingCampaignsResult
@@ -131,7 +131,7 @@ function ErrorPanel() {
   )
 }
 
-function Title({ campaign }: { campaign: OngoingCampaign }) {
+function Title({ campaign }: { campaign: OngoingCampaignRow }) {
   const [ref, isTruncated] = useIsTruncated()
 
   if (isTouchScreen()) {
@@ -166,7 +166,7 @@ function EngagementButton(props: ButtonProps) {
   )
 }
 
-function getStackIcons(campaign: OngoingCampaign): string[] {
+function getStackIcons(campaign: OngoingCampaignRow): string[] {
   // social platforms
   const socialPlatformIcon =
     campaign.type === 'social' && campaign.platform ? getSocialPlatformIcon(campaign.platform) : undefined
