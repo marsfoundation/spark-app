@@ -20,13 +20,19 @@ export type OngoingCampaign = {
   shortDescription: string
   longDescription: string
   rewardTokenSymbol: TokenSymbol
-  involvedTokensSymbols: TokenSymbol[]
   chainId: number
   restrictedCountryCodes: string[]
 } & (
   | {
-      type: 'sparklend' | 'savings'
+      type: 'sparklend'
       apy?: Percentage
+      depositTokenSymbols: TokenSymbol[]
+      borrowTokenSymbols: TokenSymbol[]
+    }
+  | {
+      type: 'savings'
+      apy?: Percentage
+      depositToSavingsTokenSymbols: TokenSymbol[]
     }
   | {
       type: 'social'
@@ -60,12 +66,13 @@ export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCa
               chainId: domainToChainId(campaign.domain),
             })
           }
-          const [rewardTokenSymbol, ...involvedTokensSymbols] = await Promise.all([
-            fetchTokenSymbol(campaign.reward_token_address),
-            ...campaign.involved_tokens_addresses.map((tokenAddress) => {
-              return fetchTokenSymbol(tokenAddress)
-            }),
-          ])
+          const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, depositToSavingsTokenSymbols] =
+            await Promise.all([
+              fetchTokenSymbol(campaign.reward_token_address),
+              Promise.all(campaign.type === 'sparklend' ? campaign.deposit_token_addresses.map(fetchTokenSymbol) : []),
+              Promise.all(campaign.type === 'sparklend' ? campaign.borrow_token_addresses.map(fetchTokenSymbol) : []),
+              Promise.all(campaign.type === 'savings' ? campaign.deposit_to_token_addresses.map(fetchTokenSymbol) : []),
+            ])
 
           const commonProps = {
             id: campaign.campaign_uid,
@@ -73,17 +80,24 @@ export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCa
             longDescription: campaign.long_description,
             restrictedCountryCodes: campaign.restricted_country_codes,
             rewardTokenSymbol: TokenSymbol(rewardTokenSymbol),
-            involvedTokensSymbols: involvedTokensSymbols.map(TokenSymbol),
             chainId: domainToChainId(campaign.domain),
           }
 
           switch (campaign.type) {
             case 'sparklend':
+              return {
+                ...commonProps,
+                type: campaign.type,
+                apy: campaign.apy ? Percentage(campaign.apy) : undefined,
+                depositTokenSymbols: depositTokenSymbols.map(TokenSymbol),
+                borrowTokenSymbols: borrowTokenSymbols.map(TokenSymbol),
+              }
             case 'savings':
               return {
                 ...commonProps,
                 type: campaign.type,
                 apy: campaign.apy ? Percentage(campaign.apy) : undefined,
+                depositToSavingsTokenSymbols: depositToSavingsTokenSymbols.map(TokenSymbol),
               }
             case 'social':
               return {
@@ -116,15 +130,21 @@ const baseOngoingCampaignSchema = z.object({
   long_description: z.string(),
   domain: z.enum(allowedDomains),
   restricted_country_codes: z.array(z.string()),
-  involved_tokens_addresses: z.array(checkedAddressSchema),
   reward_token_address: checkedAddressSchema,
 })
 
 const ongoingCampaignsResponseSchema = z.array(
   z.discriminatedUnion('type', [
     baseOngoingCampaignSchema.extend({
-      type: z.enum(['sparklend', 'savings']),
+      type: z.literal('sparklend'),
       apy: percentageSchema.nullable(),
+      deposit_token_addresses: z.array(checkedAddressSchema),
+      borrow_token_addresses: z.array(checkedAddressSchema),
+    }),
+    baseOngoingCampaignSchema.extend({
+      type: z.literal('savings'),
+      apy: percentageSchema.nullable(),
+      deposit_to_token_addresses: z.array(checkedAddressSchema),
     }),
     baseOngoingCampaignSchema.extend({
       type: z.literal('social'),
