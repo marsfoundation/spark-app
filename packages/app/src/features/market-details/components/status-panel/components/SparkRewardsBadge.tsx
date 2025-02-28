@@ -15,7 +15,7 @@ export function SparkRewardsBadge({ sparkRewards }: SparkRewardsBadgeProps) {
 
   if (sparkRewards.length > 1) {
     return (
-      <div className="flex items-center gap-1.5 rounded-full bg-gradient-spark-rewards p-2">
+      <div className="flex items-center gap-1.5 rounded-full bg-gradient-spark-rewards-2 p-2">
         <img src={assets.page.sparkRewardsCircle} alt="Spark Rewards" className="size-4" />
         <div className="flex items-center gap-1">
           <div className="typography-label-4 text-primary">Eligible for rewards</div>
