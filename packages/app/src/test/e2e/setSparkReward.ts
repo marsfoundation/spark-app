@@ -1,6 +1,5 @@
 import { sparkRewardsConfig } from '@/config/contracts-generated'
-import { TestnetClient } from '@marsfoundation/common-testnets'
-import { assert, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { encodeAbiParameters, encodeFunctionData, erc20Abi, keccak256, parseUnits } from 'viem'
 import { mainnet } from 'viem/chains'
 import { TOKENS_ON_FORK } from './constants'
@@ -39,7 +38,7 @@ export async function setSparkReward({
     ),
   )
 
-  await assertSendTransaction(testnetController.client, {
+  await testnetController.client.assertSendTransaction({
     account: '0x4b340357aadd38403e5c8e64368fd502ed38df6a',
     data: encodeFunctionData({
       abi: sparkRewardsConfig.abi,
@@ -60,7 +59,7 @@ export async function setSparkReward({
   await testnetController.client.setErc20Balance(tokenAddress, wallet, cumulativeAmountBigInt)
   await testnetController.progressSimulation(5)
 
-  await assertSendTransaction(testnetController.client, {
+  await testnetController.client.assertSendTransaction({
     account: '0x4b340357aadd38403e5c8e64368fd502ed38df6a',
     data: encodeFunctionData({
       abi: erc20Abi,
@@ -95,15 +94,4 @@ export async function setSparkReward({
       })
     },
   )
-}
-
-async function assertSendTransaction(
-  testnetClient: TestnetClient,
-  params: Parameters<TestnetClient['sendTransaction']>[0],
-): Promise<void> {
-  const hash = await testnetClient.sendTransaction(params)
-  const { status } = await testnetClient.waitForTransactionReceipt({
-    hash,
-  })
-  assert(status === 'success', 'Transaction failed')
 }

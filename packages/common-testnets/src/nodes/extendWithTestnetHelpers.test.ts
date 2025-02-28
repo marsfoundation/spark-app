@@ -1,6 +1,6 @@
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
-import { erc20Abi, parseEther } from 'viem'
+import { encodeFunctionData, erc20Abi, parseEther } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
 import { TestnetClient } from '../TestnetClient.js'
@@ -31,7 +31,7 @@ describe(extendWithTestnetHelpers.name, () => {
         await testnetClient.revertToBaseline()
       })
 
-      it('asserts that transaction was mined successfully', async () => {
+      it('asserts that contract write was mined, but rejected', async () => {
         const usds = CheckedAddress('0xdc035d45d973e3ec169d2276ddab16f1e407384f')
         const account = privateKeyToAccount(generatePrivateKey())
 
@@ -47,6 +47,27 @@ describe(extendWithTestnetHelpers.name, () => {
             gas: 100_000n,
           }),
         ).toBeRejectedWith('Transaction failed: transfer')
+      })
+
+      it('asserts that transaction was mined, but rejected', async () => {
+        const usds = CheckedAddress('0xdc035d45d973e3ec169d2276ddab16f1e407384f')
+        const account = privateKeyToAccount(generatePrivateKey())
+
+        await testnetClient.setBalance(account.address, parseEther('1'))
+
+        await expect(() =>
+          testnetClient.assertSendTransaction({
+            account,
+            chain: null,
+            to: usds,
+            data: encodeFunctionData({
+              abi: erc20Abi,
+              functionName: 'transfer',
+              args: [CheckedAddress.random('alice'), 100n],
+            }),
+            gas: 100_000n,
+          }),
+        ).toBeRejectedWith('Transaction failed:')
       })
     })
   }

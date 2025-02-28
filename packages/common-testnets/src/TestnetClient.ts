@@ -7,9 +7,9 @@ import {
   Hex,
   PartialBy,
   PublicActions,
+  WaitForTransactionReceiptReturnType,
   WalletClient,
   WriteContractParameters,
-  WriteContractReturnType,
 } from 'viem'
 
 export interface TestnetClient extends WalletClient, PublicActions, TestnetClientHelperActions {
@@ -34,5 +34,9 @@ export type TestnetClientHelperActions = {
     args extends ContractFunctionArgs<abi, 'payable' | 'nonpayable', functionName>,
   >(
     args: PartialBy<WriteContractParameters<abi, functionName, args, undefined>, 'chain'>, // avoids requiring chain parameter
-  ) => Promise<WriteContractReturnType>
+  ) => Promise<WaitForTransactionReceiptReturnType>
+
+  assertSendTransaction: (
+    args: Parameters<WalletClient['sendTransaction']>[0],
+  ) => Promise<WaitForTransactionReceiptReturnType>
 }

@@ -2,7 +2,7 @@ import { assert } from '@marsfoundation/common-universal'
 import { TestnetClient, TestnetClientHelperActions } from '../TestnetClient.js'
 
 export function extendWithTestnetHelpers(
-  c: Pick<TestnetClient, 'snapshot' | 'revert' | 'writeContract' | 'waitForTransactionReceipt'>,
+  c: Pick<TestnetClient, 'snapshot' | 'revert' | 'writeContract' | 'waitForTransactionReceipt' | 'sendTransaction'>,
 ): TestnetClientHelperActions {
   let baselineSnapshotId: string | undefined
 
@@ -28,7 +28,18 @@ export function extendWithTestnetHelpers(
 
       assert(receipt.status === 'success', `Transaction failed: ${summaryText}`)
 
-      return txHash
+      return receipt
+    },
+    async assertSendTransaction(args) {
+      const txHash = await c.sendTransaction(args as any)
+
+      const receipt = await c.waitForTransactionReceipt({
+        hash: txHash,
+      })
+
+      assert(receipt.status === 'success', `Transaction failed: ${txHash}`)
+
+      return receipt
     },
   }
 }
