@@ -44,6 +44,7 @@ export interface MarketOverview {
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
     capAutomatorInfo?: CapAutomatorConfig
+    sparkRewards: SparkReward[]
   }
   collateral: CollateralStatusInfo
   borrow: {
@@ -57,12 +58,14 @@ export interface MarketOverview {
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     capAutomatorInfo?: CapAutomatorConfig
+    sparkRewards: SparkReward[]
   }
   lend?: {
     status: 'yes' // only for dai
     token: Token
     totalLent: NormalizedUnitNumber
     apy: Percentage | undefined
+    sparkRewards: SparkReward[]
   }
   eMode?: {
     maxLtv: Percentage
@@ -109,4 +112,11 @@ export interface WalletOverview {
     available: NormalizedUnitNumber
     token: Token
   }
+}
+
+export interface SparkReward {
+  rewardTokenSymbol: TokenSymbol
+  action: 'supply' | 'borrow'
+  longDescription: string
+  apy?: Percentage
 }

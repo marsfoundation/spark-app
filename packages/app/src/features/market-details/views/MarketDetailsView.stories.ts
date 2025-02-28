@@ -53,6 +53,7 @@ const args: MarketDetailsViewProps = {
       supplyCap: NormalizedUnitNumber(112_000),
       apy: Percentage(0.05),
       capAutomatorInfo: undefined,
+      sparkRewards: [],
     },
     collateral: {
       status: 'yes',
@@ -78,6 +79,7 @@ const args: MarketDetailsViewProps = {
         baseVariableBorrowRate: bigNumberify('2500000000000000000000000'),
       },
       capAutomatorInfo: undefined,
+      sparkRewards: [],
     },
 
     summary: {

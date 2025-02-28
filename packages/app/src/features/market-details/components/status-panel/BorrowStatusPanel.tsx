@@ -7,11 +7,14 @@ import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { SparkReward } from '../../types'
 import { InterestYieldChart, InterestYieldChartProps } from '../charts/interest-yield/InterestYieldChart'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
+import { SparkRewardsBadge } from './components/SparkRewardsBadge'
+import { SparkRewardsInfoTile } from './components/SparkRewardsInfoTile'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
@@ -29,6 +32,7 @@ interface BorrowStatusPanelProps {
   showTokenBadge?: boolean
   hasSparkAirdrop: boolean
   capAutomatorInfo?: CapAutomatorConfig
+  sparkRewards: SparkReward[]
 }
 
 export function BorrowStatusPanel({
@@ -43,6 +47,7 @@ export function BorrowStatusPanel({
   chartProps,
   hasSparkAirdrop,
   capAutomatorInfo,
+  sparkRewards,
 }: BorrowStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="borrow" />
@@ -53,6 +58,7 @@ export function BorrowStatusPanel({
       <StatusIcon status={status} />
       <Header status={status} variant="borrow" />
       <Subheader status={status} />
+      <SparkRewardsBadge sparkRewards={sparkRewards} />
       <InfoTilesGrid>
         <InfoTile>
           <InfoTile.Label>Total borrowed</InfoTile.Label>
@@ -67,6 +73,7 @@ export function BorrowStatusPanel({
           </InfoTile.Label>
           <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
         </InfoTile>
+        <SparkRewardsInfoTile sparkRewards={sparkRewards} />
 
         <InfoTile>
           <InfoTile.Label>Reserve factor</InfoTile.Label>
