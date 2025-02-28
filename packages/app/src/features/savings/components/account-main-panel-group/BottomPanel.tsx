@@ -6,8 +6,8 @@ import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { AccountSparkRewardsSummary } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
-
 export interface BottomPanelProps {
   underlyingToken: Token
   savingsToken: Token
@@ -16,6 +16,7 @@ export interface BottomPanelProps {
   apyExplainer: string
   apyExplainerDocsLink: string
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsSummary: AccountSparkRewardsSummary
   className?: string
 }
 
