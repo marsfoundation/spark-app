@@ -58,7 +58,6 @@ describe(extendWithTestnetHelpers.name, () => {
         await expect(() =>
           testnetClient.assertSendTransaction({
             account,
-            chain: null,
             to: usds,
             data: encodeFunctionData({
               abi: erc20Abi,

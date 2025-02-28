@@ -37,6 +37,6 @@ export type TestnetClientHelperActions = {
   ) => Promise<WaitForTransactionReceiptReturnType>
 
   assertSendTransaction: (
-    args: Parameters<WalletClient['sendTransaction']>[0],
+    args: PartialBy<Parameters<WalletClient['sendTransaction']>[0], 'chain'>,
   ) => Promise<WaitForTransactionReceiptReturnType>
 }

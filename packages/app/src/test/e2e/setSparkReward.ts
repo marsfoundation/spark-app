@@ -46,7 +46,6 @@ export async function setSparkReward({
       args: [merkleRoot],
     }),
     to: sparkRewardsConfig.address[mainnet.id],
-    chain: null,
   })
   await testnetController.progressSimulation(5)
 
@@ -67,7 +66,6 @@ export async function setSparkReward({
       args: [sparkRewardsConfig.address[mainnet.id], cumulativeAmountBigInt],
     }),
     to: tokenAddress,
-    chain: null,
   })
   await testnetController.progressSimulation(5)
 
