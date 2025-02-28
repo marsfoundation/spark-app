@@ -58,6 +58,8 @@ import farmsCircleIcon from './page/farms-icon-circle.svg'
 import farmsIcon from './page/farms-icon.svg'
 import savingsCircleIcon from './page/savings-icon-circle.svg'
 import savingsIcon from './page/savings-icon.svg'
+import sparkRewardsCircleIcon from './page/spark-rewards-icon-circle.svg'
+import sparkRewardsIcon from './page/spark-rewards-icon.svg'
 import pause from './pause.svg'
 import guestModePanelIcon from './rewards/guest-mode-panel-icon.svg'
 import rocket from './rocket.svg'
@@ -243,6 +245,8 @@ export const assets = {
     farmsCircle: farmsCircleIcon,
     borrow: borrowIcon,
     borrowCircle: borrowCircleIcon,
+    sparkRewards: sparkRewardsIcon,
+    sparkRewardsCircle: sparkRewardsCircleIcon,
   },
 
   brand: {

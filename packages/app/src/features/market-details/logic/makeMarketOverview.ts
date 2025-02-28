@@ -2,7 +2,7 @@ import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 
 import { CapAutomatorInfo } from '@/domain/cap-automator/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { MarketOverview } from '../types'
+import { MarketOverview, SparkReward } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
 
@@ -10,12 +10,14 @@ export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
   capAutomatorInfo: CapAutomatorInfo
+  sparkRewards: SparkReward[]
 }
 
 export function makeMarketOverview({
   reserve,
   marketInfo,
   capAutomatorInfo,
+  sparkRewards,
 }: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
@@ -28,6 +30,9 @@ export function makeMarketOverview({
     capLessThanLiquidity ? reserve.borrowCap!.minus(reserve.totalDebt) : reserve.availableLiquidity,
   )
 
+  const supplySparkRewards = sparkRewards.filter((reward) => reward.action === 'supply')
+  const borrowSparkRewards = sparkRewards.filter((reward) => reward.action === 'borrow')
+
   return {
     supply: {
       hasSparkAirdrop: hasAirdropForSupplying,
@@ -36,6 +41,7 @@ export function makeMarketOverview({
       supplyCap: reserve.supplyCap,
       apy: reserve.supplyAPY,
       capAutomatorInfo: capAutomatorInfo.supplyCap,
+      sparkRewards: supplySparkRewards,
     },
     collateral: {
       status: reserve.collateralEligibilityStatus,
@@ -62,6 +68,7 @@ export function makeMarketOverview({
         baseVariableBorrowRate: reserve.baseVariableBorrowRate,
       },
       capAutomatorInfo: capAutomatorInfo.borrowCap,
+      sparkRewards: borrowSparkRewards,
     },
     summary: {
       type: 'default',

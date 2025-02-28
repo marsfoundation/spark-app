@@ -8,10 +8,13 @@ import { CooldownTimer } from '@/ui/molecules/cooldown-timer/CooldownTimer'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { SparkReward } from '../../types'
 import { SparkAirdropInfoPanel } from '../spark-airdrop-info-panel/SparkAirdropInfoPanel'
 import { EmptyStatusPanel } from './components/EmptyStatusPanel'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
+import { SparkRewardsBadge } from './components/SparkRewardsBadge'
+import { SparkRewardsInfoTile } from './components/SparkRewardsInfoTile'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { Subheader } from './components/Subheader'
 import { StatusIcon } from './components/status-icon/StatusIcon'
@@ -24,6 +27,7 @@ interface SupplyStatusPanelProps {
   hasSparkAirdrop: boolean
   supplyCap?: NormalizedUnitNumber
   capAutomatorInfo?: CapAutomatorConfig
+  sparkRewards: SparkReward[]
 }
 
 export function SupplyStatusPanel({
@@ -34,6 +38,7 @@ export function SupplyStatusPanel({
   apy,
   hasSparkAirdrop,
   capAutomatorInfo,
+  sparkRewards,
 }: SupplyStatusPanelProps) {
   if (status === 'no') {
     return <EmptyStatusPanel status={status} variant="supply" />
@@ -44,6 +49,7 @@ export function SupplyStatusPanel({
       <StatusIcon status={status} />
       <Header status={status} variant="supply" />
       <Subheader status={status} />
+      <SparkRewardsBadge sparkRewards={sparkRewards} />
       <InfoTilesGrid>
         <InfoTile>
           <InfoTile.Label>Total supplied</InfoTile.Label>
@@ -58,6 +64,7 @@ export function SupplyStatusPanel({
           </InfoTile.Label>
           <InfoTile.Value>{formatPercentage(apy)}</InfoTile.Value>
         </InfoTile>
+        <SparkRewardsInfoTile sparkRewards={sparkRewards} />
 
         {supplyCap && <CapAutomatorInfoTile token={token} capAutomatorInfo={capAutomatorInfo} supplyCap={supplyCap} />}
       </InfoTilesGrid>
