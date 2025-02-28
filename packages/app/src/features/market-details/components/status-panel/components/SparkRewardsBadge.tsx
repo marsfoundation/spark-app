@@ -25,17 +25,17 @@ export function SparkRewardsBadge({ sparkRewards }: SparkRewardsBadgeProps) {
     )
   }
 
-  const rewardTokenSymbol = sparkRewards[0]?.rewardTokenSymbol ?? raise('No reward token symbol')
+  const sparkReward = sparkRewards[0] ?? raise('No spark reward')
 
-  const bgColor = getTokenColor(rewardTokenSymbol, { alpha: Percentage(0.1) })
-  const rewardIcon = getTokenImage(rewardTokenSymbol)
+  const bgColor = getTokenColor(sparkReward.rewardTokenSymbol, { alpha: Percentage(0.1) })
+  const rewardIcon = getTokenImage(sparkReward.rewardTokenSymbol)
 
   return (
     <div className="flex items-center gap-1.5 rounded-full p-2" style={{ backgroundColor: bgColor }}>
-      <img src={rewardIcon} alt={rewardTokenSymbol} className="size-4" />
+      <img src={rewardIcon} alt={sparkReward.rewardTokenSymbol} className="size-4" />
       <div className="flex items-center gap-1">
-        <div className="typography-label-4 text-primary">Eligble for {rewardTokenSymbol} rewards</div>
-        <Info>Eligble for {rewardTokenSymbol} rewards</Info>
+        <div className="typography-label-4 text-primary">Eligble for {sparkReward.rewardTokenSymbol} rewards</div>
+        <Info>{sparkReward.longDescription}</Info>
       </div>
     </div>
   )
