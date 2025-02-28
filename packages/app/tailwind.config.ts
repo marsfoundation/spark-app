@@ -319,6 +319,8 @@ export default {
         'gradient-farms-1': 'linear-gradient(89.84deg, #FFFFFF -2.08%, #FFB5B5 48.92%, #FA43BD 99.92%)',
         'gradient-farms-2': 'linear-gradient(270deg, #FA43BD -47.6%, #F5F5FA 102.16%)',
         'gradient-farms-3': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
+        'gradient-spark-rewards':
+          'linear-gradient(90deg, rgba(88, 35, 243, 0.10) -23.03%, rgba(97, 168, 255, 0.10) 100%)',
         // backgrounds with images
         'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',

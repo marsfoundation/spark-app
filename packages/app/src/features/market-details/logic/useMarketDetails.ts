@@ -18,6 +18,7 @@ import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
+import { useSparkRewards } from './useSparkRewards'
 
 export interface UseMarketDetailsResult {
   token: Token
@@ -71,16 +72,20 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketInfo,
   })
 
+  const sparkRewards = useSparkRewards({ chainId, reserve })
+
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
         marketInfo,
         D3MInfo,
+        sparkRewards,
       })
     : makeMarketOverview({
         reserve,
         marketInfo,
         capAutomatorInfo,
+        sparkRewards,
       })
 
   const walletOverview = makeWalletOverview({
