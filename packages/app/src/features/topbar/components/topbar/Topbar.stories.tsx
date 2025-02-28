@@ -33,6 +33,9 @@ const args = {
       onClaim: () => {},
       totalClaimableReward: NormalizedUnitNumber(0.0029198),
     },
+    sparkRewardsInfo: {
+      totalUsdAmount: NormalizedUnitNumber(100),
+    },
     airdropInfo: {
       airdrop: {
         tokenReward: NormalizedUnitNumber(1200345.568),
@@ -117,6 +120,9 @@ const args = {
     },
     isLoading: false,
     isError: false,
+  },
+  sparkRewardsInfo: {
+    totalUsdAmount: NormalizedUnitNumber(100),
   },
   isMobileDisplay: false,
 } satisfies TopbarProps
