@@ -1,5 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
 import { Token } from '@/domain/types/Token'
+import { AccountSparkRewardsSummary } from '@/features/savings/types'
+import { assets } from '@/ui/assets'
 import { Link } from '@/ui/atoms/link/Link'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
@@ -14,38 +16,73 @@ export interface HeaderProps {
   apyExplainer: string
   apyExplainerDocsLink: string
   inputTokens: Token[]
+  sparkRewardsSummary: AccountSparkRewardsSummary
 }
 
-export function Header({ savingsToken, savingsRate, inputTokens, apyExplainer, apyExplainerDocsLink }: HeaderProps) {
-  return (
-    <div
-      className={cn(
-        'typography-heading-2 inline-flex bg-clip-text text-primary-inverse',
-        headerBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
-      )}
+export function Header({
+  savingsToken,
+  savingsRate,
+  inputTokens,
+  apyExplainer,
+  apyExplainerDocsLink,
+  sparkRewardsSummary,
+}: HeaderProps) {
+  const depositText = `Deposit your ${inputTokens.length > 1 ? 'stablecoins' : inputTokens[0]!.symbol}`
+  const apyComponent = (
+    <span
+      className={cn('text-transparent', apyBgVariants({ bg: savingsTokenToAccountType(savingsToken) }))}
+      data-testid={testIds.savings.account.depositCTA.apy}
+      style={{ backgroundPosition: '-142px -41px', backgroundSize: '463px 96px' }}
     >
-      <div>
-        Deposit your {inputTokens.length > 1 ? 'stablecoins' : inputTokens[0]!.symbol}
-        <br />
-        and earn{' '}
-        <span className="text-transparent" data-testid={testIds.savings.account.depositCTA.apy}>
-          {formatPercentage(savingsRate, { minimumFractionDigits: 0 })}
-        </span>{' '}
-        APY!
-        <Info className="mb-2 ml-1 inline text-tertiary">
-          <>
-            {apyExplainer}{' '}
-            <Link to={apyExplainerDocsLink} external>
-              Learn more
-            </Link>
-          </>
-        </Info>
-      </div>
-    </div>
+      {formatPercentage(savingsRate, { minimumFractionDigits: 0 })}
+    </span>
   )
+  const apyExplainerComponent = (
+    <Info className="mb-2 ml-1 inline text-tertiary">
+      <>
+        {apyExplainer}{' '}
+        <Link to={apyExplainerDocsLink} external>
+          Learn more
+        </Link>
+      </>
+    </Info>
+  )
+
+  const headerContent = (() => {
+    if (sparkRewardsSummary.totalApy.isZero()) {
+      return (
+        <div>
+          {depositText}
+          <br />
+          and earn {apyComponent} APY!
+          {apyExplainerComponent}
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        {depositText} and earn <br />
+        <div className="flex items-center gap-1.5">
+          <div>
+            {apyComponent} APY{apyExplainerComponent} +{' '}
+          </div>
+          <img src={assets.page.sparkRewardsCircle} alt="Spark Rewards" className="size-10" />
+          <div>
+            <span className="bg-gradient-spark-rewards-1 bg-clip-text text-transparent">
+              {formatPercentage(sparkRewardsSummary.totalApy, { minimumFractionDigits: 0 })}
+            </span>{' '}
+            in Rewards
+          </div>
+        </div>
+      </div>
+    )
+  })()
+
+  return <div className="typography-heading-2 inline-flex text-primary-inverse">{headerContent}</div>
 }
 
-const headerBgVariants = cva('bg-cover bg-right bg-no-repeat', {
+const apyBgVariants = cva('bg-clip-text', {
   variants: {
     bg: {
       susds: 'bg-[radial-gradient(103.52%_1308.64%_at_8.98%_83.33%,#FFFFFF_0%,#80D98D_50%,#00C2A1_100%)]',
