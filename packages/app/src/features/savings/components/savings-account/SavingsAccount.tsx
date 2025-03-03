@@ -3,7 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MigrationInfo } from '../../logic/makeMigrationInfo'
 import { ChartsData, InterestData, SavingsAccountSupportedStablecoin } from '../../logic/useSavings'
-import { AccountMetadata } from '../../types'
+import { AccountMetadata, AccountSparkRewardsSummary } from '../../types'
 import { AccountMainPanelGroup } from '../account-main-panel-group/AccountMainPanelGroup'
 import { DaiLegacyAccountBanner } from '../dai-legacy-account-banner/DaiLegacyAccountBanner'
 import { DepositCTAPanel } from '../deposit-cta-panel/DepositCTAPanel'
@@ -30,6 +30,7 @@ export interface SavingsAccountProps {
   isInSandbox: boolean
   migrationInfo?: MigrationInfo
   metadata: AccountMetadata
+  sparkRewardsSummary: AccountSparkRewardsSummary
 }
 
 export function SavingsAccount({
@@ -51,6 +52,7 @@ export function SavingsAccount({
   isInSandbox,
   migrationInfo,
   metadata,
+  sparkRewardsSummary,
 }: SavingsAccountProps) {
   const displayDepositCallToAction = guestMode || savingsTokenBalance.eq(0)
   const displayUpgradeBanner = migrationInfo !== undefined && savingsTokenBalance.gt(0)
@@ -80,6 +82,7 @@ export function SavingsAccount({
             primary: primaryAction,
             secondary: { title: 'Try in Sandbox', action: openSandboxModal },
           }}
+          sparkRewardsSummary={sparkRewardsSummary}
           className="min-h-[320px]"
         />
       ) : (
@@ -93,9 +96,11 @@ export function SavingsAccount({
           openSendDialog={openSendDialog}
           openWithdrawDialog={openWithdrawDialog}
           oneYearProjection={interestData.oneYearProjection}
+          sparkRewardsOneYearProjection={interestData.sparkRewardsOneYearProjection}
           apy={interestData.APY}
           apyExplainer={metadata.apyExplainer}
           apyExplainerDocsLink={metadata.apyExplainerDocsLink}
+          sparkRewardsSummary={sparkRewardsSummary}
           className="min-h-[320px]"
         />
       )}

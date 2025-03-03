@@ -17,6 +17,7 @@ import { useNavigationInfo } from './useNavigationInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { usePrefetchCanWalletBatchQuery } from './usePrefetchCanWalletBatchQuery'
 import { useRewardsInfo } from './useRewardsInfo'
+import { useSparkRewardsSummary } from './useSparkRewardsInfo'
 
 interface UseTopbarParams {
   isMobileDisplay: boolean
@@ -35,6 +36,10 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
   const { isInSandbox, deleteSandbox } = useSandboxState()
 
   const rewardsInfo = useRewardsInfo({
+    chainId: currentChainId,
+    address: address && CheckedAddress(address),
+  })
+  const sparkRewardsSummary = useSparkRewardsSummary({
     chainId: currentChainId,
     address: address && CheckedAddress(address),
   })
@@ -88,6 +93,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
       isMobileDisplay,
       airdropInfo,
       rewardsInfo,
+      sparkRewardsSummary,
     },
     navigationInfo,
     networkInfo: {
@@ -100,6 +106,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
     },
     airdropInfo,
     rewardsInfo,
+    sparkRewardsSummary,
     isMobileDisplay,
   }
 }

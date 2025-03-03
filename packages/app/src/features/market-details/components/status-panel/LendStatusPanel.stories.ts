@@ -24,6 +24,7 @@ export const CanBeLent: Story = {
     token: tokens.DAI,
     totalLent: NormalizedUnitNumber(72_000),
     apy: Percentage(0.05),
+    sparkRewards: [],
   },
 }
 

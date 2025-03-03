@@ -41,6 +41,10 @@ export const usds: Story = {
     apyExplainer:
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.susds,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0),
+      rewards: [],
+    },
   },
 }
 export const usdsMobile = getMobileStory(usds)
@@ -67,6 +71,10 @@ export const usdsDisconnected: Story = {
     apyExplainer:
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.susds,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0),
+      rewards: [],
+    },
   },
 }
 
@@ -81,6 +89,10 @@ export const usdc: Story = {
     apyExplainer:
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.susds,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0),
+      rewards: [],
+    },
   },
 }
 export const usdcMobile = getMobileStory(usdc)
@@ -97,6 +109,10 @@ export const dai: Story = {
     apyExplainer:
       'Current annual interest rate for DAI deposited into the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.sdai,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0),
+      rewards: [],
+    },
   },
 }
 export const daiMobile = getMobileStory(dai)
@@ -110,3 +126,37 @@ export const inSandbox: Story = {
 }
 export const inSandboxMobile = getMobileStory(inSandbox)
 export const inSandboxTablet = getTabletStory(inSandbox)
+
+export const WithOneSparkReward: Story = {
+  args: {
+    ...usds.args,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0.012),
+      rewards: [
+        {
+          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+      ],
+    },
+  },
+}
+
+export const WithMultipleSparkRewards: Story = {
+  args: {
+    ...usds.args,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0.031),
+      rewards: [
+        {
+          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+        {
+          rewardTokenSymbol: tokens.wstETH.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+      ],
+    },
+  },
+}

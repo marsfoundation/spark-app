@@ -14,16 +14,19 @@ import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
+import { SparkRewardsSummary } from '../../types'
 import { TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
 import { TopbarMenuAirdropItem } from './components/TopbarMenuAirdropItem'
 import { TopbarMenuRewardsItem } from './components/TopbarMenuRewardsItem'
+import { TopbarMenuSparkRewardsItem } from './components/TopbarMenuSparkRewardsItem'
 
 export interface TopbarMenuProps {
   onSandboxModeClick: () => void
   isInSandbox: boolean
   isMobileDisplay: boolean
   buildInfo: BuildInfo
+  sparkRewardsSummary: SparkRewardsSummary
   rewardsInfo: TopbarRewardsProps
   airdropInfo: TopbarAirdropProps
 }
@@ -33,6 +36,7 @@ export function TopbarMenu({
   onSandboxModeClick,
   buildInfo,
   isMobileDisplay,
+  sparkRewardsSummary,
   rewardsInfo,
   airdropInfo,
 }: TopbarMenuProps) {
@@ -49,8 +53,8 @@ export function TopbarMenu({
         <DialogContent overlayVariant="default" contentVerticalPosition="bottom" className="p-0">
           <DialogTitle className="border-primary border-b p-5 pt-6">Menu</DialogTitle>
 
+          <TopbarMenuSparkRewardsItem {...sparkRewardsSummary} closeMenu={() => setOpen(false)} />
           <TopbarMenuRewardsItem {...rewardsInfo} />
-
           <TopbarMenuAirdropItem {...airdropInfo} />
 
           <MenuItem
