@@ -56,3 +56,7 @@ export interface RewardsInfo {
   totalClaimableReward: NormalizedUnitNumber
   onClaim: () => void
 }
+
+export interface SparkRewardsSummary {
+  totalUsdAmount?: NormalizedUnitNumber
+}

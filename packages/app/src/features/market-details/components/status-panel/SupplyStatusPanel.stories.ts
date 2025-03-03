@@ -8,6 +8,7 @@ import { withRouter } from 'storybook-addon-remix-react-router'
 
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { SupplyStatusPanel } from './SupplyStatusPanel'
 
 const meta: Meta<typeof SupplyStatusPanel> = {
@@ -27,6 +28,7 @@ export const CanBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(72_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
+    sparkRewards: [],
   },
 }
 
@@ -41,6 +43,7 @@ export const SupplyCapReached: Story = {
     totalSupplied: NormalizedUnitNumber(112_000),
     supplyCap: NormalizedUnitNumber(112_000),
     apy: Percentage(0.05),
+    sparkRewards: [],
   },
 }
 
@@ -52,6 +55,7 @@ export const CannotBeSupplied: Story = {
     totalSupplied: NormalizedUnitNumber(0),
     supplyCap: NormalizedUnitNumber(0),
     apy: Percentage(0),
+    sparkRewards: [],
   },
 }
 
@@ -70,10 +74,55 @@ export const WithCapAutomatorInfo: Story = {
       lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
       lastUpdateBlock: 0,
     },
+    sparkRewards: [],
   },
 }
 
 export const WithCapAutomatorInfoMobile = {
   ...getMobileStory(WithCapAutomatorInfo),
   name: 'With cap automator info (Mobile)',
+}
+
+export const WithOneSparkReward: Story = {
+  name: 'With One Spark Reward',
+  args: {
+    status: 'yes',
+    token: tokens.rETH,
+    totalSupplied: NormalizedUnitNumber(72_000),
+    supplyCap: NormalizedUnitNumber(112_000),
+    apy: Percentage(0.05),
+    sparkRewards: [
+      {
+        rewardTokenSymbol: TokenSymbol('USDS'),
+        action: 'supply',
+        longDescription: 'Supply rETH and get USDS',
+        apy: Percentage(0.01),
+      },
+    ],
+  },
+}
+
+export const WithMultipleSparkReward: Story = {
+  name: 'With Multiple Spark Reward',
+  args: {
+    status: 'yes',
+    token: tokens.rETH,
+    totalSupplied: NormalizedUnitNumber(72_000),
+    supplyCap: NormalizedUnitNumber(112_000),
+    apy: Percentage(0.05),
+    sparkRewards: [
+      {
+        rewardTokenSymbol: TokenSymbol('REDSTONE'),
+        action: 'supply',
+        longDescription: 'Supply cbBTC and get REDSTONE',
+        apy: undefined,
+      },
+      {
+        rewardTokenSymbol: TokenSymbol('wstETH'),
+        action: 'supply',
+        longDescription: 'Supply rETH and get wstETH',
+        apy: Percentage(0.012),
+      },
+    ],
+  },
 }
