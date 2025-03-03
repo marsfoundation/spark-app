@@ -31,6 +31,7 @@ import { useSparkRewardsSummary } from './useSparkRewardsSummary'
 export interface InterestData {
   APY: Percentage
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsOneYearProjection: NormalizedUnitNumber
   calculateUnderlyingTokenBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
 }
@@ -143,6 +144,8 @@ export function useSavings(): UseSavingsResults {
     savingsConverter: selectedAccountData.converter,
     savingsToken: selectedAccountData.savingsToken,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
+    underlyingToken: selectedAccountData.underlyingToken,
+    sparkRewardsSummary,
     timestamp,
   })
 

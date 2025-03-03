@@ -26,6 +26,7 @@ export interface AccountMainPanelGroupProps {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsOneYearProjection: NormalizedUnitNumber
   apy: Percentage
   apyExplainer: string
   apyExplainerDocsLink: string
@@ -36,6 +37,7 @@ export interface AccountMainPanelGroupProps {
 export function AccountMainPanelGroup({
   underlyingToken,
   oneYearProjection,
+  sparkRewardsOneYearProjection,
   apy,
   savingsToken,
   savingsTokenBalance,
@@ -97,6 +99,7 @@ export function AccountMainPanelGroup({
         apyExplainer={apyExplainer}
         apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
+        sparkRewardsOneYearProjection={sparkRewardsOneYearProjection}
         sparkRewardsSummary={sparkRewardsSummary}
         className="hidden lg:block"
       />
@@ -108,6 +111,7 @@ export function AccountMainPanelGroup({
         apyExplainer={apyExplainer}
         apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
+        sparkRewardsOneYearProjection={sparkRewardsOneYearProjection}
         sparkRewardsSummary={sparkRewardsSummary}
         className="lg:hidden"
       />

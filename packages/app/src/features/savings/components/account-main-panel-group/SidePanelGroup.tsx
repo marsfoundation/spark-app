@@ -1,6 +1,5 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Token } from '@/domain/types/Token'
-import { assets } from '@/ui/assets'
+import { Token, USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
@@ -8,12 +7,14 @@ import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { AccountSparkRewardsSummary } from '../../types'
 import { AdditionalInfo } from './AdditionalInfo'
+import { PlusSparkRewards } from './PlusSparkRewards'
 
 export interface SidePanelGroupProps {
   underlyingToken: Token
   savingsToken: Token
   savingsTokenBalance: NormalizedUnitNumber
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsOneYearProjection: NormalizedUnitNumber
   apy: Percentage
   apyExplainer: string
   apyExplainerDocsLink: string
@@ -25,6 +26,7 @@ export function SidePanelGroup({
   savingsToken,
   savingsTokenBalance,
   oneYearProjection,
+  sparkRewardsOneYearProjection,
   apy,
   apyExplainer,
   apyExplainerDocsLink,
@@ -54,13 +56,7 @@ export function SidePanelGroup({
             >
               {formatPercentage(apy, { minimumFractionDigits: 0 })}
               {sparkRewardsSummary.totalApy.gt(0) && (
-                <>
-                  <span>+</span>
-                  <img src={assets.page.sparkRewardsCircle} alt={'Spark Rewards'} className="size-6" />
-                  <span className="bg-gradient-spark-rewards-1 bg-clip-text text-transparent">
-                    {formatPercentage(sparkRewardsSummary.totalApy, { minimumFractionDigits: 0 })}
-                  </span>
-                </>
+                <PlusSparkRewards text={formatPercentage(sparkRewardsSummary.totalApy, { minimumFractionDigits: 0 })} />
               )}
             </div>
           </AdditionalInfo.Content>
@@ -70,17 +66,22 @@ export function SidePanelGroup({
             1-year Projection
           </AdditionalInfo.Label>
           <AdditionalInfo.Content>
-            <div
-              className="flex items-center gap-1.5"
-              data-testid={testIds.savings.account.mainPanel.oneYearProjection}
-            >
-              <div className="typography-heading-5 flex gap-[1px]">
-                <div className="text-feature-savings-primary">+</div>
-                <div className="text-primary-inverse">
-                  {underlyingToken.format(oneYearProjection, { style: 'auto' })}
+            <div className="typography-heading-5 flex items-center gap-1">
+              <div
+                className="flex items-center gap-1.5"
+                data-testid={testIds.savings.account.mainPanel.oneYearProjection}
+              >
+                <div className="flex gap-[1px]">
+                  <div className="text-feature-savings-primary">+</div>
+                  <div className="text-primary-inverse">
+                    {underlyingToken.format(oneYearProjection, { style: 'auto' })}
+                  </div>
                 </div>
+                <TokenIcon token={underlyingToken} className="size-5" />
               </div>
-              <TokenIcon token={underlyingToken} className="size-5" />
+              {sparkRewardsSummary.totalApy.gt(0) && (
+                <PlusSparkRewards text={USD_MOCK_TOKEN.formatUSD(sparkRewardsOneYearProjection)} />
+              )}
             </div>
           </AdditionalInfo.Content>
         </SidePanel>

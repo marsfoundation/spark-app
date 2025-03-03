@@ -84,6 +84,7 @@ const interestData = {
   APY: Percentage(0.12),
   balanceRefreshIntervalInMs: 50,
   oneYearProjection: NormalizedUnitNumber(1250),
+  sparkRewardsOneYearProjection: NormalizedUnitNumber(0),
   calculateUnderlyingTokenBalance: () => ({
     depositedAssets: NormalizedUnitNumber(10365.7654),
     depositedAssetsPrecision: 2,
@@ -428,6 +429,10 @@ export const WithOneSparkReward: Story = {
     ...savingsViewSusdsArgs,
     selectedAccount: {
       ...savingsUsdsAccountDefinition,
+      interestData: {
+        ...interestData,
+        sparkRewardsOneYearProjection: NormalizedUnitNumber(10),
+      },
       sparkRewardsSummary: {
         totalApy: Percentage(0.02),
         rewards: [
@@ -446,6 +451,10 @@ export const WithMultipleSparkReward: Story = {
     ...savingsViewSusdsArgs,
     selectedAccount: {
       ...savingsUsdsAccountDefinition,
+      interestData: {
+        ...interestData,
+        sparkRewardsOneYearProjection: NormalizedUnitNumber(27),
+      },
       sparkRewardsSummary: {
         totalApy: Percentage(0.045),
         rewards: [

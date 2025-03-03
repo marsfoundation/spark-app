@@ -96,6 +96,7 @@ export function SavingsAccount({
           openSendDialog={openSendDialog}
           openWithdrawDialog={openWithdrawDialog}
           oneYearProjection={interestData.oneYearProjection}
+          sparkRewardsOneYearProjection={interestData.sparkRewardsOneYearProjection}
           apy={interestData.APY}
           apyExplainer={metadata.apyExplainer}
           apyExplainerDocsLink={metadata.apyExplainerDocsLink}
