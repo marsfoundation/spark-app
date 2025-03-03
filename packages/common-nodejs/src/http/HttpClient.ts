@@ -3,9 +3,6 @@ import { z } from 'zod'
 import { SolidFetch, solidFetch as _solidFetch } from '@marsfoundation/common-universal'
 import { Logger } from '../logger/index.js'
 
-// @todo add better error handling and retries
-// @todo add tests
-
 export class HttpClient {
   private readonly logger: Logger
   constructor(
