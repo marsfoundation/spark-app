@@ -1,6 +1,5 @@
 node_modules
 dist
-.idea
 .vite
 .env
 packages/app/.swc
