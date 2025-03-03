@@ -126,3 +126,37 @@ export const inSandbox: Story = {
 }
 export const inSandboxMobile = getMobileStory(inSandbox)
 export const inSandboxTablet = getTabletStory(inSandbox)
+
+export const WithOneSparkReward: Story = {
+  args: {
+    ...usds.args,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0.012),
+      rewards: [
+        {
+          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+      ],
+    },
+  },
+}
+
+export const WithMultipleSparkRewards: Story = {
+  args: {
+    ...usds.args,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0.031),
+      rewards: [
+        {
+          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+        {
+          rewardTokenSymbol: tokens.wstETH.symbol,
+          longDescription: 'Lorem ipsum',
+        },
+      ],
+    },
+  },
+}
