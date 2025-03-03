@@ -2,14 +2,13 @@ import { activeRewardsQueryOptions } from '@/domain/spark-rewards/activeRewardsQ
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
-import { TopbarSparkRewardsProps } from '../components/topbar-spark-rewards/TopbarSparkRewards'
-
+import { SparkRewardsSummary } from '../types'
 export interface UseSparkRewardsInfoParams {
   chainId: number
   address: CheckedAddress | undefined
 }
 
-export function useSparkRewardsInfo({ chainId, address }: UseSparkRewardsInfoParams): TopbarSparkRewardsProps {
+export function useSparkRewardsSummary({ chainId, address }: UseSparkRewardsInfoParams): SparkRewardsSummary {
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({

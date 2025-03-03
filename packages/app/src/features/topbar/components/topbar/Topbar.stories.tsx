@@ -33,7 +33,7 @@ const args = {
       onClaim: () => {},
       totalClaimableReward: NormalizedUnitNumber(0.0029198),
     },
-    sparkRewardsInfo: {
+    sparkRewardsSummary: {
       totalUsdAmount: NormalizedUnitNumber(100),
     },
     airdropInfo: {
@@ -121,7 +121,7 @@ const args = {
     isLoading: false,
     isError: false,
   },
-  sparkRewardsInfo: {
+  sparkRewardsSummary: {
     totalUsdAmount: NormalizedUnitNumber(100),
   },
   isMobileDisplay: false,

@@ -112,10 +112,10 @@ export const WithMultipleSparkReward: Story = {
     apy: Percentage(0.05),
     sparkRewards: [
       {
-        rewardTokenSymbol: TokenSymbol('USDS'),
+        rewardTokenSymbol: TokenSymbol('REDSTONE'),
         action: 'supply',
-        longDescription: 'Supply rETH and get USDS',
-        apy: Percentage(0.01),
+        longDescription: 'Supply cbBTC and get REDSTONE',
+        apy: undefined,
       },
       {
         rewardTokenSymbol: TokenSymbol('wstETH'),

@@ -42,7 +42,7 @@ const meta: Meta<typeof TopbarMenu> = {
           totalClaimableReward: NormalizedUnitNumber(0),
           onClaim: () => {},
         }}
-        sparkRewardsInfo={{
+        sparkRewardsSummary={{
           totalUsdAmount: NormalizedUnitNumber(100),
         }}
       />

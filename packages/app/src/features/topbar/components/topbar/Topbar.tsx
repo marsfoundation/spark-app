@@ -8,10 +8,11 @@ import { TopbarWallet, TopbarWalletProps } from '@/features/topbar/components/to
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { Link } from 'react-router-dom'
+import { SparkRewardsSummary } from '../../types'
 import { TopbarAirdrop, TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarNavigationDialog } from '../topbar-navigation/TopbarNavigationDialog'
 import { TopbarRewards, TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
-import { TopbarSparkRewards, TopbarSparkRewardsProps } from '../topbar-spark-rewards/TopbarSparkRewards'
+import { TopbarSparkRewards } from '../topbar-spark-rewards/TopbarSparkRewards'
 
 export interface TopbarProps {
   walletInfo: TopbarWalletProps
@@ -20,7 +21,7 @@ export interface TopbarProps {
   networkInfo: TopbarNetworkProps
   airdropInfo: TopbarAirdropProps
   rewardsInfo: TopbarRewardsProps
-  sparkRewardsInfo: TopbarSparkRewardsProps
+  sparkRewardsSummary: SparkRewardsSummary
   isMobileDisplay: boolean
 }
 
@@ -29,7 +30,7 @@ export function Topbar({
   menuInfo,
   navigationInfo,
   networkInfo,
-  sparkRewardsInfo,
+  sparkRewardsSummary,
   rewardsInfo,
   airdropInfo,
   isMobileDisplay,
@@ -59,7 +60,7 @@ export function Topbar({
       <div className={cn(boxClasses, 'hidden h-full w-full justify-between gap-2 sm:flex')}>
         <TopbarNavigation {...navigationInfo} />
         <div className="flex gap-2">
-          <TopbarSparkRewards {...sparkRewardsInfo} />
+          <TopbarSparkRewards {...sparkRewardsSummary} />
           <TopbarRewards {...rewardsInfo} />
           <TopbarAirdrop {...airdropInfo} />
         </div>

@@ -2,15 +2,11 @@ import { paths } from '@/config/paths'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
-import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { forwardRef } from 'react'
 import { NavLink } from 'react-router-dom'
+import { SparkRewardsSummary } from '../../types'
 
-export interface TopbarSparkRewardsProps {
-  totalUsdAmount?: NormalizedUnitNumber
-}
-
-export const TopbarSparkRewards = forwardRef<HTMLAnchorElement | HTMLButtonElement, TopbarSparkRewardsProps>(
+export const TopbarSparkRewards = forwardRef<HTMLAnchorElement | HTMLButtonElement, SparkRewardsSummary>(
   ({ totalUsdAmount }, ref) => {
     return (
       <NavLink to={paths.sparkRewards} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>

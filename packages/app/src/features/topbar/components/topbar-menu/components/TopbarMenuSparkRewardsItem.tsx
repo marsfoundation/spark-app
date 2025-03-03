@@ -3,12 +3,12 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
 import { MenuItem } from '@/ui/atoms/menu-item/MenuItem'
 import { NavLink } from 'react-router-dom'
-import { TopbarSparkRewardsProps } from '../../topbar-spark-rewards/TopbarSparkRewards'
+import { SparkRewardsSummary } from '../../../types'
 
 export function TopbarMenuSparkRewardsItem({
   totalUsdAmount,
   closeMenu,
-}: TopbarSparkRewardsProps & { closeMenu: () => void }) {
+}: SparkRewardsSummary & { closeMenu: () => void }) {
   return (
     <MenuItem asChild withSeparator>
       <NavLink to={paths.sparkRewards} className="group" onClick={closeMenu}>

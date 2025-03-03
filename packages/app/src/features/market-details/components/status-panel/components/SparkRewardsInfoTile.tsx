@@ -15,7 +15,7 @@ export function SparkRewardsInfoTile({ sparkRewards }: SparkRewardsInfoTileProps
     <InfoTile>
       <InfoTile.Label>Rewards APY</InfoTile.Label>
       <InfoTile.Value>
-        <div className="flex items-center gap-0.5 sm:flex-col">
+        <div className="flex items-stretch gap-0.5 sm:flex-col">
           {sparkRewards.map((reward) => (
             <SparkRewardPill key={reward.rewardTokenSymbol} {...reward} />
           ))}
