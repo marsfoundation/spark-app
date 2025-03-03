@@ -14,6 +14,7 @@ const meta: Meta<typeof AccountMainPanelGroup> = {
     underlyingToken: tokens.USDS,
     savingsToken: tokens.sUSDS,
     savingsTokenBalance: NormalizedUnitNumber(22_543.2349),
+    sparkRewardsOneYearProjection: NormalizedUnitNumber(0),
     calculateUnderlyingTokenBalance: () => ({
       depositedAssets: NormalizedUnitNumber(25_000.12),
       depositedAssetsPrecision: 4,
@@ -26,6 +27,10 @@ const meta: Meta<typeof AccountMainPanelGroup> = {
     apyExplainer:
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.susds,
+    sparkRewardsSummary: {
+      totalApy: Percentage(0),
+      rewards: [],
+    },
   },
 }
 

@@ -4,6 +4,7 @@ import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
+import { AccountSparkRewardsSummary } from '../../types'
 import { savingsTokenToAccountType } from '../common/utils'
 import { Actions } from './components/Actions'
 import { Details } from './components/Details'
@@ -30,6 +31,7 @@ export interface DepositCTAPanelProps {
     }
   }
   isInSandbox: boolean
+  sparkRewardsSummary: AccountSparkRewardsSummary
   className?: string
 }
 
@@ -42,13 +44,14 @@ export function DepositCTAPanel({
   apyExplainerDocsLink,
   actions,
   isInSandbox,
+  sparkRewardsSummary,
   className,
 }: DepositCTAPanelProps) {
   return (
     <Panel
       spacing="m"
       className={cn(
-        'grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr]',
+        'grid grid-cols-1 gap-8 lg:grid-cols-[minmax(638px,auto)_1fr]',
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
         className,
       )}
@@ -61,8 +64,14 @@ export function DepositCTAPanel({
           inputTokens={entryTokens}
           apyExplainer={apyExplainer}
           apyExplainerDocsLink={apyExplainerDocsLink}
+          sparkRewardsSummary={sparkRewardsSummary}
         />
-        <Details entryTokens={entryTokens} savingsToken={savingsToken} description={description} />
+        <Details
+          entryTokens={entryTokens}
+          savingsToken={savingsToken}
+          description={description}
+          sparkRewardsSummary={sparkRewardsSummary}
+        />
       </div>
       <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />
     </Panel>

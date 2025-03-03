@@ -1,11 +1,16 @@
+import { paths } from '@/config/paths'
 import { Token } from '@/domain/types/Token'
+import { assets } from '@/ui/assets'
 import { Button } from '@/ui/atoms/button/Button'
+import { Link } from '@/ui/atoms/link/Link'
 import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
+import { ChevronRightIcon } from 'lucide-react'
 import { SavingsOverview } from '../../logic/makeSavingsOverview'
+import { AccountSparkRewardsSummary } from '../../types'
 import { savingsTokenToAccountType } from '../common/utils'
 import { BottomPanel } from './BottomPanel'
 import { GrowingBalance } from './GrowingBalance'
@@ -21,15 +26,18 @@ export interface AccountMainPanelGroupProps {
   openSendDialog: () => void
   openWithdrawDialog: () => void
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsOneYearProjection: NormalizedUnitNumber
   apy: Percentage
   apyExplainer: string
   apyExplainerDocsLink: string
+  sparkRewardsSummary: AccountSparkRewardsSummary
   className?: string
 }
 
 export function AccountMainPanelGroup({
   underlyingToken,
   oneYearProjection,
+  sparkRewardsOneYearProjection,
   apy,
   savingsToken,
   savingsTokenBalance,
@@ -40,6 +48,7 @@ export function AccountMainPanelGroup({
   balanceRefreshIntervalInMs,
   apyExplainer,
   apyExplainerDocsLink,
+  sparkRewardsSummary,
   className,
 }: AccountMainPanelGroupProps) {
   return (
@@ -63,18 +72,24 @@ export function AccountMainPanelGroup({
             openWithdrawDialog={openWithdrawDialog}
           />
         </div>
-        <GrowingBalance
-          underlyingToken={underlyingToken}
-          savingsToken={savingsToken}
-          calculateUnderlyingTokenBalance={calculateUnderlyingTokenBalance}
-          balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
-        />
-        <MainPanelActions
-          className="lg:hidden"
-          openDepositDialog={openDepositDialog}
-          openSendDialog={openSendDialog}
-          openWithdrawDialog={openWithdrawDialog}
-        />
+        <div className="flex flex-row items-end justify-between">
+          <GrowingBalance
+            underlyingToken={underlyingToken}
+            savingsToken={savingsToken}
+            calculateUnderlyingTokenBalance={calculateUnderlyingTokenBalance}
+            balanceRefreshIntervalInMs={balanceRefreshIntervalInMs}
+          />
+          <ViewRewardsPill sparkRewardsSummary={sparkRewardsSummary} className="hidden lg:flex" />
+        </div>
+
+        <div className="flex flex-col gap-2 lg:hidden">
+          <ViewRewardsPill sparkRewardsSummary={sparkRewardsSummary} className="lg:hidden" />
+          <MainPanelActions
+            openDepositDialog={openDepositDialog}
+            openSendDialog={openSendDialog}
+            openWithdrawDialog={openWithdrawDialog}
+          />
+        </div>
       </Panel>
       <SidePanelGroup
         underlyingToken={underlyingToken}
@@ -84,6 +99,8 @@ export function AccountMainPanelGroup({
         apyExplainer={apyExplainer}
         apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
+        sparkRewardsOneYearProjection={sparkRewardsOneYearProjection}
+        sparkRewardsSummary={sparkRewardsSummary}
         className="hidden lg:block"
       />
       <BottomPanel
@@ -94,6 +111,8 @@ export function AccountMainPanelGroup({
         apyExplainer={apyExplainer}
         apyExplainerDocsLink={apyExplainerDocsLink}
         oneYearProjection={oneYearProjection}
+        sparkRewardsOneYearProjection={sparkRewardsOneYearProjection}
+        sparkRewardsSummary={sparkRewardsSummary}
         className="lg:hidden"
       />
     </div>
@@ -133,3 +152,27 @@ const mainPanelVariants = cva('bg-cover bg-right bg-no-repeat', {
     },
   },
 })
+
+function ViewRewardsPill({
+  sparkRewardsSummary,
+  className,
+}: { sparkRewardsSummary: AccountSparkRewardsSummary; className?: string }) {
+  if (sparkRewardsSummary.rewards.length === 0) {
+    return null
+  }
+
+  return (
+    <Link to={paths.sparkRewards} variant="unstyled">
+      <div
+        className={cn(
+          'typography-label-4 flex w-fit items-center gap-1 rounded-full bg-primary/10 p-1 text-primary-inverse backdrop-blur-sm',
+          className,
+        )}
+      >
+        <img src={assets.page.sparkRewardsCircle} alt={'Spark Rewards'} className="size-6" />
+        <div>View Rewards</div>
+        <ChevronRightIcon className="size-4" />
+      </div>
+    </Link>
+  )
+}

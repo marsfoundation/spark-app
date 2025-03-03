@@ -84,6 +84,7 @@ const interestData = {
   APY: Percentage(0.12),
   balanceRefreshIntervalInMs: 50,
   oneYearProjection: NormalizedUnitNumber(1250),
+  sparkRewardsOneYearProjection: NormalizedUnitNumber(0),
   calculateUnderlyingTokenBalance: () => ({
     depositedAssets: NormalizedUnitNumber(10365.7654),
     depositedAssetsPrecision: 2,
@@ -123,6 +124,10 @@ const savingsUsdsAccountDefinition = {
     apyExplainerDocsLink: links.docs.savings.susds,
     descriptionDocsLink: links.docs.savings.susds,
   },
+  sparkRewardsSummary: {
+    totalApy: Percentage(0),
+    rewards: [],
+  },
 } satisfies AccountDefinition
 
 const shortSavingsUsdsAccountDefinition = {
@@ -153,6 +158,10 @@ const savingsUsdcAccountDefinition = {
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.susds,
     descriptionDocsLink: links.docs.savings.susds,
+  },
+  sparkRewardsSummary: {
+    totalApy: Percentage(0),
+    rewards: [],
   },
 } satisfies AccountDefinition
 
@@ -198,6 +207,10 @@ const savingsDaiAccountDefinition = {
       'Current annual interest rate for DAI deposited into the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
     apyExplainerDocsLink: links.docs.savings.sdai,
     descriptionDocsLink: links.docs.savings.sdai,
+  },
+  sparkRewardsSummary: {
+    totalApy: Percentage(0),
+    rewards: [],
   },
 } satisfies AccountDefinition
 
@@ -410,3 +423,51 @@ export const InSandbox: Story = {
 }
 export const InSandboxMobile = getMobileStory(InSandbox)
 export const InSandboxTablet = getTabletStory(InSandbox)
+
+export const WithOneSparkReward: Story = {
+  args: {
+    ...savingsViewSusdsArgs,
+    selectedAccount: {
+      ...savingsUsdsAccountDefinition,
+      interestData: {
+        ...interestData,
+        sparkRewardsOneYearProjection: NormalizedUnitNumber(10),
+      },
+      sparkRewardsSummary: {
+        totalApy: Percentage(0.02),
+        rewards: [
+          {
+            rewardTokenSymbol: tokens.USDS.symbol,
+            longDescription: 'USDS',
+          },
+        ],
+      },
+    },
+  },
+}
+
+export const WithMultipleSparkReward: Story = {
+  args: {
+    ...savingsViewSusdsArgs,
+    selectedAccount: {
+      ...savingsUsdsAccountDefinition,
+      interestData: {
+        ...interestData,
+        sparkRewardsOneYearProjection: NormalizedUnitNumber(27),
+      },
+      sparkRewardsSummary: {
+        totalApy: Percentage(0.045),
+        rewards: [
+          {
+            rewardTokenSymbol: tokens.USDS.symbol,
+            longDescription: 'USDS',
+          },
+          {
+            rewardTokenSymbol: tokens.USDC.symbol,
+            longDescription: 'USDC',
+          },
+        ],
+      },
+    },
+  },
+}

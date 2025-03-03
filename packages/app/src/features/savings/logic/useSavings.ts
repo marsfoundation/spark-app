@@ -19,17 +19,19 @@ import { savingsWithdrawDialogConfig } from '@/features/dialogs/savings/withdraw
 import { useTimestamp } from '@/utils/useTimestamp'
 import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { useCallback, useState } from 'react'
-import { AccountMetadata, PsmSupplier } from '../types'
+import { AccountMetadata, AccountSparkRewardsSummary, PsmSupplier } from '../types'
 import { getAccountMetadata } from '../utils/getAccountMetadata'
 import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGeneralStats'
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
 import { usePrefetchValidators } from './usePrefetchValidators'
+import { useSparkRewardsSummary } from './useSparkRewardsSummary'
 
 export interface InterestData {
   APY: Percentage
   oneYearProjection: NormalizedUnitNumber
+  sparkRewardsOneYearProjection: NormalizedUnitNumber
   calculateUnderlyingTokenBalance: (timestampInMs: number) => SavingsOverview
   balanceRefreshIntervalInMs: number | undefined
 }
@@ -51,8 +53,9 @@ export interface AccountDefinition {
   interestData: InterestData
   chartsData: ChartsData
   showConvertDialogButton: boolean
-  migrationInfo?: MigrationInfo
   metadata: AccountMetadata
+  sparkRewardsSummary: AccountSparkRewardsSummary
+  migrationInfo?: MigrationInfo
 }
 
 export interface ShortAccountDefinition {
@@ -111,6 +114,11 @@ export function useSavings(): UseSavingsResults {
     savingsRateQueryOptions: selectedAccountConfig?.savingsRateQueryOptions,
   })
 
+  const sparkRewardsSummary = useSparkRewardsSummary({
+    chainId,
+    savingsToken: selectedAccountData.savingsToken,
+  })
+
   const migrationInfo = makeMigrationInfo({
     selectedAccount,
     savingsAccounts,
@@ -136,6 +144,8 @@ export function useSavings(): UseSavingsResults {
     savingsConverter: selectedAccountData.converter,
     savingsToken: selectedAccountData.savingsToken,
     savingsTokenBalance: selectedAccountData.savingsTokenBalance,
+    underlyingToken: selectedAccountData.underlyingToken,
+    sparkRewardsSummary,
     timestamp,
   })
 
@@ -190,6 +200,7 @@ export function useSavings(): UseSavingsResults {
       showConvertDialogButton: Boolean(psmStables && psmStables.length > 1),
       migrationInfo,
       metadata: getAccountMetadata({ underlyingToken: selectedAccountData.underlyingToken.symbol, chainId }),
+      sparkRewardsSummary,
     },
   }
 }
