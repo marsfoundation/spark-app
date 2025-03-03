@@ -5,7 +5,7 @@ import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber, UnixTime } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
 
 export async function createSandbox(opts: {
   originChainId: number
@@ -32,6 +32,11 @@ export async function createSandbox(opts: {
       await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
     }),
   )
+
+  if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
+    const { setupSparkRewards } = await import('./setupSparkRewards')
+    await setupSparkRewards({ forkUrl, account: CheckedAddress(opts.userAddress) })
+  }
 
   trackEvent('sandbox-created')
 

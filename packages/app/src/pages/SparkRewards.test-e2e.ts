@@ -16,10 +16,12 @@ test.describe('Spark Rewards', () => {
       initialPage: 'sparkRewards',
       account: {
         type: 'connected-random',
-        sparkRewards: {
-          token: 'USDS',
-          cumulativeAmount: NormalizedUnitNumber(101),
-        },
+        sparkRewards: [
+          {
+            rewardTokenSymbol: 'USDS',
+            cumulativeAmount: NormalizedUnitNumber(101),
+          },
+        ],
       },
     })
 
