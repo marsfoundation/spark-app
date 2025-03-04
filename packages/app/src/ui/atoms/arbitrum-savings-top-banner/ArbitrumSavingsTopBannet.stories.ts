@@ -3,16 +3,16 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { SavingsAccountsTopBanner } from './SavingsAccountsTopBanner'
+import { ArbitrumSavingsTopBanner } from './ArbitrumSavingsTopBanner'
 
-const meta: Meta<typeof SavingsAccountsTopBanner> = {
+const meta: Meta<typeof ArbitrumSavingsTopBanner> = {
   title: 'Components/Atoms/SavingsAccountsTopBanner',
-  component: SavingsAccountsTopBanner,
+  component: ArbitrumSavingsTopBanner,
   decorators: [WithClassname('w-full'), withRouter, ZeroAllowanceWagmiDecorator()],
 }
 
 export default meta
-type Story = StoryObj<typeof SavingsAccountsTopBanner>
+type Story = StoryObj<typeof ArbitrumSavingsTopBanner>
 
 export const Desktop: Story = {}
 export const Mobile: Story = getMobileStory(Desktop)
