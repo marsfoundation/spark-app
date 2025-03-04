@@ -1,7 +1,7 @@
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
 import { formatPercentage } from '@/domain/common/format'
 import { SupplyAvailabilityStatus } from '@/domain/market-info/reserve-status'
-import { SparkReward } from '@/domain/spark-rewards/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { Token } from '@/domain/types/Token'
 import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
@@ -27,7 +27,7 @@ interface SupplyStatusPanelProps {
   hasSparkAirdrop: boolean
   supplyCap?: NormalizedUnitNumber
   capAutomatorInfo?: CapAutomatorConfig
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function SupplyStatusPanel({

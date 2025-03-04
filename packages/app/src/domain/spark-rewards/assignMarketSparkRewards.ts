@@ -1,17 +1,21 @@
 import { filter, map, pipe } from 'remeda'
 import { TokenSymbol } from '../types/TokenSymbol'
 import { OngoingCampaign } from './ongoingCampaignsQueryOptions'
-import { SparkReward } from './types'
+import { MarketSparkRewards } from './types'
 
-export interface AssignSparkRewardsArgs {
+export interface AssignMarketSparkRewardsArgs {
   campaigns: OngoingCampaign[]
   action: 'supply' | 'borrow'
   reserveTokenSymbol: TokenSymbol
 }
 
-export function assignSparkRewards({ campaigns, action, reserveTokenSymbol }: AssignSparkRewardsArgs): SparkReward[] {
+export function assignMarketSparkRewards({
+  campaigns,
+  action,
+  reserveTokenSymbol,
+}: AssignMarketSparkRewardsArgs): MarketSparkRewards[] {
   function campaignToReward(action: 'supply' | 'borrow') {
-    return (campaign: OngoingCampaign): SparkReward => ({
+    return (campaign: OngoingCampaign): MarketSparkRewards => ({
       rewardTokenSymbol: campaign.rewardTokenSymbol,
       action,
       longDescription: campaign.longDescription,

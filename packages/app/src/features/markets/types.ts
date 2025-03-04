@@ -5,7 +5,7 @@ import {
   ReserveStatus,
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
-import { SparkReward } from '@/domain/spark-rewards/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
@@ -30,5 +30,5 @@ export interface ApyDetails {
   baseApy: Percentage | undefined
   airdrops?: TokenSymbol[]
   legacyRewards?: Incentive[]
-  sparkRewards?: SparkReward[]
+  sparkRewards?: MarketSparkRewards[]
 }

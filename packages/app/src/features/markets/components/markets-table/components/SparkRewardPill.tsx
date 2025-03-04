@@ -1,9 +1,9 @@
 import { formatPercentage } from '@/domain/common/format'
-import { SparkReward } from '@/domain/spark-rewards/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 
-export function SparkRewardPill({ rewardTokenSymbol, longDescription, apy }: SparkReward) {
+export function SparkRewardPill({ rewardTokenSymbol, longDescription, apy }: MarketSparkRewards) {
   const tokenColor = getTokenColor(rewardTokenSymbol)
 
   return (

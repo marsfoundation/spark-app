@@ -1,11 +1,11 @@
-import { SparkReward } from '@/domain/spark-rewards/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'
 import { Percentage, raise } from '@marsfoundation/common-universal'
 
 export interface SparkRewardsBadgeProps {
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function SparkRewardsBadge({ sparkRewards }: SparkRewardsBadgeProps) {

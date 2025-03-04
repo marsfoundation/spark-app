@@ -1,17 +1,20 @@
 import { Reserve } from '@/domain/market-info/marketInfo'
-import { assignSparkRewards } from '@/domain/spark-rewards/assignSparkRewards'
+import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
-import { SparkReward } from '../../../domain/spark-rewards/types'
+import { MarketSparkRewards } from '../../../domain/spark-rewards/types'
 
 export interface UseSparkRewardsByReserveParams {
   chainId: number
   reserves: Reserve[]
 }
 
-export type SparkRewardsByReserve = Record<CheckedAddress, { borrow: SparkReward[]; supply: SparkReward[] }>
+export type SparkRewardsByReserve = Record<
+  CheckedAddress,
+  { borrow: MarketSparkRewards[]; supply: MarketSparkRewards[] }
+>
 
 export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsByReserveParams): SparkRewardsByReserve {
   const wagmiConfig = useConfig()
@@ -21,8 +24,16 @@ export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsB
     select: (data) =>
       reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
         acc[reserve.token.address] = {
-          supply: assignSparkRewards({ campaigns: data, action: 'supply', reserveTokenSymbol: reserve.token.symbol }),
-          borrow: assignSparkRewards({ campaigns: data, action: 'borrow', reserveTokenSymbol: reserve.token.symbol }),
+          supply: assignMarketSparkRewards({
+            campaigns: data,
+            action: 'supply',
+            reserveTokenSymbol: reserve.token.symbol,
+          }),
+          borrow: assignMarketSparkRewards({
+            campaigns: data,
+            action: 'borrow',
+            reserveTokenSymbol: reserve.token.symbol,
+          }),
         }
         return acc
       }, {}),

@@ -1,9 +1,9 @@
-import { SparkReward } from '@/domain/spark-rewards/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { InfoTile } from '../../info-tile/InfoTile'
 import { SparkRewardPill } from './SparkRewardPill'
 
 export interface SparkRewardsInfoTileProps {
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function SparkRewardsInfoTile({ sparkRewards }: SparkRewardsInfoTileProps) {
