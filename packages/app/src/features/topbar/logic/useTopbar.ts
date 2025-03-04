@@ -17,7 +17,7 @@ import { useNavigationInfo } from './useNavigationInfo'
 import { useNetworkChange } from './useNetworkChange'
 import { usePrefetchCanWalletBatchQuery } from './usePrefetchCanWalletBatchQuery'
 import { useRewardsInfo } from './useRewardsInfo'
-import { useSparkRewardsSummary } from './useSparkRewardsInfo'
+import { useSparkRewardsSummary } from './useSparkRewardsSummary'
 
 interface UseTopbarParams {
   isMobileDisplay: boolean

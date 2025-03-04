@@ -1,8 +1,8 @@
-import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-
 import { CapAutomatorInfo } from '@/domain/cap-automator/types'
+import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { MarketOverview, SparkReward } from '../types'
+import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
 
@@ -10,7 +10,7 @@ export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
   capAutomatorInfo: CapAutomatorInfo
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function makeMarketOverview({

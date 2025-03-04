@@ -134,7 +134,7 @@ export const WithOneSparkReward: Story = {
       totalApy: Percentage(0.012),
       rewards: [
         {
-          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          rewardTokenSymbol: tokens.RED.symbol,
           longDescription: 'Lorem ipsum',
         },
       ],
@@ -149,7 +149,7 @@ export const WithMultipleSparkRewards: Story = {
       totalApy: Percentage(0.031),
       rewards: [
         {
-          rewardTokenSymbol: tokens.REDSTONE.symbol,
+          rewardTokenSymbol: tokens.RED.symbol,
           longDescription: 'Lorem ipsum',
         },
         {

@@ -1,15 +1,15 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-
-import { MarketOverview, SparkReward } from '../types'
+import { MarketOverview } from '../types'
 import { makeMarketOverview } from './makeMarketOverview'
 
 export interface MakeDaiMarketOverviewParams {
   reserve: Reserve
   marketInfo: MarketInfo
   D3MInfo: D3MInfo
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function makeDaiMarketOverview({

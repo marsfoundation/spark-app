@@ -1,10 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { getTokenImage } from '@/ui/assets'
+import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { Percentage } from '@marsfoundation/common-universal'
-
-import { TokenPill } from '../token-pill/TokenPill'
 
 interface RewardBadgeProps {
   incentivizedReserve: TokenSymbol
@@ -20,12 +18,19 @@ export function RewardBadge({
   'data-testid': dataTestId,
 }: RewardBadgeProps) {
   const tokenImage = getTokenImage(rewardToken)
+  const borderColor = getTokenColor(rewardToken)
   const formattedRewardApr = formatPercentage(rewardApr)
 
   return (
     <Tooltip disableHoverableContent>
-      <TooltipTrigger>
-        <TokenPill tokenSymbol={rewardToken} data-testid={dataTestId} />
+      <TooltipTrigger asChild>
+        <button
+          className="flex size-5 items-center justify-center rounded-xxs border outline-none"
+          style={{ borderColor }}
+          data-testid={dataTestId}
+        >
+          <img src={tokenImage} alt={rewardToken} className="size-3" />
+        </button>
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>
