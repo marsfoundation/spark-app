@@ -21,11 +21,7 @@ export class HttpServerMock {
 
   getUrl(path: string): string {
     const address = this.server?.address()
-    assert(address)
-
-    if (typeof address === 'string') {
-      return address
-    }
+    assert(address && typeof address !== 'string')
     return `http://127.0.0.1:${address.port}${path}`
   }
 
