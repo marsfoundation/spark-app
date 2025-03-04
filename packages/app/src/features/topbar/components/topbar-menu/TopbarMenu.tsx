@@ -53,7 +53,9 @@ export function TopbarMenu({
         <DialogContent overlayVariant="default" contentVerticalPosition="bottom" className="p-0">
           <DialogTitle className="border-primary border-b p-5 pt-6">Menu</DialogTitle>
 
-          <TopbarMenuSparkRewardsItem {...sparkRewardsSummary} closeMenu={() => setOpen(false)} />
+          {import.meta.env.VITE_DEV_SPARK_REWARDS === '1' && (
+            <TopbarMenuSparkRewardsItem {...sparkRewardsSummary} closeMenu={() => setOpen(false)} />
+          )}
           <TopbarMenuRewardsItem {...rewardsInfo} />
           <TopbarMenuAirdropItem {...airdropInfo} />
 

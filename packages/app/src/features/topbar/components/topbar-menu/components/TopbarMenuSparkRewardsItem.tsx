@@ -15,7 +15,7 @@ export function TopbarMenuSparkRewardsItem({
         <div className="flex flex-col items-start gap-2">
           <span className="typography-label-3 text-secondary">Spark Rewards</span>
           <div className="flex w-full items-center gap-2">
-            <img src={assets.giftGradient} className="size-6" />
+            <img src={assets.page.sparkRewards} className="size-6" />
             <div>{totalUsdAmount ? USD_MOCK_TOKEN.formatUSD(totalUsdAmount) : 'No Rewards yet'}</div>
           </div>
         </div>
