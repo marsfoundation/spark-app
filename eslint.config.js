@@ -21,6 +21,7 @@ module.exports = tseslint.config(
         { allowExpressions: true, allowDirectConstAssertionInArrowFunctions: true },
       ],
       'object-shorthand': 'error',
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     },
   },
   {
@@ -38,6 +39,7 @@ module.exports = tseslint.config(
       'func-style': ['error', 'declaration'],
       'object-shorthand': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     },
   },
 )
