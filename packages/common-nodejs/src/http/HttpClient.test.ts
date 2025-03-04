@@ -14,7 +14,7 @@ describe(HttpClient.name, () => {
 
   afterEach(() => httpServer.server?.close())
 
-  describe('get', () => {
+  describe(HttpClient.prototype.get.name, () => {
     it('returns successful response', async () => {
       const httpClient = new HttpClient(Logger.SILENT)
       const response = await httpClient.get(httpServer.getUrl('/status?status=200'), getResponseSchema)
@@ -51,7 +51,7 @@ describe(HttpClient.name, () => {
     })
   })
 
-  describe('post', () => {
+  describe(HttpClient.prototype.post.name, () => {
     it('returns response', async () => {
       const httpClient = new HttpClient(Logger.SILENT)
       const body: PostBody = {
