@@ -53,7 +53,7 @@ function formatSupportedPages(supportedPages: Path[]): string[] {
   const pageGroupNames = pageGroups.map((group) => group && pageGroupToName[group])
   const uniquePageGroupNames = pageGroupNames.filter(
     (pageGroupName, index, self) => self.indexOf(pageGroupName) === index,
-  ) as string[]
+  ).filter(Boolean) as string[]
 
   return uniquePageGroupNames
 }
