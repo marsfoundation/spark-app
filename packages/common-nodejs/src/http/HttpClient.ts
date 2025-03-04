@@ -1,26 +1,34 @@
 import { z } from 'zod'
-
-import { SolidFetch, solidFetch as _solidFetch } from '@marsfoundation/common-universal'
 import { Logger } from '../logger/index.js'
+import { RetryOptions, defaultRetryOptions, fetchWithRetries } from './fetchWithRetries.js'
 
 export class HttpClient {
   private readonly logger: Logger
-  constructor(
-    logger: Logger,
-    private readonly solidFetch: SolidFetch = _solidFetch,
-  ) {
+  private readonly retryOptions: RetryOptions
+  constructor(logger: Logger, retryOptions?: Partial<RetryOptions>) {
     this.logger = logger.for(this)
+    this.retryOptions = {
+      delay: retryOptions?.delay ?? defaultRetryOptions.delay,
+      maxCalls: retryOptions?.maxCalls ?? defaultRetryOptions.maxCalls,
+      isRetryableStatus: retryOptions?.isRetryableStatus ?? defaultRetryOptions.isRetryableStatus,
+      isRetryableError: retryOptions?.isRetryableError ?? defaultRetryOptions.isRetryableError,
+    }
   }
 
   async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
     this.logger.info('[HttpClient] POST request', { url, body })
-    const result = await this.solidFetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+
+    const result = await fetchWithRetries(
+      url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
       },
-      body: JSON.stringify(body),
-    })
+      this.retryOptions,
+    )
     if (!result.ok) {
       throw new Error(`Failed POST: ${result.status} - ${await result.text()}`)
     }
@@ -30,7 +38,7 @@ export class HttpClient {
 
   async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
     this.logger.info('[HttpClient] GET request', { url })
-    const result = await this.solidFetch(url)
+    const result = await fetchWithRetries(url, {}, this.retryOptions)
     if (!result.ok) {
       throw new Error(`Failed GET: ${result.status} - ${await result.text()}`)
     }
