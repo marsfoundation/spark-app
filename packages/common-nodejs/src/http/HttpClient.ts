@@ -12,10 +12,7 @@ export class HttpClient {
     this.logger = logger.for(this)
   }
 
-  async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>>
-  async post(url: string, body: object): Promise<undefined>
-
-  async post<T extends z.ZodTypeAny>(url: string, body: object, schema?: T): Promise<z.infer<T> | undefined> {
+  async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
     this.logger.info('[HttpClient] POST request', { url, body })
     const result = await this.solidFetch(url, {
       method: 'POST',
@@ -24,10 +21,8 @@ export class HttpClient {
       },
       body: JSON.stringify(body),
     })
-    if (!result.ok) throw new Error(`Failed POST: ${result.status} - ${await result.text()}`)
-
-    if (!schema) {
-      return undefined
+    if (!result.ok) {
+      throw new Error(`Failed POST: ${result.status} - ${await result.text()}`)
     }
 
     return schema.parse(await result.json())
@@ -36,7 +31,9 @@ export class HttpClient {
   async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
     this.logger.info('[HttpClient] GET request', { url })
     const result = await this.solidFetch(url)
-    if (!result.ok) throw new Error(`Failed GET: ${result.status} - ${await result.text()}`)
+    if (!result.ok) {
+      throw new Error(`Failed GET: ${result.status} - ${await result.text()}`)
+    }
     return schema.parse(await result.json())
   }
 }
