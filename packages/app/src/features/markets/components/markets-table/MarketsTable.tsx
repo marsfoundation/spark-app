@@ -56,8 +56,8 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           header: <ApyTooltip variant="supply">Deposit APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => sortByAPY(a.original.depositAPYDetails.apy, b.original.depositAPYDetails.apy),
-          renderCell: ({ depositAPYDetails, reserveStatus, token }, mobileViewOptions) => (
+          sortingFn: (a, b) => sortByAPY(a.original.depositApyDetails.baseApy, b.original.depositApyDetails.baseApy),
+          renderCell: ({ depositApyDetails: depositAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}
               incentivizedReserve={token}
@@ -89,8 +89,8 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           header: <ApyTooltip variant="borrow">Borrow APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => sortByAPY(a.original.borrowAPYDetails.apy, b.original.borrowAPYDetails.apy),
-          renderCell: ({ borrowAPYDetails, reserveStatus, token }, mobileViewOptions) => (
+          sortingFn: (a, b) => sortByAPY(a.original.borrowApyDetails.baseApy, b.original.borrowApyDetails.baseApy),
+          renderCell: ({ borrowApyDetails: borrowAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}
               incentivizedReserve={token}

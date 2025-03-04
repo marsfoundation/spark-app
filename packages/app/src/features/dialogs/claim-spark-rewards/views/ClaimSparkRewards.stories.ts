@@ -29,7 +29,7 @@ const meta: Meta<typeof ClaimSparkRewardsView> = {
     objectives: [
       {
         type: 'claimSparkRewards',
-        token: tokens.REDSTONE,
+        token: tokens.RED,
         epoch: 1,
         cumulativeAmount: NormalizedUnitNumber(1000),
         merkleRoot: Hex.random(),
@@ -43,7 +43,7 @@ const meta: Meta<typeof ClaimSparkRewardsView> = {
     },
     claims: [
       {
-        token: tokens.REDSTONE,
+        token: tokens.RED,
         amountToClaim: NormalizedUnitNumber(100),
       },
       {

@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { Token } from '@/domain/types/Token'
 import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
-import { SparkReward } from '../../types'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { SparkRewardsBadge } from './components/SparkRewardsBadge'
@@ -15,7 +15,7 @@ interface LendStatusPanelProps {
   token: Token
   totalLent: NormalizedUnitNumber
   apy: Percentage | undefined
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function LendStatusPanel({ status, token, totalLent, apy, sparkRewards }: LendStatusPanelProps) {

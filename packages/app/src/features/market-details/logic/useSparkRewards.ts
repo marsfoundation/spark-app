@@ -1,14 +1,16 @@
 import { Reserve } from '@/domain/market-info/marketInfo'
+import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
-import { SparkReward } from '../types'
 
 export interface UseSparkRewardsParams {
   chainId: number
   reserve: Reserve
 }
-export type UseSparkRewardsResult = SparkReward[]
+
+export type UseSparkRewardsResult = MarketSparkRewards[]
 
 export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): UseSparkRewardsResult {
   const wagmiConfig = useConfig()
@@ -16,26 +18,8 @@ export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): Us
   const { data } = useQuery({
     ...ongoingCampaignsQueryOptions({ wagmiConfig, chainId }),
     select: (data) => [
-      ...data
-        .filter(
-          (campaign) => campaign.type === 'sparklend' && campaign.depositTokenSymbols.includes(reserve.token.symbol),
-        )
-        .map((campaign) => ({
-          rewardTokenSymbol: campaign.rewardTokenSymbol,
-          action: 'supply' as const,
-          longDescription: campaign.longDescription,
-          apy: campaign.type === 'sparklend' ? campaign.apy : undefined,
-        })),
-      ...data
-        .filter(
-          (campaign) => campaign.type === 'sparklend' && campaign.borrowTokenSymbols.includes(reserve.token.symbol),
-        )
-        .map((campaign) => ({
-          rewardTokenSymbol: campaign.rewardTokenSymbol,
-          action: 'borrow' as const,
-          longDescription: campaign.longDescription,
-          apy: campaign.type === 'sparklend' ? campaign.apy : undefined,
-        })),
+      ...assignMarketSparkRewards({ campaigns: data, action: 'supply', reserveTokenSymbol: reserve.token.symbol }),
+      ...assignMarketSparkRewards({ campaigns: data, action: 'borrow', reserveTokenSymbol: reserve.token.symbol }),
     ],
   })
 

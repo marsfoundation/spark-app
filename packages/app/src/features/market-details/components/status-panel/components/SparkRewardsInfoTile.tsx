@@ -1,9 +1,9 @@
-import { SparkReward } from '@/features/market-details/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { InfoTile } from '../../info-tile/InfoTile'
 import { SparkRewardPill } from './SparkRewardPill'
 
 export interface SparkRewardsInfoTileProps {
-  sparkRewards: SparkReward[]
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function SparkRewardsInfoTile({ sparkRewards }: SparkRewardsInfoTileProps) {
@@ -11,9 +11,11 @@ export function SparkRewardsInfoTile({ sparkRewards }: SparkRewardsInfoTileProps
     return null
   }
 
+  const label = sparkRewards.some((reward) => reward.apy) ? 'Rewards APY' : 'Rewards'
+
   return (
     <InfoTile>
-      <InfoTile.Label>Rewards APY</InfoTile.Label>
+      <InfoTile.Label>{label}</InfoTile.Label>
       <InfoTile.Value>
         <div className="flex items-stretch gap-0.5 sm:flex-col">
           {sparkRewards.map((reward) => (

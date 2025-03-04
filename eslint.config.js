@@ -35,6 +35,7 @@ module.exports = tseslint.config(
           peerDependencies: true,
         },
       ],
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     },
   },
   {
@@ -60,6 +61,7 @@ module.exports = tseslint.config(
           peerDependencies: true,
         },
       ],
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     },
   },
 )
