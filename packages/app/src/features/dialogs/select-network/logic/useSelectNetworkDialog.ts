@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Path, getSupportedPages, pathGroups } from '@/config/paths'
+import { Path, PathGroup, getSupportedPages, pathGroups } from '@/config/paths'
+import { entries } from 'remeda'
 import { useChainId, useChains } from 'wagmi'
 import { Chain } from '../types'
 import { useNetworkChange } from './useNetworkChange'
@@ -47,9 +48,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
 }
 
 function formatSupportedPages(supportedPages: Path[]): string[] {
-  const pageGroups = supportedPages.map(
-    (path) => Object.entries(pathGroups).find(([, paths]) => paths.includes(path))?.[0],
-  )
+  const pageGroups = supportedPages.map((path) => entries(pathGroups).find(([, paths]) => paths.includes(path))?.[0])
   const pageGroupNames = pageGroups.map((group) => group && pageGroupToName[group])
   const uniquePageGroupNames = pageGroupNames.filter(
     (pageGroupName, index, self) => self.indexOf(pageGroupName) === index,
@@ -58,8 +57,9 @@ function formatSupportedPages(supportedPages: Path[]): string[] {
   return uniquePageGroupNames
 }
 
-const pageGroupToName: Record<string, string> = {
+const pageGroupToName: Record<PathGroup, string> = {
   borrow: 'Borrow',
   savings: 'Savings',
   farms: 'Farms',
+  sparkRewards: 'Rewards',
 }
