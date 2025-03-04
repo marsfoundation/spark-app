@@ -15,9 +15,13 @@ export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="rounded-xxs border p-[3px]" style={{ borderColor: spkColor }} data-testid={dataTestId}>
+        <button
+          className="rounded-xxs border p-[3px] outline-none"
+          style={{ borderColor: spkColor }}
+          data-testid={dataTestId}
+        >
           <img src={getTokenImage(spk)} alt={spk} className="size-3" />
-        </div>
+        </button>
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>

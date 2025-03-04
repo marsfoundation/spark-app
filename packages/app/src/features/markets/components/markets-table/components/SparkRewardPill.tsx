@@ -9,14 +9,17 @@ export function SparkRewardPill({ rewardTokenSymbol, longDescription, apy }: Spa
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="flex h-5 items-center gap-1.5 rounded-xxs border px-1" style={{ borderColor: tokenColor }}>
+        <button
+          className="flex h-5 items-center gap-1.5 rounded-xxs border px-1 outline-none"
+          style={{ borderColor: tokenColor }}
+        >
           <img src={getTokenImage(rewardTokenSymbol)} alt={rewardTokenSymbol} className="size-3" />
           {apy?.gt(0) && (
             <div className="typography-button-2" style={{ color: tokenColor }}>
               {formatPercentage(apy, { minimumFractionDigits: 1 })}
             </div>
           )}
-        </div>
+        </button>
       </TooltipTrigger>
       <TooltipContent>{longDescription}</TooltipContent>
     </Tooltip>

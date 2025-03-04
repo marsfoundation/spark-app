@@ -24,13 +24,13 @@ export function RewardBadge({
   return (
     <Tooltip disableHoverableContent>
       <TooltipTrigger asChild>
-        <div
-          className="flex size-5 items-center justify-center rounded-xxs border"
+        <button
+          className="flex size-5 items-center justify-center rounded-xxs border outline-none"
           style={{ borderColor }}
           data-testid={dataTestId}
         >
           <img src={tokenImage} alt={rewardToken} className="size-3" />
-        </div>
+        </button>
       </TooltipTrigger>
       <TooltipContent variant="long">
         <TooltipContentLayout>
