@@ -60,7 +60,7 @@ export function Topbar({
       <div className={cn(boxClasses, 'hidden h-full w-full justify-between gap-2 sm:flex')}>
         <TopbarNavigation {...navigationInfo} />
         <div className="flex gap-2">
-          <TopbarSparkRewards {...sparkRewardsSummary} />
+          {import.meta.env.VITE_DEV_SPARK_REWARDS === '1' && <TopbarSparkRewards {...sparkRewardsSummary} />}
           <TopbarRewards {...rewardsInfo} />
           <TopbarAirdrop {...airdropInfo} />
         </div>
