@@ -1,16 +1,15 @@
-import { VariantProps, cva } from 'class-variance-authority'
-
 import { formatPercentage } from '@/domain/common/format'
 import { ReserveStatus } from '@/domain/market-info/reserve-status'
 import { Token } from '@/domain/types/Token'
 import { ApyDetails } from '@/features/markets/types'
 import { MobileViewOptions } from '@/ui/molecules/data-table/types'
 import { cn } from '@/ui/utils/style'
-import { Percentage } from '@marsfoundation/common-universal'
-
 import { testIds } from '@/ui/utils/testIds'
+import { Percentage } from '@marsfoundation/common-universal'
+import { VariantProps, cva } from 'class-variance-authority'
 import { AirdropBadge } from '../../airdrop-badge/AirdropBadge'
-import { RewardBadge } from '../../reward-badge/RewardBadge'
+import { RewardBadge } from './RewardBadge'
+import { SparkRewardPill } from './SparkRewardPill'
 
 interface ApyWithRewardsCellProps extends VariantProps<typeof variants> {
   apyDetails: ApyDetails
@@ -45,20 +44,28 @@ function CellContent({ apyDetails, reserveStatus, incentivizedReserve, 'data-tes
   }
 
   return (
-    <div className="flex items-center justify-end gap-1 lg:gap-1.5" data-testid={dataTestId}>
-      {apyDetails.airdrops.map((airdroppedToken) => (
-        <AirdropBadge key={airdroppedToken} data-testid={testIds.markets.airdropBadge} />
-      ))}
-      {apyDetails.legacyRewards.map((reward, index) => (
-        <RewardBadge
-          key={index}
-          rewardToken={reward.token.symbol}
-          rewardApr={reward.APR}
-          incentivizedReserve={incentivizedReserve.symbol}
-          data-testid={testIds.markets.rewardBadge}
-        />
-      ))}
-      <CellValue value={apyDetails.baseApy} />
+    <div className="flex flex-col items-end gap-2">
+      <div className="flex items-center justify-end gap-1 lg:gap-1.5" data-testid={dataTestId}>
+        {(apyDetails.airdrops ?? []).map((airdroppedToken) => (
+          <AirdropBadge key={airdroppedToken} data-testid={testIds.markets.airdropBadge} />
+        ))}
+        <CellValue value={apyDetails.baseApy} />
+      </div>
+      <div className="flex flex-wrap justify-end gap-1">
+        {/* In practice it won't be displayed. Left until market incentives will be removed. */}
+        {(apyDetails.legacyRewards ?? []).map((reward, index) => (
+          <RewardBadge
+            key={index}
+            rewardToken={reward.token.symbol}
+            rewardApr={reward.APR}
+            incentivizedReserve={incentivizedReserve.symbol}
+            data-testid={testIds.markets.rewardBadge}
+          />
+        ))}
+        {(apyDetails.sparkRewards ?? []).map((sparkReward, index) => (
+          <SparkRewardPill key={index} {...sparkReward} />
+        ))}
+      </div>
     </div>
   )
 }

@@ -17,11 +17,9 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.wstETH,
         reserveStatus: 'frozen',
-        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        borrowApyDetails: { baseApy: Percentage(0.11) },
         depositApyDetails: {
           baseApy: Percentage(0.157),
-          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
-          airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -34,11 +32,9 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.GNO,
         reserveStatus: 'paused',
-        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        borrowApyDetails: { baseApy: Percentage(0.11) },
         depositApyDetails: {
           baseApy: Percentage(0.157),
-          legacyRewards: [],
-          airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -51,11 +47,25 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.ETH,
         reserveStatus: 'active',
-        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        borrowApyDetails: {
+          baseApy: Percentage(0.11),
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('wstETH'),
+              action: 'borrow',
+              longDescription: 'Borrow ETH and get wstETH',
+              apy: Percentage(0.12),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get RED',
+            },
+          ],
+        },
         depositApyDetails: {
           baseApy: Percentage(0.157),
           airdrops: [TokenSymbol('SPK')],
-          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -68,11 +78,23 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.rETH,
         reserveStatus: 'active',
-        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        borrowApyDetails: { baseApy: Percentage(0.11) },
         depositApyDetails: {
           baseApy: Percentage(0.157),
-          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
-          airdrops: [],
+          airdrops: [TokenSymbol('SPK')],
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('USDS'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get USDS',
+              apy: Percentage(0.01),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get RED',
+            },
+          ],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -87,10 +109,8 @@ const meta: Meta<typeof MarketsTable> = {
         reserveStatus: 'active',
         borrowApyDetails: {
           baseApy: Percentage(0.0553),
-          legacyRewards: [],
-          airdrops: [TokenSymbol('SPK')],
         },
-        depositApyDetails: { baseApy: Percentage(0.05), legacyRewards: [], airdrops: [] },
+        depositApyDetails: { baseApy: Percentage(0.05) },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {

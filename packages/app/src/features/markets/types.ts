@@ -28,7 +28,7 @@ export interface MarketEntry {
 
 export interface ApyDetails {
   baseApy: Percentage | undefined
-  airdrops: TokenSymbol[]
-  legacyRewards: Incentive[]
+  airdrops?: TokenSymbol[]
+  legacyRewards?: Incentive[]
   sparkRewards?: SparkReward[]
 }

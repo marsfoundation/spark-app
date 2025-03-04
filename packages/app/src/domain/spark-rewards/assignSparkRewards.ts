@@ -10,21 +10,21 @@ export interface AssignSparkRewardsArgs {
 }
 
 export function assignSparkRewards({ campaigns, action, reserveTokenSymbol }: AssignSparkRewardsArgs): SparkReward[] {
-  const campaignToReward =
-    (action: 'supply' | 'borrow') =>
-    (campaign: OngoingCampaign): SparkReward => ({
+  function campaignToReward(action: 'supply' | 'borrow') {
+    return (campaign: OngoingCampaign): SparkReward => ({
       rewardTokenSymbol: campaign.rewardTokenSymbol,
       action,
       longDescription: campaign.longDescription,
       apy: campaign.type === 'sparklend' ? campaign.apy : undefined,
     })
+  }
 
-  const includesReserve =
-    (tokenSymbol: TokenSymbol, action: 'supply' | 'borrow') =>
-    (campaign: Extract<OngoingCampaign, { type: 'sparklend' }>) =>
+  function includesReserve(tokenSymbol: TokenSymbol, action: 'supply' | 'borrow') {
+    return (campaign: Extract<OngoingCampaign, { type: 'sparklend' }>) =>
       action === 'supply'
         ? campaign.depositTokenSymbols.includes(tokenSymbol)
         : campaign.borrowTokenSymbols.includes(tokenSymbol)
+  }
 
   return pipe(
     campaigns,

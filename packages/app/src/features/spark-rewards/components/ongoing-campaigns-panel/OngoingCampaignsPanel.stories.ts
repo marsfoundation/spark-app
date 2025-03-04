@@ -47,10 +47,10 @@ const data: OngoingCampaignRow[] = [
     id: '3',
     type: 'sparklend',
     chainId: mainnet.id,
-    shortDescription: 'Borrow USDS and get REDSTONE airdrop',
+    shortDescription: 'Borrow USDS and get RED airdrop',
     longDescription:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rewardTokenSymbol: tokens.REDSTONE.symbol,
+    rewardTokenSymbol: tokens.RED.symbol,
     involvedTokensSymbols: [tokens.USDS.symbol],
     restrictedCountryCodes: ['US'],
   },

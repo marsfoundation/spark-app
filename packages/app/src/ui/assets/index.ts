@@ -73,7 +73,6 @@ import snowflake from './snowflake.svg'
 import discord from './social-platforms/discord.svg'
 import x from './social-platforms/x.svg'
 import sparkIcon from './spark-icon.svg'
-import sparkLogo from './spark-logo.svg'
 import success from './success.svg'
 import threeDots from './three-dots.svg'
 import timer from './timer.svg'
@@ -84,7 +83,7 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
-import redstone from './tokens/redstone.svg'
+import red from './tokens/red.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
 import sky from './tokens/sky.svg'
@@ -115,7 +114,6 @@ import warning from './warning.svg'
 import xCircle from './x-circle.svg'
 
 export const assets = {
-  sparkLogo,
   sparkIcon,
   lifiLogo,
   chevronDown,
@@ -202,7 +200,7 @@ export const assets = {
     xdai,
     cbbtc,
     cle,
-    redstone,
+    red,
     spk,
     unknown,
   },
@@ -296,7 +294,7 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('GNO')]: '62 105 87',
   [TokenSymbol('MKR')]: '26 171 155',
   [TokenSymbol('SKY')]: '178 104 252',
-  [TokenSymbol('USDS')]: '255 192 70',
+  [TokenSymbol('USDS')]: '255 163 76',
   [TokenSymbol('rETH')]: '255 151 125',
   [TokenSymbol('sDAI')]: '53 181 82',
   [TokenSymbol('sUSDS')]: '53 181 82',
@@ -313,6 +311,6 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('XDAI')]: '255 192 70',
   [TokenSymbol('CLE')]: '47 208 91',
   [TokenSymbol('cbBTC')]: '0 82 255',
-  [TokenSymbol('REDSTONE')]: '350 96 68',
+  [TokenSymbol('RED')]: '174 8 34',
   [TokenSymbol('SPK')]: '358 54 99',
 }
