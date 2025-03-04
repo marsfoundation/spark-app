@@ -11,9 +11,11 @@ export function SparkRewardsInfoTile({ sparkRewards }: SparkRewardsInfoTileProps
     return null
   }
 
+  const label = sparkRewards.some((reward) => reward.apy) ? 'Rewards APY' : 'Rewards'
+
   return (
     <InfoTile>
-      <InfoTile.Label>Rewards APY</InfoTile.Label>
+      <InfoTile.Label>{label}</InfoTile.Label>
       <InfoTile.Value>
         <div className="flex items-stretch gap-0.5 sm:flex-col">
           {sparkRewards.map((reward) => (

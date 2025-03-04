@@ -30,5 +30,5 @@ export interface ApyDetails {
   baseApy: Percentage | undefined
   airdrops: TokenSymbol[]
   legacyRewards: Incentive[]
-  sparkRewards: SparkReward[]
+  sparkRewards?: SparkReward[]
 }

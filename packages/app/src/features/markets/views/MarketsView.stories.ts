@@ -33,11 +33,11 @@ export const Desktop: Story = {
       {
         token: tokens.ETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
           airdrops: [TokenSymbol('SPK')],
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -50,14 +50,14 @@ export const Desktop: Story = {
       {
         token: tokens.DAI,
         reserveStatus: 'active',
-        borrowAPYDetails: {
-          apy: Percentage(0.11),
-          incentives: [],
+        borrowApyDetails: {
+          baseApy: Percentage(0.11),
+          legacyRewards: [],
           airdrops: [TokenSymbol('SPK')],
         },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [],
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
+          legacyRewards: [],
           airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(1257),
@@ -71,14 +71,14 @@ export const Desktop: Story = {
       {
         token: tokens.USDT,
         reserveStatus: 'paused',
-        borrowAPYDetails: {
-          apy: undefined,
-          incentives: [],
+        borrowApyDetails: {
+          baseApy: undefined,
+          legacyRewards: [],
           airdrops: [],
         },
-        depositAPYDetails: {
-          apy: undefined,
-          incentives: [],
+        depositApyDetails: {
+          baseApy: undefined,
+          legacyRewards: [],
           airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(1257),
@@ -94,8 +94,8 @@ export const Desktop: Story = {
       {
         token: tokens.GNO,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: { apy: Percentage(0.157), incentives: [], airdrops: [] },
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: { baseApy: Percentage(0.157), legacyRewards: [], airdrops: [] },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
         marketStatus: {
@@ -107,8 +107,8 @@ export const Desktop: Story = {
       {
         token: tokens.USDC,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
-        depositAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
+        borrowApyDetails: { baseApy: undefined, legacyRewards: [], airdrops: [] },
+        depositApyDetails: { baseApy: undefined, legacyRewards: [], airdrops: [] },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {

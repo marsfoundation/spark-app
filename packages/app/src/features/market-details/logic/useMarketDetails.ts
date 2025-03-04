@@ -13,12 +13,12 @@ import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
 import { CheckedAddress, raise } from '@marsfoundation/common-universal'
 import { useChainId } from 'wagmi'
-import { useSparkRewards } from '../../../domain/spark-rewards/useSparkRewards'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
+import { useSparkRewards } from './useSparkRewards'
 
 export interface UseMarketDetailsResult {
   token: Token

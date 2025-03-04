@@ -17,10 +17,10 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.wstETH,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
+          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
           airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(0),
@@ -34,10 +34,10 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.GNO,
         reserveStatus: 'paused',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [],
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
+          legacyRewards: [],
           airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(0),
@@ -51,11 +51,11 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.ETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
           airdrops: [TokenSymbol('SPK')],
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -68,10 +68,10 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.rETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+        borrowApyDetails: { baseApy: Percentage(0.11), legacyRewards: [], airdrops: [] },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
+          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
           airdrops: [],
         },
         totalBorrowed: NormalizedUnitNumber(0),
@@ -85,12 +85,12 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.DAI,
         reserveStatus: 'active',
-        borrowAPYDetails: {
-          apy: Percentage(0.0553),
-          incentives: [],
+        borrowApyDetails: {
+          baseApy: Percentage(0.0553),
+          legacyRewards: [],
           airdrops: [TokenSymbol('SPK')],
         },
-        depositAPYDetails: { apy: Percentage(0.05), incentives: [], airdrops: [] },
+        depositApyDetails: { baseApy: Percentage(0.05), legacyRewards: [], airdrops: [] },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {

@@ -3,19 +3,19 @@ import { getAirdropsData } from '@/config/chain/utils/airdrops'
 import { paths } from '@/config/paths'
 import { sortByUsdValue } from '@/domain/common/sorters'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-import { SparkReward } from '@/domain/spark-rewards/types'
 import { RowClickOptions } from '@/ui/molecules/data-table/DataTable'
 import { Transformer, TransformerResult, applyTransformers } from '@/utils/applyTransformers'
 import { raise } from '@marsfoundation/common-universal'
 import { generatePath } from 'react-router-dom'
 import { MarketEntry } from '../types'
+import { SparkRewardsByReserve } from './useSparkRewardsByReserve'
 
 export interface MarketEntryRowData extends MarketEntry {
   rowClickOptions: RowClickOptions
 }
 
 type MarketEntryTransformer = Transformer<
-  [number, Reserve, Reserve[], SparkReward[]],
+  [number, Reserve, Reserve[], SparkRewardsByReserve],
   TransformerResult<MarketEntryRowData>
 >
 
@@ -23,11 +23,11 @@ function getTransformers(): MarketEntryTransformer[] {
   return [skipInactiveReserves, renameReserve, makeMarketEntry]
 }
 
-export function transformReserves(marketInfo: MarketInfo, sparkRewards: SparkReward[]): MarketEntry[] {
+export function transformReserves(marketInfo: MarketInfo, sparkRewardsByReserve: SparkRewardsByReserve): MarketEntry[] {
   const transformers = getTransformers()
   return marketInfo.reserves
     .map((r) => {
-      return applyTransformers(marketInfo.chainId, r, marketInfo.reserves, sparkRewards)(transformers)
+      return applyTransformers(marketInfo.chainId, r, marketInfo.reserves, sparkRewardsByReserve)(transformers)
     })
     .filter((r): r is MarketEntryRowData => r !== null)
     .sort((a, b) => -sortByUsdValue(a, b, 'totalSupplied')) // this is needed for mobile view where we don't have sorting functions
@@ -37,7 +37,7 @@ function skipInactiveReserves(
   _: number,
   reserve: Reserve,
   _reserves: Reserve[],
-  _sparkRewards: SparkReward[],
+  _sparkRewardsByReserve: SparkRewardsByReserve,
 ): undefined | null {
   if (reserve.status === 'not-active') return null
 
@@ -48,7 +48,7 @@ function renameReserve(
   chainId: number,
   reserve: Reserve,
   _reserves: Reserve[],
-  sparkRewards: SparkReward[],
+  sparkRewardsByReserve: SparkRewardsByReserve,
 ): MarketEntryRowData | undefined {
   const { tokenSymbolToReplacedName } =
     getChainConfigEntry(chainId).markets ?? raise('Markets config is not defined on this chain')
@@ -63,7 +63,7 @@ function renameReserve(
         }),
       },
       _reserves,
-      sparkRewards,
+      sparkRewardsByReserve,
     )
   }
 }
@@ -72,11 +72,11 @@ export function makeMarketEntry(
   chainId: number,
   reserve: Reserve,
   _reserves: Reserve[],
-  sparkRewards: SparkReward[],
+  sparkRewardsByReserve: SparkRewardsByReserve,
 ): MarketEntryRowData {
   const airdrops = getAirdropsData(chainId, reserve.token.symbol)
-  const supplySparkRewards = sparkRewards.filter((reward) => reward.action === 'supply')
-  const borrowSparkRewards = sparkRewards.filter((reward) => reward.action === 'borrow')
+  const sparkRewards = sparkRewardsByReserve[reserve.token.symbol]
+
   return {
     token: reserve.token,
     reserveStatus: reserve.status,
@@ -84,14 +84,14 @@ export function makeMarketEntry(
     depositApyDetails: {
       baseApy: reserve.supplyAPY,
       legacyRewards: reserve.incentives.deposit,
-      sparkRewards: supplySparkRewards,
+      sparkRewards: sparkRewards?.supply,
       airdrops: airdrops.deposit,
     },
     totalBorrowed: reserve.totalDebt,
     borrowApyDetails: {
       baseApy: reserve.variableBorrowApy,
       legacyRewards: reserve.incentives.borrow,
-      sparkRewards: borrowSparkRewards,
+      sparkRewards: sparkRewards?.borrow,
       airdrops: airdrops.borrow,
     },
     marketStatus: {
