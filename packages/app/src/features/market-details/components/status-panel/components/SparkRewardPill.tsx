@@ -1,5 +1,5 @@
 import { formatPercentage } from '@/domain/common/format'
-import { SparkReward } from '@/features/market-details/types'
+import { SparkReward } from '@/domain/spark-rewards/types'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 

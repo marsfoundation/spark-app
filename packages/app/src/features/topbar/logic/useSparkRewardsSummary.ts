@@ -3,12 +3,12 @@ import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-uni
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
 import { SparkRewardsSummary } from '../types'
-export interface UseSparkRewardsInfoParams {
+export interface UseSparkRewardsSummaryParams {
   chainId: number
   address: CheckedAddress | undefined
 }
 
-export function useSparkRewardsSummary({ chainId, address }: UseSparkRewardsInfoParams): SparkRewardsSummary {
+export function useSparkRewardsSummary({ chainId, address }: UseSparkRewardsSummaryParams): SparkRewardsSummary {
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({

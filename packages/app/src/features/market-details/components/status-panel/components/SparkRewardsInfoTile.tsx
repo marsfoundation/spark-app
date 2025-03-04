@@ -1,4 +1,4 @@
-import { SparkReward } from '@/features/market-details/types'
+import { SparkReward } from '@/domain/spark-rewards/types'
 import { InfoTile } from '../../info-tile/InfoTile'
 import { SparkRewardPill } from './SparkRewardPill'
 

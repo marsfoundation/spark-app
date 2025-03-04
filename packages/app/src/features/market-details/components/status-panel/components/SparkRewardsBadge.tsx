@@ -1,4 +1,4 @@
-import { SparkReward } from '@/features/market-details/types'
+import { SparkReward } from '@/domain/spark-rewards/types'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { assets } from '@/ui/assets'
 import { Info } from '@/ui/molecules/info/Info'

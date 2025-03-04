@@ -9,6 +9,7 @@ import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
+import { SparkReward } from '@/domain/spark-rewards/types'
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
 
 export interface DssAutoline {
@@ -112,11 +113,4 @@ export interface WalletOverview {
     available: NormalizedUnitNumber
     token: Token
   }
-}
-
-export interface SparkReward {
-  rewardTokenSymbol: TokenSymbol
-  action: 'supply' | 'borrow'
-  longDescription: string
-  apy?: Percentage
 }

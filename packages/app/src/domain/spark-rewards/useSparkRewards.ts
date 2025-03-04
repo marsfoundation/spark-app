@@ -2,7 +2,7 @@ import { Reserve } from '@/domain/market-info/marketInfo'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
-import { SparkReward } from '../types'
+import { SparkReward } from './types'
 
 export interface UseSparkRewardsParams {
   chainId: number
