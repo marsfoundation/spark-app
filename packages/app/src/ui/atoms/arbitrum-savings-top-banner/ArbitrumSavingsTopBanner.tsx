@@ -42,7 +42,8 @@ export function ArbitrumSavingsTopBanner({ onClose, className }: ArbitrumSavings
       onClick={clickable ? onBannerClick : undefined}
     >
       <div className="typography-body-3 flex max-w-[80%] items-center text-primary-inverse">
-        Now supporting Arbitrum! <br className="sm:hidden" /> Enjoy fast and cost-efficient transactions on the Savings Page.
+        Now supporting Arbitrum! <br className="sm:hidden" /> Enjoy fast and cost-efficient transactions on the Savings
+        Page.
       </div>
 
       <IconButton
