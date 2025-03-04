@@ -95,7 +95,7 @@ export const ZeroAmounts: Story = {
     activeRewardsResult: {
       data: [
         {
-          token: tokens.REDSTONE,
+          token: tokens.RED,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
           openClaimDialog: () => {},
