@@ -145,6 +145,38 @@ export const NoActiveRewards: Story = {
 export const NoActiveRewardsMobile = getMobileStory(NoActiveRewards)
 export const NoActiveRewardsTablet = getTabletStory(NoActiveRewards)
 
+export const ZeroAmounts: Story = {
+  args: {
+    activeRewardsResult: {
+      data: [
+        {
+          token: tokens.REDSTONE,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+        {
+          token: tokens.SPK,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+        {
+          token: tokens.USDS,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+      ],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  },
+}
+export const ZeroAmountsMobile = getMobileStory(ZeroAmounts)
+export const ZeroAmountsTablet = getTabletStory(ZeroAmounts)
+
 export const Nothing: Story = {
   args: {
     ongoingCampaignsResult: {
