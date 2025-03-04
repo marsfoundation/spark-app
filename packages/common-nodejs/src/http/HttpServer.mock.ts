@@ -43,7 +43,7 @@ export class HttpServerMock {
     this.app.post('/post', (req, res) => {
       const bodySafeParse = postBodySchema.safeParse(req.body)
       if (!bodySafeParse.success) {
-        res.status(404).end()
+        res.status(400).end()
         return
       }
       res.status(bodySafeParse.data.status).json(bodySafeParse.data)
