@@ -12,13 +12,11 @@ export const TopbarSparkRewards = forwardRef<HTMLAnchorElement | HTMLButtonEleme
       <NavLink to={paths.sparkRewards} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
         <div
           className={cn(
-            'relative isolate flex w-fit items-center gap-2 rounded-sm border p-2',
-            'before:absolute before:inset-[-1px] before:z-[-2] before:rounded-[9px] before:bg-gradient-spark-secondary',
-            'after:absolute after:inset-0 after:z-[-1] after:rounded-sm after:bg-primary',
-            'focus-visible:after:hidden focus-visible:before:hidden',
+            'relative isolate flex h-full w-fit items-center gap-2 rounded-sm p-2',
+            'border border-primary bg-white shadow-xs',
           )}
         >
-          <img src={assets.giftGradient} className="size-6" />
+          <img src={assets.page.sparkRewards} className="size-5" />
           {totalUsdAmount && (
             <span className="typography-button-1 text-primary">{USD_MOCK_TOKEN.formatUSD(totalUsdAmount)}</span>
           )}

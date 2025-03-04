@@ -19,8 +19,8 @@ const pageGradients = {
     to: '#FFFFFF',
   },
   sparkRewards: {
-    from: '#FA43BD',
-    via: '#FFA930',
+    from: '#5A3DF5',
+    via: '#609AFE',
     to: '#FFFFFF',
   },
 }
