@@ -1,18 +1,19 @@
 import { z } from 'zod'
 import { Logger } from '../logger/index.js'
-import { RetryOptions, defaultRetryOptions, fetchWithRetries } from './fetchWithRetries.js'
+import { RetryOptions, defaultRetryOptions, fetchRetry, fetchWithRetries } from './fetchWithRetries.js'
 
 export class HttpClient {
   private readonly logger: Logger
   private readonly retryOptions: RetryOptions
+  private readonly fetchWithRetries: typeof fetch
   constructor(logger: Logger, retryOptions?: Partial<RetryOptions>) {
     this.logger = logger.for(this)
-    this.retryOptions = {
+    this.fetchWithRetries = fetchRetry({
       delay: retryOptions?.delay ?? defaultRetryOptions.delay,
       maxCalls: retryOptions?.maxCalls ?? defaultRetryOptions.maxCalls,
       isRetryableStatus: retryOptions?.isRetryableStatus ?? defaultRetryOptions.isRetryableStatus,
       isRetryableError: retryOptions?.isRetryableError ?? defaultRetryOptions.isRetryableError,
-    }
+    })
   }
 
   async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {

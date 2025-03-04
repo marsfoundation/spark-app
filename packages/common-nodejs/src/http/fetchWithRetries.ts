@@ -7,7 +7,12 @@ export interface RetryOptions {
   isRetryableStatus: (status: number) => boolean
 }
 
-export async function fetchWithRetries(
+export async function fetchRetry(options: RetryOptions) {
+  return (url: string | URL | RequestInfo, requestInit: RequestInit = {}) =>
+    fetchWithRetries(url, requestInit, options, 0)
+}
+
+async function fetchWithRetries(
   url: string | URL | RequestInfo,
   requestInit: RequestInit,
   options: RetryOptions,
