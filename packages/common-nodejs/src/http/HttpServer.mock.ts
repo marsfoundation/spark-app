@@ -15,6 +15,7 @@ export class HttpServerMock {
   }
 
   listen(): void {
+    //finds an available port and binds it to the app
     this.server = this.app.listen(0)
   }
 
