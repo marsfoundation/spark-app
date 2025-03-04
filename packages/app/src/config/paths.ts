@@ -20,11 +20,13 @@ export const pathGroups = {
   sparkRewards: ['sparkRewards'],
 } satisfies Record<'borrow' | 'savings' | 'farms' | 'sparkRewards', Path[]>
 
+export type PathGroup = keyof typeof pathGroups
+
 export function getSupportedPages(chainConfigEntry: ChainConfigEntry): Path[] {
   return [
     ...(chainConfigEntry.markets ? pathGroups.borrow : []),
     ...(chainConfigEntry.savings ? pathGroups.savings : []),
     ...(chainConfigEntry.farms ? pathGroups.farms : []),
-    ...pathGroups.sparkRewards,
+    ...(import.meta.env.VITE_DEV_SPARK_REWARDS === '1' ? pathGroups.sparkRewards : []),
   ]
 }
