@@ -75,7 +75,7 @@ export function makeMarketEntry(
   sparkRewardsByReserve: SparkRewardsByReserve,
 ): MarketEntryRowData {
   const airdrops = getAirdropsData(chainId, reserve.token.symbol)
-  const sparkRewards = sparkRewardsByReserve[reserve.token.symbol]
+  const sparkRewards = sparkRewardsByReserve[reserve.token.address]
 
   return {
     token: reserve.token,
