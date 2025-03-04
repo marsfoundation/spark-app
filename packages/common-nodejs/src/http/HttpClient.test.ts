@@ -52,15 +52,6 @@ describe(HttpClient.name, () => {
   })
 
   describe('post', () => {
-    it('returns undefined if no schema provided', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
-      const body: PostBody = {
-        status: 200,
-      }
-
-      expect(await httpClient.post(httpServer.getUrl('/post'), body)).toEqual(undefined)
-    })
-
     it('returns response', async () => {
       const httpClient = new HttpClient(Logger.SILENT)
       const body: PostBody = {
@@ -100,7 +91,7 @@ describe(HttpClient.name, () => {
         status: 500,
       }
 
-      await expect(() => httpClient.post(httpServer.getUrl('/post'), body)).toBeRejectedWith(
+      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
         'Failed POST: 500 - {"status":500}',
       )
       expect(httpServer.requestsCount['/post']).toEqual(6)
