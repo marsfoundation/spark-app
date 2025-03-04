@@ -49,7 +49,7 @@ const meta: Meta<typeof RewardsView> = {
     activeRewardsResult: {
       data: [
         {
-          token: tokens.REDSTONE,
+          token: tokens.RED,
           amountPending: NormalizedUnitNumber(123.4323),
           amountToClaim: NormalizedUnitNumber(224_093.23423),
           openClaimDialog: () => {},

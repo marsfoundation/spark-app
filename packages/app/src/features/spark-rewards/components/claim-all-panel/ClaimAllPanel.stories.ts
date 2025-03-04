@@ -28,7 +28,7 @@ const meta: Meta<typeof ClaimAllPanel> = {
           openClaimDialog: () => {},
         },
         {
-          token: tokens.REDSTONE,
+          token: tokens.RED,
           amountPending: NormalizedUnitNumber(122),
           amountToClaim: NormalizedUnitNumber(1721),
           openClaimDialog: () => {},
@@ -76,7 +76,7 @@ export const OneTokenWithoutPrice: Story = {
       error: null,
       data: [
         {
-          token: tokens.REDSTONE,
+          token: tokens.RED,
           amountPending: NormalizedUnitNumber(1232),
           amountToClaim: NormalizedUnitNumber(1721),
           openClaimDialog: () => {},
@@ -93,7 +93,7 @@ export const TwoTokensWithoutPrice: Story = {
       error: null,
       data: [
         {
-          token: tokens.REDSTONE,
+          token: tokens.RED,
           amountPending: NormalizedUnitNumber(1232),
           amountToClaim: NormalizedUnitNumber(1721),
           openClaimDialog: () => {},

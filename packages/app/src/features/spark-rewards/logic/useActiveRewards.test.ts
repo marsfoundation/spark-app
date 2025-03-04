@@ -18,8 +18,8 @@ const account = testAddresses.alice
 const chainId = mainnet.id
 const rewardToken = new Token({
   address: testAddresses.token,
-  symbol: TokenSymbol('REDSTONE'),
-  name: 'Redstone',
+  symbol: TokenSymbol('RED'),
+  name: 'RedStone',
   decimals: 18,
   unitPriceUsd: '0',
 })

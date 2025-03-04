@@ -13,7 +13,7 @@ const meta: Meta<typeof SuccessView> = {
   args: {
     claimedRewards: [
       {
-        token: tokens.REDSTONE,
+        token: tokens.RED,
         amountToClaim: NormalizedUnitNumber(0.00157),
       },
       {

@@ -4,6 +4,7 @@ import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { MarketEntry } from '../types'
 import { MarketStats, aggregateStats } from './aggregate-stats'
 import { transformReserves } from './transformers'
+import { useSparkRewardsByReserve } from './useSparkRewardsByReserve'
 
 export interface UseMarketsResults {
   marketStats: MarketStats
@@ -15,9 +16,10 @@ export interface UseMarketsResults {
 export function useMarkets(): UseMarketsResults {
   const { chainId } = usePageChainId()
   const { marketInfo } = useMarketInfo({ chainId })
+  const sparkRewardsByReserve = useSparkRewardsByReserve({ chainId, reserves: marketInfo.reserves })
   const { D3MInfo } = useD3MInfo({ chainId })
 
-  const marketEntries = transformReserves(marketInfo)
+  const marketEntries = transformReserves(marketInfo, sparkRewardsByReserve)
   const activeAndPausedMarketEntries = marketEntries.filter((entry) => entry.reserveStatus !== 'frozen')
   const frozenMarketEntries = marketEntries.filter((entry) => entry.reserveStatus === 'frozen')
 
