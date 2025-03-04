@@ -4,7 +4,7 @@ import { TestnetClient, TestnetClientHelperActions } from '../TestnetClient.js'
 export function extendWithTestnetHelpers(
   c: Pick<TestnetClient, 'snapshot' | 'revert' | 'writeContract' | 'waitForTransactionReceipt' | 'sendTransaction'>,
 ): TestnetClientHelperActions {
-  let baselineSnapshotId: string | undefined
+  let baselineSnapshotId: string | undefined = undefined
 
   return {
     async baselineSnapshot() {
@@ -16,6 +16,9 @@ export function extendWithTestnetHelpers(
       assert(baselineSnapshotId !== undefined, 'baseline snapshot not created')
 
       baselineSnapshotId = await c.revert(baselineSnapshotId)
+    },
+    hasBaselineSnapshot() {
+      return baselineSnapshotId !== undefined
     },
     async assertWriteContract(args) {
       const txHash = await c.writeContract(args as any)

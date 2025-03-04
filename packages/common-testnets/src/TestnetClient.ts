@@ -27,6 +27,7 @@ export interface TestnetClient extends WalletClient, PublicActions, TestnetClien
 export type TestnetClientHelperActions = {
   baselineSnapshot(): Promise<void> // @note: baseline snapshot can be created only once, useful to easily revert to a known state. Helper on top of the snapshot method
   revertToBaseline(): Promise<void> // @note: revert to the baseline snapshot, helper on top of the revert method
+  hasBaselineSnapshot(): boolean
 
   assertWriteContract: <
     const abi extends Abi | readonly unknown[],
