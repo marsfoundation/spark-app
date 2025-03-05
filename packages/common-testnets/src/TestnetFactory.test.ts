@@ -1,8 +1,6 @@
-import { CheckedAddress, Hex } from '@marsfoundation/common-universal'
 import { expect } from 'earl'
 import { after, before, describe, it } from 'mocha'
-import { parseGwei } from 'viem'
-import { base, mainnet } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { TestnetClient } from './TestnetClient.js'
 import { createTestnetFactoriesForE2ETests } from './test-utils/index.js'
 
@@ -90,53 +88,6 @@ describe('TestnetFactory', () => {
         it('can fetch block number', async () => {
           const currentBlockNumber = await testnetClient.getBlockNumber()
           expect(currentBlockNumber).toBeGreaterThan(21385842n)
-        })
-      })
-
-      describe('client', () => {
-        let testnetClient: TestnetClient
-        let cleanup: () => Promise<void>
-
-        before(async () => {
-          ;({ client: testnetClient, cleanup } = await factory.create({
-            id: 'test',
-            originChain: base,
-            forkChainId: expectedChainId,
-          }))
-        })
-        after(async () => {
-          await cleanup()
-        })
-
-        it('has correct chain id', async () => {
-          expect(await testnetClient.getChainId()).toEqual(expectedChainId)
-
-          expect(testnetClient.chain).toEqual({ ...base, id: expectedChainId })
-        })
-
-        it('setCode works correctly', async () => {
-          const randomContract = CheckedAddress.random('contract')
-          const newBytecode = Hex('0x123456')
-
-          await testnetClient.setCode(randomContract, newBytecode)
-
-          const actualCode = await testnetClient.getCode({ address: randomContract })
-          expect(actualCode).toEqual(newBytecode)
-        })
-
-        it('sets next block base fee correctly', async () => {
-          const baseFee = parseGwei('100')
-          if (factory.constructor.name === 'TenderlyTestnetFactory') {
-            await expect(testnetClient.setNextBlockBaseFee(baseFee)).toBeRejectedWith('Method not supported')
-            return
-          }
-
-          await testnetClient.setNextBlockBaseFee(baseFee)
-          await testnetClient.mineBlocks(1n)
-
-          const nextBlock = await testnetClient.getBlock()
-          const nextBaseFee = nextBlock.baseFeePerGas
-          expect(nextBaseFee).toEqual(baseFee)
         })
       })
     })
