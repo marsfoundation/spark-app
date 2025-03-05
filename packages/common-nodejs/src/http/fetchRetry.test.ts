@@ -1,5 +1,6 @@
 import * as FakeTimers from '@sinonjs/fake-timers'
 import { MockFunctionOf, expect, mockFn } from 'earl'
+import { mergeDeep } from 'remeda'
 import { RetryOptions, fetchRetry, getRetryDelay } from './fetchRetry.js'
 
 const testUrl = 'test'
@@ -94,17 +95,19 @@ describe(fetchRetry.name, () => {
 })
 
 type FetchMock = MockFunctionOf<RetryOptions['fetch']>
-interface TestRetryOptions extends Partial<Omit<RetryOptions, 'fetch'>> {
+interface TestRetryOptionsInput extends Partial<Omit<RetryOptions, 'fetch'>> {
   status: number
 }
+type TestRetryOptions = RetryOptions & { fetch: FetchMock }
 
-function getTestRetryOptions(options: TestRetryOptions): RetryOptions & { fetch: FetchMock } {
-  return {
+function getTestRetryOptions(options: TestRetryOptionsInput): TestRetryOptions {
+  const defaultOptions: TestRetryOptions = {
     fetch: getFetchMock(options.status),
-    delay: options?.delay ?? 0,
-    isRetryableStatus: options?.isRetryableStatus ?? ((_status) => false),
-    maxCalls: options?.maxCalls ?? 3,
+    delay: 0,
+    isRetryableStatus: (_status: number) => false,
+    maxCalls: 3,
   }
+  return mergeDeep(defaultOptions, options) as TestRetryOptions
 }
 
 function getFetchMock(status: number): FetchMock {

@@ -1,3 +1,4 @@
+import { mergeDeep } from 'remeda'
 import { z } from 'zod'
 import { Logger } from '../logger/index.js'
 import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
@@ -5,14 +6,10 @@ import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 export class HttpClient {
   private readonly logger: Logger
   private readonly fetchWithRetries: typeof fetch
-  constructor(logger: Logger, retryOptions?: Partial<RetryOptions>) {
+  constructor(logger: Logger, retryOptions: Partial<RetryOptions> = {}) {
     this.logger = logger.for(this)
-    this.fetchWithRetries = fetchRetry({
-      fetch: retryOptions?.fetch ?? defaultRetryOptions.fetch,
-      delay: retryOptions?.delay ?? defaultRetryOptions.delay,
-      maxCalls: retryOptions?.maxCalls ?? defaultRetryOptions.maxCalls,
-      isRetryableStatus: retryOptions?.isRetryableStatus ?? defaultRetryOptions.isRetryableStatus,
-    })
+    const options = mergeDeep(defaultRetryOptions, retryOptions) as RetryOptions
+    this.fetchWithRetries = fetchRetry(options)
   }
 
   async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
