@@ -58,6 +58,6 @@
     "viem": "^2.0.0",
     "@marsfoundation/common-nodejs": "workspace:^",
     "@marsfoundation/common-universal": "workspace:^",
-    "zod": "3.22.4"
+    "zod": "^3.0"
   }
 }
