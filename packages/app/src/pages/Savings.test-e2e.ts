@@ -90,22 +90,22 @@ test.describe('Savings Mainnet', () => {
     const savingsPage = new SavingsPageObject(testContext)
 
     await savingsPage.clickSavingsNavigationItemAction('USDS')
-    await savingsPage.expectNavigationItemBalance('USDS', '$10.34K')
+    await savingsPage.expectNavigationItemBalance('USDS', '$10.41K')
     await savingsPage.expectSavingsAccountBalance({
       balance: '10,000.00',
-      estimatedValue: '10,344.638455',
+      estimatedValue: '10,414.111855',
     })
 
     await savingsPage.clickSavingsNavigationItemAction('USDC')
-    await savingsPage.expectNavigationItemBalance('USDC', '$10.34K')
+    await savingsPage.expectNavigationItemBalance('USDC', '$10.41K')
     await savingsPage.expectSavingsAccountBalance({
       balance: '10,000.00',
-      estimatedValue: '10,344.638455',
+      estimatedValue: '10,414.111855',
     })
 
     await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.expectNavigationItemBalanceToBeInvisible('DAI')
-    await savingsPage.expectDepositCtaPanelApy('11.25%')
+    await savingsPage.expectDepositCtaPanelApy('4.75%')
   })
 
   test('shows enabled convert stables button', async ({ page }) => {
