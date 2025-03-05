@@ -76,7 +76,7 @@ test.describe('Withdraw USDC', () => {
     await savingsPage.expectSavingsAccountBalance({ balance: '9,039.78', estimatedValue: '9,414.3213982' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
-  4
+
   test('executes withdraw for small amount', async () => {
     await withdrawDialog.fillAmountAction(1)
     await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
