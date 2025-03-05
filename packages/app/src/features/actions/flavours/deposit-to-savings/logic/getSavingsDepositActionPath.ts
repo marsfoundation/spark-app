@@ -17,6 +17,7 @@ export type SavingsDepositActionPath =
   | 'base-usdc-to-susdc'
   | 'arbitrum-usds-to-susds'
   | 'arbitrum-usdc-to-susds'
+  | 'arbitrum-usdc-to-susdc'
 
 export interface GetSavingsActionPathParams {
   token: Token
@@ -59,6 +60,10 @@ export function getSavingsDepositActionPath({
 
     if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'arbitrum-usdc-to-susds'
+    }
+
+    if (token.symbol === usdc && savingsToken.symbol === susdc) {
+      return 'arbitrum-usdc-to-susdc'
     }
   }
 

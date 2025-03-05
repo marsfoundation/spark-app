@@ -62,7 +62,8 @@ export function createDepositToSavingsActionConfig(
           })
 
         case 'usdc-to-susdc':
-        case 'base-usdc-to-susdc': {
+        case 'base-usdc-to-susdc':
+        case 'arbitrum-usdc-to-susdc': {
           assert(
             context.savingsAccounts,
             'Savings account repository info is required for usdc deposit to savings action',
@@ -181,6 +182,7 @@ export function createDepositToSavingsActionConfig(
         case 'usds-to-susds':
         case 'usdc-to-susdc':
         case 'base-usdc-to-susdc':
+        case 'arbitrum-usdc-to-susdc':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
 
         case 'base-usds-to-susds':
