@@ -5741,7 +5741,7 @@ export const uiPoolDataProviderConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x47ff5312c027aa733abdce6740c88d4a151e7901)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858)
  */
 export const usdcVaultAbi = [
   {

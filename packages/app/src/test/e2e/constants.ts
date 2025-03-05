@@ -13,7 +13,7 @@ const TOKENS_ON_MAINNET = {
     decimals: 6,
   },
   sUSDC: {
-    address: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
+    address: '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE',
     decimals: 18,
   },
   sDAI: {
@@ -118,7 +118,7 @@ export const TOKENS_ON_FORK = {
       decimals: 18,
     },
     sUSDC: {
-      address: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
+      address: '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858',
       decimals: 18,
     },
   },
