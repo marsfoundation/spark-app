@@ -3,11 +3,12 @@ import { sleep } from '@marsfoundation/common-universal'
 export interface RetryOptions {
   maxCalls: number
   delay: number | ((attempt: number) => number)
-  isRetryableError: (error: unknown) => boolean
   isRetryableStatus: (status: number) => boolean
 }
 
-export async function fetchRetry(options: RetryOptions) {
+type FetchType = typeof fetch
+
+export function fetchRetry(options: RetryOptions): FetchType {
   return (url: string | URL | RequestInfo, requestInit: RequestInit = {}) =>
     fetchWithRetries(url, requestInit, options, 0)
 }
@@ -16,16 +17,16 @@ async function fetchWithRetries(
   url: string | URL | RequestInfo,
   requestInit: RequestInit,
   options: RetryOptions,
-  currentAttempt = 0,
-): Promise<Response> {
+  currentAttempt: number,
+): ReturnType<FetchType> {
   try {
     const result = await fetch(url, requestInit)
-    if (options.isRetryableStatus(result.status) && currentAttempt + 1 < options.maxCalls) {
+    if (options.isRetryableStatus(result.status) && currentAttempt < options.maxCalls - 1) {
       return retry(url, requestInit, options, currentAttempt)
     }
     return result
   } catch (e) {
-    if (!options.isRetryableError(e) || currentAttempt + 1 >= options.maxCalls) {
+    if (currentAttempt >= options.maxCalls - 1) {
       throw e
     }
     return retry(url, requestInit, options, currentAttempt)
@@ -46,6 +47,5 @@ async function retry(
 export const defaultRetryOptions: RetryOptions = {
   maxCalls: 6,
   delay: (attempt) => 2 ** attempt * 150,
-  isRetryableError: (_) => true,
   isRetryableStatus: (status) => status >= 500,
 }
