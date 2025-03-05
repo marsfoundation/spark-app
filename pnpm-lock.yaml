@@ -392,6 +392,9 @@ importers:
       pretty-ms:
         specifier: ^9.2.0
         version: 9.2.0
+      remeda:
+        specifier: ^2.10.0
+        version: 2.20.2
       uuid:
         specifier: ^11.0.3
         version: 11.0.3
@@ -426,6 +429,9 @@ importers:
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
+      tinyspy:
+        specifier: ^3.0.2
+        version: 3.0.2
 
   packages/common-testnets:
     dependencies:

@@ -16,7 +16,7 @@ describe(HttpClient.name, () => {
 
   describe(HttpClient.prototype.get.name, () => {
     it('returns successful response', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const response = await httpClient.get(httpServer.getUrl('/status?status=200'), getResponseSchema)
 
       expect(response).toEqual({ status: 200 })
@@ -25,14 +25,14 @@ describe(HttpClient.name, () => {
     it('logs request', async () => {
       const url = httpServer.getUrl('/status?status=200')
       const logger = getMockLogger()
-      const httpClient = new HttpClient(logger)
+      const httpClient = new HttpClient(logger, { delay: 0 })
 
       await httpClient.get(url, getResponseSchema)
       expect(logger.info).toHaveBeenOnlyCalledWith('[HttpClient] GET request', { url })
     })
 
     it('throws with invalid schema', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const invalidSchema = z.object({
         invalid: z.boolean(),
       })
@@ -42,18 +42,26 @@ describe(HttpClient.name, () => {
       )
     })
 
+    it("doesn't retry in case of client error", async () => {
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      await expect(() => httpClient.get(httpServer.getUrl('/status?status=400'), getResponseSchema)).toBeRejectedWith(
+        'Failed GET: 400 - {"status":400}',
+      )
+      expect(httpServer.requestsCount['/status']).toEqual(1)
+    })
+
     it('retries in case of server error', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       await expect(() => httpClient.get(httpServer.getUrl('/status?status=500'), getResponseSchema)).toBeRejectedWith(
         'Failed GET: 500 - {"status":500}',
       )
-      expect(httpServer.requestsCount['/status']).toEqual(6)
+      expect(httpServer.requestsCount['/status']).toEqual(5)
     })
   })
 
   describe(HttpClient.prototype.post.name, () => {
     it('returns response', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -64,7 +72,7 @@ describe(HttpClient.name, () => {
     it('logs request', async () => {
       const url = httpServer.getUrl('/post')
       const logger = getMockLogger()
-      const httpClient = new HttpClient(logger)
+      const httpClient = new HttpClient(logger, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -74,7 +82,7 @@ describe(HttpClient.name, () => {
     })
 
     it('throws with invalid schema', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -85,8 +93,20 @@ describe(HttpClient.name, () => {
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, invalidSchema)).toBeRejectedWith(ZodError)
     })
 
-    it('retries in case of server error', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+    it("doesn't retries in case of client error by default", async () => {
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const body: PostBody = {
+        status: 400,
+      }
+
+      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
+        'Failed POST: 400 - {"status":400}',
+      )
+      expect(httpServer.requestsCount['/post']).toEqual(1)
+    })
+
+    it('retries in case of server error by default', async () => {
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 500,
       }
@@ -94,7 +114,7 @@ describe(HttpClient.name, () => {
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
         'Failed POST: 500 - {"status":500}',
       )
-      expect(httpServer.requestsCount['/post']).toEqual(6)
+      expect(httpServer.requestsCount['/post']).toEqual(5)
     })
   })
 })
