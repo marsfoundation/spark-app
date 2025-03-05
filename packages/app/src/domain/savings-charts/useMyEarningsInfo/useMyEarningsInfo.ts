@@ -5,6 +5,7 @@ import { SimplifiedQueryResult } from '@/utils/types'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
+import { useChainId } from 'wagmi'
 import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
 import { MyEarningsInfoItem } from './types'
@@ -42,10 +43,11 @@ export function useMyEarningsInfo({
   myEarningsQueryOptions,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
   const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
+  const chainId = useChainId()
 
   const queryResult = useQuery({
     ...(myEarningsQueryOptions && address
-      ? myEarningsQueryOptions(address)
+      ? myEarningsQueryOptions(address, chainId)
       : { queryKey: ['unsupported-my-earnings-query'], queryFn: skipToken }),
     staleTime,
   })

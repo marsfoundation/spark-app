@@ -12,7 +12,10 @@ import { SUPPORTED_CHAIN_IDS } from './constants'
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
-export type MyEarningsQueryOptions = (wallet: CheckedAddress) => UseQueryOptions<any, any, MyEarningsResult>
+export type MyEarningsQueryOptions = (
+  wallet: CheckedAddress,
+  chainId: number,
+) => UseQueryOptions<any, any, MyEarningsResult>
 export type SavingsRateQueryOptions = () => UseQueryOptions<SavingsRateQueryResult, Error, SavingsRateChartData>
 
 export interface NativeAssetInfo {

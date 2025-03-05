@@ -1,3 +1,4 @@
+import { sparkPsmMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/spark-psm-domains'
 import { arbitrumSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/arbitrum'
 import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -48,7 +49,7 @@ export const arbitrumConfig: ChainConfigEntry = {
         supportedStablecoins: [usds.symbol, usdc.symbol],
         fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: arbitrumSusdsSavingsRateQueryOptions,
-        myEarningsQueryOptions: undefined,
+        myEarningsQueryOptions: sparkPsmMyEarningsQueryOptions,
       },
     ],
     psmStables: [usds.symbol, usdc.symbol],

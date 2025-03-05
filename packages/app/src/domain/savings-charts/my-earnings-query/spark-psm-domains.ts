@@ -4,16 +4,15 @@ import { dateSchema } from '@/utils/schemas'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
-import { base } from 'wagmi/chains'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function baseMyEarningsQueryOptions(wallet: CheckedAddress) {
+export function sparkPsmMyEarningsQueryOptions(wallet: CheckedAddress, chainId: number) {
   return queryOptions({
-    queryKey: ['my-earnings', base.id, wallet] as QueryKey,
+    queryKey: ['my-earnings', chainId, wallet] as QueryKey,
     queryFn: async () => {
       const res = await fetch(
-        `${infoSkyApiUrl}/savings-rate/wallets/${wallet.toLowerCase()}/?days_ago=9999&chainId=${base.id}`,
+        `${infoSkyApiUrl}/savings-rate/wallets/${wallet.toLowerCase()}/?days_ago=9999&chainId=${chainId}`,
       )
 
       if (!res.ok) {
