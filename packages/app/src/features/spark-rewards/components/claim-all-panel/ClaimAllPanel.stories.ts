@@ -108,3 +108,27 @@ export const TwoTokensWithoutPrice: Story = {
     },
   },
 }
+
+export const NothingToClaim: Story = {
+  args: {
+    activeRewardsResult: {
+      isPending: false,
+      isError: false,
+      error: null,
+      data: [
+        {
+          token: tokens.wstETH,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+        {
+          token: tokens.sUSDS,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+      ],
+    },
+  },
+}

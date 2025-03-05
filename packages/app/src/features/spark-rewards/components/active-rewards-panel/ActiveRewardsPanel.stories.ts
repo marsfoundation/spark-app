@@ -89,3 +89,33 @@ export const ErrorState: Story = {
 }
 export const ErrorStateMobile = getMobileStory(ErrorState)
 export const ErrorStateTablet = getTabletStory(ErrorState)
+
+export const ZeroAmounts: Story = {
+  args: {
+    activeRewardsResult: {
+      data: [
+        {
+          token: tokens.RED,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+        {
+          token: tokens.SPK,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+        {
+          token: tokens.USDS,
+          amountPending: NormalizedUnitNumber(0),
+          amountToClaim: NormalizedUnitNumber(0),
+          openClaimDialog: () => {},
+        },
+      ],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+  },
+}
