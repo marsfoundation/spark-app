@@ -108,11 +108,5 @@ function getTestRetryOptions(options: TestRetryOptions): RetryOptions & { fetch:
 }
 
 function getFetchMock(status: number): FetchMock {
-  return mockFn<RetryOptions['fetch']>(
-    async (_input, _init) =>
-      ({
-        status,
-        ok: status >= 200 && status < 300,
-      }) as Response,
-  )
+  return mockFn<RetryOptions['fetch']>(async (_input, _init) => ({ status }) as Response)
 }

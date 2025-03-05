@@ -42,6 +42,14 @@ describe(HttpClient.name, () => {
       )
     })
 
+    it("doesn't retry in case of client error", async () => {
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      await expect(() => httpClient.get(httpServer.getUrl('/status?status=400'), getResponseSchema)).toBeRejectedWith(
+        'Failed GET: 400 - {"status":400}',
+      )
+      expect(httpServer.requestsCount['/status']).toEqual(1)
+    })
+
     it('retries in case of server error', async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       await expect(() => httpClient.get(httpServer.getUrl('/status?status=500'), getResponseSchema)).toBeRejectedWith(
@@ -85,7 +93,19 @@ describe(HttpClient.name, () => {
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, invalidSchema)).toBeRejectedWith(ZodError)
     })
 
-    it('retries in case of server error', async () => {
+    it("doesn't retries in case of client error by default", async () => {
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const body: PostBody = {
+        status: 400,
+      }
+
+      await expect(() => httpClient.post(httpServer.getUrl('/post'), body)).toBeRejectedWith(
+        'Failed POST: 400 - {"status":400}',
+      )
+      expect(httpServer.requestsCount['/post']).toEqual(1)
+    })
+
+    it('retries in case of server error by default', async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 500,
