@@ -10,6 +10,7 @@ import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { AlertTriangleIcon } from 'lucide-react'
+import { pipe, sumBy } from 'remeda'
 import { ActiveReward, ActiveRewardsResult } from '../../logic/useActiveRewards'
 import { EarnRewardsBanner } from '../earn-rewards-banner/EarnRewardsBanner'
 
@@ -34,51 +35,31 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
 
   const tokensToClaim = activeRewardsResult.data
 
-  const nonZeroPriceTokens = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
-  const zeroPriceClaimableTokens = tokensToClaim.filter(
-    ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).eq(0),
+  const claimableTokensWithPrice = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
+  const usdSum = pipe(
+    claimableTokensWithPrice,
+    sumBy(({ token, amountToClaim }) => token.toUSD(amountToClaim).toNumber()),
+    NormalizedUnitNumber,
   )
 
-  const usdSum = nonZeroPriceTokens.reduce((acc, { token, amountToClaim }) => {
-    return NormalizedUnitNumber(acc.plus(token.toUSD(amountToClaim)))
-  }, NormalizedUnitNumber(0))
+  const claimableTokensWithoutPrice = tokensToClaim.filter(
+    ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).eq(0),
+  )
 
   return (
     <MainPanel className={cn(className)}>
       {usdSum.gt(0) && (
-        <SubPanel>
-          <div className="flex items-center gap-1">
-            <div className="typography-label-2 text-tertiary">Total to claim</div>
-            <Info>Sum of all rewards available to claim in USD.</Info>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="typography-heading-2 text-primary-inverse">{USD_MOCK_TOKEN.formatUSD(usdSum)}</div>
-            <IconStack size="m" items={nonZeroPriceTokens.map(({ token }) => token)} />
-          </div>
-          <div className="flex flex-col gap-2">
-            {zeroPriceClaimableTokens.map(({ token, amountToClaim }) => (
-              <div key={token.symbol} className="typography-label-2 flex items-center gap-1 text-tertiary">
-                +{token.format(amountToClaim, { style: 'compact' })}{' '}
-                <TokenIconOrSymbol token={token} iconClassName="size-4" />
-              </div>
-            ))}
-          </div>
-        </SubPanel>
+        <ClaimableTokensWithPriceSubPanel
+          usdSum={usdSum}
+          claimableTokensWithPrice={claimableTokensWithPrice}
+          claimableTokensWithoutPrice={claimableTokensWithoutPrice}
+        />
       )}
-      {usdSum.eq(0) && (
-        <SubPanel>
-          <div className="flex items-center gap-1">
-            <div className="typography-label-2 text-tertiary">Total to claim</div>
-            <Info>All tokens you can claim.</Info>
-          </div>
-          {zeroPriceClaimableTokens.length === 1 ? (
-            <OneTokenWithoutPrice tokens={zeroPriceClaimableTokens} />
-          ) : (
-            <MultipleTokensWithoutPrice tokens={zeroPriceClaimableTokens} />
-          )}
-        </SubPanel>
+      {usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 && <PendingRewardsSubPanel />}
+      {usdSum.eq(0) && claimableTokensWithoutPrice.length > 0 && (
+        <ClaimableTokensWithoutPriceSubPanel claimableTokensWithoutPrice={claimableTokensWithoutPrice} />
       )}
-      <Actions claim={{ onAction: onClaimAll }} />
+      <Actions claim={{ onAction: onClaimAll, isDisabled: usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 }} />
     </MainPanel>
   )
 }
@@ -181,4 +162,73 @@ function MultipleTokensWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
 
 function TokenIconOrSymbol({ token, iconClassName }: { token: Token; iconClassName?: string }) {
   return isTokenImageAvailable(token.symbol) ? <TokenIcon token={token} className={iconClassName} /> : token.symbol
+}
+
+interface ClaimableTokensWithPriceSubPanelProps {
+  usdSum: NormalizedUnitNumber
+  claimableTokensWithPrice: ActiveReward[]
+  claimableTokensWithoutPrice: ActiveReward[]
+}
+
+function ClaimableTokensWithPriceSubPanel({
+  usdSum,
+  claimableTokensWithPrice,
+  claimableTokensWithoutPrice,
+}: ClaimableTokensWithPriceSubPanelProps) {
+  return (
+    <SubPanel>
+      <div className="flex items-center gap-1">
+        <div className="typography-label-2 text-tertiary">Total to claim</div>
+        <Info>Sum of all rewards available to claim in USD.</Info>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="typography-heading-2 text-primary-inverse">{USD_MOCK_TOKEN.formatUSD(usdSum)}</div>
+        <IconStack size="m" items={claimableTokensWithPrice.map(({ token }) => token)} />
+      </div>
+      <div className="flex flex-col gap-2">
+        {claimableTokensWithoutPrice.map(({ token, amountToClaim }) => (
+          <div key={token.symbol} className="typography-label-2 flex items-center gap-1 text-tertiary">
+            +{token.format(amountToClaim, { style: 'compact' })}{' '}
+            <TokenIconOrSymbol token={token} iconClassName="size-4" />
+          </div>
+        ))}
+      </div>
+    </SubPanel>
+  )
+}
+
+function PendingRewardsSubPanel() {
+  return (
+    <SubPanel>
+      <div className="flex items-center gap-1">
+        <div className="typography-label-2 text-tertiary">Total to claim</div>
+        <Info>You have nothing to claim at the moment.</Info>
+      </div>
+      <div className="typography-heading-2 text-primary-inverse">
+        {USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(0))}
+      </div>
+    </SubPanel>
+  )
+}
+
+interface ClaimableTokensWithoutPriceSubPanelProps {
+  claimableTokensWithoutPrice: ActiveReward[]
+}
+
+function ClaimableTokensWithoutPriceSubPanel({
+  claimableTokensWithoutPrice,
+}: ClaimableTokensWithoutPriceSubPanelProps) {
+  return (
+    <SubPanel>
+      <div className="flex items-center gap-1">
+        <div className="typography-label-2 text-tertiary">Total to claim</div>
+        <Info>All tokens you can claim.</Info>
+      </div>
+      {claimableTokensWithoutPrice.length === 1 ? (
+        <OneTokenWithoutPrice tokens={claimableTokensWithoutPrice} />
+      ) : (
+        <MultipleTokensWithoutPrice tokens={claimableTokensWithoutPrice} />
+      )}
+    </SubPanel>
+  )
 }
