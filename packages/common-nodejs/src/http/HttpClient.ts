@@ -13,7 +13,7 @@ export class HttpClient {
   }
 
   async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
-    this.logger.info('[HttpClient] POST request', { url, body })
+    this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
     const result = await this.fetchWithRetries(url, {
       method: 'POST',
@@ -23,18 +23,30 @@ export class HttpClient {
       body: JSON.stringify(body),
     })
     if (!result.ok) {
-      throw new Error(`Failed POST: ${result.status} - ${await result.text()}`)
+      throw new HttpError('POST', url, result.status, await result.text())
     }
 
     return schema.parse(await result.json())
   }
 
   async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
-    this.logger.info('[HttpClient] GET request', { url })
+    this.logger.trace(`[HttpClient] GET request - ${url}`, { url })
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
-      throw new Error(`Failed GET: ${result.status} - ${await result.text()}`)
+      throw new HttpError('GET', url, result.status, await result.text())
     }
     return schema.parse(await result.json())
+  }
+}
+
+export class HttpError extends Error {
+  constructor(
+    public readonly method: 'POST' | 'GET',
+    public readonly url: string,
+    public readonly status: number,
+    public readonly textResult: string,
+  ) {
+    super(`Failed ${method} ${url}: ${status} - ${textResult}`)
+    this.name = 'HttpError'
   }
 }
