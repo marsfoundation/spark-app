@@ -44,16 +44,20 @@ describe(HttpClient.name, () => {
 
     it("doesn't retry in case of client error", async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
-      await expect(() => httpClient.get(httpServer.getUrl('/status?status=400'), getResponseSchema)).toBeRejectedWith(
-        'Failed GET: 400 - {"status":400}',
+      const url = httpServer.getUrl('/status?status=400')
+
+      await expect(() => httpClient.get(url, getResponseSchema)).toBeRejectedWith(
+        `Failed GET ${url}: 400 - {"status":400}`,
       )
       expect(httpServer.requestsCount['/status']).toEqual(1)
     })
 
     it('retries in case of server error', async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
-      await expect(() => httpClient.get(httpServer.getUrl('/status?status=500'), getResponseSchema)).toBeRejectedWith(
-        'Failed GET: 500 - {"status":500}',
+      const url = httpServer.getUrl('/status?status=500')
+
+      await expect(() => httpClient.get(url, getResponseSchema)).toBeRejectedWith(
+        `Failed GET ${url}: 500 - {"status":500}`,
       )
       expect(httpServer.requestsCount['/status']).toEqual(5)
     })
@@ -95,26 +99,28 @@ describe(HttpClient.name, () => {
 
     it("doesn't retries in case of client error by default", async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const url = httpServer.getUrl('/post')
       const body: PostBody = {
         status: 400,
       }
 
-      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
+      await expect(() => httpClient.post(url, body, postBodySchema)).toBeRejectedWith(
         HttpError,
-        'Failed POST: 400 - {"status":400}',
+        `Failed POST ${url}: 400 - {"status":400}`,
       )
       expect(httpServer.requestsCount['/post']).toEqual(1)
     })
 
     it('retries in case of server error by default', async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const url = httpServer.getUrl('/post')
       const body: PostBody = {
         status: 500,
       }
 
-      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
+      await expect(() => httpClient.post(url, body, postBodySchema)).toBeRejectedWith(
         HttpError,
-        'Failed POST: 500 - {"status":500}',
+        `Failed POST ${url}: 500 - {"status":500}`,
       )
       expect(httpServer.requestsCount['/post']).toEqual(5)
     })
