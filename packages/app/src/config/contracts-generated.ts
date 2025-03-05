@@ -6415,17 +6415,20 @@ export const usdcVaultAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x47ff5312c027aa733abdce6740c88d4a151e7901)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x940098b108fB7D0a7E374f6eDED7760787464609)
  */
 export const usdcVaultAddress = {
-  1: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
-  8453: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
+  1: '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE',
+  8453: '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858',
+  42161: '0x940098b108fB7D0a7E374f6eDED7760787464609',
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x47ff5312c027aa733abdce6740c88d4a151e7901)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x940098b108fB7D0a7E374f6eDED7760787464609)
  */
 export const usdcVaultConfig = {
   address: usdcVaultAddress,

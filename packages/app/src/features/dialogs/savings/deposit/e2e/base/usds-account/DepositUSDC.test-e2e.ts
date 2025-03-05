@@ -1,6 +1,6 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
@@ -16,7 +16,7 @@ test.describe('Deposit USDC', () => {
     testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
