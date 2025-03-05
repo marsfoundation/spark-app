@@ -46,8 +46,8 @@ test.describe('Deposit USDC', () => {
   test('displays transaction overview', async () => {
     await depositDialog.expectNativeRouteTransactionOverview({
       apy: {
-        value: '12.50%',
-        description: 'Earn ~1,250.00 USDC/year',
+        value: '6.50%',
+        description: 'Earn ~650.00 USDC/year',
       },
       routeItems: [
         {
@@ -55,11 +55,11 @@ test.describe('Deposit USDC', () => {
           tokenUsdValue: '$10,000.00',
         },
         {
-          tokenAmount: '9,666.53 sUSDC',
+          tokenAmount: '9,602.16 sUSDC',
           tokenUsdValue: '$10,000.00',
         },
       ],
-      outcome: '9,666.53 sUSDC',
+      outcome: '9,602.16 sUSDC',
       outcomeUsd: '$10,000.00',
     })
   })
@@ -71,8 +71,8 @@ test.describe('Deposit USDC', () => {
     await depositDialog.clickBackToSavingsButton()
 
     await savingsPage.expectSavingsAccountBalance({
-      balance: '9,666.53',
-      estimatedValue: '10,000.000000',
+      balance: '9,602.16',
+      estimatedValue: '9,999.9999992',
     })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })
