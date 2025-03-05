@@ -55,7 +55,7 @@ describe(HttpClient.name, () => {
       await expect(() => httpClient.get(httpServer.getUrl('/status?status=500'), getResponseSchema)).toBeRejectedWith(
         'Failed GET: 500 - {"status":500}',
       )
-      expect(httpServer.requestsCount['/status']).toEqual(6)
+      expect(httpServer.requestsCount['/status']).toEqual(5)
     })
   })
 
@@ -114,7 +114,7 @@ describe(HttpClient.name, () => {
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
         'Failed POST: 500 - {"status":500}',
       )
-      expect(httpServer.requestsCount['/post']).toEqual(6)
+      expect(httpServer.requestsCount['/post']).toEqual(5)
     })
   })
 })

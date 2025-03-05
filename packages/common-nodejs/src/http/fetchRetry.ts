@@ -50,7 +50,7 @@ export function getRetryDelay(options: RetryOptions, currentAttempt: number): nu
 
 export const defaultRetryOptions: RetryOptions = {
   fetch,
-  maxCalls: 6,
+  maxCalls: 5,
   delay: (attempt) => 2 ** attempt * 150,
   isRetryableStatus: (status) => status >= 500,
 }
