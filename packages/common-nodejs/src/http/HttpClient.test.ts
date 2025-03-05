@@ -99,7 +99,7 @@ describe(HttpClient.name, () => {
         status: 400,
       }
 
-      await expect(() => httpClient.post(httpServer.getUrl('/post'), body)).toBeRejectedWith(
+      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
         'Failed POST: 400 - {"status":400}',
       )
       expect(httpServer.requestsCount['/post']).toEqual(1)
