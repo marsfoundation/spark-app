@@ -1,6 +1,6 @@
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { randomAddress } from '@/test/utils/addressUtils'
 import { test } from '@playwright/test'
@@ -17,7 +17,7 @@ test.describe('Send USDC', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: mainnet,
-        blockNumber: MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -55,7 +55,7 @@ test.describe('Send USDC', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,766.79 sUSDC',
+          tokenAmount: '6,721.65 sUSDC',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -85,7 +85,7 @@ test.describe('Send USDC', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsAccountBalance({ balance: '2,900.05', estimatedValue: '3,000.0001867' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '2,880.71', estimatedValue: '3,000.0000998' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })
 })

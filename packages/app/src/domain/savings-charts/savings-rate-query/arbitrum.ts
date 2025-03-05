@@ -13,3 +13,11 @@ export function arbitrumSusdsSavingsRateQueryOptions() {
     select: ssrRateSelect,
   })
 }
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function arbitrumSusdcSavingsRateQueryOptions() {
+  return queryOptions({
+    ...savingsRateQueryOptions(),
+    select: ssrRateSelect,
+  })
+}

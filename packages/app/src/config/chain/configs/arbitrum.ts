@@ -1,10 +1,15 @@
+import { usdcVaultAddress } from '@/config/contracts-generated'
 import { psm3SavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/psm3-savings'
-import { arbitrumSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/arbitrum'
-import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
+import {
+  arbitrumSusdcSavingsRateQueryOptions,
+  arbitrumSusdsSavingsRateQueryOptions,
+} from '@/domain/savings-charts/savings-rate-query/arbitrum'
+import { ssrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/ssrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { arbitrum } from 'viem/chains'
+import { USDC_ACCOUNT_ENABLED } from '../flags'
 import { ChainConfigEntry } from '../types'
 import { defineToken } from '../utils/defineToken'
 
@@ -12,6 +17,13 @@ const usdc = defineToken({
   address: CheckedAddress('0xaf88d065e77c8cC2239327C5EDb3A432268e5831'),
   oracleType: 'fixed-usd',
   symbol: TokenSymbol('USDC'),
+})
+
+const susdc = defineToken({
+  address: CheckedAddress(usdcVaultAddress[arbitrum.id]),
+  oracleType: 'vault',
+  assetsDecimals: 6,
+  symbol: TokenSymbol('sUSDC'),
 })
 
 const usds = defineToken({
@@ -47,12 +59,24 @@ export const arbitrumConfig: ChainConfigEntry = {
         savingsToken: susds.symbol,
         underlyingToken: usds.symbol,
         supportedStablecoins: [usds.symbol, usdc.symbol],
-        fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
+        fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: arbitrumSusdsSavingsRateQueryOptions,
         myEarningsQueryOptions: psm3SavingsMyEarningsQueryOptions,
       },
+      ...(USDC_ACCOUNT_ENABLED
+        ? [
+            {
+              savingsToken: susdc.symbol,
+              underlyingToken: usdc.symbol,
+              supportedStablecoins: [usdc.symbol],
+              fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
+              savingsRateQueryOptions: arbitrumSusdcSavingsRateQueryOptions,
+              myEarningsQueryOptions: undefined,
+            },
+          ]
+        : []),
     ],
     psmStables: [usds.symbol, usdc.symbol],
   },
-  definedTokens: [usdc, usds, susds],
+  definedTokens: [usdc, usds, susds, susdc],
 }

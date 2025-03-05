@@ -208,7 +208,8 @@ export function createWithdrawFromSavingsActionConfig(
           })
         }
 
-        case 'base-susdc-to-usdc': {
+        case 'base-susdc-to-usdc':
+        case 'arbitrum-susdc-to-usdc': {
           assert(context.savingsAccounts, 'Savings accounts repository is required for usdc vault withdrawal')
           const { converter } = context.savingsAccounts.findOneBySavingsToken(savingsToken)
 
@@ -264,6 +265,7 @@ export function createWithdrawFromSavingsActionConfig(
         case 'susds-to-usds':
         case 'susdc-to-usdc':
         case 'base-susdc-to-usdc':
+        case 'arbitrum-susdc-to-usdc':
           return [balancesQueryKeyPrefix]
         case 'sdai-to-sexy-dai':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(CheckedAddress(savingsXDaiAdapterAddress[gnosis.id]))]

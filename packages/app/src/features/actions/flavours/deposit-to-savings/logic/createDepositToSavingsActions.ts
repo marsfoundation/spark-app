@@ -57,6 +57,7 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
 
     case 'usdc-to-susdc':
     case 'base-usdc-to-susdc':
+    case 'arbitrum-usdc-to-susdc':
       return [getApproveAction(getContractAddress(usdcVaultAddress, chainId)), depositAction]
 
     case 'base-usdc-to-susds':

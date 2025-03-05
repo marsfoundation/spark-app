@@ -1,8 +1,7 @@
 import { usdcVaultAddress } from '@/config/contracts-generated'
 import { psm3SavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/psm3-savings'
 import { baseSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/base'
-import { baseSavingsUsdcConverterQueryOptions } from '@/domain/savings-converters/baseSavingsConverter'
-import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
+import { ssrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/ssrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { CheckedAddress } from '@marsfoundation/common-universal'
@@ -56,7 +55,7 @@ export const baseConfig: ChainConfigEntry = {
         savingsToken: susds.symbol,
         underlyingToken: usds.symbol,
         supportedStablecoins: [usds.symbol, usdc.symbol],
-        fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
+        fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
         myEarningsQueryOptions: psm3SavingsMyEarningsQueryOptions,
       },
@@ -66,7 +65,7 @@ export const baseConfig: ChainConfigEntry = {
               savingsToken: susdc.symbol,
               underlyingToken: usdc.symbol,
               supportedStablecoins: [usdc.symbol],
-              fetchConverterQuery: baseSavingsUsdcConverterQueryOptions,
+              fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
               savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
               myEarningsQueryOptions: undefined,
             },

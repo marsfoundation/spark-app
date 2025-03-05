@@ -1,9 +1,9 @@
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { base } from 'viem/chains'
+import { arbitrum } from 'viem/chains'
 
 test.describe('Withdraw Max USDC', () => {
   let savingsPage: SavingsPageObject
@@ -12,8 +12,8 @@ test.describe('Withdraw Max USDC', () => {
   test.beforeEach(async ({ page }) => {
     const testContext = await setup(page, {
       blockchain: {
-        chain: base,
-        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
+        chain: arbitrum,
+        blockNumber: ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -50,7 +50,7 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '9,602.16 sUSDC',
+          tokenAmount: '9,601.69 sUSDC',
           tokenUsdValue: '$10,000.00',
         },
         {

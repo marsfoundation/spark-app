@@ -1,6 +1,6 @@
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
@@ -13,7 +13,7 @@ test.describe('Withdraw Max USDC', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -46,15 +46,15 @@ test.describe('Withdraw Max USDC', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sUSDS',
-          tokenUsdValue: '$10,344.97',
+          tokenUsdValue: '$10,414.32',
         },
         {
-          tokenAmount: '10,344.97 USDS',
-          tokenUsdValue: '$10,344.97',
+          tokenAmount: '10,414.32 USDS',
+          tokenUsdValue: '$10,414.32',
         },
       ],
-      outcome: '10,344.97 USDC',
-      outcomeUsd: '$10,344.97',
+      outcome: '10,414.32 USDC',
+      outcomeUsd: '$10,414.32',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
@@ -66,6 +66,6 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSupportedStablecoinBalance('USDC', '10,344.97')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '10,414.32')
   })
 })

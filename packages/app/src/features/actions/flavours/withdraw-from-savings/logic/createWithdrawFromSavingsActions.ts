@@ -62,6 +62,7 @@ export function createWithdrawFromSavingsActions(
     case 'sdai-to-dai':
     case 'susdc-to-usdc':
     case 'base-susdc-to-usdc':
+    case 'arbitrum-susdc-to-usdc':
       return [withdrawAction]
 
     case 'sdai-to-usdc':

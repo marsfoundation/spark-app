@@ -13,7 +13,7 @@ const TOKENS_ON_MAINNET = {
     decimals: 6,
   },
   sUSDC: {
-    address: '0x29bd15f2c80f2807c29d2428aa835f2be1098a62',
+    address: '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE',
     decimals: 18,
   },
   sDAI: {
@@ -118,7 +118,7 @@ export const TOKENS_ON_FORK = {
       decimals: 18,
     },
     sUSDC: {
-      address: '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3',
+      address: '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858',
       decimals: 18,
     },
   },
@@ -133,6 +133,10 @@ export const TOKENS_ON_FORK = {
     },
     sUSDS: {
       address: '0xdDb46999F8891663a8F2828d25298f70416d7610',
+      decimals: 18,
+    },
+    sUSDC: {
+      address: '0x940098b108fB7D0a7E374f6eDED7760787464609',
       decimals: 18,
     },
   },
@@ -154,9 +158,10 @@ export const DEFAULT_BLOCK_NUMBER = 21400000n
 
 // Edge cases
 export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
-export const MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 21772200n
+export const SUSDC_ACTIVE_BLOCK_NUMBER = 21978000n
 
 export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
-export const BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER = 25940000n
+export const BASE_SUSDC_ACTIVE_BLOCK_NUMBER = 27183000n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
 export const ARBITRUM_DEFAULT_BLOCK_NUMBER = 305215000n
+export const ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER = 312509000n

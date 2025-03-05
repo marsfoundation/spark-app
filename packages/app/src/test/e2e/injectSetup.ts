@@ -10,7 +10,7 @@ import {
 } from '@/config/wagmi/e2e-consts'
 import { TestnetClient } from '@marsfoundation/common-testnets'
 import { zeroAddress } from 'viem'
-import { base, mainnet } from 'viem/chains'
+import { arbitrum, base, mainnet } from 'viem/chains'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(
@@ -92,10 +92,13 @@ export async function injectFlags(page: Page, testnetClient: TestnetClient, chai
 async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Promise<boolean> {
   const susdcAddress = (() => {
     if (chainId === mainnet.id) {
-      return '0x29bd15f2c80f2807c29d2428aa835f2be1098a62'
+      return '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE'
     }
     if (chainId === base.id) {
-      return '0x62da45546a0f87b23941ffe5ca22f9d2a8fa7df3'
+      return '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858'
+    }
+    if (chainId === arbitrum.id) {
+      return '0x940098b108fB7D0a7E374f6eDED7760787464609'
     }
     return zeroAddress
   })()

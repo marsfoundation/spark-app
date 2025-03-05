@@ -1,6 +1,6 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
@@ -16,7 +16,7 @@ test.describe('Withdraw USDS', () => {
     testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -47,7 +47,7 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '966.65 sUSDS',
+          tokenAmount: '960.22 sUSDS',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -68,7 +68,7 @@ test.describe('Withdraw USDS', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,033.35', estimatedValue: '9,344.969493' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,039.78', estimatedValue: '9,414.3213986' })
     await savingsPage.expectSupportedStablecoinBalance('USDS', '1,000')
   })
 

@@ -1,7 +1,7 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
@@ -16,7 +16,7 @@ test.describe('Withdraw USDC', () => {
     testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -53,7 +53,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '966.65 sUSDC',
+          tokenAmount: '960.22 sUSDC',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -74,7 +74,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '8,699.88', estimatedValue: '9,000.000186' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '8,641.95', estimatedValue: '9,000.0000990' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
   })
 
@@ -85,7 +85,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '9,665.57', estimatedValue: '9,999.000186' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,601.20', estimatedValue: '9,999.0000982' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1')
   })
 

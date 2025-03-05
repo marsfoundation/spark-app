@@ -1,19 +1,22 @@
+import { psm3Address } from '@/config/contracts-generated'
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { SUSDC_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setup } from '@/test/e2e/setup'
+import { ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
+import { arbitrum } from 'viem/chains'
+import { withdrawValidationIssueToMessage } from '../../../logic/validation'
 
 test.describe('Withdraw USDC', () => {
   let savingsPage: SavingsPageObject
   let withdrawDialog: SavingsDialogPageObject
+  let testContext: TestContext
 
   test.beforeEach(async ({ page }) => {
-    const testContext = await setup(page, {
+    testContext = await setup(page, {
       blockchain: {
-        chain: mainnet,
-        blockNumber: SUSDC_ACTIVE_BLOCK_NUMBER,
+        chain: arbitrum,
+        blockNumber: ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -50,7 +53,7 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '960.24 sUSDC',
+          tokenAmount: '960.17 sUSDC',
           tokenUsdValue: '$1,000.00',
         },
         {
@@ -71,7 +74,35 @@ test.describe('Withdraw USDC', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsAccountBalance({ balance: '8,642.12', estimatedValue: '9,000.0000998' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '8,641.52', estimatedValue: '9,000.0000988' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '1,000')
+  })
+
+  test('executes withdraw for small amount', async () => {
+    await withdrawDialog.fillAmountAction(1)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(1)
+
+    await withdrawDialog.expectSuccessPage()
+    await withdrawDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsAccountBalance({ balance: '9,600.73', estimatedValue: '9,999.0000993' })
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '1')
+  })
+
+  test('fails validation if psm3 usdc balance is too low', async ({ page }) => {
+    await testContext.testnetController.client.setErc20Balance(
+      TOKENS_ON_FORK[arbitrum.id].USDC.address,
+      psm3Address[arbitrum.id],
+      0n,
+    )
+    await testContext.testnetController.progressSimulation(5)
+    await page.reload()
+    await savingsPage.clickSavingsNavigationItemAction('USDC')
+
+    await savingsPage.clickWithdrawFromAccountButtonAction()
+    withdrawDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
+    await withdrawDialog.fillAmountAction(1000)
+
+    await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['usdc-withdraw-cap-reached'])
   })
 })
