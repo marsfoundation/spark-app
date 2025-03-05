@@ -38,11 +38,15 @@ export function parseWriteErrorMessage(
   return 'Unknown error'
 }
 
-function decodeRevertReason(errorMessage: string): string {
-  const match = errorMessage.match(/execution reverted:\s*(\d+)/)
-  const revertReason = match?.[1]
-  if (revertReason) {
-    return aaveContractErrors[revertReason] ?? errorMessage
+export function decodeRevertReason(errorMessage: string): string {
+  if (!errorMessage.includes('reverted')) {
+    return errorMessage
   }
-  return errorMessage
+
+  const revertCode = errorMessage.match(/(\d+)/)?.[1]
+  if (!revertCode) {
+    return errorMessage
+  }
+
+  return aaveContractErrors[revertCode] ?? errorMessage
 }
