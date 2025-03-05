@@ -1,7 +1,7 @@
 import { MockObject, expect, mockFn, mockObject } from 'earl'
 import { ZodError, z } from 'zod'
 import { Logger } from '../logger/index.js'
-import { HttpClient } from './HttpClient.js'
+import { HttpClient, HttpError } from './HttpClient.js'
 import { HttpServerMock, PostBody, getResponseSchema, postBodySchema } from './HttpServer.mock.js'
 
 describe(HttpClient.name, () => {
@@ -100,6 +100,7 @@ describe(HttpClient.name, () => {
       }
 
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
+        HttpError,
         'Failed POST: 400 - {"status":400}',
       )
       expect(httpServer.requestsCount['/post']).toEqual(1)
@@ -112,6 +113,7 @@ describe(HttpClient.name, () => {
       }
 
       await expect(() => httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toBeRejectedWith(
+        HttpError,
         'Failed POST: 500 - {"status":500}',
       )
       expect(httpServer.requestsCount['/post']).toEqual(5)

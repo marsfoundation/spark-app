@@ -26,7 +26,7 @@ export class HttpClient {
       body: JSON.stringify(body),
     })
     if (!result.ok) {
-      throw new Error(`Failed POST: ${result.status} - ${await result.text()}`)
+      throw new HttpError(`Failed POST: ${result.status} - ${await result.text()}`)
     }
 
     return schema.parse(await result.json())
@@ -36,8 +36,10 @@ export class HttpClient {
     this.logger.trace('[HttpClient] GET request', { url })
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
-      throw new Error(`Failed GET: ${result.status} - ${await result.text()}`)
+      throw new HttpError(`Failed GET: ${result.status} - ${await result.text()}`)
     }
     return schema.parse(await result.json())
   }
 }
+
+export class HttpError extends Error {}
