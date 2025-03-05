@@ -10,8 +10,7 @@ export interface RetryOptions {
 type FetchType = typeof fetch
 
 export function fetchRetry(options: RetryOptions): FetchType {
-  return (url: string | URL | RequestInfo, requestInit: RequestInit = {}) =>
-    fetchWithRetries(url, requestInit, options, 0)
+  return (url, requestInit = {}) => fetchWithRetries(url, requestInit, options, 0)
 }
 
 async function fetchWithRetries(
