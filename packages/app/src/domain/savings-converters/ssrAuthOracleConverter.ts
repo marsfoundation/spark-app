@@ -5,13 +5,13 @@ import { readContract } from 'wagmi/actions'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function susdsSsrAuthOracleConverterQueryOptions({
+export function ssrAuthOracleConverterQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
 }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
-    queryKey: ['base-savings-usds-info', { chainId }],
+    queryKey: ['ssr-auth-oracle-converter', { chainId }],
     queryFn: async () => {
       const { ssr, chi, rho } = await readContract(wagmiConfig, {
         abi: ssrAuthOracleConfig.abi,

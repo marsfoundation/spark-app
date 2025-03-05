@@ -4,8 +4,7 @@ import {
   arbitrumSusdcSavingsRateQueryOptions,
   arbitrumSusdsSavingsRateQueryOptions,
 } from '@/domain/savings-charts/savings-rate-query/arbitrum'
-import { savingsUsdcConverterQueryOptions } from '@/domain/savings-converters/savingsUsdcConverter'
-import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
+import { ssrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/ssrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
 import { CheckedAddress } from '@marsfoundation/common-universal'
@@ -60,7 +59,7 @@ export const arbitrumConfig: ChainConfigEntry = {
         savingsToken: susds.symbol,
         underlyingToken: usds.symbol,
         supportedStablecoins: [usds.symbol, usdc.symbol],
-        fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
+        fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: arbitrumSusdsSavingsRateQueryOptions,
         myEarningsQueryOptions: psm3SavingsMyEarningsQueryOptions,
       },
@@ -70,7 +69,7 @@ export const arbitrumConfig: ChainConfigEntry = {
               savingsToken: susdc.symbol,
               underlyingToken: usdc.symbol,
               supportedStablecoins: [usdc.symbol],
-              fetchConverterQuery: savingsUsdcConverterQueryOptions,
+              fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
               savingsRateQueryOptions: arbitrumSusdcSavingsRateQueryOptions,
               myEarningsQueryOptions: undefined,
             },
