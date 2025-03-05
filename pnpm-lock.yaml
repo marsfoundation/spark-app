@@ -429,6 +429,9 @@ importers:
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
+      tinyspy:
+        specifier: ^3.0.2
+        version: 3.0.2
 
   packages/common-testnets:
     dependencies:
