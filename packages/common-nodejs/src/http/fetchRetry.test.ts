@@ -1,6 +1,7 @@
 import * as FakeTimers from '@sinonjs/fake-timers'
 import { MockFunctionOf, expect, mockFn } from 'earl'
 import { mergeDeep } from 'remeda'
+import { spy } from 'tinyspy'
 import { RetryOptions, fetchRetry, getRetryDelay } from './fetchRetry.js'
 
 const testUrl = 'test'
@@ -44,6 +45,18 @@ describe(fetchRetry.name, () => {
 
     await expect(promisedResponse).toBeRejectedWith(testError.message)
     expect(retryOptions.fetch).toHaveBeenCalledTimes(retryOptions.maxCalls)
+  })
+
+  it('retries if real fetch throws', async () => {
+    const spiedFetch = spy(fetch)
+    const retryOptions = getTestRetryOptions({ fetch: spiedFetch, status: 200 })
+    const fetchWithRetries = fetchRetry(retryOptions)
+
+    const promisedResponse = fetchWithRetries('invalidUrl')
+    await clock.runAllAsync()
+
+    await expect(promisedResponse).toBeRejectedWith('Failed to parse URL from invalidUrl')
+    expect(spiedFetch.callCount).toEqual(retryOptions.maxCalls)
   })
 
   it('retries maxCalls times when status is retryable', async () => {
@@ -95,7 +108,8 @@ describe(fetchRetry.name, () => {
 })
 
 type FetchMock = MockFunctionOf<RetryOptions['fetch']>
-interface TestRetryOptionsInput extends Partial<Omit<RetryOptions, 'fetch'>> {
+interface TestRetryOptionsInput extends Partial<RetryOptions> {
+  fetch?: FetchMock | RetryOptions['fetch']
   status: number
 }
 type TestRetryOptions = RetryOptions & { fetch: FetchMock }
