@@ -89,13 +89,7 @@
   },
   "peerDependencies": {
     "@marsfoundation/common-universal": "workspace:^",
-    "@elastic/elasticsearch": "^8.16.2",
     "remeda": "^2.10.0",
     "zod": "^3.0"
-  },
-  "peerDependenciesMeta": {
-    "@elastic/elasticsearch": {
-      "optional": true
-    }
   }
 }
