@@ -7,7 +7,7 @@ import { sort } from 'd3-array'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function sparkPsmSavingsMyEarningsQueryOptions(wallet: CheckedAddress, chainId: number) {
+export function psm3SavingsMyEarningsQueryOptions(wallet: CheckedAddress, chainId: number) {
   return queryOptions({
     queryKey: ['my-earnings', chainId, wallet] as QueryKey,
     queryFn: async () => {
