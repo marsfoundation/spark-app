@@ -39,7 +39,7 @@ export function parseWriteErrorMessage(
 }
 
 function decodeRevertReason(errorMessage: string): string {
-  const match = errorMessage.match(/execution reverted:\s*(\d+)/)
+  const match = errorMessage.match(/reverted with the following reason:\s*(\d+)/)
   const revertReason = match?.[1]
   if (revertReason) {
     return aaveContractErrors[revertReason] ?? errorMessage
