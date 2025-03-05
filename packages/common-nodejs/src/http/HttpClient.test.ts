@@ -16,7 +16,7 @@ describe(HttpClient.name, () => {
 
   describe(HttpClient.prototype.get.name, () => {
     it('returns successful response', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const response = await httpClient.get(httpServer.getUrl('/status?status=200'), getResponseSchema)
 
       expect(response).toEqual({ status: 200 })
@@ -25,14 +25,14 @@ describe(HttpClient.name, () => {
     it('logs request', async () => {
       const url = httpServer.getUrl('/status?status=200')
       const logger = getMockLogger()
-      const httpClient = new HttpClient(logger)
+      const httpClient = new HttpClient(logger, { delay: 0 })
 
       await httpClient.get(url, getResponseSchema)
       expect(logger.info).toHaveBeenOnlyCalledWith('[HttpClient] GET request', { url })
     })
 
     it('throws with invalid schema', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const invalidSchema = z.object({
         invalid: z.boolean(),
       })
@@ -43,7 +43,7 @@ describe(HttpClient.name, () => {
     })
 
     it('retries in case of server error', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       await expect(() => httpClient.get(httpServer.getUrl('/status?status=500'), getResponseSchema)).toBeRejectedWith(
         'Failed GET: 500 - {"status":500}',
       )
@@ -53,7 +53,7 @@ describe(HttpClient.name, () => {
 
   describe(HttpClient.prototype.post.name, () => {
     it('returns response', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -64,7 +64,7 @@ describe(HttpClient.name, () => {
     it('logs request', async () => {
       const url = httpServer.getUrl('/post')
       const logger = getMockLogger()
-      const httpClient = new HttpClient(logger)
+      const httpClient = new HttpClient(logger, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -74,7 +74,7 @@ describe(HttpClient.name, () => {
     })
 
     it('throws with invalid schema', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 200,
       }
@@ -86,7 +86,7 @@ describe(HttpClient.name, () => {
     })
 
     it('retries in case of server error', async () => {
-      const httpClient = new HttpClient(Logger.SILENT)
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const body: PostBody = {
         status: 500,
       }
