@@ -1,5 +1,5 @@
 import { usdcVaultAddress } from '@/config/contracts-generated'
-import { sparkPsmMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/spark-psm-domains'
+import { sparkPsmSavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/spark-psm-savings'
 import { baseSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/base'
 import { baseSavingsUsdcConverterQueryOptions } from '@/domain/savings-converters/baseSavingsConverter'
 import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
@@ -58,7 +58,7 @@ export const baseConfig: ChainConfigEntry = {
         supportedStablecoins: [usds.symbol, usdc.symbol],
         fetchConverterQuery: susdsSsrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
-        myEarningsQueryOptions: sparkPsmMyEarningsQueryOptions,
+        myEarningsQueryOptions: sparkPsmSavingsMyEarningsQueryOptions,
       },
       ...(USDC_ACCOUNT_ENABLED
         ? [
