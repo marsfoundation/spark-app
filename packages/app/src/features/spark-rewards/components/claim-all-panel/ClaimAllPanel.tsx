@@ -55,7 +55,7 @@ export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: Cl
           claimableTokensWithoutPrice={claimableTokensWithoutPrice}
         />
       )}
-      {usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 && <PendingRewardsSubPanel usdSum={usdSum} />}
+      {usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 && <PendingRewardsSubPanel />}
       {usdSum.eq(0) && claimableTokensWithoutPrice.length > 0 && (
         <ClaimableTokensWithoutPriceSubPanel claimableTokensWithoutPrice={claimableTokensWithoutPrice} />
       )}
@@ -197,18 +197,16 @@ function ClaimableTokensWithPriceSubPanel({
   )
 }
 
-interface PendingRewardsSubPanelProps {
-  usdSum: NormalizedUnitNumber
-}
-
-function PendingRewardsSubPanel({ usdSum }: PendingRewardsSubPanelProps) {
+function PendingRewardsSubPanel() {
   return (
     <SubPanel>
       <div className="flex items-center gap-1">
         <div className="typography-label-2 text-tertiary">Total to claim</div>
         <Info>You have nothing to claim at the moment.</Info>
       </div>
-      <div className="typography-heading-2 text-primary-inverse">{USD_MOCK_TOKEN.formatUSD(usdSum)}</div>
+      <div className="typography-heading-2 text-primary-inverse">
+        {USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(0))}
+      </div>
     </SubPanel>
   )
 }
