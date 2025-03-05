@@ -395,6 +395,9 @@ importers:
       uuid:
         specifier: ^11.0.3
         version: 11.0.3
+      zod:
+        specifier: ^3.0
+        version: 3.22.4
     devDependencies:
       '@sinonjs/fake-timers':
         specifier: ^13.0.5
@@ -423,9 +426,6 @@ importers:
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
-      zod:
-        specifier: 3.22.4
-        version: 3.22.4
 
   packages/common-testnets:
     dependencies:
