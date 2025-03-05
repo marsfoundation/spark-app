@@ -16,7 +16,7 @@ export class HttpClient {
   }
 
   async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
-    this.logger.trace('[HttpClient] POST request', { url, body })
+    this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
     const result = await this.fetchWithRetries(url, {
       method: 'POST',
@@ -33,7 +33,7 @@ export class HttpClient {
   }
 
   async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
-    this.logger.trace('[HttpClient] GET request', { url })
+    this.logger.trace(`[HttpClient] GET request - ${url}`, { url })
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
       throw new HttpError(`Failed GET: ${result.status} - ${await result.text()}`)

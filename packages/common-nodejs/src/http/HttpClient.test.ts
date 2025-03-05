@@ -28,7 +28,7 @@ describe(HttpClient.name, () => {
       const httpClient = new HttpClient(logger, { delay: 0 })
 
       await httpClient.get(url, getResponseSchema)
-      expect(logger.trace).toHaveBeenOnlyCalledWith('[HttpClient] GET request', { url })
+      expect(logger.trace).toHaveBeenOnlyCalledWith(`[HttpClient] GET request - ${url}`, { url })
     })
 
     it('throws with invalid schema', async () => {
@@ -78,7 +78,7 @@ describe(HttpClient.name, () => {
       }
 
       expect(await httpClient.post(url, body, postBodySchema)).toEqual(body)
-      expect(logger.trace).toHaveBeenOnlyCalledWith('[HttpClient] POST request', { url, body })
+      expect(logger.trace).toHaveBeenOnlyCalledWith(`[HttpClient] POST request - ${url}`, { url, body })
     })
 
     it('throws with invalid schema', async () => {
