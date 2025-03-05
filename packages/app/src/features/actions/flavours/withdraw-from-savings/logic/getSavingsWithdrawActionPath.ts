@@ -24,6 +24,7 @@ export type SavingsWithdrawActionPath =
   | 'base-susdc-to-usdc'
   | 'arbitrum-susds-to-usds'
   | 'arbitrum-susds-to-usdc'
+  | 'arbitrum-susdc-to-usdc'
 
 export function getSavingsWithdrawActionPath({
   token,
@@ -63,6 +64,10 @@ export function getSavingsWithdrawActionPath({
 
     if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'arbitrum-susds-to-usdc'
+    }
+
+    if (token.symbol === usdc && savingsToken.symbol === susdc) {
+      return 'arbitrum-susdc-to-usdc'
     }
   }
 

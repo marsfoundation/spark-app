@@ -1,7 +1,7 @@
 import { usdcVaultAddress } from '@/config/contracts-generated'
 import { psm3SavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/psm3-savings'
 import { baseSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/base'
-import { baseSavingsUsdcConverterQueryOptions } from '@/domain/savings-converters/baseSavingsConverter'
+import { savingsUsdcConverterQueryOptions } from '@/domain/savings-converters/savingsUsdcConverter'
 import { susdsSsrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/susdsSsrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { assets } from '@/ui/assets'
@@ -66,7 +66,7 @@ export const baseConfig: ChainConfigEntry = {
               savingsToken: susdc.symbol,
               underlyingToken: usdc.symbol,
               supportedStablecoins: [usdc.symbol],
-              fetchConverterQuery: baseSavingsUsdcConverterQueryOptions,
+              fetchConverterQuery: savingsUsdcConverterQueryOptions,
               savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
               myEarningsQueryOptions: undefined,
             },

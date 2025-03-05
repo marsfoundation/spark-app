@@ -5,13 +5,13 @@ import { multicall } from 'wagmi/actions'
 import { PotSavingsConverter } from './PotSavingsConverter'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from './types'
 
-export function baseSavingsUsdcConverterQueryOptions({
+export function savingsUsdcConverterQueryOptions({
   wagmiConfig,
   timestamp,
   chainId,
 }: SavingsConverterQueryParams): SavingsConverterQueryOptions {
   return {
-    queryKey: ['base-savings-usds-info', { chainId }],
+    queryKey: ['savings-usdc-converter', { chainId }],
     queryFn: async () => {
       const susdcAddress = getContractAddress(usdcVaultAddress, chainId)
 
