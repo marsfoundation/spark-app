@@ -10,7 +10,7 @@ import {
 } from '@/config/wagmi/e2e-consts'
 import { TestnetClient } from '@marsfoundation/common-testnets'
 import { zeroAddress } from 'viem'
-import { base, mainnet } from 'viem/chains'
+import { arbitrum, base, mainnet } from 'viem/chains'
 import { InjectableWallet } from './setup'
 
 export async function injectWalletConfiguration(
@@ -96,6 +96,9 @@ async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Pr
     }
     if (chainId === base.id) {
       return '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858'
+    }
+    if (chainId === arbitrum.id) {
+      return '0x940098b108fB7D0a7E374f6eDED7760787464609'
     }
     return zeroAddress
   })()

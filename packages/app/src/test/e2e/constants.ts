@@ -135,6 +135,10 @@ export const TOKENS_ON_FORK = {
       address: '0xdDb46999F8891663a8F2828d25298f70416d7610',
       decimals: 18,
     },
+    sUSDC: {
+      address: '0x940098b108fB7D0a7E374f6eDED7760787464609',
+      decimals: 18,
+    },
   },
 } as const
 
@@ -160,3 +164,4 @@ export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
 export const BASE_SUSDC_ACTIVE_BLOCK_NUMBER = 27183000n
 export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
 export const ARBITRUM_DEFAULT_BLOCK_NUMBER = 305215000n
+export const ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER = 312509000n
