@@ -56,7 +56,7 @@ test.describe('Send USDC', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,766.57 sUSDC',
+          tokenAmount: '6,721.51 sUSDC',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -86,7 +86,7 @@ test.describe('Send USDC', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsAccountBalance({ balance: '2,899.96', estimatedValue: '3,000.0001861' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '2,880.65', estimatedValue: '3,000.0000990' })
     await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
   })
 })

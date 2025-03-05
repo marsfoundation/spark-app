@@ -49,7 +49,7 @@ test.describe('Send USDS', () => {
     await sendDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '6,766.57 sUSDS',
+          tokenAmount: '6,721.51 sUSDS',
           tokenUsdValue: '$7,000.00',
         },
         {
@@ -79,7 +79,7 @@ test.describe('Send USDS', () => {
     })
 
     await sendDialog.clickBackToSavingsButton()
-    await savingsPage.expectSavingsAccountBalance({ balance: '3,233.43', estimatedValue: '3,344.9694934' })
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,278.49', estimatedValue: '3,414.3213986' })
     await savingsPage.expectSupportedStablecoinBalance('USDS', '-')
   })
 })

@@ -50,7 +50,7 @@ test.describe('Withdraw Max USDC', () => {
     await withdrawDialog.expectNativeRouteTransactionOverview({
       routeItems: [
         {
-          tokenAmount: '9,666.53 sUSDC',
+          tokenAmount: '9,602.16 sUSDC',
           tokenUsdValue: '$10,000.00',
         },
         {
