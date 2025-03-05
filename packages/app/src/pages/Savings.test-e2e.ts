@@ -3,7 +3,7 @@ import {
   BASE_DEFAULT_BLOCK_NUMBER,
   DEFAULT_BLOCK_NUMBER,
   GNOSIS_DEFAULT_BLOCK_NUMBER,
-  MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+  SUSDC_ACTIVE_BLOCK_NUMBER,
 } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -73,7 +73,7 @@ test.describe('Savings Mainnet', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: mainnet,
-        blockNumber: MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
