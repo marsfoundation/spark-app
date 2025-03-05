@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { Logger } from '../logger/index.js'
-import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchWithRetries.js'
+import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 
 export class HttpClient {
   private readonly logger: Logger
@@ -8,6 +8,7 @@ export class HttpClient {
   constructor(logger: Logger, retryOptions?: Partial<RetryOptions>) {
     this.logger = logger.for(this)
     this.fetchWithRetries = fetchRetry({
+      fetch: retryOptions?.fetch ?? defaultRetryOptions.fetch,
       delay: retryOptions?.delay ?? defaultRetryOptions.delay,
       maxCalls: retryOptions?.maxCalls ?? defaultRetryOptions.maxCalls,
       isRetryableStatus: retryOptions?.isRetryableStatus ?? defaultRetryOptions.isRetryableStatus,
