@@ -1,5 +1,5 @@
+import { ILogger } from '@marsfoundation/common-universal'
 import prettyMilliseconds from 'pretty-ms'
-import { ILogger } from '../logger/index.js'
 
 interface TracerOptions {
   service?: string
