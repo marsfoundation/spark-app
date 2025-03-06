@@ -40,7 +40,7 @@ describe(useClaimableRewards.name, () => {
     vi.unstubAllGlobals()
   })
 
-  test('fetches active rewards', async () => {
+  test('fetches claimable rewards', async () => {
     const cumulativeAmountNormalized = NormalizedUnitNumber(123.45)
     const pendingAmountNormalized = NormalizedUnitNumber(10.23)
     const preClaimed = NormalizedUnitNumber(98.7654321)

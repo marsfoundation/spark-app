@@ -93,7 +93,7 @@ export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewar
 function Header() {
   return (
     <h3 className="typography-heading-5 flex items-baseline gap-1">
-      Active rewards <Info>Tooltip text</Info>
+      Claimable rewards <Info>Tooltip text</Info>
     </h3>
   )
 }

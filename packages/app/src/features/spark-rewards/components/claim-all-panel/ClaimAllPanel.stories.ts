@@ -31,6 +31,8 @@ const meta: Meta<typeof ClaimAllPanel> = {
             amountToClaim: NormalizedUnitNumber(97),
             chainId: mainnet.id,
           },
+        ],
+        claimableRewardsWithoutPrice: [
           {
             token: tokens.RED,
             amountPending: NormalizedUnitNumber(122),
@@ -38,7 +40,6 @@ const meta: Meta<typeof ClaimAllPanel> = {
             chainId: mainnet.id,
           },
         ],
-        claimableRewardsWithoutPrice: [],
         claimAll: () => {},
         chainId: mainnet.id,
       },
@@ -69,7 +70,7 @@ export const ErrorState: Story = {
     claimableRewardsSummaryResult: {
       isPending: false,
       isError: true,
-      error: new Error('Failed to load active rewards data'),
+      error: new Error('Failed to load claimable rewards data'),
       data: undefined,
     },
   },
