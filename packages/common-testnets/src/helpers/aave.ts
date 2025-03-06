@@ -10,78 +10,74 @@ import {
 import { encodeAbiParameters, encodePacked, hexToBigInt, keccak256, parseAbi, toHex } from 'viem'
 import { TestnetClient } from '../TestnetClient.js'
 
-export const aaveHelpers = {
-  async setUsingAsCollateral({
-    client,
-    tokenAddress,
-    account,
-    lendingPoolAddress,
-    usingAsCollateral,
-  }: {
-    client: TestnetClient
-    tokenAddress: CheckedAddress
-    account: CheckedAddress
-    lendingPoolAddress: CheckedAddress
-    usingAsCollateral: boolean
-  }) {
-    const { id: reserveIndex } = await client.readContract({
-      address: lendingPoolAddress,
-      abi: poolAbi,
-      functionName: 'getReserveData',
-      args: [tokenAddress],
-    })
+export async function setAaveUsingAsCollateral({
+  client,
+  tokenAddress,
+  account,
+  lendingPoolAddress,
+  usingAsCollateral,
+}: {
+  client: TestnetClient
+  tokenAddress: CheckedAddress
+  account: CheckedAddress
+  lendingPoolAddress: CheckedAddress
+  usingAsCollateral: boolean
+}): Promise<void> {
+  const { id: reserveIndex } = await client.readContract({
+    address: lendingPoolAddress,
+    abi: poolAbi,
+    functionName: 'getReserveData',
+    args: [tokenAddress],
+  })
 
-    const mappingSlot = 53n
-    const storageSlot = Hash(
-      keccak256(encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot])),
-    )
+  const mappingSlot = 53n
+  const storageSlot = Hash(
+    keccak256(encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot])),
+  )
 
-    const storageValue = await client.getStorageAt({
-      address: lendingPoolAddress,
-      slot: storageSlot,
-    })
+  const storageValue = await client.getStorageAt({
+    address: lendingPoolAddress,
+    slot: storageSlot,
+  })
 
-    assert(storageValue, 'storage value should exist')
-    const oldData = hexToBigInt(storageValue)
+  assert(storageValue, 'storage value should exist')
+  const oldData = hexToBigInt(storageValue)
 
-    const bit = 1n << ((BigInt(reserveIndex) << 1n) + 1n)
+  const bit = 1n << ((BigInt(reserveIndex) << 1n) + 1n)
 
-    const newData = usingAsCollateral ? oldData | bit : oldData & ~bit
+  const newData = usingAsCollateral ? oldData | bit : oldData & ~bit
 
-    await client.setStorageAt(lendingPoolAddress, storageSlot, toHex(newData, { size: 32 }))
-  },
+  await client.setStorageAt(lendingPoolAddress, storageSlot, toHex(newData, { size: 32 }))
+}
 
-  async setATokenBalance({
-    client,
+export async function setATokenBalance({
+  client,
+  aTokenAddress,
+  account,
+  balance,
+}: {
+  client: TestnetClient
+  aTokenAddress: CheckedAddress
+  account: CheckedAddress
+  balance: BaseUnitNumber
+}): Promise<void> {
+  const newBalance = await getNewATokenBalance({ client, aTokenAddress, balance })
+  const mappingSlot = 52n
+  const storageSlot = keccak256(encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot]))
+  const storageValue = await client.getStorageAt({
+    address: aTokenAddress,
+    slot: storageSlot,
+  })
+
+  assert(storageValue, 'storage value should exist')
+  const oldStorageValue = storageValue.replace('0x', '')
+  const oldData = BigInt(`0x${oldStorageValue.slice(0, oldStorageValue.length / 2)}`)
+
+  await client.setStorageAt(
     aTokenAddress,
-    account,
-    balance,
-  }: {
-    client: TestnetClient
-    aTokenAddress: CheckedAddress
-    account: CheckedAddress
-    balance: BaseUnitNumber
-  }) {
-    const newBalance = await getNewATokenBalance({ client, aTokenAddress, balance })
-    const mappingSlot = 52n
-    const storageSlot = keccak256(
-      encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot]),
-    )
-    const storageValue = await client.getStorageAt({
-      address: aTokenAddress,
-      slot: storageSlot,
-    })
-
-    assert(storageValue, 'storage value should exist')
-    const oldStorageValue = storageValue.replace('0x', '')
-    const oldData = BigInt(`0x${oldStorageValue.slice(0, oldStorageValue.length / 2)}`)
-
-    await client.setStorageAt(
-      aTokenAddress,
-      Hash(storageSlot),
-      encodePacked(['uint128', 'uint128'], [oldData, toBigInt(newBalance)]),
-    )
-  },
+    Hash(storageSlot),
+    encodePacked(['uint128', 'uint128'], [oldData, toBigInt(newBalance)]),
+  )
 }
 
 const poolAbi = [
