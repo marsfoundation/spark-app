@@ -1,9 +1,6 @@
 import { inspect } from 'node:util'
+import { LogEntry, LogFormatter, LogLevel, toJSON } from '@marsfoundation/common-universal/logger'
 import chalk from 'chalk'
-
-import { LogLevel } from './LogLevel.js'
-import { LogEntry, LogFormatter } from './types.js'
-import { toJSON } from './utils.js'
 
 const STYLES = {
   bigint: 'white',

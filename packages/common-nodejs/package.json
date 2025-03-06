@@ -22,11 +22,24 @@
         "types": "./dist/types/env/index.d.ts",
         "default": "./dist/cjs/env/index.js"
       }
+    },
+    "./logger": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/esm/logger/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/cjs/logger/index.js"
+      }
     }
   },
   "typesVersions": {
     "*": {
-      "env": ["dist/types/env/index.d.ts"]
+      "env": ["dist/types/env/index.d.ts"],
+      "logger": ["dist/types/logger/index.d.ts"]
     }
   },
   "files": ["dist"],
@@ -54,6 +67,7 @@
     "tinyspy": "^3.0.2"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
     "uuid": "^11.0.3"
   },

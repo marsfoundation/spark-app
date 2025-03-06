@@ -29,7 +29,7 @@ export default defineConfig({
     nodePolyfills({
       // buffer is needed when connecting with a coinbase wallet installed on a phone
       // util and path is needed for common-universal's logger
-      include: ['buffer', 'util', 'path'],
+      include: ['buffer'],
     }),
     react(),
     tsconfigPaths(),

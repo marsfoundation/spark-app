@@ -2,7 +2,6 @@
 import { expect, formatCompact, mockFn } from 'earl'
 
 import { LogFormatterJson } from './LogFormatterJson.js'
-import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { Logger } from './Logger.js'
 import { LogEntry } from './types.js'
 
@@ -61,52 +60,14 @@ describe(Logger.name, () => {
     )
   })
 
-  it('supports bigint values in pretty output', () => {
-    const transport = createTestTransport()
-    const logger = new Logger({
-      transports: [
-        {
-          transport: transport,
-          formatter: new LogFormatterPretty({ colors: false, utc: true }),
-        },
-      ],
-      logLevel: 'TRACE',
-      getTime: () => new Date(0),
-      utc: true,
-    })
-
-    logger.info({ foo: 123n, bar: [4n, 56n] })
-    const lines = ['00:00:00.000Z INFO\n', "    { foo: '123', bar: [ '4', '56' ] }", '']
-    expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
-  })
-
-  it('marks promised values in pretty output', () => {
-    const transport = createTestTransport()
-    const logger = new Logger({
-      transports: [
-        {
-          transport: transport,
-          formatter: new LogFormatterPretty({ colors: false, utc: true }),
-        },
-      ],
-      logLevel: 'TRACE',
-      getTime: () => new Date(0),
-      utc: true,
-    })
-
-    logger.info({ test: Promise.resolve(1234) })
-    const lines = ['00:00:00.000Z INFO\n', "    { test: 'Promise' }", '']
-    expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
-  })
-
-  describe('for', () => {
+  describe(Logger.prototype.for.name, () => {
     function setup() {
       const transport = createTestTransport()
       const baseLogger = new Logger({
         transports: [
           {
             transport: transport,
-            formatter: new LogFormatterPretty({ colors: false, utc: true }),
+            formatter: new LogFormatterJson(),
           },
         ],
         logLevel: 'TRACE',
@@ -122,7 +83,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.for('FooService')
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":"FooService","message":"hello"}',
+      )
     })
 
     it('single service (object)', () => {
@@ -133,7 +96,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.for(instance)
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":"FooService","message":"hello"}',
+      )
     })
 
     it('service with member', () => {
@@ -142,7 +107,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.for('FooService').for('queue')
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService.queue ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":"FooService.queue","message":"hello"}',
+      )
     })
 
     it('service with tag', () => {
@@ -151,7 +118,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.tag('Red').for('FooService')
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService:Red ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":"FooService:Red","message":"hello"}',
+      )
     })
 
     it('service with tag and member', () => {
@@ -160,7 +129,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.tag('Red').for('FooService').for('queue')
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService.queue:Red ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":"FooService.queue:Red","message":"hello"}',
+      )
     })
 
     it('lone tag', () => {
@@ -169,7 +140,9 @@ describe(Logger.name, () => {
       const logger = baseLogger.tag('Red')
       logger.info('hello')
 
-      expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ :Red ] hello')
+      expect(transport.log).toHaveBeenOnlyCalledWith(
+        '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":":Red","message":"hello"}',
+      )
     })
   })
 

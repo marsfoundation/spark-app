@@ -2,7 +2,6 @@ import { join } from 'node:path'
 
 import { assertNever } from '../assert/assertNever.js'
 import { LogFormatterJson } from './LogFormatterJson.js'
-import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { LEVEL, LogLevel } from './LogLevel.js'
 import { LogThrottle, LogThrottleOptions } from './LogThrottle.js'
 import { parseLogArguments } from './parseLogArguments.js'
@@ -59,7 +58,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
@@ -69,7 +68,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
@@ -79,7 +78,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
@@ -89,7 +88,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
@@ -99,7 +98,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
@@ -109,7 +108,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterPretty(),
+        formatter: new LogFormatterJson(),
       },
     ],
   })
