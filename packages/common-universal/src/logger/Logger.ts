@@ -1,7 +1,6 @@
-import { join } from 'node:path'
-
-import { assertNever } from '@marsfoundation/common-universal'
+import { assertNever } from '../assert/assertNever.js'
 import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterObject } from './LogFormatterObject.js'
 import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { LEVEL, LogLevel } from './LogLevel.js'
 import { LogThrottle, LogThrottleOptions } from './LogThrottle.js'
@@ -29,7 +28,6 @@ export interface ILogger {
 export class Logger implements ILogger {
   private readonly options: LoggerOptions
   private readonly logLevel: number
-  private readonly cwd: string
   private throttle?: LogThrottle
 
   constructor(options: Partial<LoggerOptions>) {
@@ -38,7 +36,6 @@ export class Logger implements ILogger {
       service: options.service,
       tag: options.tag,
       utc: options.utc ?? false,
-      cwd: options.cwd ?? process.cwd(),
       getTime: options.getTime ?? (() => new Date()),
       reportError: options.reportError ?? (() => {}),
       transports: options.transports ?? [
@@ -48,7 +45,6 @@ export class Logger implements ILogger {
         },
       ],
     }
-    this.cwd = join(this.options.cwd, '/')
     this.logLevel = LEVEL[this.options.logLevel]
   }
 
@@ -110,6 +106,16 @@ export class Logger implements ILogger {
       {
         transport: console,
         formatter: new LogFormatterPretty(),
+      },
+    ],
+  })
+
+  static BROWSER = new Logger({
+    logLevel: 'INFO',
+    transports: [
+      {
+        transport: console,
+        formatter: new LogFormatterObject(),
       },
     ],
   })
@@ -193,7 +199,7 @@ export class Logger implements ILogger {
     const parsed = parseLogArguments(args)
     return {
       ...parsed,
-      resolvedError: parsed.error ? resolveError(parsed.error, this.cwd) : undefined,
+      resolvedError: parsed.error ? resolveError(parsed.error) : undefined,
       level,
       time: this.options.getTime(),
       service: tagService(this.options.service, this.options.tag),

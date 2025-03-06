@@ -1,4 +1,4 @@
-import { PublicInterface } from '@marsfoundation/common-universal'
+import { PublicInterface } from '../typeHelpers.js'
 import { Tracer } from './Tracer.js'
 
 export function TracerMock(): Tracer {

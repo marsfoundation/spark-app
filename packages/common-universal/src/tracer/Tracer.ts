@@ -1,5 +1,5 @@
 import prettyMilliseconds from 'pretty-ms'
-import { ILogger } from '../logger/index.js'
+import { ILogger } from '../logger/Logger.js'
 
 interface TracerOptions {
   service?: string

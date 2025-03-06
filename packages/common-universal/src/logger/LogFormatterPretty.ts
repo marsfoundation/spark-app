@@ -1,27 +1,9 @@
-import { inspect } from 'node:util'
 import chalk from 'chalk'
-
 import { LogLevel } from './LogLevel.js'
 import { LogEntry, LogFormatter } from './types.js'
 import { toJSON } from './utils.js'
 
-const STYLES = {
-  bigint: 'white',
-  boolean: 'white',
-  date: 'white',
-  module: 'white',
-  name: 'blue',
-  null: 'white',
-  number: 'white',
-  regexp: 'white',
-  special: 'white',
-  string: 'white',
-  symbol: 'white',
-  undefined: 'white',
-}
-
 const INDENT_SIZE = 4
-const INDENT = ' '.repeat(INDENT_SIZE)
 
 interface Options {
   colors: boolean
@@ -45,7 +27,7 @@ export class LogFormatterPretty implements LogFormatter {
     const serviceOut = this.formatServicePretty(entry.service, this.options.colors)
     const messageOut = entry.message ? ` ${entry.message}` : ''
     const paramsOut = this.formatParametersPretty(
-      this.sanitize(entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : (entry.parameters ?? {})),
+      entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : (entry.parameters ?? {}),
       this.options.colors,
     )
 
@@ -86,30 +68,15 @@ export class LogFormatterPretty implements LogFormatter {
   }
 
   protected formatParametersPretty(parameters: object, colors: boolean): string {
-    const oldStyles = inspect.styles
-    inspect.styles = STYLES
-
-    const inspected = inspect(parameters, {
-      colors,
-      breakLength: 80 - INDENT_SIZE,
-      depth: 5,
-    })
-
-    inspect.styles = oldStyles
-
-    if (inspected === '{}') {
+    const jsonParameters = toJSON(parameters, INDENT_SIZE)
+    if (jsonParameters === '{}') {
       return ''
     }
 
-    const indented = inspected
-      .split('\n')
-      .map((x) => INDENT + x)
-      .join('\n')
-
     if (colors) {
-      return `\n${chalk.gray(indented)}`
+      return `\n${chalk.gray(jsonParameters)}`
     }
-    return `\n${indented}`
+    return `\n${jsonParameters}`
   }
 
   protected formatServicePretty(service: string | undefined, colors: boolean): string {
@@ -117,9 +84,5 @@ export class LogFormatterPretty implements LogFormatter {
       return ''
     }
     return colors ? ` ${chalk.gray('[')} ${chalk.yellow(service)} ${chalk.gray(']')}` : ` [ ${service} ]`
-  }
-
-  protected sanitize(parameters: object): object {
-    return JSON.parse(toJSON(parameters))
   }
 }

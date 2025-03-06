@@ -377,18 +377,9 @@ importers:
       '@marsfoundation/common-universal':
         specifier: workspace:^
         version: link:../common-universal
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
-      error-stack-parser:
-        specifier: ^2.1.4
-        version: 2.1.4
-      pretty-ms:
-        specifier: ^9.2.0
-        version: 9.2.0
       remeda:
         specifier: ^2.10.0
         version: 2.20.2
@@ -408,9 +399,6 @@ importers:
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
-      '@types/pretty-ms':
-        specifier: ^5.0.1
-        version: 5.0.1
       '@types/sinonjs__fake-timers':
         specifier: ^8.1.5
         version: 8.1.5
@@ -478,6 +466,12 @@ importers:
       bignumber.js:
         specifier: ^9.1.2
         version: 9.1.2
+      chalk:
+        specifier: ^5.3.0
+        version: 5.3.0
+      error-stack-parser:
+        specifier: ^2.1.4
+        version: 2.1.4
       fetch-retry:
         specifier: ^5.0.6
         version: 5.0.6
@@ -487,6 +481,9 @@ importers:
       p-limit:
         specifier: ^6.1.0
         version: 6.1.0
+      pretty-ms:
+        specifier: ^9.2.0
+        version: 9.2.0
       viem:
         specifier: ^2.0.0
         version: 2.22.8(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.24.2)
@@ -500,6 +497,9 @@ importers:
       '@types/ms':
         specifier: ^2.1.0
         version: 2.1.0
+      '@types/pretty-ms':
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/sinonjs__fake-timers':
         specifier: ^8.1.5
         version: 8.1.5
@@ -6244,6 +6244,7 @@ packages:
 
   lodash.isequal@4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -6687,9 +6688,6 @@ packages:
   object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
-
-  object-inspect@1.12.3:
-    resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -16820,8 +16818,6 @@ snapshots:
 
   object-hash@3.0.0: {}
 
-  object-inspect@1.12.3: {}
-
   object-inspect@1.13.4: {}
 
   object-is@1.1.5:
@@ -18024,7 +18020,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       get-intrinsic: 1.2.7
-      object-inspect: 1.12.3
+      object-inspect: 1.13.4
 
   side-channel@1.1.0:
     dependencies:

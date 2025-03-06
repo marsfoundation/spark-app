@@ -1,6 +1,6 @@
+import { Logger } from '@marsfoundation/common-universal/logger'
 import { mergeDeep } from 'remeda'
 import { z } from 'zod'
-import { Logger } from '../logger/index.js'
 import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 
 export class HttpClient {
