@@ -4,7 +4,7 @@ import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
-import { createAaveTestnetClient } from '@marsfoundation/common-testnets'
+import { aaveHelpers } from '@marsfoundation/common-testnets'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
@@ -704,9 +704,8 @@ test.describe('Position with asset with 0 LTV', () => {
     await depositDialog.actionsContainer.acceptAllActionsAction(2)
     await depositDialog.viewInMyPortfolioAction()
 
-    const aaveTestnetClient = createAaveTestnetClient(testContext.testnetController.client)
-
-    await aaveTestnetClient.setUsingAsCollateral({
+    await aaveHelpers.setUsingAsCollateral({
+      client: testContext.testnetController.client,
       tokenAddress: CheckedAddress(TOKENS_ON_FORK[mainnet.id].WBTC.address),
       lendingPoolAddress: CheckedAddress(lendingPoolAddress[mainnet.id]),
       account: CheckedAddress(testContext.account),

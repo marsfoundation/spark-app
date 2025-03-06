@@ -10,83 +10,78 @@ import {
 import { encodeAbiParameters, encodePacked, hexToBigInt, keccak256, parseAbi, toHex } from 'viem'
 import { TestnetClient } from '../TestnetClient.js'
 
-export interface AaveTestnetClient extends TestnetClient {
-  setUsingAsCollateral({
+export const aaveHelpers = {
+  async setUsingAsCollateral({
+    client,
     tokenAddress,
     account,
     lendingPoolAddress,
     usingAsCollateral,
   }: {
+    client: TestnetClient
     tokenAddress: CheckedAddress
     account: CheckedAddress
     lendingPoolAddress: CheckedAddress
     usingAsCollateral: boolean
-  }): Promise<void>
+  }) {
+    const { id: reserveIndex } = await client.readContract({
+      address: lendingPoolAddress,
+      abi: poolAbi,
+      functionName: 'getReserveData',
+      args: [tokenAddress],
+    })
 
-  setATokenBalance({
-    tokenAddress,
+    const mappingSlot = 53n
+    const storageSlot = Hash(
+      keccak256(encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot])),
+    )
+
+    const storageValue = await client.getStorageAt({
+      address: lendingPoolAddress,
+      slot: storageSlot,
+    })
+
+    assert(storageValue, 'storage value should exist')
+    const oldData = hexToBigInt(storageValue)
+
+    const bit = 1n << ((BigInt(reserveIndex) << 1n) + 1n)
+
+    const newData = usingAsCollateral ? oldData | bit : oldData & ~bit
+
+    await client.setStorageAt(lendingPoolAddress, storageSlot, toHex(newData, { size: 32 }))
+  },
+
+  async setATokenBalance({
+    client,
+    aTokenAddress,
     account,
     balance,
   }: {
-    tokenAddress: CheckedAddress
+    client: TestnetClient
+    aTokenAddress: CheckedAddress
     account: CheckedAddress
     balance: BaseUnitNumber
-  }): Promise<void>
-}
+  }) {
+    const newBalance = await getNewATokenBalance({ client, aTokenAddress, balance })
+    const mappingSlot = 52n
+    const storageSlot = keccak256(
+      encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot]),
+    )
+    const storageValue = await client.getStorageAt({
+      address: aTokenAddress,
+      slot: storageSlot,
+    })
 
-export function createAaveTestnetClient(c: TestnetClient): AaveTestnetClient {
-  return {
-    ...c,
-    async setUsingAsCollateral({ tokenAddress, account, lendingPoolAddress, usingAsCollateral }) {
-      const { id: reserveIndex } = await c.readContract({
-        address: lendingPoolAddress,
-        abi: poolAbi,
-        functionName: 'getReserveData',
-        args: [tokenAddress],
-      })
+    assert(storageValue, 'storage value should exist')
+    const oldStorageValue = storageValue.replace('0x', '')
+    const oldData = BigInt(`0x${oldStorageValue.slice(0, oldStorageValue.length / 2)}`)
 
-      const mappingSlot = 53n
-      const storageSlot = Hash(
-        keccak256(encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot])),
-      )
-
-      const storageValue = await c.getStorageAt({
-        address: lendingPoolAddress,
-        slot: storageSlot,
-      })
-
-      assert(storageValue, 'storage value should exist')
-      const oldData = hexToBigInt(storageValue)
-
-      const bit = 1n << ((BigInt(reserveIndex) << 1n) + 1n)
-
-      const newData = usingAsCollateral ? oldData | bit : oldData & ~bit
-
-      await c.setStorageAt(lendingPoolAddress, storageSlot, toHex(newData, { size: 32 }))
-    },
-
-    async setATokenBalance({ tokenAddress, account, balance }) {
-      const newBalance = await getNewBalance({ client: c, tokenAddress, balance })
-      const mappingSlot = 52n
-      const storageSlot = keccak256(
-        encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [account, mappingSlot]),
-      )
-      const storageValue = await c.getStorageAt({
-        address: tokenAddress,
-        slot: storageSlot,
-      })
-
-      assert(storageValue, 'storage value should exist')
-      const oldStorageValue = storageValue.replace('0x', '')
-      const oldData = BigInt(`0x${oldStorageValue.slice(0, oldStorageValue.length / 2)}`)
-
-      await c.setStorageAt(
-        tokenAddress,
-        Hash(storageSlot),
-        encodePacked(['uint128', 'uint128'], [oldData, toBigInt(newBalance)]),
-      )
-    },
-  }
+    await client.setStorageAt(
+      aTokenAddress,
+      Hash(storageSlot),
+      encodePacked(['uint128', 'uint128'], [oldData, toBigInt(newBalance)]),
+    )
+  },
 }
 
 const poolAbi = [
@@ -195,13 +190,13 @@ const poolAbi = [
   },
 ] as const
 
-async function getNewBalance({
+async function getNewATokenBalance({
   balance,
   client,
-  tokenAddress,
+  aTokenAddress,
 }: {
   client: Pick<TestnetClient, 'readContract' | 'multicall'>
-  tokenAddress: CheckedAddress
+  aTokenAddress: CheckedAddress
   balance: BaseUnitNumber
 }): Promise<BaseUnitNumber> {
   if (balance.isZero()) {
@@ -212,12 +207,12 @@ async function getNewBalance({
     allowFailure: false,
     contracts: [
       {
-        address: tokenAddress,
+        address: aTokenAddress,
         abi: parseAbi(['function UNDERLYING_ASSET_ADDRESS() external view returns (address)']),
         functionName: 'UNDERLYING_ASSET_ADDRESS',
       },
       {
-        address: tokenAddress,
+        address: aTokenAddress,
         abi: parseAbi(['function POOL() external view returns (address)']),
         functionName: 'POOL',
       },
