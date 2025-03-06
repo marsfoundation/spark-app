@@ -11,29 +11,29 @@ import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { AlertTriangleIcon } from 'lucide-react'
 import { pipe, sumBy } from 'remeda'
-import { ActiveReward, ActiveRewardsResult } from '../../logic/useActiveRewards'
+import { ClaimableReward, ClaimableRewardsResult } from '../../logic/useClaimableRewards'
 import { EarnRewardsBanner } from '../earn-rewards-banner/EarnRewardsBanner'
 
 export interface ClaimAllPanelProps {
-  activeRewardsResult: ActiveRewardsResult
+  claimableRewardsResult: ClaimableRewardsResult
   onClaimAll: () => void
   className?: string
 }
 
-export function ClaimAllPanel({ activeRewardsResult, onClaimAll, className }: ClaimAllPanelProps) {
-  if (activeRewardsResult.isPending) {
+export function ClaimAllPanel({ claimableRewardsResult, onClaimAll, className }: ClaimAllPanelProps) {
+  if (claimableRewardsResult.isPending) {
     return <PendingPanel className={className} />
   }
 
-  if (activeRewardsResult.isError) {
+  if (claimableRewardsResult.isError) {
     return <ErrorPanel className={className} />
   }
 
-  if (activeRewardsResult.data.length === 0) {
+  if (claimableRewardsResult.data.length === 0) {
     return <EarnRewardsBanner />
   }
 
-  const tokensToClaim = activeRewardsResult.data
+  const tokensToClaim = claimableRewardsResult.data
 
   const claimableTokensWithPrice = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
   const usdSum = pipe(
@@ -136,7 +136,7 @@ function SubPanel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function OneTokenWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
+function OneTokenWithoutPrice({ tokens }: { tokens: ClaimableReward[] }) {
   const { token, amountToClaim } = tokens[0] ?? raise('No token to display')
 
   return (
@@ -147,7 +147,7 @@ function OneTokenWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
   )
 }
 
-function MultipleTokensWithoutPrice({ tokens }: { tokens: ActiveReward[] }) {
+function MultipleTokensWithoutPrice({ tokens }: { tokens: ClaimableReward[] }) {
   return (
     <div className="flex flex-col gap-2">
       {tokens.map(({ token, amountToClaim }) => (
@@ -166,8 +166,8 @@ function TokenIconOrSymbol({ token, iconClassName }: { token: Token; iconClassNa
 
 interface ClaimableTokensWithPriceSubPanelProps {
   usdSum: NormalizedUnitNumber
-  claimableTokensWithPrice: ActiveReward[]
-  claimableTokensWithoutPrice: ActiveReward[]
+  claimableTokensWithPrice: ClaimableReward[]
+  claimableTokensWithoutPrice: ClaimableReward[]
 }
 
 function ClaimableTokensWithPriceSubPanel({
@@ -212,7 +212,7 @@ function PendingRewardsSubPanel() {
 }
 
 interface ClaimableTokensWithoutPriceSubPanelProps {
-  claimableTokensWithoutPrice: ActiveReward[]
+  claimableTokensWithoutPrice: ClaimableReward[]
 }
 
 function ClaimableTokensWithoutPriceSubPanel({

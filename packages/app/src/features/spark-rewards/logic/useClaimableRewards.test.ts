@@ -12,7 +12,7 @@ import { times } from 'remeda'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { useActiveRewards } from './useActiveRewards'
+import { useClaimableRewards } from './useClaimableRewards'
 
 const account = testAddresses.alice
 const chainId = mainnet.id
@@ -29,7 +29,7 @@ const merkleRoot = Hex.random()
 const chainIdCall = handlers.chainIdCall({ chainId })
 
 const hookRenderer = setupHookRenderer({
-  hook: useActiveRewards,
+  hook: useClaimableRewards,
   account,
   handlers: [chainIdCall],
   args: {
@@ -38,7 +38,7 @@ const hookRenderer = setupHookRenderer({
   },
 })
 
-describe(useActiveRewards.name, () => {
+describe(useClaimableRewards.name, () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })

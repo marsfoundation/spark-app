@@ -46,7 +46,7 @@ const meta: Meta<typeof RewardsView> = {
       isError: false,
       error: null,
     },
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: [
         {
           token: tokens.RED,
@@ -89,7 +89,7 @@ export const Loading: Story = {
       isError: false,
       error: null,
     },
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: undefined,
       isPending: true,
       isError: false,
@@ -108,7 +108,7 @@ export const ErrorState: Story = {
       isError: true,
       error: new Error('Failed to load campaigns'),
     },
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: undefined,
       isPending: false,
       isError: true,
@@ -132,9 +132,9 @@ export const NoCampaigns: Story = {
 export const NoCampaignsMobile = getMobileStory(NoCampaigns)
 export const NoCampaignsTablet = getTabletStory(NoCampaigns)
 
-export const NoActiveRewards: Story = {
+export const NoClaimableRewards: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: [],
       isPending: false,
       isError: false,
@@ -142,12 +142,12 @@ export const NoActiveRewards: Story = {
     },
   },
 }
-export const NoActiveRewardsMobile = getMobileStory(NoActiveRewards)
-export const NoActiveRewardsTablet = getTabletStory(NoActiveRewards)
+export const NoClaimableRewardsMobile = getMobileStory(NoClaimableRewards)
+export const NoClaimableRewardsTablet = getTabletStory(NoClaimableRewards)
 
 export const ZeroAmounts: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: [
         {
           token: tokens.RED,
@@ -185,7 +185,7 @@ export const Nothing: Story = {
       isError: false,
       error: null,
     },
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: [],
       isPending: false,
       isError: false,

@@ -1,21 +1,21 @@
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
 import { useAccount } from 'wagmi'
-import { ActiveRewardsResult, useActiveRewards } from './useActiveRewards'
+import { ClaimableRewardsResult, useClaimableRewards } from './useClaimableRewards'
 import { UseOngoingCampaignsResult, useOngoingCampaigns } from './useOngoingCampaigns'
 
 export interface UseSparkRewardsResult {
   ongoingCampaignsResult: UseOngoingCampaignsResult
-  activeRewardsResult: ActiveRewardsResult
+  claimableRewardsResult: ClaimableRewardsResult
 }
 
 export function useSparkRewards(): UseSparkRewardsResult {
   const { chainId } = usePageChainId()
   const { address: account } = useAccount()
-  const activeRewardsResult = useActiveRewards({ chainId, account })
+  const claimableRewardsResult = useClaimableRewards({ chainId, account })
   const ongoingCampaignsResult = useOngoingCampaigns({ chainId })
 
   return {
     ongoingCampaignsResult,
-    activeRewardsResult,
+    claimableRewardsResult,
   }
 }

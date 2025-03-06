@@ -1,4 +1,4 @@
-import { activeRewardsQueryOptions } from '@/domain/spark-rewards/activeRewardsQueryOptions'
+import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
@@ -12,7 +12,7 @@ export function useSparkRewardsSummary({ chainId, address }: UseSparkRewardsSumm
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({
-    ...activeRewardsQueryOptions({ wagmiConfig, account: address, chainId }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account: address, chainId }),
     select: (data) => {
       const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
         const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))

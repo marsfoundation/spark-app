@@ -10,22 +10,22 @@ import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
 import { AlertTriangleIcon } from 'lucide-react'
-import { ActiveRewardsResult } from '../../logic/useActiveRewards'
+import { ClaimableRewardsResult } from '../../logic/useClaimableRewards'
 
-export interface ActiveRewardsPanelProps {
-  activeRewardsResult: ActiveRewardsResult
+export interface ClaimableRewardsPanelProps {
+  claimableRewardsResult: ClaimableRewardsResult
 }
 
-export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelProps) {
-  if (activeRewardsResult.isPending) {
+export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewardsPanelProps) {
+  if (claimableRewardsResult.isPending) {
     return <PendingPanel />
   }
 
-  if (activeRewardsResult.isError) {
+  if (claimableRewardsResult.isError) {
     return <ErrorPanel />
   }
 
-  if (activeRewardsResult.data.length === 0) {
+  if (claimableRewardsResult.data.length === 0) {
     return <NoRewards />
   }
 
@@ -34,7 +34,7 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
       <Header />
       <ResponsiveDataTable
         gridTemplateColumnsClassName="grid-cols-[3fr_2fr_2fr_140px]"
-        data={activeRewardsResult.data}
+        data={claimableRewardsResult.data}
         columnDefinition={{
           token: {
             header: 'Reward',
@@ -63,7 +63,7 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
                 token={token}
                 amount={amountToClaim}
                 mobileViewOptions={mobileViewOptions}
-                data-testid={testIds.sparkRewards.activeRewardsPanel.amountToClaim}
+                data-testid={testIds.sparkRewards.claimableRewardsPanel.amountToClaim}
                 formattingOptions={{
                   zeroAmountHandling: 'show-zero',
                   showUsdValue: token.unitPriceUsd.isGreaterThan(0),
