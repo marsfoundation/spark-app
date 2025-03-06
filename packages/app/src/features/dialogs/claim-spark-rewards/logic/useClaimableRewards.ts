@@ -1,4 +1,4 @@
-import { activeRewardsQueryOptions } from '@/domain/spark-rewards/activeRewardsQueryOptions'
+import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { Token } from '@/domain/types/Token'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -6,14 +6,14 @@ import { useQuery } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { useConfig } from 'wagmi'
 
-export interface ActiveRewardsParams {
+export interface ClaimableRewardsParams {
   account?: Address
   chainId: number
 }
 
-export type ActiveRewardsResult = SimplifiedQueryResult<ActiveReward[]>
+export type ClaimableRewardsResult = SimplifiedQueryResult<ClaimableReward[]>
 
-export interface ActiveReward {
+export interface ClaimableReward {
   token: Token
   amountToClaim: NormalizedUnitNumber
   cumulativeAmount: NormalizedUnitNumber
@@ -22,11 +22,11 @@ export interface ActiveReward {
   merkleProof: Hex[]
 }
 
-export function useActiveRewards({ account, chainId }: ActiveRewardsParams): ActiveRewardsResult {
+export function useClaimableRewards({ account, chainId }: ClaimableRewardsParams): ClaimableRewardsResult {
   const wagmiConfig = useConfig()
 
   return useQuery({
-    ...activeRewardsQueryOptions({ wagmiConfig, account, chainId }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account, chainId }),
     select: (data) =>
       data.map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
         const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))

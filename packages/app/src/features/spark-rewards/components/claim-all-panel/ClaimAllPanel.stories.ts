@@ -10,7 +10,7 @@ const meta: Meta<typeof ClaimAllPanel> = {
   component: ClaimAllPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
@@ -48,7 +48,7 @@ export const Tablet = getTabletStory(Desktop)
 
 export const Pending: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: true,
       isError: false,
       error: null,
@@ -59,7 +59,7 @@ export const Pending: Story = {
 
 export const ErrorState: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: false,
       isError: true,
       error: new Error('Failed to load active rewards data'),
@@ -70,7 +70,7 @@ export const ErrorState: Story = {
 
 export const OneTokenWithoutPrice: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
@@ -87,7 +87,7 @@ export const OneTokenWithoutPrice: Story = {
 }
 export const TwoTokensWithoutPrice: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: false,
       isError: false,
       error: null,
@@ -111,7 +111,7 @@ export const TwoTokensWithoutPrice: Story = {
 
 export const NothingToClaim: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       isPending: false,
       isError: false,
       error: null,

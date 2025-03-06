@@ -4,19 +4,19 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
-import { ActiveReward } from '../../logic/useActiveRewards'
-import { ActiveRewardsPanel, ActiveRewardsPanelProps } from './ActiveRewardsPanel'
+import { ClaimableReward } from '../../logic/useClaimableRewards'
+import { ClaimableRewardsPanel, ClaimableRewardsPanelProps } from './ClaimableRewardsPanel'
 
-const meta: Meta<typeof ActiveRewardsPanel> = {
-  title: 'Features/SparkRewards/Components/ActiveRewardsPanel',
+const meta: Meta<typeof ClaimableRewardsPanel> = {
+  title: 'Features/SparkRewards/Components/ClaimableRewardsPanel',
   decorators: [WithTooltipProvider(), WithClassname('max-w-4xl')],
-  component: ActiveRewardsPanel,
+  component: ClaimableRewardsPanel,
 }
 
 export default meta
-type Story = StoryObj<typeof ActiveRewardsPanel>
+type Story = StoryObj<typeof ClaimableRewardsPanel>
 
-const data: ActiveReward[] = [
+const data: ClaimableReward[] = [
   {
     token: tokens.RED,
     amountPending: NormalizedUnitNumber(123.4323),
@@ -37,8 +37,8 @@ const data: ActiveReward[] = [
   },
 ]
 
-const args: ActiveRewardsPanelProps = {
-  activeRewardsResult: {
+const args: ClaimableRewardsPanelProps = {
+  claimableRewardsResult: {
     data,
     isPending: false,
     isError: false,
@@ -61,7 +61,7 @@ export const Tablet = getTabletStory(Desktop)
 export const NoRewards: Story = {
   args: {
     ...args,
-    activeRewardsResult: { data: [], isPending: false, isError: false, error: null },
+    claimableRewardsResult: { data: [], isPending: false, isError: false, error: null },
   },
 }
 export const NoRewardsMobile = getMobileStory(NoRewards)
@@ -70,7 +70,7 @@ export const NoRewardsTablet = getTabletStory(NoRewards)
 export const Pending: Story = {
   args: {
     ...args,
-    activeRewardsResult: { data: undefined, isPending: true, isError: false, error: null },
+    claimableRewardsResult: { data: undefined, isPending: true, isError: false, error: null },
   },
 }
 export const PendingMobile = getMobileStory(Pending)
@@ -79,7 +79,7 @@ export const PendingTablet = getTabletStory(Pending)
 export const ErrorState: Story = {
   args: {
     ...args,
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: undefined,
       isPending: false,
       isError: true,
@@ -92,7 +92,7 @@ export const ErrorStateTablet = getTabletStory(ErrorState)
 
 export const ZeroAmounts: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsResult: {
       data: [
         {
           token: tokens.RED,

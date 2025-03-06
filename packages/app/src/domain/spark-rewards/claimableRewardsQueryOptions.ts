@@ -11,16 +11,16 @@ import { getContractAddress } from '../hooks/useContractAddress'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
-export interface ActiveRewardsQueryOptionsParams {
+export interface ClaimableRewardsQueryOptionsParams {
   wagmiConfig: Config
   account?: Address
   chainId: number
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function activeRewardsQueryOptions({ wagmiConfig, account, chainId }: ActiveRewardsQueryOptionsParams) {
+export function claimableRewardsQueryOptions({ wagmiConfig, account, chainId }: ClaimableRewardsQueryOptionsParams) {
   return queryOptions({
-    queryKey: activeRewardsQueryKey({ account, chainId }),
+    queryKey: claimableRewardsQueryKey({ account, chainId }),
     queryFn: !account
       ? skipToken
       : async () => {
@@ -37,7 +37,7 @@ export function activeRewardsQueryOptions({ wagmiConfig, account, chainId }: Act
             throw new Error('Failed to fetch rewards')
           }
 
-          const claimData = activeRewardsResponseSchema.parse(await res.json())
+          const claimData = claimableRewardsResponseSchema.parse(await res.json())
 
           return Promise.all(
             claimData.map(async (claim) => {
@@ -94,14 +94,14 @@ export function activeRewardsQueryOptions({ wagmiConfig, account, chainId }: Act
   })
 }
 
-export function activeRewardsQueryKey({
+export function claimableRewardsQueryKey({
   account,
   chainId,
-}: Omit<ActiveRewardsQueryOptionsParams, 'wagmiConfig'>): QueryKey {
+}: Omit<ClaimableRewardsQueryOptionsParams, 'wagmiConfig'>): QueryKey {
   return ['sparkRewards', account, chainId]
 }
 
-const activeRewardsResponseSchema = z.array(
+const claimableRewardsResponseSchema = z.array(
   z.object({
     root_hash: hexSchema,
     epoch: z.number(),
