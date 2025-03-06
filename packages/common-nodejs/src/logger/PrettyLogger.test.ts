@@ -19,8 +19,17 @@ describe(PrettyLogger.name, () => {
     })
 
     logger.info({ foo: 123n, bar: [4n, 56n] })
-    const lines = ['00:00:00.000Z INFO\n', "    { foo: '123', bar: [ '4', '56' ] }", '']
-    expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
+    const expectedOutput = [
+      '00:00:00.000Z INFO',
+      '{',
+      '    "foo": "123",',
+      '    "bar": [',
+      '        "4",',
+      '        "56"',
+      '    ]',
+      '}',
+    ].join('\n')
+    expect(transport.log).toHaveBeenOnlyCalledWith(expectedOutput)
   })
 
   it('marks promised values in pretty output', () => {
@@ -38,8 +47,8 @@ describe(PrettyLogger.name, () => {
     })
 
     logger.info({ test: Promise.resolve(1234) })
-    const lines = ['00:00:00.000Z INFO\n', "    { test: 'Promise' }", '']
-    expect(transport.log).toHaveBeenOnlyCalledWith(lines.join(''))
+    const expectedOutput = ['00:00:00.000Z INFO', '{', '    "test": "Promise"', '}'].join('\n')
+    expect(transport.log).toHaveBeenOnlyCalledWith(expectedOutput)
   })
 
   describe(PrettyLogger.prototype.for.name, () => {

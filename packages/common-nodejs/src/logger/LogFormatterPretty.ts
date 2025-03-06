@@ -1,24 +1,7 @@
-import { inspect } from 'node:util'
 import { LogEntry, LogFormatter, LogLevel, toJSON } from '@marsfoundation/common-universal/logger'
 import chalk from 'chalk'
 
-const STYLES = {
-  bigint: 'white',
-  boolean: 'white',
-  date: 'white',
-  module: 'white',
-  name: 'blue',
-  null: 'white',
-  number: 'white',
-  regexp: 'white',
-  special: 'white',
-  string: 'white',
-  symbol: 'white',
-  undefined: 'white',
-}
-
 const INDENT_SIZE = 4
-const INDENT = ' '.repeat(INDENT_SIZE)
 
 interface Options {
   colors: boolean
@@ -83,30 +66,15 @@ export class LogFormatterPretty implements LogFormatter {
   }
 
   protected formatParametersPretty(parameters: object, colors: boolean): string {
-    const oldStyles = inspect.styles
-    inspect.styles = STYLES
-
-    const inspected = inspect(parameters, {
-      colors,
-      breakLength: 80 - INDENT_SIZE,
-      depth: 5,
-    })
-
-    inspect.styles = oldStyles
-
-    if (inspected === '{}') {
+    const jsonParameters = toJSON(parameters, INDENT_SIZE)
+    if (jsonParameters === '{}') {
       return ''
     }
 
-    const indented = inspected
-      .split('\n')
-      .map((x) => INDENT + x)
-      .join('\n')
-
     if (colors) {
-      return `\n${chalk.gray(indented)}`
+      return `\n${chalk.gray(jsonParameters)}`
     }
-    return `\n${indented}`
+    return `\n${jsonParameters}`
   }
 
   protected formatServicePretty(service: string | undefined, colors: boolean): string {
