@@ -22,18 +22,6 @@
         "types": "./dist/types/env/index.d.ts",
         "default": "./dist/cjs/env/index.js"
       }
-    },
-    "./tracer": {
-      "import": {
-        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
-        "types": "./dist/types/tracer/index.d.ts",
-        "default": "./dist/esm/tracer/index.js"
-      },
-      "require": {
-        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
-        "types": "./dist/types/tracer/index.d.ts",
-        "default": "./dist/cjs/tracer/index.js"
-      }
     }
   },
   "typesVersions": {

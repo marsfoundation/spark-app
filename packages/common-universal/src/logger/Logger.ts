@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 
-import { assertNever } from '@marsfoundation/common-universal'
+import { assertNever } from '../assert/assertNever.js'
 import { LogFormatterJson } from './LogFormatterJson.js'
 import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { LEVEL, LogLevel } from './LogLevel.js'
