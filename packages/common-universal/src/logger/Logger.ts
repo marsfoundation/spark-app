@@ -1,5 +1,7 @@
 import { assertNever } from '../assert/assertNever.js'
 import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterObject } from './LogFormatterObject.js'
+import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { LEVEL, LogLevel } from './LogLevel.js'
 import { LogThrottle, LogThrottleOptions } from './LogThrottle.js'
 import { parseLogArguments } from './parseLogArguments.js'
@@ -53,7 +55,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -63,7 +65,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -73,7 +75,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -83,7 +85,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -93,7 +95,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -103,7 +105,17 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
+      },
+    ],
+  })
+
+  static BROWSER = new Logger({
+    logLevel: 'INFO',
+    transports: [
+      {
+        transport: console,
+        formatter: new LogFormatterObject(),
       },
     ],
   })
