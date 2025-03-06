@@ -34,7 +34,6 @@ export class Logger implements ILogger {
       service: options.service,
       tag: options.tag,
       utc: options.utc ?? false,
-      cwd: options.cwd,
       getTime: options.getTime ?? (() => new Date()),
       reportError: options.reportError ?? (() => {}),
       transports: options.transports ?? [
@@ -188,7 +187,7 @@ export class Logger implements ILogger {
     const parsed = parseLogArguments(args)
     return {
       ...parsed,
-      resolvedError: parsed.error ? resolveError(parsed.error, this.options.cwd) : undefined,
+      resolvedError: parsed.error ? resolveError(parsed.error) : undefined,
       level,
       time: this.options.getTime(),
       service: tagService(this.options.service, this.options.tag),

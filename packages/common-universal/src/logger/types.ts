@@ -22,7 +22,6 @@ export interface LoggerOptions {
   service?: string
   tag?: string
   utc: boolean
-  cwd?: string
   getTime: () => Date
   reportError: (entry: LogEntry) => void
   transports: LoggerTransportOptions[]
