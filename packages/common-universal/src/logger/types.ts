@@ -2,14 +2,14 @@ import { LogLevel } from './LogLevel.js'
 import { ResolvedError } from './resolveError.js'
 
 export interface LoggerTransport {
-  debug(message: string): void
-  log(message: string): void
-  warn(message: string): void
-  error(message: string): void
+  debug(message: string | object): void
+  log(message: string | object): void
+  warn(message: string | object): void
+  error(message: string | object): void
 }
 
 export interface LogFormatter {
-  format(entry: LogEntry): string
+  format(entry: LogEntry): string | object
 }
 
 export interface LoggerTransportOptions {
@@ -22,7 +22,6 @@ export interface LoggerOptions {
   service?: string
   tag?: string
   utc: boolean
-  cwd?: string
   getTime: () => Date
   reportError: (entry: LogEntry) => void
   transports: LoggerTransportOptions[]

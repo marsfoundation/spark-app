@@ -1,5 +1,7 @@
 import { assertNever } from '../assert/assertNever.js'
 import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterObject } from './LogFormatterObject.js'
+import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { LEVEL, LogLevel } from './LogLevel.js'
 import { LogThrottle, LogThrottleOptions } from './LogThrottle.js'
 import { parseLogArguments } from './parseLogArguments.js'
@@ -34,7 +36,6 @@ export class Logger implements ILogger {
       service: options.service,
       tag: options.tag,
       utc: options.utc ?? false,
-      cwd: options.cwd,
       getTime: options.getTime ?? (() => new Date()),
       reportError: options.reportError ?? (() => {}),
       transports: options.transports ?? [
@@ -54,7 +55,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -64,7 +65,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -74,7 +75,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -84,7 +85,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -94,7 +95,7 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
       },
     ],
   })
@@ -104,7 +105,17 @@ export class Logger implements ILogger {
     transports: [
       {
         transport: console,
-        formatter: new LogFormatterJson(),
+        formatter: new LogFormatterPretty(),
+      },
+    ],
+  })
+
+  static BROWSER = new Logger({
+    logLevel: 'INFO',
+    transports: [
+      {
+        transport: console,
+        formatter: new LogFormatterObject(),
       },
     ],
   })
@@ -188,7 +199,7 @@ export class Logger implements ILogger {
     const parsed = parseLogArguments(args)
     return {
       ...parsed,
-      resolvedError: parsed.error ? resolveError(parsed.error, this.options.cwd) : undefined,
+      resolvedError: parsed.error ? resolveError(parsed.error) : undefined,
       level,
       time: this.options.getTime(),
       service: tagService(this.options.service, this.options.tag),
