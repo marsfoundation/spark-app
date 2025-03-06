@@ -1,7 +1,7 @@
 import { psm3Address } from '@/config/contracts-generated'
 import { SavingsDialogPageObject } from '@/features/dialogs/savings/common/e2e/SavingsDialog.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { BASE_SUSDC_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { parseEther } from 'viem'
@@ -17,7 +17,7 @@ test.describe('Withdraw Max USDS', () => {
     testContext = await setup(page, {
       blockchain: {
         chain: base,
-        blockNumber: BASE_MOCK_SUSDC_ACTIVE_BLOCK_NUMBER,
+        blockNumber: BASE_SUSDC_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'savings',
       account: {
@@ -49,15 +49,15 @@ test.describe('Withdraw Max USDS', () => {
       routeItems: [
         {
           tokenAmount: '10,000.00 sUSDS',
-          tokenUsdValue: '$10,344.97',
+          tokenUsdValue: '$10,414.32',
         },
         {
-          tokenAmount: '10,344.97 USDS',
-          tokenUsdValue: '$10,344.97',
+          tokenAmount: '10,414.32 USDS',
+          tokenUsdValue: '$10,414.32',
         },
       ],
-      outcome: '10,344.97 USDS',
-      outcomeUsd: '$10,344.97',
+      outcome: '10,414.32 USDS',
+      outcomeUsd: '$10,414.32',
     })
 
     await withdrawDialog.expectUpgradeSwitchToBeHidden()
@@ -69,7 +69,7 @@ test.describe('Withdraw Max USDS', () => {
     await withdrawDialog.expectSuccessPage()
     await withdrawDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,344.97')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,414.32')
   })
 
   test('fails validation if psm3 usds balance is too low', async ({ page }) => {

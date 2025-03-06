@@ -469,7 +469,7 @@ export const testTokens = {
     unitPriceUsd: '1.05',
   }),
   sUSDC: new Token({
-    address: CheckedAddress('0x29bd15f2c80f2807c29d2428aa835f2be1098a62'),
+    address: CheckedAddress('0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE'),
     symbol: TokenSymbol('sUSDC'),
     name: 'sUSDC',
     decimals: 18,
