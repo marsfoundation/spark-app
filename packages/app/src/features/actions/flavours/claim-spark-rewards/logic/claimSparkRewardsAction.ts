@@ -32,9 +32,6 @@ export function createClaimSparkRewardsActionConfig(
       })
     },
 
-    invalidates: () => [
-      getBalancesQueryKeyPrefix({ chainId, account }),
-      claimableRewardsQueryKey({ chainId, account }),
-    ],
+    invalidates: () => [getBalancesQueryKeyPrefix({ chainId, account }), claimableRewardsQueryKey({ account })],
   }
 }

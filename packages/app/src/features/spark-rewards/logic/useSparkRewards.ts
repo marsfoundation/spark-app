@@ -11,7 +11,7 @@ export interface UseSparkRewardsResult {
 export function useSparkRewards(): UseSparkRewardsResult {
   const { chainId } = usePageChainId()
   const { address: account } = useAccount()
-  const claimableRewardsResult = useClaimableRewards({ chainId, account })
+  const claimableRewardsResult = useClaimableRewards({ account })
   const ongoingCampaignsResult = useOngoingCampaigns({ chainId })
 
   return {

@@ -34,7 +34,6 @@ const hookRenderer = setupHookRenderer({
   handlers: [chainIdCall],
   args: {
     account,
-    chainId,
   },
 })
 
@@ -114,6 +113,7 @@ describe(useClaimableRewards.name, () => {
         amountPending: pendingAmountNormalized,
         amountToClaim: NormalizedUnitNumber(cumulativeAmountNormalized.minus(preClaimed)),
         openClaimDialog: expect.any(Function),
+        chainId,
       },
     ])
   })

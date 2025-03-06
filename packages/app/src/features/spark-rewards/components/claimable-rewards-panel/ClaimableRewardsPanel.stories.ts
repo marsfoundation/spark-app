@@ -4,6 +4,7 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import type { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
+import { mainnet } from 'viem/chains'
 import { ClaimableReward } from '../../logic/useClaimableRewards'
 import { ClaimableRewardsPanel, ClaimableRewardsPanelProps } from './ClaimableRewardsPanel'
 
@@ -21,18 +22,21 @@ const data: ClaimableReward[] = [
     token: tokens.RED,
     amountPending: NormalizedUnitNumber(123.4323),
     amountToClaim: NormalizedUnitNumber(224_093.23423),
+    chainId: mainnet.id,
     openClaimDialog: () => {},
   },
   {
     token: tokens.SPK,
     amountPending: NormalizedUnitNumber(44_224.22),
     amountToClaim: NormalizedUnitNumber(12_213.21),
+    chainId: mainnet.id,
     openClaimDialog: () => {},
   },
   {
     token: tokens.USDS,
     amountPending: NormalizedUnitNumber(11.22),
     amountToClaim: NormalizedUnitNumber(0),
+    chainId: mainnet.id,
     openClaimDialog: () => {},
   },
 ]
@@ -98,18 +102,21 @@ export const ZeroAmounts: Story = {
           token: tokens.RED,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.SPK,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.USDS,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
       ],
