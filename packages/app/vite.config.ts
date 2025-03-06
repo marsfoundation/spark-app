@@ -28,7 +28,7 @@ export default defineConfig({
     // nodePolyfills needs to be first
     nodePolyfills({
       // buffer is needed when connecting with a coinbase wallet installed on a phone
-      include: ['buffer'],
+      include: ['buffer', 'util', 'path'],
     }),
     react(),
     tsconfigPaths(),
