@@ -399,9 +399,6 @@ importers:
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
-      '@types/pretty-ms':
-        specifier: ^5.0.1
-        version: 5.0.1
       '@types/sinonjs__fake-timers':
         specifier: ^8.1.5
         version: 8.1.5
@@ -503,6 +500,9 @@ importers:
       '@types/node':
         specifier: ^22.13.9
         version: 22.13.9
+      '@types/pretty-ms':
+        specifier: ^5.0.1
+        version: 5.0.1
       '@types/sinonjs__fake-timers':
         specifier: ^8.1.5
         version: 8.1.5
