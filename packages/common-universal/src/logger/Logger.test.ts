@@ -412,11 +412,11 @@ function setup(): { transport: TestTransport; baseLogger: Logger } {
 }
 
 type TestTransport = MockObject<LoggerTransport>
-function createTestTransport() {
+function createTestTransport(): TestTransport {
   return {
-    debug: mockFn((_: string): void => {}),
-    log: mockFn((_: string): void => {}),
-    warn: mockFn((_: string): void => {}),
-    error: mockFn((_: string): void => {}),
+    debug: mockFn((_: string | object) => {}),
+    log: mockFn((_: string | object) => {}),
+    warn: mockFn((_: string | object) => {}),
+    error: mockFn((_: string | object) => {}),
   }
 }
