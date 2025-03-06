@@ -9,6 +9,7 @@ export type WithdrawValidationIssue =
   | 'exceeds-unborrowed-liquidity'
   | 'exceeds-ltv'
   | 'reserve-not-active'
+  | 'has-zero-ltv-collateral'
 
 export interface ValidateWithdrawArgs {
   value: NormalizedUnitNumber
@@ -22,6 +23,7 @@ export interface ValidateWithdrawArgs {
     liquidationThreshold: Percentage
     ltvAfterWithdrawal: Percentage
     eModeState: EModeState
+    hasZeroLtvCollateral: boolean
   }
 }
 
@@ -46,6 +48,10 @@ export function validateWithdraw({ value, asset, user }: ValidateWithdrawArgs): 
     return 'exceeds-unborrowed-liquidity'
   }
 
+  if (user.hasZeroLtvCollateral) {
+    return 'has-zero-ltv-collateral'
+  }
+
   const liquidationThreshold =
     user.eModeState.enabled && user.eModeState.category.id === asset.eModeCategory?.id
       ? user.eModeState.category.liquidationThreshold
@@ -62,4 +68,5 @@ export const withdrawalValidationIssueToMessage: Record<WithdrawValidationIssue,
   'exceeds-balance': 'Exceeds your balance',
   'exceeds-unborrowed-liquidity': 'Exceeds unborrowed liquidity',
   'exceeds-ltv': 'Remaining collateral cannot support the loan',
+  'has-zero-ltv-collateral': 'Position is collateralized by an asset with 0 LTV',
 }
