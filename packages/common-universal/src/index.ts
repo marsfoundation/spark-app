@@ -26,13 +26,6 @@ export * from './data/filterOutFalsy.js'
 export * from './data/reverseDictionary.js'
 export * from './data/unique.js'
 
-export * from './logger/Logger.js'
-export * from './logger/LogLevel.js'
-export * from './logger/types.js'
-export * from './logger/LogFormatterPretty.js'
-export * from './logger/LogFormatterJson.js'
-export * from './logger/LogThrottle.js'
-
 export * from './typeHelpers.js'
 export * from './networking/solidFetch.js'
 

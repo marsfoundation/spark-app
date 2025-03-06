@@ -25,6 +25,30 @@
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       }
+    },
+    "./logger": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/esm/logger/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/logger/index.ts",
+        "types": "./dist/types/logger/index.d.ts",
+        "default": "./dist/cjs/logger/index.js"
+      }
+    },
+    "./tracer": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
+        "types": "./dist/types/tracer/index.d.ts",
+        "default": "./dist/esm/tracer/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/tracer/index.ts",
+        "types": "./dist/types/tracer/index.d.ts",
+        "default": "./dist/cjs/tracer/index.js"
+      }
     }
   },
   "files": ["dist"],
