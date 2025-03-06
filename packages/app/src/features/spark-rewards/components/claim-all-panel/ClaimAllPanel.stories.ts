@@ -3,6 +3,7 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
+import { mainnet } from 'viem/chains'
 import { ClaimAllPanel } from './ClaimAllPanel'
 
 const meta: Meta<typeof ClaimAllPanel> = {
@@ -19,18 +20,21 @@ const meta: Meta<typeof ClaimAllPanel> = {
           token: tokens.wstETH,
           amountPending: NormalizedUnitNumber(0.01),
           amountToClaim: NormalizedUnitNumber(0.02),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.sUSDS,
           amountPending: NormalizedUnitNumber(23),
           amountToClaim: NormalizedUnitNumber(97),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.RED,
           amountPending: NormalizedUnitNumber(122),
           amountToClaim: NormalizedUnitNumber(1721),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
       ],
@@ -79,6 +83,7 @@ export const OneTokenWithoutPrice: Story = {
           token: tokens.RED,
           amountPending: NormalizedUnitNumber(1232),
           amountToClaim: NormalizedUnitNumber(1721),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
       ],
@@ -96,12 +101,14 @@ export const TwoTokensWithoutPrice: Story = {
           token: tokens.RED,
           amountPending: NormalizedUnitNumber(1232),
           amountToClaim: NormalizedUnitNumber(1721),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.ABC,
           amountPending: NormalizedUnitNumber(12),
           amountToClaim: NormalizedUnitNumber(243),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
       ],
@@ -120,12 +127,14 @@ export const NothingToClaim: Story = {
           token: tokens.wstETH,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
         {
           token: tokens.sUSDS,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
+          chainId: mainnet.id,
           openClaimDialog: () => {},
         },
       ],

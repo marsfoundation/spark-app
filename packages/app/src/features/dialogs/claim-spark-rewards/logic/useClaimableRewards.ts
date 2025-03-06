@@ -26,19 +26,21 @@ export function useClaimableRewards({ account, chainId }: ClaimableRewardsParams
   const wagmiConfig = useConfig()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account, chainId }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account }),
     select: (data) =>
-      data.map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
-        const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
+      data
+        .filter((reward) => reward.chainId === chainId)
+        .map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
+          const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
 
-        return {
-          token: rewardToken,
-          amountToClaim,
-          cumulativeAmount,
-          epoch,
-          merkleRoot,
-          merkleProof,
-        }
-      }),
+          return {
+            token: rewardToken,
+            amountToClaim,
+            cumulativeAmount,
+            epoch,
+            merkleRoot,
+            merkleProof,
+          }
+        }),
   })
 }

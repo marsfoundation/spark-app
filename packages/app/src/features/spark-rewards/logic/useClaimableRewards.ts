@@ -10,7 +10,6 @@ import { useConfig } from 'wagmi'
 
 export interface ClaimableRewardsParams {
   account?: Address
-  chainId: number
 }
 
 export type ClaimableRewardsResult = SimplifiedQueryResult<ClaimableReward[]>
@@ -20,22 +19,23 @@ export interface ClaimableReward {
   amountPending: NormalizedUnitNumber
   amountToClaim: NormalizedUnitNumber
   openClaimDialog: () => void
+  chainId: number
 }
 
-export function useClaimableRewards({ account, chainId }: ClaimableRewardsParams): ClaimableRewardsResult {
+export function useClaimableRewards({ account }: ClaimableRewardsParams) {
   const wagmiConfig = useConfig()
   const openDialog = useOpenDialog()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account, chainId }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account }),
     select: (data) =>
-      data.map(({ rewardToken, cumulativeAmount, pendingAmount, preClaimed }) => {
+      data.map(({ rewardToken, cumulativeAmount, pendingAmount, preClaimed, chainId }) => {
         const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
-
         return {
           token: rewardToken,
           amountPending: pendingAmount,
           amountToClaim,
+          chainId,
           openClaimDialog: () =>
             openDialog(claimSparkRewardsDialogConfig, {
               tokensToClaim: [rewardToken],
