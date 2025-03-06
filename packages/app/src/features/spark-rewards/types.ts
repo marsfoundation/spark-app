@@ -1,4 +1,13 @@
+import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+
+export interface ClaimableReward {
+  token: Token
+  amountPending: NormalizedUnitNumber
+  amountToClaim: NormalizedUnitNumber
+  chainId: number
+}
 
 export type OngoingCampaignRow = {
   id: string

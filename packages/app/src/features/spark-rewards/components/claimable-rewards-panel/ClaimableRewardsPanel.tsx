@@ -10,10 +10,10 @@ import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
 import { AlertTriangleIcon } from 'lucide-react'
-import { ClaimableRewardsResult } from '../../logic/useClaimableRewards'
+import { UseClaimableRewardsResult } from '../../logic/useClaimableRewards'
 
 export interface ClaimableRewardsPanelProps {
-  claimableRewardsResult: ClaimableRewardsResult
+  claimableRewardsResult: UseClaimableRewardsResult
 }
 
 export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewardsPanelProps) {
@@ -73,17 +73,11 @@ export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewar
           },
           actions: {
             header: '',
-            renderCell: ({ amountToClaim, openClaimDialog }) => {
+            renderCell: ({ action, actionName, isActionEnabled }) => {
               return (
                 <div className="flex justify-end sm:pl-10">
-                  <Button
-                    variant="secondary"
-                    size="s"
-                    disabled={amountToClaim.eq(0)}
-                    onClick={() => openClaimDialog()}
-                    className="w-full"
-                  >
-                    Claim
+                  <Button variant="secondary" size="s" disabled={!isActionEnabled} onClick={action} className="w-full">
+                    {actionName}
                   </Button>
                 </div>
               )

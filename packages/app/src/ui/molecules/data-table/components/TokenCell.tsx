@@ -4,11 +4,11 @@ import { IconStack } from '../../icon-stack/IconStack'
 
 export interface TokenCellProps {
   token: Token
-  chainId: number
+  chainId?: number
 }
 
 export function TokenCell({ token, chainId }: TokenCellProps) {
-  const chainImage = getChainConfigEntry(chainId).meta.logo
+  const chainImage = chainId ? getChainConfigEntry(chainId).meta.logo : undefined
   return (
     <div className="typography-label-2 flex flex-row items-center gap-2">
       <IconStack items={[token]} subIcon={chainImage} />
