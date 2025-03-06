@@ -1,9 +1,10 @@
 /* eslint-disable */
-import { expect, formatCompact, mockFn } from 'earl'
+import { MockObject, expect, formatCompact, mockFn } from 'earl'
 
 import { LogFormatterJson } from './LogFormatterJson.js'
+import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { Logger } from './Logger.js'
-import { LogEntry } from './types.js'
+import { LogEntry, LoggerTransport } from './types.js'
 
 describe(Logger.name, () => {
   it('calls correct transport', () => {
@@ -143,6 +144,91 @@ describe(Logger.name, () => {
       expect(transport.log).toHaveBeenOnlyCalledWith(
         '{"time":"1970-01-01T00:00:00.000Z","level":"INFO","service":":Red","message":"hello"}',
       )
+    })
+  })
+
+  describe(`with ${LogFormatterPretty.name}`, () => {
+    it('supports bigint values', () => {
+      const { transport, baseLogger } = setup()
+
+      baseLogger.info({ foo: 123n, bar: [4n, 56n] })
+      const expectedOutput = [
+        '00:00:00.000Z INFO',
+        '{',
+        '    "foo": "123",',
+        '    "bar": [',
+        '        "4",',
+        '        "56"',
+        '    ]',
+        '}',
+      ].join('\n')
+      expect(transport.log).toHaveBeenOnlyCalledWith(expectedOutput)
+    })
+
+    it('marks promised values', () => {
+      const { transport, baseLogger } = setup()
+
+      baseLogger.info({ test: Promise.resolve(1234) })
+      const expectedOutput = ['00:00:00.000Z INFO', '{', '    "test": "Promise"', '}'].join('\n')
+      expect(transport.log).toHaveBeenOnlyCalledWith(expectedOutput)
+    })
+
+    describe(Logger.prototype.for.name, () => {
+      it('single service (string)', () => {
+        const { transport, baseLogger } = setup()
+
+        const logger = baseLogger.for('FooService')
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService ] hello')
+      })
+
+      it('single service (object)', () => {
+        const { transport, baseLogger } = setup()
+
+        class FooService {}
+        const instance = new FooService()
+        const logger = baseLogger.for(instance)
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService ] hello')
+      })
+
+      it('service with member', () => {
+        const { transport, baseLogger } = setup()
+
+        const logger = baseLogger.for('FooService').for('queue')
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService.queue ] hello')
+      })
+
+      it('service with tag', () => {
+        const { transport, baseLogger } = setup()
+
+        const logger = baseLogger.tag('Red').for('FooService')
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService:Red ] hello')
+      })
+
+      it('service with tag and member', () => {
+        const { transport, baseLogger } = setup()
+
+        const logger = baseLogger.tag('Red').for('FooService').for('queue')
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ FooService.queue:Red ] hello')
+      })
+
+      it('lone tag', () => {
+        const { transport, baseLogger } = setup()
+
+        const logger = baseLogger.tag('Red')
+        logger.info('hello')
+
+        expect(transport.log).toHaveBeenOnlyCalledWith('00:00:00.000Z INFO [ :Red ] hello')
+      })
     })
   })
 
@@ -309,6 +395,23 @@ describe(Logger.name, () => {
   })
 })
 
+function setup(): { transport: TestTransport; baseLogger: Logger } {
+  const transport = createTestTransport()
+  const baseLogger = new Logger({
+    transports: [
+      {
+        transport,
+        formatter: new LogFormatterPretty({ colors: false, utc: true }),
+      },
+    ],
+    logLevel: 'TRACE',
+    getTime: () => new Date(0),
+    utc: true,
+  })
+  return { transport, baseLogger }
+}
+
+type TestTransport = MockObject<LoggerTransport>
 function createTestTransport() {
   return {
     debug: mockFn((_: string): void => {}),

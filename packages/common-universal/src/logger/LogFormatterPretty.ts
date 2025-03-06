@@ -1,5 +1,7 @@
-import { LogEntry, LogFormatter, LogLevel, toJSON } from '@marsfoundation/common-universal/logger'
 import chalk from 'chalk'
+import { LogLevel } from './LogLevel.js'
+import { LogEntry, LogFormatter } from './types.js'
+import { toJSON } from './utils.js'
 
 const INDENT_SIZE = 4
 
@@ -25,7 +27,7 @@ export class LogFormatterPretty implements LogFormatter {
     const serviceOut = this.formatServicePretty(entry.service, this.options.colors)
     const messageOut = entry.message ? ` ${entry.message}` : ''
     const paramsOut = this.formatParametersPretty(
-      this.sanitize(entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : (entry.parameters ?? {})),
+      entry.resolvedError ? { ...entry.resolvedError, ...entry.parameters } : (entry.parameters ?? {}),
       this.options.colors,
     )
 
@@ -82,9 +84,5 @@ export class LogFormatterPretty implements LogFormatter {
       return ''
     }
     return colors ? ` ${chalk.gray('[')} ${chalk.yellow(service)} ${chalk.gray(']')}` : ` [ ${service} ]`
-  }
-
-  protected sanitize(parameters: object): object {
-    return JSON.parse(toJSON(parameters))
   }
 }
