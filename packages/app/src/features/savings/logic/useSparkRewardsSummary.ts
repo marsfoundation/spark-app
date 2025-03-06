@@ -17,9 +17,10 @@ export function useSparkRewardsSummary({
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, chainId }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
     select: (data) => {
       const campaigns = data
+        .filter((campaign) => campaign.chainId === chainId)
         .filter((campaign) => campaign.type === 'savings')
         .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
 

@@ -32,9 +32,7 @@ const hookRenderer = setupHookRenderer({
   hook: useClaimableRewards,
   account,
   handlers: [chainIdCall],
-  args: {
-    account,
-  },
+  args: undefined,
 })
 
 describe(useClaimableRewards.name, () => {
@@ -112,7 +110,9 @@ describe(useClaimableRewards.name, () => {
         token: rewardToken,
         amountPending: pendingAmountNormalized,
         amountToClaim: NormalizedUnitNumber(cumulativeAmountNormalized.minus(preClaimed)),
-        openClaimDialog: expect.any(Function),
+        action: expect.any(Function),
+        actionName: 'Claim',
+        isActionEnabled: true,
         chainId,
       },
     ])

@@ -10,56 +10,49 @@ import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { AlertTriangleIcon } from 'lucide-react'
-import { pipe, sumBy } from 'remeda'
-import { ClaimableReward, ClaimableRewardsResult } from '../../logic/useClaimableRewards'
+import { UseClaimableRewardsSummaryResult } from '../../logic/useClaimableRewardsSummary'
+import { ClaimableReward } from '../../types'
 import { EarnRewardsBanner } from '../earn-rewards-banner/EarnRewardsBanner'
 
 export interface ClaimAllPanelProps {
-  claimableRewardsResult: ClaimableRewardsResult
-  onClaimAll: () => void
+  claimableRewardsSummaryResult: UseClaimableRewardsSummaryResult
   className?: string
 }
 
-export function ClaimAllPanel({ claimableRewardsResult, onClaimAll, className }: ClaimAllPanelProps) {
-  if (claimableRewardsResult.isPending) {
+export function ClaimAllPanel({ claimableRewardsSummaryResult, className }: ClaimAllPanelProps) {
+  if (claimableRewardsSummaryResult.isPending) {
     return <PendingPanel className={className} />
   }
 
-  if (claimableRewardsResult.isError) {
+  if (claimableRewardsSummaryResult.isError) {
     return <ErrorPanel className={className} />
   }
 
-  if (claimableRewardsResult.data.length === 0) {
+  const { usdSum, isClaimEnabled, claimableRewardsWithPrice, claimableRewardsWithoutPrice, claimAll } =
+    claimableRewardsSummaryResult.data
+
+  if (claimableRewardsWithPrice.length === 0 && claimableRewardsWithoutPrice.length === 0) {
     return <EarnRewardsBanner />
   }
-
-  const tokensToClaim = claimableRewardsResult.data
-
-  const claimableTokensWithPrice = tokensToClaim.filter(({ token, amountToClaim }) => token.toUSD(amountToClaim).gt(0))
-  const usdSum = pipe(
-    claimableTokensWithPrice,
-    sumBy(({ token, amountToClaim }) => token.toUSD(amountToClaim).toNumber()),
-    NormalizedUnitNumber,
-  )
-
-  const claimableTokensWithoutPrice = tokensToClaim.filter(
-    ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).eq(0),
-  )
 
   return (
     <MainPanel className={cn(className)}>
       {usdSum.gt(0) && (
-        <ClaimableTokensWithPriceSubPanel
+        <ClaimableRewardsWithPriceSubPanel
           usdSum={usdSum}
-          claimableTokensWithPrice={claimableTokensWithPrice}
-          claimableTokensWithoutPrice={claimableTokensWithoutPrice}
+          claimableRewardsWithPrice={claimableRewardsWithPrice}
+          claimableRewardsWithoutPrice={claimableRewardsWithoutPrice}
         />
       )}
-      {usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 && <PendingRewardsSubPanel />}
-      {usdSum.eq(0) && claimableTokensWithoutPrice.length > 0 && (
-        <ClaimableTokensWithoutPriceSubPanel claimableTokensWithoutPrice={claimableTokensWithoutPrice} />
+      {usdSum.eq(0) && isClaimEnabled && (
+        <ClaimableRewardsWithoutPriceSubPanel claimableRewardsWithoutPrice={claimableRewardsWithoutPrice} />
       )}
-      <Actions claim={{ onAction: onClaimAll, isDisabled: usdSum.eq(0) && claimableTokensWithoutPrice.length === 0 }} />
+      {usdSum.eq(0) && !isClaimEnabled && <PendingRewardsSubPanel />}
+      <div className="flex flex-col gap-2 p-4">
+        <Button variant="primary" className="w-full" onClick={claimAll} disabled={!isClaimEnabled}>
+          Claim all
+        </Button>
+      </div>
     </MainPanel>
   )
 }
@@ -90,29 +83,6 @@ function ErrorPanel({ className }: { className?: string }) {
         <AlertTriangleIcon className="icon-xs" /> Failed to load rewards data
       </div>
     </MainPanel>
-  )
-}
-
-interface ActionsProps {
-  claim: {
-    onAction?: () => void
-    isPending?: boolean
-    isDisabled?: boolean
-  }
-}
-function Actions({ claim }: ActionsProps) {
-  return (
-    <div className="flex flex-col gap-2 p-4">
-      <Button
-        variant="primary"
-        className="w-full"
-        onClick={claim.onAction}
-        disabled={claim.isDisabled}
-        loading={claim.isPending}
-      >
-        Claim all
-      </Button>
-    </div>
   )
 }
 
@@ -164,17 +134,17 @@ function TokenIconOrSymbol({ token, iconClassName }: { token: Token; iconClassNa
   return isTokenImageAvailable(token.symbol) ? <TokenIcon token={token} className={iconClassName} /> : token.symbol
 }
 
-interface ClaimableTokensWithPriceSubPanelProps {
+interface ClaimableRewardsWithPriceSubPanelProps {
   usdSum: NormalizedUnitNumber
-  claimableTokensWithPrice: ClaimableReward[]
-  claimableTokensWithoutPrice: ClaimableReward[]
+  claimableRewardsWithPrice: ClaimableReward[]
+  claimableRewardsWithoutPrice: ClaimableReward[]
 }
 
-function ClaimableTokensWithPriceSubPanel({
+function ClaimableRewardsWithPriceSubPanel({
   usdSum,
-  claimableTokensWithPrice,
-  claimableTokensWithoutPrice,
-}: ClaimableTokensWithPriceSubPanelProps) {
+  claimableRewardsWithPrice,
+  claimableRewardsWithoutPrice,
+}: ClaimableRewardsWithPriceSubPanelProps) {
   return (
     <SubPanel>
       <div className="flex items-center gap-1">
@@ -183,10 +153,10 @@ function ClaimableTokensWithPriceSubPanel({
       </div>
       <div className="flex items-center gap-2">
         <div className="typography-heading-2 text-primary-inverse">{USD_MOCK_TOKEN.formatUSD(usdSum)}</div>
-        <IconStack size="m" items={claimableTokensWithPrice.map(({ token }) => token)} />
+        <IconStack size="m" items={claimableRewardsWithPrice.map(({ token }) => token)} />
       </div>
       <div className="flex flex-col gap-2">
-        {claimableTokensWithoutPrice.map(({ token, amountToClaim }) => (
+        {claimableRewardsWithoutPrice.map(({ token, amountToClaim }) => (
           <div key={token.symbol} className="typography-label-2 flex items-center gap-1 text-tertiary">
             +{token.format(amountToClaim, { style: 'compact' })}{' '}
             <TokenIconOrSymbol token={token} iconClassName="size-4" />
@@ -211,23 +181,23 @@ function PendingRewardsSubPanel() {
   )
 }
 
-interface ClaimableTokensWithoutPriceSubPanelProps {
-  claimableTokensWithoutPrice: ClaimableReward[]
+interface ClaimableRewardsWithoutPriceSubPanelProps {
+  claimableRewardsWithoutPrice: ClaimableReward[]
 }
 
-function ClaimableTokensWithoutPriceSubPanel({
-  claimableTokensWithoutPrice,
-}: ClaimableTokensWithoutPriceSubPanelProps) {
+function ClaimableRewardsWithoutPriceSubPanel({
+  claimableRewardsWithoutPrice,
+}: ClaimableRewardsWithoutPriceSubPanelProps) {
   return (
     <SubPanel>
       <div className="flex items-center gap-1">
         <div className="typography-label-2 text-tertiary">Total to claim</div>
         <Info>All tokens you can claim.</Info>
       </div>
-      {claimableTokensWithoutPrice.length === 1 ? (
-        <OneTokenWithoutPrice tokens={claimableTokensWithoutPrice} />
+      {claimableRewardsWithoutPrice.length === 1 ? (
+        <OneTokenWithoutPrice tokens={claimableRewardsWithoutPrice} />
       ) : (
-        <MultipleTokensWithoutPrice tokens={claimableTokensWithoutPrice} />
+        <MultipleTokensWithoutPrice tokens={claimableRewardsWithoutPrice} />
       )}
     </SubPanel>
   )

@@ -16,11 +16,14 @@ export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): Us
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, chainId }),
-    select: (data) => [
-      ...assignMarketSparkRewards({ campaigns: data, action: 'supply', reserveTokenSymbol: reserve.token.symbol }),
-      ...assignMarketSparkRewards({ campaigns: data, action: 'borrow', reserveTokenSymbol: reserve.token.symbol }),
-    ],
+    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    select: (data) => {
+      const campaigns = data.filter((campaign) => campaign.chainId === chainId)
+      return [
+        ...assignMarketSparkRewards({ campaigns, action: 'supply', reserveTokenSymbol: reserve.token.symbol }),
+        ...assignMarketSparkRewards({ campaigns, action: 'borrow', reserveTokenSymbol: reserve.token.symbol }),
+      ]
+    },
   })
 
   return data ?? []

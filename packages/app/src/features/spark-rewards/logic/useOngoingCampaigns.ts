@@ -4,16 +4,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
 import { OngoingCampaignRow } from '../types'
 
-export interface UseOngoingCampaignsParams {
-  chainId: number
-}
 export type UseOngoingCampaignsResult = SimplifiedQueryResult<(OngoingCampaignRow & { engage: () => Promise<void> })[]>
 
-export function useOngoingCampaigns({ chainId }: UseOngoingCampaignsParams): UseOngoingCampaignsResult {
+export function useOngoingCampaigns(): UseOngoingCampaignsResult {
   const wagmiConfig = useConfig()
 
   return useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, chainId }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
     select: (data) =>
       data.map((campaign) => ({
         ...campaign,

@@ -4,7 +4,7 @@ import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
-import { mainnet } from 'viem/chains'
+import { arbitrum, mainnet } from 'viem/chains'
 import { RewardsView, RewardsViewProps } from './RewardsView'
 
 const meta: Meta<typeof RewardsView> = {
@@ -53,23 +53,56 @@ const meta: Meta<typeof RewardsView> = {
           amountPending: NormalizedUnitNumber(123.4323),
           amountToClaim: NormalizedUnitNumber(224_093.23423),
           chainId: mainnet.id,
-          openClaimDialog: () => {},
+          actionName: 'Claim',
+          action: () => {},
+          isActionEnabled: true,
         },
         {
           token: tokens.SPK,
           amountPending: NormalizedUnitNumber(44_224.22),
           amountToClaim: NormalizedUnitNumber(12_213.21),
           chainId: mainnet.id,
-          openClaimDialog: () => {},
+          actionName: 'Claim',
+          action: () => {},
+          isActionEnabled: true,
         },
         {
           token: tokens.USDS,
           amountPending: NormalizedUnitNumber(11.22),
           amountToClaim: NormalizedUnitNumber(0),
-          chainId: mainnet.id,
-          openClaimDialog: () => {},
+          chainId: arbitrum.id,
+          actionName: 'Switch',
+          action: () => {},
+          isActionEnabled: true,
         },
       ],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+    claimableRewardsSummaryResult: {
+      data: {
+        usdSum: NormalizedUnitNumber(1_465.59),
+        isClaimEnabled: true,
+        claimableRewardsWithPrice: [
+          {
+            token: tokens.SPK,
+            amountPending: NormalizedUnitNumber(44_224.22),
+            amountToClaim: NormalizedUnitNumber(12_213.21),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(123.4323),
+            amountToClaim: NormalizedUnitNumber(224_093.23423),
+            chainId: mainnet.id,
+          },
+        ],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
       isPending: false,
       isError: false,
       error: null,
@@ -98,6 +131,12 @@ export const Loading: Story = {
       isError: false,
       error: null,
     },
+    claimableRewardsSummaryResult: {
+      data: undefined,
+      isPending: true,
+      isError: false,
+      error: null,
+    },
   },
 }
 export const LoadingMobile = getMobileStory(Loading)
@@ -115,7 +154,13 @@ export const ErrorState: Story = {
       data: undefined,
       isPending: false,
       isError: true,
-      error: new Error('Failed to load active rewards'),
+      error: new Error('Failed to load claimable rewards'),
+    },
+    claimableRewardsSummaryResult: {
+      data: undefined,
+      isPending: false,
+      isError: true,
+      error: new Error('Failed to load claimable rewards'),
     },
   },
 }
@@ -143,6 +188,19 @@ export const NoClaimableRewards: Story = {
       isError: false,
       error: null,
     },
+    claimableRewardsSummaryResult: {
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: false,
+        claimableRewardsWithPrice: [],
+        claimableRewardsWithoutPrice: [],
+        chainId: mainnet.id,
+        claimAll: () => {},
+      },
+      isPending: false,
+      isError: false,
+      error: null,
+    },
   },
 }
 export const NoClaimableRewardsMobile = getMobileStory(NoClaimableRewards)
@@ -157,23 +215,56 @@ export const ZeroAmounts: Story = {
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
           chainId: mainnet.id,
-          openClaimDialog: () => {},
+          actionName: 'Claim',
+          action: () => {},
+          isActionEnabled: false,
         },
         {
           token: tokens.SPK,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
           chainId: mainnet.id,
-          openClaimDialog: () => {},
+          actionName: 'Claim',
+          action: () => {},
+          isActionEnabled: false,
         },
         {
           token: tokens.USDS,
           amountPending: NormalizedUnitNumber(0),
           amountToClaim: NormalizedUnitNumber(0),
-          chainId: mainnet.id,
-          openClaimDialog: () => {},
+          chainId: arbitrum.id,
+          actionName: 'Switch',
+          action: () => {},
+          isActionEnabled: true,
         },
       ],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+    claimableRewardsSummaryResult: {
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: false,
+        claimableRewardsWithPrice: [
+          {
+            token: tokens.SPK,
+            amountPending: NormalizedUnitNumber(0),
+            amountToClaim: NormalizedUnitNumber(0),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(0),
+            amountToClaim: NormalizedUnitNumber(0),
+            chainId: mainnet.id,
+          },
+        ],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
       isPending: false,
       isError: false,
       error: null,
@@ -193,6 +284,19 @@ export const Nothing: Story = {
     },
     claimableRewardsResult: {
       data: [],
+      isPending: false,
+      isError: false,
+      error: null,
+    },
+    claimableRewardsSummaryResult: {
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: false,
+        claimableRewardsWithPrice: [],
+        claimableRewardsWithoutPrice: [],
+        chainId: mainnet.id,
+        claimAll: () => {},
+      },
       isPending: false,
       isError: false,
       error: null,

@@ -3,15 +3,9 @@ import { Token } from '@/domain/types/Token'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
-import { Address } from 'viem'
-import { useConfig } from 'wagmi'
+import { useAccount, useChainId, useConfig } from 'wagmi'
 
-export interface ClaimableRewardsParams {
-  account?: Address
-  chainId: number
-}
-
-export type ClaimableRewardsResult = SimplifiedQueryResult<ClaimableReward[]>
+export type UseClaimableRewardsResult = SimplifiedQueryResult<ClaimableReward[]>
 
 export interface ClaimableReward {
   token: Token
@@ -22,8 +16,10 @@ export interface ClaimableReward {
   merkleProof: Hex[]
 }
 
-export function useClaimableRewards({ account, chainId }: ClaimableRewardsParams): ClaimableRewardsResult {
+export function useClaimableRewards(): UseClaimableRewardsResult {
   const wagmiConfig = useConfig()
+  const chainId = useChainId()
+  const { address: account } = useAccount()
 
   return useQuery({
     ...claimableRewardsQueryOptions({ wagmiConfig, account }),

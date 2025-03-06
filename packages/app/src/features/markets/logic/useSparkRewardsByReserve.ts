@@ -20,23 +20,25 @@ export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsB
   const wagmiConfig = useConfig()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, chainId }),
-    select: (data) =>
-      reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
+    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    select: (data) => {
+      const campaigns = data.filter((campaign) => campaign.chainId === chainId)
+      return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
         acc[reserve.token.address] = {
           supply: assignMarketSparkRewards({
-            campaigns: data,
+            campaigns,
             action: 'supply',
             reserveTokenSymbol: reserve.token.symbol,
           }),
           borrow: assignMarketSparkRewards({
-            campaigns: data,
+            campaigns,
             action: 'borrow',
             reserveTokenSymbol: reserve.token.symbol,
           }),
         }
         return acc
-      }, {}),
+      }, {})
+    },
   })
 
   return data ?? {}
