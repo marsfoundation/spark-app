@@ -1,5 +1,5 @@
-import { Logger } from '@marsfoundation/common-universal/logger'
-import { expect, mockFn } from 'earl'
+import { Logger, LoggerTransport } from '@marsfoundation/common-universal/logger'
+import { MockObject, expect, mockFn } from 'earl'
 import { LogFormatterPretty } from './LogFormatterPretty.js'
 import { PrettyLogger } from './PrettyLogger.js'
 
@@ -9,7 +9,7 @@ describe(PrettyLogger.name, () => {
     const logger = new Logger({
       transports: [
         {
-          transport: transport,
+          transport,
           formatter: new LogFormatterPretty({ colors: false, utc: true }),
         },
       ],
@@ -28,7 +28,7 @@ describe(PrettyLogger.name, () => {
     const logger = new Logger({
       transports: [
         {
-          transport: transport,
+          transport,
           formatter: new LogFormatterPretty({ colors: false, utc: true }),
         },
       ],
@@ -43,12 +43,12 @@ describe(PrettyLogger.name, () => {
   })
 
   describe(PrettyLogger.prototype.for.name, () => {
-    function setup() {
+    function setup(): { transport: TestTransport; baseLogger: Logger } {
       const transport = createTestTransport()
       const baseLogger = new Logger({
         transports: [
           {
-            transport: transport,
+            transport,
             formatter: new LogFormatterPretty({ colors: false, utc: true }),
           },
         ],
@@ -117,7 +117,8 @@ describe(PrettyLogger.name, () => {
   })
 })
 
-function createTestTransport() {
+type TestTransport = MockObject<LoggerTransport>
+function createTestTransport(): TestTransport {
   return {
     debug: mockFn((_: string): void => {}),
     log: mockFn((_: string): void => {}),

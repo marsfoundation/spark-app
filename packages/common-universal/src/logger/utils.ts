@@ -1,4 +1,3 @@
-/* eslint-disable */
 export function toJSON(parameters: object): string {
   return JSON.stringify(parameters, (_k, v: unknown) => {
     if (typeof v === 'bigint') {

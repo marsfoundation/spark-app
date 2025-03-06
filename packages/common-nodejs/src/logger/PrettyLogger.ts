@@ -1,3 +1,4 @@
+import { join } from 'node:path'
 import { Logger, LoggerOptions } from '@marsfoundation/common-universal/logger'
 import { LogFormatterPretty } from './LogFormatterPretty.js'
 
@@ -9,6 +10,7 @@ export class PrettyLogger extends Logger {
         formatter: new LogFormatterPretty(),
       },
     ]
+    options.cwd = join(options.cwd ?? process.cwd(), '/')
     super(options)
   }
 

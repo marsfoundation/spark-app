@@ -500,9 +500,6 @@ importers:
       '@types/ms':
         specifier: ^2.1.0
         version: 2.1.0
-      '@types/node':
-        specifier: ^22.13.9
-        version: 22.13.9
       '@types/pretty-ms':
         specifier: ^5.0.1
         version: 5.0.1
@@ -3520,9 +3517,6 @@ packages:
 
   '@types/node@20.4.10':
     resolution: {integrity: sha512-vwzFiiy8Rn6E0MtA13/Cxxgpan/N6UeNYR9oUu6kuJWxu6zCk98trcDp8CBhbtaeuq9SykCmXkFr2lWLoPcvLg==}
-
-  '@types/node@22.13.9':
-    resolution: {integrity: sha512-acBjXdRJ3A6Pb3tqnw9HZmyR3Fiol3aGxRCK1x3d+6CDAMjl7I649wpSd+yNURCjbOUGu9tqtLKnTGxmK6CyGw==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -8183,9 +8177,6 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
-
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
     engines: {node: '>=4'}
@@ -10528,7 +10519,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       jest-mock: 29.7.0
     optional: true
 
@@ -10540,7 +10531,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -10585,7 +10576,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       '@types/yargs': 17.0.33
       chalk: 4.1.2
     optional: true
@@ -12511,7 +12502,7 @@ snapshots:
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
     optional: true
 
   '@types/http-errors@2.0.4': {}
@@ -12568,7 +12559,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
     optional: true
 
   '@types/node@20.17.17':
@@ -12576,10 +12567,6 @@ snapshots:
       undici-types: 6.19.8
 
   '@types/node@20.4.10': {}
-
-  '@types/node@22.13.9':
-    dependencies:
-      undici-types: 6.20.0
 
   '@types/parse-json@4.0.2':
     optional: true
@@ -14102,7 +14089,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -14112,7 +14099,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -15943,7 +15930,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       jest-mock: 29.7.0
       jest-util: 29.7.0
     optional: true
@@ -15954,7 +15941,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -16002,7 +15989,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       jest-util: 29.7.0
     optional: true
 
@@ -16021,7 +16008,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -16040,7 +16027,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.13.9
+      '@types/node': 20.17.17
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -18549,8 +18536,6 @@ snapshots:
   uncrypto@0.1.3: {}
 
   undici-types@6.19.8: {}
-
-  undici-types@6.20.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
     optional: true
