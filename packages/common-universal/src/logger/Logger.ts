@@ -1,5 +1,3 @@
-import { join } from 'node:path'
-
 import { assertNever } from '@marsfoundation/common-universal'
 import { LogFormatterJson } from './LogFormatterJson.js'
 import { LogFormatterPretty } from './LogFormatterPretty.js'
@@ -29,7 +27,6 @@ export interface ILogger {
 export class Logger implements ILogger {
   private readonly options: LoggerOptions
   private readonly logLevel: number
-  private readonly cwd: string
   private throttle?: LogThrottle
 
   constructor(options: Partial<LoggerOptions>) {
@@ -38,7 +35,7 @@ export class Logger implements ILogger {
       service: options.service,
       tag: options.tag,
       utc: options.utc ?? false,
-      cwd: options.cwd ?? process.cwd(),
+      cwd: this.getCwdPath(options.cwd),
       getTime: options.getTime ?? (() => new Date()),
       reportError: options.reportError ?? (() => {}),
       transports: options.transports ?? [
@@ -48,7 +45,6 @@ export class Logger implements ILogger {
         },
       ],
     }
-    this.cwd = join(this.options.cwd, '/')
     this.logLevel = LEVEL[this.options.logLevel]
   }
 
@@ -193,7 +189,7 @@ export class Logger implements ILogger {
     const parsed = parseLogArguments(args)
     return {
       ...parsed,
-      resolvedError: parsed.error ? resolveError(parsed.error, this.cwd) : undefined,
+      resolvedError: parsed.error ? resolveError(parsed.error, this.options.cwd) : undefined,
       level,
       time: this.options.getTime(),
       service: tagService(this.options.service, this.options.tag),
@@ -232,5 +228,13 @@ export class Logger implements ILogger {
           assertNever(entry.level)
       }
     }
+  }
+
+  private getCwdPath(cwd: string | undefined): string {
+    if (typeof window !== 'undefined') {
+      return cwd ?? ''
+    }
+    const path = require('node:path')
+    return path.join(cwd ?? process.cwd(), '/')
   }
 }
