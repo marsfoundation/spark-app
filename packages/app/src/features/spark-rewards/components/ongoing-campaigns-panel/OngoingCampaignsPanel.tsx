@@ -10,7 +10,6 @@ import { cn } from '@/ui/utils/style'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion'
 import { AlertTriangleIcon, ChevronDownIcon } from 'lucide-react'
-import { mainnet } from 'viem/chains'
 import { UseOngoingCampaignsResult } from '../../logic/useOngoingCampaigns'
 import { OngoingCampaignRow } from '../../types'
 
@@ -51,7 +50,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: O
                 isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
-              <IconStack items={getStackIcons(campaign)} size="base" iconBorder="white" />
+              <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
               <Title campaign={campaign} />
               {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
@@ -166,7 +165,7 @@ function EngagementButton(props: ButtonProps) {
   )
 }
 
-function getStackIcons(campaign: OngoingCampaignRow): string[] {
+function getStackIcons(campaign: OngoingCampaignRow): { items: string[]; subIcon: string | undefined } {
   // social platforms
   const socialPlatformIcon =
     campaign.type === 'social' && campaign.platform ? getSocialPlatformIcon(campaign.platform) : undefined
@@ -174,7 +173,7 @@ function getStackIcons(campaign: OngoingCampaignRow): string[] {
   const tokens = [...campaign.involvedTokensSymbols, campaign.rewardTokenSymbol]
   const tokenIcons = tokens.map((token) => getTokenImage(token))
   // chains
-  const chainId = 'chainId' in campaign && campaign.chainId !== mainnet.id ? campaign.chainId : undefined
+  const chainId = 'chainId' in campaign && campaign.chainId
   const chainIcon = chainId ? getChainConfigEntry(chainId).meta.logo : undefined
-  return [socialPlatformIcon, ...tokenIcons, chainIcon].filter(Boolean)
+  return { items: [socialPlatformIcon, ...tokenIcons].filter(Boolean), subIcon: chainIcon }
 }
