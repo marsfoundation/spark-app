@@ -38,7 +38,7 @@ export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewar
         columnDefinition={{
           token: {
             header: 'Reward',
-            renderCell: ({ token }) => <TokenCell token={token} />,
+            renderCell: ({ token, chainId }) => <TokenCell token={token} chainId={chainId} />,
           },
           amountPending: {
             header: 'Pending',
