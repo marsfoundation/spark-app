@@ -1,3 +1,4 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { Token } from '@/domain/types/Token'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { isTokenImageAvailable } from '@/ui/assets'
@@ -9,17 +10,18 @@ import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
 import { NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
-import { AlertTriangleIcon } from 'lucide-react'
+import { AlertTriangleIcon, ChevronRightIcon } from 'lucide-react'
 import { UseClaimableRewardsSummaryResult } from '../../logic/useClaimableRewardsSummary'
 import { ClaimableReward } from '../../types'
 import { EarnRewardsBanner } from '../earn-rewards-banner/EarnRewardsBanner'
 
 export interface ClaimAllPanelProps {
   claimableRewardsSummaryResult: UseClaimableRewardsSummaryResult
+  selectNetwork: () => void
   className?: string
 }
 
-export function ClaimAllPanel({ claimableRewardsSummaryResult, className }: ClaimAllPanelProps) {
+export function ClaimAllPanel({ claimableRewardsSummaryResult, selectNetwork, className }: ClaimAllPanelProps) {
   if (claimableRewardsSummaryResult.isPending) {
     return <PendingPanel className={className} />
   }
@@ -28,7 +30,7 @@ export function ClaimAllPanel({ claimableRewardsSummaryResult, className }: Clai
     return <ErrorPanel className={className} />
   }
 
-  const { usdSum, isClaimEnabled, claimableRewardsWithPrice, claimableRewardsWithoutPrice, claimAll } =
+  const { usdSum, isClaimEnabled, claimableRewardsWithPrice, claimableRewardsWithoutPrice, claimAll, chainId } =
     claimableRewardsSummaryResult.data
 
   if (claimableRewardsWithPrice.length === 0 && claimableRewardsWithoutPrice.length === 0) {
@@ -49,6 +51,21 @@ export function ClaimAllPanel({ claimableRewardsSummaryResult, className }: Clai
       )}
       {usdSum.eq(0) && !isClaimEnabled && <PendingRewardsSubPanel />}
       <div className="flex flex-col gap-2 p-4">
+        <div className="typography-label-2 flex justify-between py-3 text-primary-inverse">
+          Network
+          <button
+            onClick={selectNetwork}
+            className={cn(
+              'flex items-center gap-1.5',
+              'cursor-pointer rounded-[1px] focus-visible:outline-none focus-visible:ring',
+              'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+            )}
+          >
+            <img src={getChainConfigEntry(chainId).meta.logo} className="size-4" />
+            {getChainConfigEntry(chainId).meta.name}
+            <ChevronRightIcon className="icon-xs icon-secondary -ml-1.5" />
+          </button>
+        </div>
         <Button variant="primary" className="w-full" onClick={claimAll} disabled={!isClaimEnabled}>
           Claim all
         </Button>
@@ -64,7 +81,8 @@ export function PendingPanel({ className }: { className?: string }) {
         <Skeleton className="h-5 w-24 bg-primary/10" />
         <Skeleton className="mb-7 h-12 w-52 bg-primary/10" />
       </SubPanel>
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex flex-col gap-2.5 p-4">
+        <Skeleton className="my-2 h-6 w-1/3 bg-primary/10" />
         <Skeleton className="h-10 w-full bg-primary/10" />
       </div>
     </MainPanel>
@@ -73,7 +91,7 @@ export function PendingPanel({ className }: { className?: string }) {
 
 function ErrorPanel({ className }: { className?: string }) {
   return (
-    <MainPanel className={cn('flex h-72 items-center justify-center', className)}>
+    <MainPanel className={cn('flex h-[342px] items-center justify-center', className)}>
       <div
         className={cn(
           'typography-label-3 inline-flex items-center gap-2 rounded-full',

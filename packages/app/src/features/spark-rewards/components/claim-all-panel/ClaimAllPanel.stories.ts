@@ -11,6 +11,7 @@ const meta: Meta<typeof ClaimAllPanel> = {
   component: ClaimAllPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {
+    selectNetwork: () => {},
     claimableRewardsSummaryResult: {
       isPending: false,
       isError: false,
