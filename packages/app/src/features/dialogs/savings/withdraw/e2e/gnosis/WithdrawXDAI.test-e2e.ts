@@ -1,23 +1,20 @@
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
 import { GNOSIS_DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { gnosis } from 'viem/chains'
 import { SavingsDialogPageObject } from '../../../common/e2e/SavingsDialog.PageObject'
 
 test.describe('Withdraw XDAI on Gnosis', () => {
-  const fork = setupFork({
-    blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
-    chainId: gnosis.id,
-    useTenderlyVnet: true,
-  })
   let savingsPage: SavingsPageObject
   let withdrawalDialog: SavingsDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: gnosis,
+        blockNumber: GNOSIS_DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -28,10 +25,10 @@ test.describe('Withdraw XDAI on Gnosis', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
-    await savingsPage.clickWithdrawSDaiButtonAction()
+    savingsPage = new SavingsPageObject(testContext)
+    await savingsPage.clickWithdrawFromAccountButtonAction()
 
-    withdrawalDialog = new SavingsDialogPageObject({ page, type: 'withdraw' })
+    withdrawalDialog = new SavingsDialogPageObject({ testContext, type: 'withdraw' })
     await withdrawalDialog.fillAmountAction(7000)
   })
 
@@ -60,13 +57,12 @@ test.describe('Withdraw XDAI on Gnosis', () => {
   })
 
   test('executes withdrawal', async () => {
-    const actionsContainer = new ActionsPageObject(withdrawalDialog.locatePanelByHeader('Actions'))
-    await actionsContainer.acceptAllActionsAction(2, fork)
+    await withdrawalDialog.actionsContainer.acceptAllActionsAction(2)
 
     await withdrawalDialog.expectSuccessPage()
     await withdrawalDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsDaiBalance({ sdaiBalance: '3,565.05 sDAI', estimatedDaiValue: '3,878.09' })
-    await savingsPage.expectStablecoinsInWalletAssetBalance('XDAI', '7,100.00')
+    await savingsPage.expectSavingsAccountBalance({ balance: '3,565.05', estimatedValue: '3,878.09' })
+    await savingsPage.expectSupportedStablecoinBalance('XDAI', '7,100.00')
   })
 })

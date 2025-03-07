@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber, assertNever } from '@marsfoundation/common-universal'
 import { Timeframe } from './defaults'
 
 export function formatTooltipDate(date: Date): string {
@@ -34,28 +34,45 @@ export function filterDataByTimeframe<Data extends { date: Date }>({
 }: FilterDataByTimeframeParams<Data>): Data[] {
   const now = new Date(currentTimestamp * 1000)
 
-  switch (timeframe) {
-    case '7D': {
-      const sevenDaysAgo = new Date(now)
-      sevenDaysAgo.setDate(now.getDate() - 7)
-      return data.filter((d) => new Date(d.date) >= sevenDaysAgo)
-    }
-
-    case '1M': {
-      const oneMonthAgo = new Date(now)
-      oneMonthAgo.setMonth(now.getMonth() - 1)
-      return data.filter((d) => new Date(d.date) >= oneMonthAgo)
-    }
-
-    case '1Y': {
-      const oneYearAgo = new Date(now)
-      oneYearAgo.setFullYear(now.getFullYear() - 1)
-      return data.filter((d) => new Date(d.date) >= oneYearAgo)
-    }
-
-    case 'All':
-      return data
+  if (timeframe === 'All') {
+    return data
   }
+
+  const cutoff = (() => {
+    switch (timeframe) {
+      case '7D': {
+        const sevenDaysAgo = new Date(now)
+        sevenDaysAgo.setDate(now.getDate() - 7)
+        return sevenDaysAgo
+      }
+      case '1M': {
+        const oneMonthAgo = new Date(now)
+        oneMonthAgo.setMonth(now.getMonth() - 1)
+        return oneMonthAgo
+      }
+      case '3M': {
+        const threeMonthsAgo = new Date(now)
+        threeMonthsAgo.setMonth(now.getMonth() - 3)
+        return threeMonthsAgo
+      }
+      case '1Y': {
+        const oneYearAgo = new Date(now)
+        oneYearAgo.setFullYear(now.getFullYear() - 1)
+        return oneYearAgo
+      }
+      case '3Y': {
+        const threeYearsAgo = new Date(now)
+        threeYearsAgo.setFullYear(now.getFullYear() - 3)
+        return threeYearsAgo
+      }
+      default:
+        assertNever(timeframe)
+    }
+  })()
+
+  const filteredData = data.filter((d) => new Date(d.date) >= cutoff)
+
+  return filteredData
 }
 
 export function getVerticalDomainWithPadding(min: number, max: number): [number, number] {

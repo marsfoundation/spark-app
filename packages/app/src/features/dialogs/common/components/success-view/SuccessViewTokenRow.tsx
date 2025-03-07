@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface SuccessViewTokenRowProps {
   token: Token
@@ -12,11 +12,11 @@ export function SuccessViewTokenRow({ token, amount }: SuccessViewTokenRowProps)
     <div className="mb-2 flex w-full items-center justify-between">
       <div className="flex items-center gap-1">
         <TokenIcon token={token} className="h-5" />
-        <span className="typography-label-4 text-primary">{token.symbol}</span>
+        <span className="typography-label-2 text-primary">{token.symbol}</span>
       </div>
       <div className="flex grow flex-col text-right">
-        <div className="typography-label-4 text-primary">{token.format(amount, { style: 'auto' })}</div>
-        <div className="typography-label-5 text-secondary"> {token.formatUSD(amount)}</div>
+        <div className="typography-label-2 text-primary">{token.format(amount, { style: 'auto' })}</div>
+        <div className="typography-label-3 text-secondary"> {token.formatUSD(amount)}</div>
       </div>
     </div>
   )

@@ -1,15 +1,19 @@
 import { withThemeByClassName } from '@storybook/addon-themes'
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
+import { Preview } from '@storybook/react'
 import { WithFixedDate, WithQueryClient } from './decorators'
 
 import '../src/css/fonts.css'
 import '../src/css/main.css'
 import './styles.css'
-import { Preview } from '@storybook/react'
 
 const preview: Preview = {
+  initialGlobals: {
+    viewport: { value: 'desktop' },
+  },
   parameters: {
     chromatic: {
-      delay: 250, // Some components use hook for media queries, and chromatic might take a screenshot too early
+      delay: 500, // Some components use hook for media queries, and chromatic might take a screenshot too early
       pauseAnimationAtEnd: false, // stops css animations at first frame
     },
     controls: {
@@ -19,23 +23,11 @@ const preview: Preview = {
       },
     },
     viewport: {
-      viewports: {
-        mobile: {
-          name: 'Mobile',
-          styles: {
-            width: '375px',
-            height: '667px',
-          },
-        },
-        tablet: {
-          name: 'Tablet',
-          styles: {
-            width: '760px',
-            height: '1024px',
-          },
-        },
+      options: {
+        mobile: INITIAL_VIEWPORTS.iphonese2,
+        tablet: INITIAL_VIEWPORTS.ipad,
         desktop: {
-          name: 'Desktop',
+          name: 'desktop',
           styles: {
             width: '1440px',
             height: '1024px',
@@ -44,7 +36,6 @@ const preview: Preview = {
       },
     },
   },
-
   decorators: [
     WithQueryClient(),
     WithFixedDate(),

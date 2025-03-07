@@ -1,13 +1,12 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
 import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
-import { raise } from '@/utils/assert'
-import { toBigInt } from '@/utils/bigNumber'
+import { CheckedAddress, toBigInt } from '@marsfoundation/common-universal'
+import { raise } from '@marsfoundation/common-universal'
 import { ActionConfig, ActionContext } from '../../../logic/types'
 import { WithdrawAction } from '../types'
 
@@ -26,7 +25,7 @@ export function createWithdrawActionConfig(action: WithdrawAction, context: Acti
     getWriteConfig: () => {
       const withdrawAmount = toBigInt(action.token.toBaseUnit(action.value))
 
-      if (withdrawTokenAddress === NATIVE_ASSET_MOCK_ADDRESS) {
+      if (withdrawTokenAddress === CheckedAddress.EEEE()) {
         return ensureConfigTypes({
           address: wethGatewayAddress,
           abi: wethGatewayConfig.abi,

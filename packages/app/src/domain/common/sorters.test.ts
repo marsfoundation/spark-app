@@ -1,6 +1,6 @@
 import { tokens } from '@sb/tokens'
 
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { sortByUsdValue } from './sorters'
 
 describe(sortByUsdValue, () => {

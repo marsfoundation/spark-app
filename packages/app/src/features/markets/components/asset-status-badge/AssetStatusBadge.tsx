@@ -1,4 +1,4 @@
-import { DownloadIcon, LayersIcon, UploadIcon } from 'lucide-react'
+import { DownloadIcon, Layers3Icon, UploadIcon } from 'lucide-react'
 
 import {
   BorrowEligibilityStatus,
@@ -6,7 +6,7 @@ import {
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
 import { IndicatorIcon } from '@/ui/atoms/indicator-icon/IndicatorIcon'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { AssetStatusDescription } from './components/AssetStatusDescription'
 import { getVariantFromStatus } from './getVariantFromStatus'
 
@@ -23,30 +23,21 @@ export function AssetStatusBadge({
   borrowStatus,
   'data-testid': dataTestId,
 }: AssetStatusBadgeProps) {
-  const supplyIcon = (
-    <IndicatorIcon icon={<DownloadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(supplyStatus)} />
-  )
-  const collateralIcon = (
-    <IndicatorIcon icon={<LayersIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(collateralStatus)} />
-  )
-  const borrowIcon = (
-    <IndicatorIcon icon={<UploadIcon className="w-5 md:w-4" />} variant={getVariantFromStatus(borrowStatus)} />
-  )
+  const supplyIcon = <IndicatorIcon icon={DownloadIcon} variant={getVariantFromStatus(supplyStatus)} />
+  const collateralIcon = <IndicatorIcon icon={Layers3Icon} variant={getVariantFromStatus(collateralStatus)} />
+  const borrowIcon = <IndicatorIcon icon={UploadIcon} variant={getVariantFromStatus(borrowStatus)} />
 
   return (
     <Tooltip disableHoverableContent>
       <TooltipTrigger className="py-2 md:py-0">
-        <div
-          className="inline-flex gap-3 rounded-xl bg-gray-50 px-3 py-2 md:gap-2 md:rounded-lg md:px-2.5 md:py-0.5"
-          data-testid={dataTestId}
-        >
+        <div className="inline-flex gap-3 rounded-xs border border-primary px-3 py-2 md:gap-2" data-testid={dataTestId}>
           {supplyIcon}
           {collateralIcon}
           {borrowIcon}
         </div>
       </TooltipTrigger>
-      <TooltipContentLong>
-        <div className="flex flex-col gap-3">
+      <TooltipContent variant="long">
+        <div className="flex flex-col gap-1.5">
           <AssetStatusDescription>
             {supplyIcon}
             {supplyStatusDescription[supplyStatus]}
@@ -60,7 +51,7 @@ export function AssetStatusBadge({
             {borrowStatusDescription[borrowStatus]}
           </AssetStatusDescription>
         </div>
-      </TooltipContentLong>
+      </TooltipContent>
     </Tooltip>
   )
 }

@@ -1,11 +1,11 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { InterestRate, NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { InterestRate, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolConfig, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/query'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { toBigInt } from '@/utils/bigNumber'
+import { CheckedAddress, toBigInt } from '@marsfoundation/common-universal'
 import { ActionConfig, ActionContext } from '../../../logic/types'
 import { getBorrowAllowanceQueryKey } from '../../approve-delegation/logic/query'
 import { BorrowAction } from '../types'
@@ -21,7 +21,7 @@ export function createBorrowActionConfig(action: BorrowAction, context: ActionCo
       const borrowAmount = toBigInt(action.token.toBaseUnit(action.value))
       const interestRateMode = BigInt(InterestRate.Variable)
 
-      if (borrowTokenAddress === NATIVE_ASSET_MOCK_ADDRESS) {
+      if (borrowTokenAddress === CheckedAddress.EEEE()) {
         return ensureConfigTypes({
           abi: wethGatewayConfig.abi,
           address: wethGatewayAddress,

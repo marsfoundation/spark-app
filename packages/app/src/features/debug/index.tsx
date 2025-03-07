@@ -1,6 +1,6 @@
 import { potAbi, potAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { UseQueryReturnType } from 'node_modules/wagmi/dist/types/utils/query'
 import { mainnet } from 'viem/chains'

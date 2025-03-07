@@ -1,9 +1,9 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { Token } from '@/domain/types/Token'
-import { TokenCell } from '@/features/savings/components/stablecoins-in-wallet/components/TokenCell'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { DataTable, DataTableProps } from '@/ui/molecules/data-table/DataTable'
+import { Button } from '@/ui/atoms/button/Button'
+import { Panel } from '@/ui/atoms/panel/Panel'
+import { DataTable, DataTableColumnDefinitions } from '@/ui/molecules/data-table/DataTable'
+import { TokenCell } from '@/ui/molecules/data-table/components/TokenCell'
 import { useMemo } from 'react'
 
 export interface TokensToDepositProps {
@@ -12,7 +12,7 @@ export interface TokensToDepositProps {
 }
 
 export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProps) {
-  const columnDef: DataTableProps<TokenWithBalance>['columnDef'] = useMemo(
+  const columnDef: DataTableColumnDefinitions<TokenWithBalance> = useMemo(
     () => ({
       token: {
         header: 'Token',
@@ -22,7 +22,7 @@ export function TokensToDeposit({ assets, openStakeDialog }: TokensToDepositProp
         header: 'Balance',
         headerAlign: 'right',
         renderCell: ({ balance, token }) => (
-          <div className="typography-label-4 flex w-full flex-row justify-end">
+          <div className="typography-label-2 flex w-full flex-row justify-end">
             {balance.eq(0) ? '-' : token.format(balance, { style: 'auto' })}
           </div>
         ),

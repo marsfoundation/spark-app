@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { cn } from '@/ui/utils/style'
 import { InfoIcon } from 'lucide-react'
 
@@ -12,7 +12,7 @@ function Info({ children, size = 14, className }: InfoProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <InfoIcon size={size} className={cn('text-basics-dark-grey/50', className)} />
+        <InfoIcon size={size} className={cn('text-secondary/50', className)} />
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>

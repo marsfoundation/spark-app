@@ -5,7 +5,6 @@
     "ignore": [
       "**/node_modules",
       "**/.vscode",
-      "**/package.json",
       "**/dist/**",
       "**/.vite",
       "packages/app/storybook-static",
@@ -24,7 +23,9 @@
     "lineWidth": 120,
     "attributePosition": "auto"
   },
-  "organizeImports": { "enabled": true },
+  "organizeImports": {
+    "enabled": true
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -92,5 +93,28 @@
       "quoteStyle": "single",
       "attributePosition": "auto"
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["./packages/common-*/**/*.ts"],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "correctness": {
+            "useImportExtensions": {
+              "level": "error",
+              "options": {
+                "suggestedExtensions": {
+                  "ts": {
+                    "module": "js",
+                    "component": "js"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

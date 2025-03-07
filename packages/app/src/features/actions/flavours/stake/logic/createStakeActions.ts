@@ -1,10 +1,9 @@
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { assert, raise } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
+import { assert, BaseUnitNumber, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { TransactionReceipt, decodeEventLog, erc4626Abi } from 'viem'
 import { ApproveAction } from '../../approve/types'
 import { PsmConvertAction } from '../../psm-convert/types'
@@ -15,8 +14,8 @@ import { StakeAction, StakeObjective } from '../types'
 import { getStakeActionPath } from './getStakeActionPath'
 
 export function createStakeActions(objective: StakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId, tokensInfo } = context
-  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
+  const { farmsInfo, chainId, tokenRepository } = context
+  assert(farmsInfo && tokenRepository, 'Farms info and tokens info are required for stake action')
 
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
@@ -37,7 +36,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
 
   const actionPath = getStakeActionPath({
     token: objective.token,
-    tokensInfo,
+    tokenRepository,
     stakingToken,
   })
 
@@ -74,10 +73,29 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
         mode: 'withdraw',
       }
 
+      let fallbackStakeAmount = NormalizedUnitNumber(0)
+
+      if (actionPath === 'susds-to-usds-to-farm') {
+        assert(
+          context.savingsAccounts,
+          'Savings accounts repository info is required when input for stake is susds token',
+        )
+        const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sUSDS'))
+        fallbackStakeAmount = converter.convertToAssets({ shares: objective.amount })
+      }
+      if (actionPath === 'sdai-to-usds-to-farm') {
+        assert(
+          context.savingsAccounts,
+          'Savings accounts repository info is required when input for stake is sdai token',
+        )
+        const { converter } = context.savingsAccounts.findOneBySavingsTokenSymbol(TokenSymbol('sDAI'))
+        fallbackStakeAmount = converter.convertToAssets({ shares: objective.amount })
+      }
+
       const [, withdrawReceipt] = context.txReceipts.find(([action]) => action.type === 'withdrawFromSavings') ?? []
       const stakeAmount = withdrawReceipt
         ? getStakeAmountFromWithdrawReceipt(objective.token, withdrawReceipt)
-        : NormalizedUnitNumber(0)
+        : fallbackStakeAmount
 
       return [
         ...createWithdrawFromSavingsActions(withdrawObjective, context),
@@ -97,7 +115,7 @@ export function createStakeActions(objective: StakeObjective, context: ActionCon
       const convertToUsdsAction: PsmConvertAction = {
         type: 'psmConvert',
         inToken: objective.token,
-        outToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        outToken: tokenRepository.USDS ?? raise('USDS token is required for usds psm convert action'),
         amount: objective.amount,
       }
 

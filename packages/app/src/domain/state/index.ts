@@ -16,6 +16,7 @@ import {
   persistActionsSettingsSlice,
   unPersistActionsSettingsSlice,
 } from './actions-settings'
+import { AnalyticsSlice, initAnalyticsSlice, persistAnalyticsSlice } from './analytics'
 import { BannersVisibilitySlice, initBannersVisibilitySlice, persistBannersVisibilitySlice } from './bannersVisibility'
 import { ComplianceSlice, PersistedComplianceSlice, initComplianceSlice, persistComplianceSlice } from './compliance'
 import { DialogSlice, initDialogSlice } from './dialogs'
@@ -26,7 +27,6 @@ import {
   persistSandboxSlice,
   unPersistSandboxSlice,
 } from './sandbox'
-import { PersistedSavingsSlice, SavingsSlice, initSavingsSlice, persistSavingsSlice } from './savings'
 
 export type StoreState = {
   appConfig: AppConfig
@@ -34,11 +34,11 @@ export type StoreState = {
   SandboxSlice &
   ActionsSettingsSlice &
   ComplianceSlice &
-  SavingsSlice &
+  AnalyticsSlice &
   BannersVisibilitySlice
 
 export type PersistedState = Serializable<
-  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice & PersistedSavingsSlice
+  PersistedSandboxSlice & PersistedActionsSettingsSlice & PersistedComplianceSlice
 >
 
 export const storeImplementation = persist<StoreState, [], [], PersistedState>(
@@ -47,8 +47,8 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...initDialogSlice(...a),
       ...initActionsSettingsSlice(...a),
       ...initComplianceSlice(...a),
+      ...initAnalyticsSlice(...a),
       ...initSandboxSlice(...a),
-      ...initSavingsSlice(...a),
       ...initBannersVisibilitySlice(...a),
       appConfig: getAppConfig(),
     }
@@ -60,7 +60,7 @@ export const storeImplementation = persist<StoreState, [], [], PersistedState>(
       ...persistSandboxSlice(state),
       ...persistActionsSettingsSlice(state),
       ...persistComplianceSlice(state),
-      ...persistSavingsSlice(state),
+      ...persistAnalyticsSlice(state),
       ...persistBannersVisibilitySlice(state),
     }),
     merge: (_persistedState, currentState) => {

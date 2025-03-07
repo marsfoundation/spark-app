@@ -1,21 +1,17 @@
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
 import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
 import { setup } from '@/test/e2e/setup'
-import { screenshot } from '@/test/e2e/utils'
 
-import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
+import { TestTokenWithValue } from '@/test/e2e/assertions'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Deposit */
 
 test.describe('Deposit dialog', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
     rETH: 100,
@@ -28,148 +24,120 @@ test.describe('Deposit dialog', () => {
       rETH: 2,
     }
     const daiToBorrow = 1500
-    const expectedInitialHealthFactor = '4.03'
-    const expectedHealthFactor = '5.35'
+    const expectedInitialHealthFactor = '7.2'
+    const expectedHealthFactor = '9.55'
+
+    let myPortfolioPage: MyPortfolioPageObject
+    let depositDialog: DialogPageObject
 
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { ...initialBalances },
+          assetBalances: { ...initialBalances, WBTC: 1, weETH: 1 },
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.depositAssetsActions({ assetsToDeposit: initialDeposits, daiToBorrow })
       await borrowPage.viewInMyPortfolioAction()
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
       // @todo This waits for the refetch of the data after successful borrow transaction to happen.
       // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
       // playwright's timeouts instead of parsing it's current state. Then we would be able to
       // easily wait for the table to be updated.
       await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
+      await myPortfolioPage.expectDepositTable(initialDeposits)
+
+      depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
     })
 
-    test('opens dialog with selected asset', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('opens dialog with selected asset', async () => {
       await myPortfolioPage.clickDepositButtonAction('rETH')
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.expectSelectedAsset('rETH')
       await depositDialog.expectDialogHeader('Deposit rETH')
       await depositDialog.expectHealthFactorBeforeVisible()
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-default-view')
     })
 
-    test('calculates health factor changes correctly', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('calculates health factor changes correctly', async () => {
       await myPortfolioPage.clickDepositButtonAction('rETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
 
       await depositDialog.expectRiskLevelBefore('Healthy')
       await depositDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
       await depositDialog.expectRiskLevelAfter('Healthy')
       await depositDialog.expectHealthFactorAfter(expectedHealthFactor)
-
-      // @note this is needed for deterministic screenshots
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectEnabledActionAtIndex(0)
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-health-factor')
     })
 
-    test('after deposit, health factor matches myPortfolio', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('after deposit, health factor matches myPortfolio', async () => {
       await myPortfolioPage.clickDepositButtonAction('rETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
-
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
 
       await depositDialog.viewInMyPortfolioAction()
       await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
     })
 
-    test('has correct action plan for erc-20 with permit support', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
+    test('has correct action plan for erc-20 with permit support', async () => {
       await myPortfolioPage.clickDepositButtonAction('wstETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([
+
+      await depositDialog.actionsContainer.expectActions([
         { type: 'permit', asset: 'wstETH' },
         { type: 'deposit', asset: 'wstETH' },
       ])
     })
 
-    test('can switch to approves in action plan', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
+    test('can switch to approves in action plan', async () => {
       await myPortfolioPage.clickDepositButtonAction('wstETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
 
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'permit', asset: 'wstETH' },
         { type: 'deposit', asset: 'wstETH' },
       ])
 
-      await actionsContainer.switchPreferPermitsAction()
+      await depositDialog.actionsContainer.switchPreferPermitsAction()
 
-      await actionsContainer.expectEnabledActionAtIndex(0)
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'wstETH' },
         { type: 'deposit', asset: 'wstETH' },
       ])
     })
 
-    test('has correct action plan for erc-20 with no permit support', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
+    test('has correct action plan for erc-20 with no permit support', async () => {
       await myPortfolioPage.clickDepositButtonAction('rETH')
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([
+      await depositDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'rETH' },
         { type: 'deposit', asset: 'rETH' },
       ])
     })
 
-    test('can deposit erc-20 using permits', async ({ page }) => {
-      const deposit = {
+    test('can deposit erc-20 using permits', async () => {
+      const deposit: TestTokenWithValue = {
         asset: 'wstETH',
-        amount: 1,
+        amount: '1.00',
+        usdValue: '$4,665.46',
       }
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
       await myPortfolioPage.clickDepositButtonAction(deposit.asset)
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
-      await depositDialog.fillAmountAction(deposit.amount)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.expectSuccessPage([deposit], fork)
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-wsteth-success')
+      await depositDialog.fillAmountAction(Number(deposit.amount))
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.expectSuccessPage({ tokenWithValue: [deposit] })
 
       await depositDialog.viewInMyPortfolioAction()
 
@@ -179,24 +147,17 @@ test.describe('Deposit dialog', () => {
       })
     })
 
-    test('can deposit erc-20 using approves', async ({ page }) => {
-      const deposit = {
+    test('can deposit erc-20 using approves', async () => {
+      const deposit: TestTokenWithValue = {
         asset: 'rETH',
-        amount: 1,
+        amount: '1.00',
+        usdValue: '$4,413.26',
       }
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
       await myPortfolioPage.clickDepositButtonAction(deposit.asset)
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
-      await depositDialog.fillAmountAction(deposit.amount)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.expectSuccessPage([deposit], fork)
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-reth-success')
+      await depositDialog.fillAmountAction(Number(deposit.amount))
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.expectSuccessPage({ tokenWithValue: [deposit] })
 
       await depositDialog.viewInMyPortfolioAction()
 
@@ -206,48 +167,35 @@ test.describe('Deposit dialog', () => {
       })
     })
 
-    test('has correct action plan for native asset', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
-
+    test('has correct action plan for native asset', async () => {
       await myPortfolioPage.clickDepositButtonAction('WETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.fillAmountAction(1)
       await depositDialog.expectHealthFactorVisible()
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-eth-action-plan')
+      await depositDialog.actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
     })
 
-    test('can deposit native asset', async ({ page }) => {
-      const deposit = {
+    test('can deposit native asset', async () => {
+      const deposit: TestTokenWithValue = {
         asset: 'WETH',
-        amount: 1,
+        amount: '1.00',
+        usdValue: '$3,928.31',
       }
-
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.expectDepositTable(initialDeposits)
 
       await myPortfolioPage.clickDepositButtonAction(deposit.asset)
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.selectAssetAction('ETH')
-      await depositDialog.fillAmountAction(deposit.amount)
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(1)
-      await depositDialog.expectSuccessPage(
-        [
+      await depositDialog.fillAmountAction(Number(deposit.amount))
+      await depositDialog.actionsContainer.acceptAllActionsAction(1)
+      await depositDialog.expectSuccessPage({
+        tokenWithValue: [
           {
             asset: 'ETH',
             amount: deposit.amount,
+            usdValue: deposit.usdValue,
           },
         ],
-        fork,
-      )
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-eth-success')
+      })
 
       await depositDialog.viewInMyPortfolioAction()
 
@@ -258,53 +206,62 @@ test.describe('Deposit dialog', () => {
       })
     })
 
-    test("can't deposit more than wallet balance", async ({ page }) => {
+    test("can't deposit more than wallet balance", async () => {
       const depositAsset = 'rETH'
-      const myPortfolioPage = new MyPortfolioPageObject(page)
       await myPortfolioPage.clickDepositButtonAction(depositAsset)
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(initialBalances[depositAsset] - initialDeposits[depositAsset] + 1)
 
       await depositDialog.expectAssetInputError('Exceeds your balance')
       await depositDialog.expectHealthFactorBeforeVisible()
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-exceeds-balance')
     })
 
-    test('requires new approve when the input value is increased', async ({ page }) => {
+    test('requires new approve when the input value is increased', async () => {
       const depositAsset = 'rETH'
-      const myPortfolioPage = new MyPortfolioPageObject(page)
       await myPortfolioPage.clickDepositButtonAction(depositAsset)
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
 
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-
-      await actionsContainer.acceptActionAtIndex(0)
-      await actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
+      await depositDialog.actionsContainer.acceptActionAtIndex(0)
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(2)
 
-      await actionsContainer.expectEnabledActionAtIndex(0, { type: 'approve', asset: depositAsset })
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0, { type: 'approve', asset: depositAsset })
     })
 
-    test('requires new permit when the input value is changed', async ({ page }) => {
+    test('requires new permit when the input value is changed', async () => {
       const depositAsset = 'wstETH'
-      const myPortfolioPage = new MyPortfolioPageObject(page)
       await myPortfolioPage.clickDepositButtonAction(depositAsset)
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(2)
 
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-
-      await actionsContainer.acceptActionAtIndex(0)
-      await actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
+      await depositDialog.actionsContainer.acceptActionAtIndex(0)
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(1, { type: 'deposit', asset: depositAsset })
 
       await depositDialog.fillAmountAction(1)
 
-      await actionsContainer.expectEnabledActionAtIndex(0, { type: 'permit', asset: depositAsset })
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0, { type: 'permit', asset: depositAsset })
+    })
+
+    test('health factor matches when depositing new asset with zero maxLtv ', async () => {
+      await myPortfolioPage.clickDepositButtonAction('WBTC')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
+
+      await depositDialog.expectRiskLevelBefore('Healthy')
+      await depositDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await depositDialog.expectRiskLevelAfter('Healthy')
+      // Depositing previously unused asset with zero maxLtv doesn't trigger
+      // automatic setting of usage as collateral, therefore health factor
+      // should not change.
+      await depositDialog.expectHealthFactorAfter(expectedInitialHealthFactor)
+    })
+
+    test('depositing isolated asset does not affect health factor', async () => {
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await depositDialog.expectHealthFactorAfter(expectedInitialHealthFactor)
     })
   })
 
@@ -314,8 +271,15 @@ test.describe('Deposit dialog', () => {
       rETH: 2,
     }
 
+    let myPortfolioPage: MyPortfolioPageObject
+    let depositDialog: DialogPageObject
+
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -323,7 +287,7 @@ test.describe('Deposit dialog', () => {
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
       // to simulate a position with only deposits, we go through the easy borrow flow
       // but interrupt it before the borrow action, going directly to the myPortfolio
       // this way we have deposit transactions executed, but no borrow transaction
@@ -334,43 +298,40 @@ test.describe('Deposit dialog', () => {
       await borrowPage.fillDepositAssetAction(1, 'rETH', initialDeposits.rETH)
       await borrowPage.submitAction()
 
-      const actionsContainer = new ActionsPageObject(page)
       for (let i = 0; i < 4; i++) {
-        await actionsContainer.acceptActionAtIndex(i)
+        await borrowPage.actionsContainer.acceptActionAtIndex(i)
       }
-      await actionsContainer.expectEnabledActionAtIndex(4)
+      await borrowPage.actionsContainer.expectEnabledActionAtIndex(4)
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.goToMyPortfolioAction()
+
+      depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
     })
 
-    test('does not display health factor', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('does not display health factor', async () => {
       await myPortfolioPage.clickDepositButtonAction('rETH')
-
-      const depositDialog = new DialogPageObject(page, headerRegExp)
       await depositDialog.fillAmountAction(1)
 
       await depositDialog.expectHealthFactorNotVisible()
-
-      // @note this is needed for deterministic screenshots
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectEnabledActionAtIndex(0)
-
-      await screenshot(depositDialog.getDialog(), 'deposit-dialog-only-deposit-health-factor')
     })
   })
 
   test.describe('No position', () => {
-    const fork = setupFork({ blockNumber: 19588510n, chainId: mainnet.id }) // block number with WBTC supply close to cap
-
     test('can deposit up to max cap', async ({ page }) => {
       const initialBalances = {
         ETH: 1,
-        WBTC: 1000,
+        cbBTC: 52,
       }
 
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
@@ -378,31 +339,30 @@ test.describe('Deposit dialog', () => {
         },
       })
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      await myPortfolioPage.clickDepositButtonAction('WBTC')
+      const myPortfolioPage = new MyPortfolioPageObject(testContext)
+      await myPortfolioPage.clickDepositButtonAction('cbBTC')
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
+      const depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
       await depositDialog.clickMaxAmountAction()
-      await tenderlyRpcActions.evmIncreaseTime(fork.forkUrl, 5 * 60)
+      await testContext.testnetController.progressSimulationAndMine(5 * 60)
 
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.expectSuccessPage(
-        [
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.expectSuccessPage({
+        tokenWithValue: [
           {
-            asset: 'WBTC',
-            amount: 507.527307,
+            asset: 'cbBTC',
+            amount: '50.0464443',
+            usdValue: '$5,088,872.59',
           },
         ],
-        fork,
-        {
-          WBTC: 34_087_363.63,
-        },
-      )
+      })
 
       await depositDialog.viewInMyPortfolioAction()
       await myPortfolioPage.expectDepositTable({
-        WBTC: 507.527307,
+        cbBTC: 50.0464443,
       })
     })
 
@@ -412,7 +372,11 @@ test.describe('Deposit dialog', () => {
         USDT: 10000,
       }
 
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
@@ -420,23 +384,25 @@ test.describe('Deposit dialog', () => {
         },
       })
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.clickDepositButtonAction('USDT')
 
-      const depositDialog = new DialogPageObject(page, headerRegExp)
+      const depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
       await depositDialog.fillAmountAction(initialBalances.USDT)
 
-      const actionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await depositDialog.expectSuccessPage(
-        [
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.expectSuccessPage({
+        tokenWithValue: [
           {
             asset: 'USDT',
-            amount: initialBalances.USDT,
+            amount: '10,000.00',
+            usdValue: '$10,000.00',
           },
         ],
-        fork,
-      )
+      })
 
       await depositDialog.viewInMyPortfolioAction()
       await myPortfolioPage.expectDepositTable({
@@ -445,7 +411,11 @@ test.describe('Deposit dialog', () => {
     })
 
     test('retains some native asset when depositing max', async ({ page }) => {
-      await setup(page, fork, {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
         initialPage: 'myPortfolio',
         account: {
           type: 'connected-random',
@@ -453,9 +423,12 @@ test.describe('Deposit dialog', () => {
         },
       })
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.clickDepositButtonAction('WETH')
-      const depositDialog = new DialogPageObject(page, headerRegExp)
+      const depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
       await depositDialog.selectAssetAction('ETH')
       await depositDialog.clickMaxAmountAction()
 
@@ -463,6 +436,81 @@ test.describe('Deposit dialog', () => {
       await depositDialog.expectMaxButtonDisabled()
       await depositDialog.actionsContainer.expectEnabledActionAtIndex(0)
       await depositDialog.actionsContainer.expectActions([{ type: 'deposit', asset: 'ETH' }])
+    })
+  })
+
+  test.describe('Position in isolated mode', () => {
+    let myPortfolioPage: MyPortfolioPageObject
+    let depositDialog: DialogPageObject
+
+    test.beforeEach(async ({ page }) => {
+      const testContext = await setup(page, {
+        blockchain: {
+          chain: mainnet,
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+        },
+        initialPage: 'myPortfolio',
+        account: {
+          type: 'connected-random',
+          assetBalances: { weETH: 2, wstETH: 1 },
+        },
+      })
+
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+      await myPortfolioPage.goToMyPortfolioAction()
+
+      depositDialog = new DialogPageObject({
+        testContext,
+        header: headerRegExp,
+      })
+
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectDepositTable({
+        weETH: 1,
+      })
+
+      await myPortfolioPage.clickCollateralSwitchAction('weETH')
+      const collateralSwitchDialog = new DialogPageObject({
+        testContext,
+        header: /Collateral*/,
+      })
+      await collateralSwitchDialog.actionsContainer.acceptAllActionsAction(1)
+      await collateralSwitchDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectCollateralSwitch('weETH', true)
+
+      const borrowDialog = new DialogPageObject({
+        testContext,
+        header: /Borrow*/,
+      })
+
+      await myPortfolioPage.clickBorrowButtonAction('DAI')
+      await borrowDialog.fillAmountAction(1500)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.viewInMyPortfolioAction()
+
+      await myPortfolioPage.expectHealthFactor('2.02')
+    })
+
+    test('can add collateral', async () => {
+      await myPortfolioPage.clickDepositButtonAction('weETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore('2.02')
+      await depositDialog.expectHealthFactorAfter('4.03')
+
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
+      await depositDialog.viewInMyPortfolioAction()
+      await myPortfolioPage.expectHealthFactor('4.03')
+    })
+
+    test('depositing other asset does not affect health factor', async () => {
+      await myPortfolioPage.clickDepositButtonAction('wstETH')
+      await depositDialog.fillAmountAction(1)
+      await depositDialog.expectHealthFactorBefore('2.02')
+      await depositDialog.expectHealthFactorAfter('2.02')
     })
   })
 })

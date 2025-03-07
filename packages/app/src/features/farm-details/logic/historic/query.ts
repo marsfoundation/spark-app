@@ -1,5 +1,5 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { queryOptions, skipToken } from '@tanstack/react-query'
 import { z } from 'zod'
 
@@ -43,7 +43,7 @@ const historicDataResponseSchema = z
     results: z.array(
       z.object({
         date: z.string().transform((value) => new Date(value)),
-        apr: z.string().transform((value) => Percentage(value, true)),
+        apr: z.string().transform((value) => Percentage(value, { allowMoreThan1: true })),
         total_staked: z.string().transform((value) => NormalizedUnitNumber(value)),
       }),
     ),

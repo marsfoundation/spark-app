@@ -1,5 +1,5 @@
-import { Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Percentage } from '@marsfoundation/common-universal'
 import approve from './actions/approve.svg'
 import borrow from './actions/borrow.svg'
 import deposit from './actions/deposit.svg'
@@ -17,8 +17,8 @@ import logoLight from './brand/logo-light.svg'
 import symbolDark from './brand/symbol-dark.svg'
 import symbolGradient from './brand/symbol-gradient.svg'
 import symboLight from './brand/symbol-light.svg'
+import arbitrum from './chains/arbitrum.svg'
 import base from './chains/base.svg'
-import baseDevNet from './chains/baseDevNet.svg'
 import ethereum from './chains/ethereum.svg'
 import gnosis from './chains/gnosis.svg'
 import checkCircle from './check-circle.svg'
@@ -51,19 +51,28 @@ import multiply from './multiply.svg'
 import chainlink from './oracle-providers/chainlink.svg'
 import chronicle from './oracle-providers/chronicle.svg'
 import lido from './oracle-providers/lido.svg'
+import redstoneOracle from './oracle-providers/redstone.svg'
+import borrowCircleIcon from './page/borrow-icon-circle.svg'
 import borrowIcon from './page/borrow-icon.svg'
+import farmsCircleIcon from './page/farms-icon-circle.svg'
 import farmsIcon from './page/farms-icon.svg'
+import savingsCircleIcon from './page/savings-icon-circle.svg'
 import savingsIcon from './page/savings-icon.svg'
+import sparkRewardsCircleIcon from './page/spark-rewards-icon-circle.svg'
+import sparkRewardsIcon from './page/spark-rewards-icon.svg'
 import pause from './pause.svg'
+import guestModePanelIcon from './rewards/guest-mode-panel-icon.svg'
 import rocket from './rocket.svg'
 import daiUpgrade from './savings/dai-upgrade.webp'
 import savingsWelcome from './savings/savings-welcome.webp'
+import sdaiUpgradeBannerIcon from './savings/sdai-upgrade-banner-icon.svg'
 import sdaiUpgrade from './savings/sdai-upgrade.webp'
 import upgradeBannerBg from './savings/upgrade-banner-bg.svg'
 import sliderThumb from './slider-thumb.svg'
 import snowflake from './snowflake.svg'
+import discord from './social-platforms/discord.svg'
+import x from './social-platforms/x.svg'
 import sparkIcon from './spark-icon.svg'
-import sparkLogo from './spark-logo.svg'
 import success from './success.svg'
 import threeDots from './three-dots.svg'
 import timer from './timer.svg'
@@ -74,10 +83,13 @@ import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
 import mkr from './tokens/mkr.svg'
+import red from './tokens/red.svg'
 import reth from './tokens/reth.svg'
 import sdai from './tokens/sdai.svg'
 import sky from './tokens/sky.svg'
+import spk from './tokens/spk.svg'
 import steth from './tokens/steth.svg'
+import susdc from './tokens/susdc.svg'
 import susds from './tokens/susds.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
@@ -102,7 +114,6 @@ import warning from './warning.svg'
 import xCircle from './x-circle.svg'
 
 export const assets = {
-  sparkLogo,
   sparkIcon,
   lifiLogo,
   chevronDown,
@@ -162,8 +173,8 @@ export const assets = {
     gnosis,
     ethereum,
     unknown,
-    baseDevNet,
     base,
+    arbitrum,
   },
   token: {
     dai,
@@ -178,6 +189,7 @@ export const assets = {
     susds,
     steth,
     usdc,
+    susdc,
     'usdc.e': usdc,
     usdt,
     wbtc,
@@ -188,7 +200,13 @@ export const assets = {
     xdai,
     cbbtc,
     cle,
+    red,
+    spk,
     unknown,
+  },
+  socialPlatforms: {
+    x,
+    discord,
   },
   walletIcons: {
     coinbase,
@@ -199,10 +217,14 @@ export const assets = {
     default: defaultWallet,
   },
   savings: {
+    sdaiUpgradeBannerIcon,
     upgradeBannerBg,
     daiUpgrade,
     sdaiUpgrade,
     savingsWelcome,
+  },
+  rewards: {
+    guestModePanelIcon,
   },
   banners: {
     mkrToSkyTransform,
@@ -210,13 +232,19 @@ export const assets = {
   oracleProviders: {
     chainlink,
     chronicle,
+    redstone: redstoneOracle,
     lido,
   },
 
   page: {
     savings: savingsIcon,
+    savingsCircle: savingsCircleIcon,
     farms: farmsIcon,
+    farmsCircle: farmsCircleIcon,
     borrow: borrowIcon,
+    borrowCircle: borrowCircleIcon,
+    sparkRewards: sparkRewardsIcon,
+    sparkRewardsCircle: sparkRewardsCircleIcon,
   },
 
   brand: {
@@ -230,6 +258,10 @@ export const assets = {
   },
 }
 
+export function isTokenImageAvailable(symbol: TokenSymbol): boolean {
+  return typeof assets.token[symbol.toLocaleLowerCase() as keyof typeof assets.token] === 'string'
+}
+
 export function getTokenImage(symbol: TokenSymbol): string {
   const image = assets.token[symbol.toLocaleLowerCase() as keyof typeof assets.token]
   if (!image) {
@@ -237,6 +269,14 @@ export function getTokenImage(symbol: TokenSymbol): string {
   }
 
   return image
+}
+
+export function getSocialPlatformIcon(platform: string): string {
+  const icon = assets.socialPlatforms[platform as keyof typeof assets.socialPlatforms]
+  if (!icon) {
+    return assets.token.unknown
+  }
+  return icon
 }
 
 export function getTokenColor(symbol: TokenSymbol, options?: { alpha?: Percentage; fallback?: string }): string {
@@ -254,12 +294,13 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('GNO')]: '62 105 87',
   [TokenSymbol('MKR')]: '26 171 155',
   [TokenSymbol('SKY')]: '178 104 252',
-  [TokenSymbol('USDS')]: '255 192 70',
+  [TokenSymbol('USDS')]: '255 163 76',
   [TokenSymbol('rETH')]: '255 151 125',
   [TokenSymbol('sDAI')]: '53 181 82',
   [TokenSymbol('sUSDS')]: '53 181 82',
   [TokenSymbol('stETH')]: '143 146 236',
   [TokenSymbol('USDC')]: '51 146 248',
+  [TokenSymbol('sUSDC')]: '17 160 179',
   [TokenSymbol('USDC.e')]: '51 146 248',
   [TokenSymbol('USDT')]: '38 161 123',
   [TokenSymbol('WBTC')]: '240 146 66',
@@ -269,4 +310,7 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('WXDAI')]: '253 177 31',
   [TokenSymbol('XDAI')]: '255 192 70',
   [TokenSymbol('CLE')]: '47 208 91',
+  [TokenSymbol('cbBTC')]: '0 82 255',
+  [TokenSymbol('RED')]: '174 8 34',
+  [TokenSymbol('SPK')]: '358 54 99',
 }

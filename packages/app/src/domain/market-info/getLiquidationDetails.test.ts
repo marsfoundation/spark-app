@@ -1,10 +1,10 @@
 import { describe } from 'vitest'
 
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { testAddresses } from '@/test/integration/constants'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { getLiquidationDetails } from './getLiquidationDetails'
 

@@ -2,20 +2,30 @@ import { Page } from '@playwright/test'
 
 import {
   PLAYWRIGHT_CHAIN_ID,
-  PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY,
+  PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY,
   PLAYWRIGHT_WALLET_ADDRESS_KEY,
+  PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
   PLAYWRIGHT_WALLET_FORK_URL_KEY,
   PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
-} from '@/config/wagmi/config.e2e'
-
-import { http, createPublicClient, zeroAddress } from 'viem'
-import { base, mainnet } from 'viem/chains'
-import { ForkContext } from './forking/setupFork'
+} from '@/config/wagmi/e2e-consts'
+import { TestnetClient } from '@marsfoundation/common-testnets'
+import { zeroAddress } from 'viem'
+import { arbitrum, base, mainnet } from 'viem/chains'
 import { InjectableWallet } from './setup'
 
-export async function injectWalletConfiguration(page: Page, wallet: InjectableWallet): Promise<void> {
+export async function injectWalletConfiguration(
+  page: Page,
+  wallet: InjectableWallet,
+  atomicBatchSupported = false,
+): Promise<void> {
   await page.addInitScript(
-    ({ PLAYWRIGHT_WALLET_ADDRESS_KEY, PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY, wallet }) => {
+    ({
+      PLAYWRIGHT_WALLET_ADDRESS_KEY,
+      PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
+      PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
+      atomicBatchSupported,
+      wallet,
+    }) => {
       if ('privateKey' in wallet) {
         delete (window as any)[PLAYWRIGHT_WALLET_ADDRESS_KEY]
         ;(window as any)[PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY] = wallet.privateKey
@@ -23,17 +33,35 @@ export async function injectWalletConfiguration(page: Page, wallet: InjectableWa
         delete (window as any)[PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY]
         ;(window as any)[PLAYWRIGHT_WALLET_ADDRESS_KEY] = wallet.address
       }
+
+      if (atomicBatchSupported) {
+        ;(window as any)[PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY] = true
+      } else {
+        delete (window as any)[PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY]
+      }
     },
     {
       PLAYWRIGHT_WALLET_ADDRESS_KEY,
       PLAYWRIGHT_WALLET_PRIVATE_KEY_KEY,
       PLAYWRIGHT_WALLET_FORK_URL_KEY,
+      PLAYWRIGHT_WALLET_ATOMIC_BATCH_SUPPORTED_KEY,
+      atomicBatchSupported,
       wallet,
     },
   )
 }
 
-export async function injectNetworkConfiguration(page: Page, rpcUrl: string, chainId: number): Promise<void> {
+interface InjectNetworkConfigurationParams {
+  page: Page
+  rpcUrl: string
+  chainId: number
+}
+
+export async function injectNetworkConfiguration({
+  page,
+  rpcUrl,
+  chainId,
+}: InjectNetworkConfigurationParams): Promise<void> {
   await page.addInitScript(
     ({ PLAYWRIGHT_WALLET_FORK_URL_KEY, PLAYWRIGHT_CHAIN_ID, rpcUrl, chainId }) => {
       ;(window as any)[PLAYWRIGHT_WALLET_FORK_URL_KEY] = rpcUrl
@@ -48,73 +76,33 @@ export async function injectNetworkConfiguration(page: Page, rpcUrl: string, cha
   )
 }
 
-export async function injectFixedDate(page: Page, date: Date): Promise<void> {
-  // setup fake Date for deterministic tests
-  // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
-  const fakeNow = date.valueOf()
-  await page.addInitScript(overrideDateClass, fakeNow)
-}
-
-// the only difference between this and injectFixedDate is the use of page.evaluate instead of page.addInitScript
-export async function injectUpdatedDate(page: Page, date: Date): Promise<void> {
-  // setup fake Date for deterministic tests
-  // https://github.com/microsoft/playwright/issues/6347#issuecomment-1085850728
-  const fakeNow = date.valueOf()
-  await page.evaluate(overrideDateClass, fakeNow)
-}
-
-function overrideDateClass(fakeNow: number): void {
-  // biome-ignore lint/suspicious/noGlobalAssign: <explanation>
-  // @ts-ignore
-  Date = class extends Date {
-    // @ts-ignore
-    constructor(...args) {
-      if (args.length === 0) {
-        super(fakeNow)
-      } else {
-        // @ts-ignore
-        super(...args)
-      }
-    }
-  }
-  // Override Date.now() to start from fakeNow
-  const __DateNowOffset = fakeNow - Date.now()
-  const __DateNow = Date.now
-  Date.now = () => __DateNow() + __DateNowOffset
-
-  // @todo: When we are able to set timestamps for transactions, make tests that use vnets use line below instead of the overriding Date.now with offset
-  // Date.now = () => fakeNow
-}
-
-export async function injectFlags(page: Page, forkContext: ForkContext): Promise<void> {
-  const susdsDeployed = await isSudsDeployed(forkContext)
+export async function injectFlags(page: Page, testnetClient: TestnetClient, chainId: number): Promise<void> {
+  const isSusdcDeployed = await isSudcDeployed(testnetClient, chainId)
 
   await page.addInitScript(
-    ({ PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed }) => {
-      if (!susdsDeployed) {
-        ;(window as any)[PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY] = true
+    ({ PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY, isSusdcDeployed }) => {
+      if (isSusdcDeployed) {
+        ;(window as any)[PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY] = true
       }
     },
-    { PLAYWRIGHT_USDS_CONTRACTS_NOT_AVAILABLE_KEY, susdsDeployed },
+    { PLAYWRIGHT_SUSDC_CONTRACTS_AVAILABLE_KEY, isSusdcDeployed },
   )
 }
 
-async function isSudsDeployed(forkContext: ForkContext): Promise<boolean> {
-  const susdsAddress = (() => {
-    if (forkContext.chainId === mainnet.id) {
-      return '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'
+async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Promise<boolean> {
+  const susdcAddress = (() => {
+    if (chainId === mainnet.id) {
+      return '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE'
     }
-
-    if (forkContext.chainId === base.id) {
-      return '0x5875eEE11Cf8398102FdAd704C9E96607675467a'
+    if (chainId === base.id) {
+      return '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858'
     }
-
+    if (chainId === arbitrum.id) {
+      return '0x940098b108fB7D0a7E374f6eDED7760787464609'
+    }
     return zeroAddress
   })()
-  const publicClient = createPublicClient({
-    transport: http(forkContext.forkUrl),
-  })
-  const susdsBytecode = await publicClient.getBytecode({ address: susdsAddress })
 
-  return susdsBytecode !== undefined && susdsBytecode.length > 2
+  const susdcBytecode = await testnetClient.getCode({ address: susdcAddress })
+  return susdcBytecode !== undefined && susdcBytecode.length > 2
 }

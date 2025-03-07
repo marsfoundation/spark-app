@@ -1,7 +1,6 @@
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
 import { useFarmsInfo } from '@/domain/farms/useFarmsInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { UnstakeObjective } from '@/features/actions/flavours/unstake/types'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -9,9 +8,9 @@ import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
 import { calculateReward } from '@/features/farm-details/logic/calculateReward'
-import { assert, raise } from '@/utils/assert'
 import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { assert, NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
@@ -52,13 +51,13 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
   }, [updateTimestamp])
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { farmsInfo } = useFarmsInfo({ chainId })
-  const { tokensInfo, exitTokens } = useFarmExitTokens(farm)
+  const { tokenRepository, exitTokens } = useFarmExitTokens(farm)
   const [exitFarmSwitchChecked, setExitFarmSwitchChecked] = useState(false)
 
   assert(exitTokens[0], 'There should be at least one exit token')
 
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getUnstakeDialogFormValidator(farm, tokensInfo)),
+    resolver: zodResolver(getUnstakeDialogFormValidator(farm, tokenRepository)),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -72,7 +71,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
   const objectives: UnstakeObjective[] = [
@@ -104,7 +103,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
 
   const outcomeTokenRouteItem =
     txOverview.status === 'success'
-      ? txOverview.routeToOutcomeToken.at(-1) ?? raise('Route should be defined')
+      ? (txOverview.routeToOutcomeToken.at(-1) ?? raise('Route should be defined'))
       : undefined
 
   const outcomeToken = {
@@ -117,7 +116,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
 
   return {
     selectableAssets: exitTokens,
-    assetsFields: getFormFieldsForUnstakeDialog({ form, tokensInfo, farm }),
+    assetsFields: getFormFieldsForUnstakeDialog({ form, tokenRepository, farm }),
     form,
     objectives,
     outcomeToken,
@@ -137,7 +136,7 @@ export function useUnstakeDialog({ farm, initialToken }: UseStakeDialogParams): 
       },
     },
     actionsContext: {
-      tokensInfo,
+      tokenRepository,
       farmsInfo,
     },
   }

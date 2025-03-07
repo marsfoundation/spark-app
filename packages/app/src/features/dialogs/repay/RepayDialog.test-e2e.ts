@@ -1,33 +1,23 @@
-import { Page, test } from '@playwright/test'
-import { mainnet } from 'viem/chains'
-
 import { repayValidationIssueToMessage } from '@/domain/market-validators/validateRepay'
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
-import { screenshot } from '@/test/e2e/utils'
-
-import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber, NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { injectFixedDate } from '@/test/e2e/injectSetup'
-import { http, Address, createPublicClient } from 'viem'
+import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
+import { BaseUnitNumber, NormalizedUnitNumber, toBigInt } from '@marsfoundation/common-universal'
+import { test } from '@playwright/test'
+import { mainnet } from 'viem/chains'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 const headerRegExp = /Repa*/
 
 test.describe('Repay dialog', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
   const initialBalances = {
     wstETH: 100,
     rETH: 100,
     WETH: 100,
-    DAI: 10000,
+    ETH: 100,
+    DAI: 100000,
   }
-  const expectedInitialHealthFactor = '5.65'
-  const expectedHealthFactor = '5.82'
 
   test.describe('Position with borrowed DAI', () => {
     const initialDeposits = {
@@ -35,8 +25,16 @@ test.describe('Repay dialog', () => {
     } as const
     const daiToBorrow = 3500
 
+    let testContext: TestContext<'connected-random'>
+    let repayDialog: DialogPageObject
+    let myPortfolioPage: MyPortfolioPageObject
+
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: {
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+          chain: mainnet,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -44,114 +42,72 @@ test.describe('Repay dialog', () => {
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.depositAssetsActions({ assetsToDeposit: initialDeposits, daiToBorrow })
       await borrowPage.viewInMyPortfolioAction()
-
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-      // @todo This waits for the refetch of the data after successful borrow transaction to happen.
-      // This is no ideal, probably we need to refactor expectDepositTable so it takes advantage from
-      // playwright's timeouts instead of parsing it's current state. Then we would be able to
-      // easily wait for the table to be updated.
+      repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
       await myPortfolioPage.expectAssetToBeInDepositTable('DAI')
     })
 
-    test('opens dialog with selected asset', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('opens dialog with selected asset', async () => {
       await myPortfolioPage.clickRepayButtonAction('DAI')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.expectSelectedAsset('DAI')
       await repayDialog.expectDialogHeader('Repay DAI')
       await repayDialog.expectHealthFactorBeforeVisible()
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-default-view')
     })
 
-    test('calculates health factor changes correctly when repaying part', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('calculates health factor changes correctly when repaying part', async () => {
       await myPortfolioPage.clickRepayButtonAction('DAI')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
-
       await repayDialog.expectRiskLevelBefore('Healthy')
-      await repayDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await repayDialog.expectHealthFactorBefore('10.09')
       await repayDialog.expectRiskLevelAfter('Healthy')
-      await repayDialog.expectHealthFactorAfter(expectedHealthFactor)
-
-      // @note this is needed for deterministic screenshots
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectEnabledActionAtIndex(0)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-health-factor-partial-repay')
+      await repayDialog.expectHealthFactorAfter('10.38')
     })
 
-    test('calculates health factor changes correctly when repaying all', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('calculates health factor changes correctly when repaying all', async () => {
       await myPortfolioPage.clickRepayButtonAction('DAI')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
-
       await repayDialog.expectRiskLevelBefore('Healthy')
-      await repayDialog.expectHealthFactorBefore(expectedInitialHealthFactor)
+      await repayDialog.expectHealthFactorBefore('10.09')
       await repayDialog.expectRiskLevelAfter('No debt')
       await repayDialog.expectHealthFactorAfter(String.fromCharCode(0x221e))
-
-      // @note this is needed for deterministic screenshots
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectEnabledActionAtIndex(0)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-health-factor-full-repay')
     })
 
-    test('after repay, health factor matches myPortfolio', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('after repay, health factor matches myPortfolio', async () => {
       await myPortfolioPage.clickRepayButtonAction('DAI')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
-
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
       await repayDialog.viewInMyPortfolioAction()
-      await myPortfolioPage.expectHealthFactor(expectedHealthFactor)
+      await myPortfolioPage.expectHealthFactor('10.38')
     })
 
-    test('has correct action plan for DAI', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
+    test('has correct action plan for DAI', async () => {
       await myPortfolioPage.clickRepayButtonAction('DAI')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(100)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([
+      await repayDialog.actionsContainer.expectActions([
         { type: 'approve', asset: 'DAI' },
         { type: 'repay', asset: 'DAI' },
       ])
     })
 
-    test('can repay DAI', async ({ page }) => {
+    test('can repay DAI', async () => {
       const repay = {
         asset: 'DAI',
         amount: 100,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({ tokenWithValue: [{ asset: 'DAI', amount: '100.00', usdValue: '$100.00' }] })
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectBorrowTable({
@@ -159,24 +115,19 @@ test.describe('Repay dialog', () => {
       })
     })
 
-    test('can fully repay DAI', async ({ page }) => {
+    test('can fully repay DAI', async () => {
       const repay = {
         asset: 'DAI',
         amount: 3500,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-dai-success')
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [{ asset: 'DAI', amount: '3,500.00', usdValue: '$3,500.00' }],
+      })
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectBorrowTable({
@@ -184,83 +135,62 @@ test.describe('Repay dialog', () => {
       })
     })
 
-    // @todo: doesn't work properly because of fixed date or something
-    test.skip('exact approvals are not required when repaying all', async ({ page }) => {
+    test('exact approvals are not required when repaying all', async ({ page }) => {
       const repay = {
         asset: 'DAI',
         amount: 3500,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
-
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      // (1) first approval with extra buffer
-      await actionsContainer.acceptActionAtIndex(0)
-      await actionsContainer.expectEnabledActionAtIndex(1)
+      await repayDialog.actionsContainer.acceptActionAtIndex(0)
+      await repayDialog.actionsContainer.expectEnabledActionAtIndex(1)
 
       await page.reload()
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
       await repayDialog.clickMaxAmountAction()
+      await repayDialog.actionsContainer.acceptActionAtIndex(1)
 
-      // exact amount of debt slightly increased but approval (1) has a buffer so it should be enough
-      // this should be rewrite to assert whole action plan and then accept
-      // await actionsContainer.acceptActionAtIndex(1, { type: 'repay', asset: repay.asset })
-      // await actionsContainer.acceptNextActionAction()
-
-      await repayDialog.expectSuccessPage([repay], fork)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [{ asset: 'DAI', amount: '3,500.00', usdValue: '$3,500.00' }],
+      })
     })
   })
 
   test.describe('Position when borrowed asset was not in user wallet before', () => {
-    const DAI_ADDRESS = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
-    const DAI_DECIMALS = 18
-
     const initialDeposits = {
       wstETH: 10,
     } as const
 
     const daiToBorrow = 10_000
-    const daiDebtIncreaseIn1Epoch = 1.0000029476774694 // hardcoded for DAI borrow rate 5.53%
-    const daiDebtIncreaseIn2Epochs = 1.0000058953636277 // hardcoded for DAI borrow rate 5.53%
+    const daiDebtIncreaseIn1Epoch = 1.0000067529 // hardcoded for DAI borrow rate 12.55%
+    const daiDebtIncreaseIn2Epochs = 1.000013502 // hardcoded for DAI borrow rate 12.55%
 
-    let account: Address
     let myPortfolioPage: MyPortfolioPageObject
     let repayDialog: DialogPageObject
-
-    async function overrideDaiBalance({ balance, page }: { balance: BaseUnitNumber; page: Page }): Promise<void> {
-      await tenderlyRpcActions.setTokenBalance(fork.forkUrl, DAI_ADDRESS, account, balance)
-      await page.reload()
-    }
+    let testContext: TestContext<'connected-random'>
 
     test.beforeEach(async ({ page }) => {
-      ;({ account } = await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: {
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+          chain: mainnet,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
           assetBalances: { wstETH: 10 },
         },
-      }))
+      })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositAssetsActions(initialDeposits, daiToBorrow)
+      const borrowPage = new BorrowPageObject(testContext)
+      await borrowPage.depositAssetsActions({ assetsToDeposit: initialDeposits, daiToBorrow })
       await borrowPage.viewInMyPortfolioAction()
 
-      myPortfolioPage = new MyPortfolioPageObject(page)
-      repayDialog = new DialogPageObject(page, headerRegExp)
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+      repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
 
-      await myPortfolioPage.expectHealthFactor('2.08')
-
-      // forcefully set browser time to the timestamp of borrow transaction
-      const publicClient = createPublicClient({
-        transport: http(fork.forkUrl),
-      })
-      const block = await publicClient.getBlock()
-      await injectFixedDate(page, new Date(Number(block.timestamp) * 1000))
-      await page.reload()
+      await myPortfolioPage.expectHealthFactor('3.73')
     })
 
     test('can repay if balance is less than debt', async ({ page }) => {
@@ -271,17 +201,18 @@ test.describe('Repay dialog', () => {
       } as const
 
       await overrideDaiBalance({
-        balance: BaseUnitNumber(NormalizedUnitNumber(newBalance).shiftedBy(DAI_DECIMALS)),
-        page,
+        balance: NormalizedUnitNumber(newBalance),
+        testContext,
       })
+      await page.reload()
 
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       await repayDialog.clickMaxAmountAction()
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [{ asset: 'DAI', amount: '9,000.00', usdValue: '$9,000.00' }],
+      })
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectNonZeroAmountInBorrowTable(repay.asset)
@@ -296,29 +227,28 @@ test.describe('Repay dialog', () => {
         asset: 'DAI',
         amount: daiToBorrow,
       } as const
-
       const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
       // newBalance = (daiToBorrow, daiDebtIn1Epoch) / 2 - a number somewhere between daiToBorrow and daiDebtIn1Epoch
-      const newBalance = BaseUnitNumber(daiDebtIn1Epoch.plus(daiToBorrow).div(2).shiftedBy(DAI_DECIMALS))
+      const newBalance = NormalizedUnitNumber(daiDebtIn1Epoch.plus(daiToBorrow).div(2))
       await overrideDaiBalance({
         balance: newBalance,
-        page,
+        testContext,
       })
+      await page.reload()
 
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
       await repayDialog.clickMaxAmountAction()
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage(
-        [
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [
           {
-            asset: repay.asset,
-            amount: daiToBorrow,
+            asset: 'DAI',
+            amount: '10,000.00',
+            usdValue: '$10,000.00',
           },
         ],
-        fork,
-      )
+      })
 
       await repayDialog.viewInMyPortfolioAction()
 
@@ -334,27 +264,26 @@ test.describe('Repay dialog', () => {
       const daiDebtIn1Epoch = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn1Epoch)
       const daiDebtIn2Epochs = NormalizedUnitNumber(daiToBorrow).times(daiDebtIncreaseIn2Epochs)
       // newBalance = (daiDebtIn1Epoch + daiDebtIn2Epochs) / 2 - a number somewhere between daiDebtIn1Epoch and daiDebtIn2Epochs
-      const newBalance = BaseUnitNumber(daiDebtIn2Epochs.plus(daiDebtIn1Epoch).div(2).shiftedBy(DAI_DECIMALS))
+      const newBalance = NormalizedUnitNumber(daiDebtIn2Epochs.plus(daiDebtIn1Epoch).div(2))
       await overrideDaiBalance({
         balance: newBalance,
-        page,
+        testContext,
       })
+      await page.reload()
 
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.clickMaxAmountAction()
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage(
-        [
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [
           {
-            asset: repay.asset,
-            amount: daiToBorrow,
+            asset: 'DAI',
+            amount: '10,000.00',
+            usdValue: '$10,000.00',
           },
         ],
-        fork,
-      )
+      })
 
       await repayDialog.viewInMyPortfolioAction()
 
@@ -379,8 +308,16 @@ test.describe('Repay dialog', () => {
       amount: 10,
     }
 
+    let testContext: TestContext<'connected-random'>
+    let repayDialog: DialogPageObject
+    let myPortfolioPage: MyPortfolioPageObject
+
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: {
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+          chain: mainnet,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -388,74 +325,60 @@ test.describe('Repay dialog', () => {
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositWithoutBorrowActions(initialDeposits) // deposit whole wallet balance
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+      repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
+
+      await borrowPage.depositWithoutBorrowActions({ assetsToDeposit: initialDeposits }) // deposit whole wallet balance
       await myPortfolioPage.goToMyPortfolioAction()
 
       // borrow wstETH and WETH
-      const borrowDialog = new DialogPageObject(page, /Borrow */)
-      const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+      const borrowDialog = new DialogPageObject({ testContext, header: /Borrow */ })
       // borrow wstETH
       await myPortfolioPage.clickBorrowButtonAction(wstETHBorrow.asset)
       await borrowDialog.fillAmountAction(wstETHBorrow.amount)
-      await borrowActionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
       // borrow WETH
       await myPortfolioPage.clickBorrowButtonAction(WETHBorrow.asset)
       await borrowDialog.fillAmountAction(WETHBorrow.amount)
-      await borrowActionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
     })
 
-    test('can change asset to aToken', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('can change asset to aToken', async () => {
       await myPortfolioPage.clickRepayButtonAction('wstETH')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
-      await repayDialog.selectAssetAction('awstETH')
-      await repayDialog.expectSelectedAsset('awstETH')
+      await repayDialog.selectAssetAction('spwstETH')
+      await repayDialog.expectSelectedAsset('spwstETH')
       await repayDialog.expectDialogHeader('Repay wstETH')
       await repayDialog.expectHealthFactorBeforeVisible()
     })
 
-    test('has correct action plan for repaying erc-20 using aToken', async ({ page }) => {
+    test('has correct action plan for repaying erc-20 using aToken', async () => {
       const repay = {
-        asset: 'awstETH',
+        asset: 'spwstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
       await myPortfolioPage.clickRepayButtonAction('wstETH')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction(repay.asset)
       await repayDialog.fillAmountAction(repay.amount)
-
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([{ type: 'repay', asset: repay.asset }])
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-atoken-action-plan')
+      await repayDialog.actionsContainer.expectActions([{ type: 'repay', asset: repay.asset }])
     })
 
-    test('can repay erc-20 using aToken', async ({ page }) => {
+    test('can repay erc-20 using aToken', async () => {
       const repay = {
-        asset: 'awstETH',
+        asset: 'spwstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
       await myPortfolioPage.clickRepayButtonAction('wstETH')
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction(repay.asset)
       await repayDialog.fillAmountAction(repay.amount)
-
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(1)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-atoken-success')
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(1)
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectBorrowTable({
@@ -463,68 +386,68 @@ test.describe('Repay dialog', () => {
       })
     })
 
-    test('has correct action plan for erc-20 repay with permits', async ({ page }) => {
+    test('can repay debt using native asset', async () => {
+      const repay = {
+        asset: 'ETH',
+        amount: 1,
+      } as const
+
+      await myPortfolioPage.clickRepayButtonAction('WETH')
+
+      await repayDialog.selectAssetAction(repay.asset)
+      await repayDialog.fillAmountAction(repay.amount)
+      await repayDialog.actionsContainer.acceptAllActionsAction(1)
+      await repayDialog.viewInMyPortfolioAction()
+
+      await myPortfolioPage.expectBorrowTable({
+        WETH: WETHBorrow.amount - repay.amount,
+      })
+    })
+
+    test('has correct action plan for erc-20 repay with permits', async () => {
       const repay = {
         asset: 'wstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.expectActions([
+      await repayDialog.actionsContainer.expectActions([
         { type: 'permit', asset: repay.asset },
         { type: 'repay', asset: repay.asset },
       ])
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-permit-action-plan')
     })
 
-    test('has correct action plan for erc-20 repay with approves', async ({ page }) => {
+    test('has correct action plan for erc-20 repay with approves', async () => {
       const repay = {
         asset: 'wstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.switchPreferPermitsAction()
-
+      await repayDialog.actionsContainer.switchPreferPermitsAction()
       await repayDialog.fillAmountAction(repay.amount)
-      await actionsContainer.expectActions([
+      await repayDialog.actionsContainer.expectActions([
         { type: 'approve', asset: repay.asset },
         { type: 'repay', asset: repay.asset },
       ])
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-approve-action-plan')
     })
 
-    test('can repay erc-20 using permits', async ({ page }) => {
+    test('can repay erc-20 using permits', async () => {
       const repay = {
         asset: 'wstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.fillAmountAction(repay.amount)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-erc20-success')
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [{ asset: 'wstETH', amount: '5.00', usdValue: '$23,327.32' }],
+      })
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectBorrowTable({
@@ -532,23 +455,20 @@ test.describe('Repay dialog', () => {
       })
     })
 
-    test('can repay erc-20 using approves', async ({ page }) => {
+    test('can repay erc-20 using approves', async () => {
       const repay = {
         asset: 'wstETH',
         amount: 5,
       } as const
 
-      const myPortfolioPage = new MyPortfolioPageObject(page)
-
       await myPortfolioPage.clickRepayButtonAction(repay.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
-      const actionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
-      await actionsContainer.switchPreferPermitsAction()
+      await repayDialog.actionsContainer.switchPreferPermitsAction()
       await repayDialog.fillAmountAction(repay.amount)
-      await actionsContainer.acceptAllActionsAction(2)
-      await repayDialog.expectSuccessPage([repay], fork)
-
+      await repayDialog.actionsContainer.acceptAllActionsAction(2)
+      await repayDialog.expectSuccessPage({
+        tokenWithValue: [{ asset: 'wstETH', amount: '5.00', usdValue: '$23,327.32' }],
+      })
       await repayDialog.viewInMyPortfolioAction()
 
       await myPortfolioPage.expectBorrowTable({
@@ -577,8 +497,16 @@ test.describe('Repay dialog', () => {
       amount: 10,
     }
 
+    let testContext: TestContext<'connected-random'>
+    let repayDialog: DialogPageObject
+    let myPortfolioPage: MyPortfolioPageObject
+
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: {
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+          chain: mainnet,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
@@ -586,107 +514,100 @@ test.describe('Repay dialog', () => {
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositWithoutBorrowActions(initialDeposits) // deposit whole wallet balance
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
+      repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+
+      await borrowPage.depositWithoutBorrowActions({ assetsToDeposit: initialDeposits }) // deposit whole wallet balance
       await myPortfolioPage.goToMyPortfolioAction()
 
       // borrow wstETH and WETH
-      const borrowDialog = new DialogPageObject(page, /Borrow */)
-      const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
+      const borrowDialog = new DialogPageObject({ testContext, header: /Borrow */ })
       // borrow wstETH
       await myPortfolioPage.clickBorrowButtonAction(wstETHBorrow.asset)
       await borrowDialog.fillAmountAction(wstETHBorrow.amount)
-      await borrowActionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
       // borrow WETH
       await myPortfolioPage.clickBorrowButtonAction(WETHBorrow.asset)
       await borrowDialog.fillAmountAction(WETHBorrow.amount)
       await borrowDialog.clickAcknowledgeRisk()
-      await borrowActionsContainer.acceptAllActionsAction(1)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(1)
       await borrowDialog.viewInMyPortfolioAction()
 
       // deposit wstETH to have balance not enough to later repay debt using wstETH
-      const depositDialog = new DialogPageObject(page, /Deposit */)
-      const depositActionsContainer = new ActionsPageObject(depositDialog.locatePanelByHeader('Actions'))
+      const depositDialog = new DialogPageObject({ testContext, header: /Deposit */ })
       await myPortfolioPage.clickDepositButtonAction(wstETHDeposit.asset)
       await depositDialog.fillAmountAction(wstETHDeposit.amount)
-      await depositActionsContainer.acceptAllActionsAction(2)
+      await depositDialog.actionsContainer.acceptAllActionsAction(2)
       await depositDialog.viewInMyPortfolioAction()
     })
 
-    test('cannot repay repay more than owe', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('cannot repay repay more than owe', async () => {
       await myPortfolioPage.clickRepayButtonAction(WETHBorrow.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
-      await repayDialog.expectHealthFactorBefore('2.03')
+      await repayDialog.expectHealthFactorBefore('2.05')
       await repayDialog.fillAmountAction(WETHBorrow.amount + 1)
       await repayDialog.expectAssetInputError(repayValidationIssueToMessage['exceeds-debt'])
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-more-than-owe')
     })
 
-    test('cannot repay more than wallet balance', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('cannot repay more than wallet balance', async () => {
       await myPortfolioPage.clickRepayButtonAction(wstETHBorrow.asset)
 
-      const repayDialog = new DialogPageObject(page, headerRegExp)
-      await repayDialog.expectHealthFactorBefore('2.03')
+      await repayDialog.expectHealthFactorBefore('2.05')
       await repayDialog.fillAmountAction(1)
       await repayDialog.expectAssetInputError(repayValidationIssueToMessage['exceeds-balance'])
-
-      await screenshot(repayDialog.getDialog(), 'repay-dialog-more-than-balance')
     })
   })
-
-  // @note Add tests when problem with native asset deposit is solved
-  test.describe('Position with native token debt', () => {})
 
   test.describe('Position with only deposit', () => {
     const initialDeposits = {
       wstETH: 10,
     } as const
 
+    let testContext: TestContext<'connected-random'>
+    let repayDialog: DialogPageObject
+    let myPortfolioPage: MyPortfolioPageObject
+
     test.beforeEach(async ({ page }) => {
-      await setup(page, fork, {
+      testContext = await setup(page, {
+        blockchain: {
+          blockNumber: DEFAULT_BLOCK_NUMBER,
+          chain: mainnet,
+        },
         initialPage: 'easyBorrow',
         account: {
           type: 'connected-random',
-          assetBalances: { ...initialBalances },
+          assetBalances: { ...initialBalances, ETH: 0 },
         },
       })
 
-      const borrowPage = new BorrowPageObject(page)
-      await borrowPage.depositWithoutBorrowActions(initialDeposits)
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+      const borrowPage = new BorrowPageObject(testContext)
+      myPortfolioPage = new MyPortfolioPageObject(testContext)
+      repayDialog = new DialogPageObject({ testContext, header: headerRegExp })
+
+      await borrowPage.depositWithoutBorrowActions({ assetsToDeposit: initialDeposits })
       await myPortfolioPage.goToMyPortfolioAction()
     })
 
-    test('nothing to repay', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('nothing to repay', async () => {
       await myPortfolioPage.expectBorrowedAssetsToBeEmpty()
-      await screenshot(page, 'repay-dialog-nothing-to-repay')
     })
 
-    test('when repaying native asset retain some in wallet', async ({ page }) => {
-      const myPortfolioPage = new MyPortfolioPageObject(page)
+    test('when repaying native asset retain some in wallet', async () => {
       await myPortfolioPage.clickBorrowButtonAction('WETH')
 
-      const borrowDialog = new DialogPageObject(page, /Borrow */)
+      const borrowDialog = new DialogPageObject({ testContext, header: /Borrow */ })
       await borrowDialog.selectAssetAction('ETH')
       await borrowDialog.fillAmountAction(5)
-      const borrowActionsContainer = new ActionsPageObject(borrowDialog.locatePanelByHeader('Actions'))
-      await borrowActionsContainer.acceptAllActionsAction(2)
+      await borrowDialog.actionsContainer.acceptAllActionsAction(2)
       await borrowDialog.viewInMyPortfolioAction()
       await myPortfolioPage.expectBorrowTable({ WETH: 5 })
 
       await myPortfolioPage.clickRepayButtonAction('WETH')
-      const repayDialog = new DialogPageObject(page, headerRegExp)
       await repayDialog.selectAssetAction('ETH')
-      const repayActionsContainer = new ActionsPageObject(repayDialog.locatePanelByHeader('Actions'))
       // wait for select to switch to ETH
-      await repayActionsContainer.expectActions([
+      await repayDialog.actionsContainer.expectActions([
         {
           type: 'repay',
           asset: 'ETH',
@@ -698,3 +619,12 @@ test.describe('Repay dialog', () => {
     })
   })
 })
+
+async function overrideDaiBalance({
+  balance,
+  testContext,
+}: { balance: NormalizedUnitNumber; testContext: TestContext<'connected-random'> }): Promise<void> {
+  const dai = TOKENS_ON_FORK[mainnet.id].DAI
+  const daiBalance = toBigInt(BaseUnitNumber(balance.shiftedBy(dai.decimals)))
+  return testContext.testnetController.client.setErc20Balance(dai.address, testContext.account, daiBalance)
+}

@@ -3,8 +3,8 @@ import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/Savin
 import { assets } from '@/ui/assets'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/atoms/accordion/Accordion'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
-import { MenuItem } from '@/ui/atoms/new/menu-item/MenuItem'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
+import { MenuItem } from '@/ui/atoms/menu-item/MenuItem'
 import { cn } from '@/ui/utils/style'
 import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -14,7 +14,7 @@ import { TopbarNavigationProps } from './TopbarNavigation'
 import { LINKS_DATA } from './constants'
 
 export function TopbarNavigationDialog({
-  savingsInfo,
+  savingsConverter,
   blockedPages,
   borrowSubLinks,
   isBorrowSubLinkActive,
@@ -43,8 +43,8 @@ export function TopbarNavigationDialog({
             prefixIcon={LINKS_DATA.savings.icon}
             type="savings"
             postfixSlot={
-              savingsInfo?.data || savingsInfo?.isLoading ? (
-                <SavingsAPYBadge APY={savingsInfo.data?.apy} isLoading={savingsInfo.isLoading} />
+              savingsConverter?.data || savingsConverter?.isLoading ? (
+                <SavingsAPYBadge APY={savingsConverter.data?.apy} isLoading={savingsConverter.isLoading} />
               ) : undefined
             }
             onClick={closeDialog}

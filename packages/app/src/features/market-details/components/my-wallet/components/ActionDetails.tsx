@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 interface ActionDetailsProps {
   label: string
@@ -9,12 +9,12 @@ interface ActionDetailsProps {
 
 export function ActionDetails({ label, token, value }: ActionDetailsProps) {
   return (
-    <div className="flex flex-col">
-      <p className="text-slate-500 text-xs leading-none">{label}</p>
-      <p className="text-base text-sky-950">
+    <div className="flex flex-col items-baseline">
+      <p className="typography-label-4 text-secondary">{label}</p>
+      <p className="typography-body-2 text-primary">
         {token.format(value, { style: 'auto' })} {token.symbol}
       </p>
-      <div className="text-slate-500 text-xs leading-none">{token.formatUSD(value)}</div>
+      <div className="typography-label-4 text-secondary">{token.formatUSD(value)}</div>
     </div>
   )
 }

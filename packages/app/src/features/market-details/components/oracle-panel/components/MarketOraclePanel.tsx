@@ -1,8 +1,8 @@
 import { MarketPriceOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { Info } from '@/ui/molecules/info/Info'
 import { testIds } from '@/ui/utils/testIds'
 import { ProvidersList } from './ProvidersList'
@@ -11,9 +11,9 @@ export function MarketOraclePanel({ providedBy, chainId, price, priceOracleAddre
   return (
     <Panel className="flex flex-col gap-4">
       <div>
-        <div className="typography-label-6 mb-1 text-secondary">Oracle type</div>
+        <div className="typography-label-4 mb-1 text-secondary">Oracle type</div>
         <div className="flex items-center gap-2">
-          <h3 className="typography-heading-5 text-primary">
+          <h3 className="typography-label-1 text-primary">
             Market Price {providedBy.length > 1 && <span className="text-secondary">(Redundant)</span>}
           </h3>
           <Info size={16}>

@@ -6,24 +6,27 @@ import {
   DropdownMenuItemIcon,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { links } from '@/ui/constants/links'
 import { BuildInfo } from '@/ui/utils/getBuildInfo'
 import { ExternalLinkIcon, MenuIcon, ScrollTextIcon, WandIcon } from 'lucide-react'
 import { useState } from 'react'
+import { SparkRewardsSummary } from '../../types'
 import { TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
 import { TopbarMenuAirdropItem } from './components/TopbarMenuAirdropItem'
 import { TopbarMenuRewardsItem } from './components/TopbarMenuRewardsItem'
+import { TopbarMenuSparkRewardsItem } from './components/TopbarMenuSparkRewardsItem'
 
 export interface TopbarMenuProps {
   onSandboxModeClick: () => void
   isInSandbox: boolean
   isMobileDisplay: boolean
   buildInfo: BuildInfo
+  sparkRewardsSummary: SparkRewardsSummary
   rewardsInfo: TopbarRewardsProps
   airdropInfo: TopbarAirdropProps
 }
@@ -33,6 +36,7 @@ export function TopbarMenu({
   onSandboxModeClick,
   buildInfo,
   isMobileDisplay,
+  sparkRewardsSummary,
   rewardsInfo,
   airdropInfo,
 }: TopbarMenuProps) {
@@ -49,8 +53,10 @@ export function TopbarMenu({
         <DialogContent overlayVariant="default" contentVerticalPosition="bottom" className="p-0">
           <DialogTitle className="border-primary border-b p-5 pt-6">Menu</DialogTitle>
 
+          {import.meta.env.VITE_DEV_SPARK_REWARDS === '1' && (
+            <TopbarMenuSparkRewardsItem {...sparkRewardsSummary} closeMenu={() => setOpen(false)} />
+          )}
           <TopbarMenuRewardsItem {...rewardsInfo} />
-
           <TopbarMenuAirdropItem {...airdropInfo} />
 
           <MenuItem
@@ -64,21 +70,26 @@ export function TopbarMenu({
               Sandbox Mode
               <Switch checked={isInSandbox} className="ml-auto" />
             </div>
-            <div className="typography-label-5 text-secondary">
+            <div className="typography-label-3 text-secondary">
               Explore Spark with <br />
               unlimited tokens
             </div>
           </MenuItem>
 
-          <MenuItem asChild variant="secondary" className="rounded-none p-6" withSeparator>
-            <Link to={links.termsOfUse} external className="!text-primary cursor-pointer">
+          <MenuItem asChild variant="secondary" className="cursor-pointer rounded-none p-6" withSeparator>
+            <Link to={links.termsOfUse} variant="unstyled" external>
               <MenuItemIcon icon={ScrollTextIcon} />
               Terms of Service
               <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
             </Link>
           </MenuItem>
 
-          <Link to={links.github} external className="typography-label-6 !text-secondary bg-secondary p-6 text-center">
+          <Link
+            to={links.github}
+            variant="unstyled"
+            external
+            className="typography-label-4 bg-secondary p-6 text-center text-secondary"
+          >
             Built from {sha} at {buildTime}
           </Link>
         </DialogContent>
@@ -104,21 +115,26 @@ export function TopbarMenu({
             Sandbox Mode
             <Switch checked={isInSandbox} className="ml-auto" />
           </div>
-          <div className="typography-label-5 text-secondary">
+          <div className="typography-label-3 text-secondary">
             Explore Spark with <br />
             unlimited tokens
           </div>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild variant="secondary" className="py-6">
-          <Link to={links.termsOfUse} external className="!text-primary cursor-pointer">
+        <DropdownMenuItem asChild variant="secondary" className="cursor-pointer py-6">
+          <Link to={links.termsOfUse} variant="unstyled" external>
             <DropdownMenuItemIcon icon={ScrollTextIcon} />
             Terms of Service
             <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
           </Link>
         </DropdownMenuItem>
 
-        <Link to={links.github} external className="typography-label-6 !text-secondary p-5 text-center">
+        <Link
+          to={links.github}
+          variant="unstyled"
+          external
+          className="typography-label-4 p-5 text-center text-secondary"
+        >
           Built from {sha} at {buildTime}
         </Link>
       </DropdownMenuContent>

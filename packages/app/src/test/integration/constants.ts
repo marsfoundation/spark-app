@@ -9,10 +9,11 @@ import {
   UserPosition,
   UserPositionSummary,
 } from '@/domain/market-info/marketInfo'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { zeroAddress } from 'viem'
 
 export const testAddresses = {
@@ -141,7 +142,7 @@ export function getMockReserve(overrides: Partial<Reserve> = {}): Reserve {
   return {
     token,
 
-    aToken: token.clone({ symbol: TokenSymbol('aWstETH') }),
+    aToken: token.clone({ symbol: TokenSymbol('spwstETH') }),
     variableDebtTokenAddress: CheckedAddress('0xd5c3E3B566a42A6110513Ac7670C1a86D76E13E6'),
 
     status: 'active',
@@ -425,6 +426,24 @@ export const wethLikeReserve = getMockReserve({
   },
 })
 
+export function getMockTokenRepository(): TokenRepository {
+  return new TokenRepository(
+    [
+      { token: testTokens.DAI, balance: NormalizedUnitNumber(2000) },
+      { token: testTokens.sDAI, balance: NormalizedUnitNumber(2000) },
+      { token: testTokens.USDS, balance: NormalizedUnitNumber(500) },
+      { token: testTokens.sUSDS, balance: NormalizedUnitNumber(150) },
+      { token: testTokens.USDC, balance: NormalizedUnitNumber(400) },
+    ],
+    {
+      DAI: testTokens.DAI.symbol,
+      sDAI: testTokens.sDAI.symbol,
+      USDS: testTokens.USDS.symbol,
+      sUSDS: testTokens.sUSDS.symbol,
+    },
+  )
+}
+
 export const testTokens = {
   DAI: daiLikeReserve.token,
   XDAI: daiLikeReserve.token.clone({
@@ -446,6 +465,13 @@ export const testTokens = {
     address: CheckedAddress('0xeA8AE08513f8230cAA8d031D28cB4Ac8CE720c68'),
     symbol: TokenSymbol('sUSDS'),
     name: 'sUSDS',
+    decimals: 18,
+    unitPriceUsd: '1.05',
+  }),
+  sUSDC: new Token({
+    address: CheckedAddress('0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE'),
+    symbol: TokenSymbol('sUSDC'),
+    name: 'sUSDC',
     decimals: 18,
     unitPriceUsd: '1.05',
   }),

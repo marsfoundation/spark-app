@@ -11,15 +11,14 @@ import { UserPositionSummary } from '@/domain/market-info/marketInfo'
 import { updatePositionSummary } from '@/domain/market-info/updatePositionSummary'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { Percentage } from '@/domain/types/NumericValues'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
-import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useRef, useState } from 'react'
+import { assert, Percentage, raise } from '@marsfoundation/common-universal'
+import { useCallback, useEffect, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useAccount } from 'wagmi'
 import { getBorrowableAssets, getDepositableAssets, imputeNativeAsset, sortByDecreasingBalances } from './assets'
@@ -61,7 +60,7 @@ export interface UseEasyBorrowResults {
   borrowDetails: BorrowDetails
   guestMode: boolean
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 
@@ -73,19 +72,18 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { aaveData } = useAaveDataLayer({ chainId })
   const { marketInfo } = useMarketInfo({ chainId })
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
-  const { extraTokens, daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
+  const { daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
   const { nativeAssetInfo, defaultAssetToBorrow } = markets ?? {}
   assert(
     nativeAssetInfo && defaultAssetToBorrow && daiSymbol,
     'Markets config and dai symbol are required for easy borrow',
   )
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'borrow' })
   const walletInfo = useMarketWalletInfo({ chainId })
 
-  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol })
+  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol, tokenRepository })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 
   const userPositions = imputeNativeAsset(marketInfo, nativeAssetInfo)
   const alreadyDeposited = useConditionalFreeze(
@@ -186,7 +184,8 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const borrowDetails = {
     dai: daiSymbol,
     usds: usdsSymbol,
-    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
+    borrowRate:
+      marketInfo.findOneReserveBySymbol(defaultAssetToBorrow.symbol).variableBorrowApy ?? raise('No borrow rate'),
     isUpgradingToUsds: formValues.borrows[0]?.token.symbol === usdsSymbol,
   }
 
@@ -197,11 +196,13 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     },
     [account.chainId],
   )
-  useEffect(() => {
-    if (pageStatus === 'confirmation') {
-      healthFactorPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+  const focusOnActionsPanel = useCallback((node: HTMLDivElement | null) => {
+    if (!node) {
+      return
     }
-  }, [pageStatus])
+    node.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
 
   function openSandboxModal(): void {
     openDialog(sandboxDialogConfig, { mode: 'ephemeral' } as const)
@@ -243,11 +244,11 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     borrowDetails,
     guestMode,
     openSandboxModal,
-    healthFactorPanelRef,
+    focusOnActionsPanel,
     riskAcknowledgement,
     actionsContext: {
       marketInfo,
-      tokensInfo,
+      tokenRepository,
     },
   }
 }

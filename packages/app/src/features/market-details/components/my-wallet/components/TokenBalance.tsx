@@ -1,7 +1,7 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 interface TokenBalanceProps {
   token: Token
@@ -11,13 +11,10 @@ interface TokenBalanceProps {
 export function TokenBalance({ token, balance }: TokenBalanceProps) {
   return (
     <div className="my-4 flex flex-col gap-1">
-      <p className="text-slate-500 text-xs">Balance:</p>
+      <p className="typography-label-4 text-secondary">Balance:</p>
       <div className="flex items-center">
         <TokenIcon token={token} className="mr-2 h-6 w-6" />
-        <p
-          className="font-semibold text-base text-sky-950 md:text-xl"
-          data-testid={testIds.marketDetails.walletPanel.balance}
-        >
+        <p className="typography-body-1 text-primary" data-testid={testIds.marketDetails.walletPanel.balance}>
           {token.format(balance, { style: 'auto' })} {token.symbol}
         </p>
       </div>

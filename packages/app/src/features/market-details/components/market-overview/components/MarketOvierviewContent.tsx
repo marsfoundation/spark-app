@@ -1,4 +1,4 @@
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ReactNode } from 'react'
 
 interface MarketOverviewContentProps {
@@ -6,5 +6,10 @@ interface MarketOverviewContentProps {
 }
 
 export function MarketOverviewContent({ children }: MarketOverviewContentProps) {
-  return <Panel className="grid gap-9">{children}</Panel>
+  return (
+    <Panel variant="secondary" className="flex flex-col items-center gap-10">
+      <h4 className="typography-heading-5 text-primary-inverse">Market Overview</h4>
+      {children}
+    </Panel>
+  )
 }

@@ -1,4 +1,3 @@
-import { join } from 'node:path'
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
@@ -13,43 +12,53 @@ export default {
     '.storybook/components/**/*.{ts,tsx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-    },
     extend: {
-      screens: {
-        // needs to be this way to not to break tailwind intellisense
-        ...require(join(__dirname, 'src/config/tailwind')).screensOverrides,
-      },
-      opacity: {
-        inactive: '0.3',
-      },
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-        roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
-      },
       textColor: {
         primary: {
           DEFAULT: 'rgb(var(--base-black))',
           inverse: 'rgb(var(--base-white))',
         },
-        secondary: 'rgb(var(--neutral-500))',
+        secondary: 'rgb(var(--neutral-600))',
         tertiary: 'rgb(var(--neutral-300))',
         brand: {
           primary: 'rgb(var(--primary-800))',
+          secondary: 'rgb(var(--primary-800))', // @todo: split primary and secondary
         },
         system: {
           success: {
             primary: 'rgb(var(--success-600))',
+            secondary: 'rgb(var(--success-700))',
           },
           warning: {
             primary: 'rgb(var(--warning-600))',
           },
           error: {
             primary: 'rgb(var(--error-700))',
+            secondary: 'rgb(var(--error-800))',
           },
         },
+        feature: {
+          savings: {
+            primary: 'rgb(var(--savings-500))',
+            secondary: 'rgb(var(--savings-600))',
+          },
+          borrow: {
+            primary: 'rgb(var(--borrow-500))',
+            secondary: 'rgb(var(--borrow-600))',
+          },
+          farms: {
+            primary: 'rgb(var(--farms-500))',
+            secondary: 'rgb(var(--farms-600))',
+          },
+        },
+      },
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        roobert: ['Roobert', ...defaultTheme.fontFamily.sans],
+      },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
       },
       outlineColor: {
         primary: 'rgb(var(--neutral-100))',
@@ -74,10 +83,6 @@ export default {
             primary: 'rgb(var(--error-500))',
             secondary: 'rgb(var(--error-600))',
           },
-          info: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
-          },
         },
         focus: 'rgb(var(--primary-200))',
       },
@@ -101,12 +106,8 @@ export default {
             secondary: 'rgb(var(--warning-600))',
           },
           error: {
-            primary: 'rgb(var(--error-500))',
-            secondary: 'rgb(var(--error-600))',
-          },
-          info: {
-            primary: 'rgb(var(--magenta-500))',
-            secondary: 'rgb(var(--magenta-600))',
+            primary: 'rgb(var(--error-600))',
+            secondary: 'rgb(var(--error-700))',
           },
         },
         focus: 'rgb(var(--primary-200))',
@@ -123,9 +124,10 @@ export default {
         tertiary: 'rgb(var(--neutral-100))',
         quaternary: 'rgb(var(--neutral-200))',
         brand: {
-          primary: 'rgb(var(--primary-100))',
-          secondary: 'rgb(var(--primary-200))',
-          tertiary: 'rgb(var(--primary-300))',
+          primary: 'rgb(var(--primary-50))',
+          secondary: 'rgb(var(--primary-100))',
+          tertiary: 'rgb(var(--primary-200))',
+          quaternary: 'rgb(var(--primary-300))',
         },
         system: {
           success: {
@@ -140,250 +142,161 @@ export default {
             primary: 'rgb(var(--error-100))',
             secondary: 'rgb(var(--error-200))',
           },
-          info: {
-            primary: 'rgb(var(--magenta-100))',
-            secondary: 'rgb(var(--magenta-200))',
-          },
         },
       },
       colors: {
-        reskin: {
-          base: {
-            white: 'rgb(var(--base-white))',
-            black: 'rgb(var(--base-black))',
-          },
-          neutral: {
-            DEFAULT: 'rgb(var(--neutral-500))',
-            50: 'rgb(var(--neutral-50))',
-            100: 'rgb(var(--neutral-100))',
-            200: 'rgb(var(--neutral-200))',
-            300: 'rgb(var(--neutral-300))',
-            400: 'rgb(var(--neutral-400))',
-            500: 'rgb(var(--neutral-500))',
-            600: 'rgb(var(--neutral-600))',
-            700: 'rgb(var(--neutral-700))',
-            800: 'rgb(var(--neutral-800))',
-            900: 'rgb(var(--neutral-900))',
-            950: 'rgb(var(--neutral-950))',
-          },
-          primary: {
-            DEFAULT: 'rgb(var(--primary-800))',
-            50: 'rgb(var(--primary-50))',
-            100: 'rgb(var(--primary-100))',
-            200: 'rgb(var(--primary-200))',
-            300: 'rgb(var(--primary-300))',
-            400: 'rgb(var(--primary-400))',
-            500: 'rgb(var(--primary-500))',
-            600: 'rgb(var(--primary-600))',
-            700: 'rgb(var(--primary-700))',
-            800: 'rgb(var(--primary-800))',
-            900: 'rgb(var(--primary-900))',
-            950: 'rgb(var(--primary-950))',
-          },
-          success: {
-            DEFAULT: 'rgb(var(--success-600))',
-            50: 'rgb(var(--success-50))',
-            100: 'rgb(var(--success-100))',
-            200: 'rgb(var(--success-200))',
-            300: 'rgb(var(--success-300))',
-            400: 'rgb(var(--success-400))',
-            500: 'rgb(var(--success-500))',
-            600: 'rgb(var(--success-600))',
-            700: 'rgb(var(--success-700))',
-            800: 'rgb(var(--success-800))',
-            900: 'rgb(var(--success-900))',
-            950: 'rgb(var(--success-950))',
-          },
-          warning: {
-            DEFAULT: 'rgb(var(--warning-600))',
-            50: 'rgb(var(--warning-50))',
-            100: 'rgb(var(--warning-100))',
-            200: 'rgb(var(--warning-200))',
-            300: 'rgb(var(--warning-300))',
-            400: 'rgb(var(--warning-400))',
-            500: 'rgb(var(--warning-500))',
-            600: 'rgb(var(--warning-600))',
-            700: 'rgb(var(--warning-700))',
-            800: 'rgb(var(--warning-800))',
-            900: 'rgb(var(--warning-900))',
-            950: 'rgb(var(--warning-950))',
-          },
-          error: {
-            DEFAULT: 'rgb(var(--error-700))',
-            50: 'rgb(var(--error-50))',
-            100: 'rgb(var(--error-100))',
-            200: 'rgb(var(--error-200))',
-            300: 'rgb(var(--error-300))',
-            400: 'rgb(var(--error-400))',
-            500: 'rgb(var(--error-500))',
-            600: 'rgb(var(--error-600))',
-            700: 'rgb(var(--error-700))',
-            800: 'rgb(var(--error-800))',
-            900: 'rgb(var(--error-900))',
-            950: 'rgb(var(--error-950))',
-          },
-          green: {
-            DEFAULT: 'rgb(var(--green-600))',
-            50: 'rgb(var(--green-50))',
-            100: 'rgb(var(--green-100))',
-            200: 'rgb(var(--green-200))',
-            300: 'rgb(var(--green-300))',
-            400: 'rgb(var(--green-400))',
-            500: 'rgb(var(--green-500))',
-            600: 'rgb(var(--green-600))',
-            700: 'rgb(var(--green-700))',
-            800: 'rgb(var(--green-800))',
-            900: 'rgb(var(--green-900))',
-            950: 'rgb(var(--green-950))',
-          },
-          orange: {
-            DEFAULT: 'rgb(var(--orange-600))',
-            50: 'rgb(var(--orange-50))',
-            100: 'rgb(var(--orange-100))',
-            200: 'rgb(var(--orange-200))',
-            300: 'rgb(var(--orange-300))',
-            400: 'rgb(var(--orange-400))',
-            500: 'rgb(var(--orange-500))',
-            600: 'rgb(var(--orange-600))',
-            700: 'rgb(var(--orange-700))',
-            800: 'rgb(var(--orange-800))',
-            900: 'rgb(var(--orange-900))',
-            950: 'rgb(var(--orange-950))',
-          },
-          magenta: {
-            DEFAULT: 'rgb(var(--magenta-600))',
-            50: 'rgb(var(--magenta-50))',
-            100: 'rgb(var(--magenta-100))',
-            200: 'rgb(var(--magenta-200))',
-            300: 'rgb(var(--magenta-300))',
-            400: 'rgb(var(--magenta-400))',
-            500: 'rgb(var(--magenta-500))',
-            600: 'rgb(var(--magenta-600))',
-            700: 'rgb(var(--magenta-700))',
-            800: 'rgb(var(--magenta-800))',
-            900: 'rgb(var(--magenta-900))',
-            950: 'rgb(var(--magenta-950))',
-          },
-          page: {
-            savings: 'rgb(var(--page-savings))',
-            borrow: 'rgb(var(--page-borrow))',
-            farms: 'rgb(var(--page-farms))',
-          },
-          fg: {
-            primary: {
-              DEFAULT: 'rgb(var(--neutral-950))',
-              inverse: 'rgb(var(--neutral-50))',
-            },
-            secondary: {
-              DEFAULT: 'rgb(var(--neutral-800))',
-              inverse: 'rgb(var(--neutral-200))',
-            },
-            tertiary: 'rgb(var(--neutral-600))',
-            quaternary: 'rgb(var(--neutral-500))',
-            brand: {
-              primary: 'rgb(var(--primary-500))',
-              secondary: 'rgb(var(--primary-600))',
-              tertiary: 'rgb(var(--primary-700))',
-              quaternary: 'rgb(var(--primary-800))',
-            },
-            system: {
-              success: {
-                primary: 'rgb(var(--success-500))',
-                secondary: 'rgb(var(--success-600))',
-              },
-              warning: {
-                primary: 'rgb(var(--warning-500))',
-                secondary: 'rgb(var(--warning-600))',
-              },
-              error: {
-                primary: 'rgb(var(--error-500))',
-                secondary: 'rgb(var(--error-600))',
-              },
-              info: {
-                primary: 'rgb(var(--magenta-500))',
-                secondary: 'rgb(var(--magenta-600))',
-              },
-            },
-          },
-          alpha: {
-            dialog: 'color-mix(in srgb, rgb(var(--base-black)) 40%, transparent)',
-            overlay: 'color-mix(in srgb, rgb(var(--neutral-100)) 30%, transparent)',
-          },
+        base: {
+          white: 'rgb(var(--base-white))',
+          black: 'rgb(var(--base-black))',
         },
-        basics: {
-          black: 'rgb(var(--basics-black))',
-          white: 'rgb(var(--basics-white))',
-          green: 'rgb(var(--basics-green))',
-          red: 'rgb(var(--basics-red))',
-          border: 'var(--basics-border)',
-          'dark-grey': 'rgb(var(--basics-dark-grey))',
-          grey: 'rgb(var(--basics-grey))',
-          'light-grey': 'rgb(var(--basics-light-grey))',
+        neutral: {
+          DEFAULT: 'rgb(var(--neutral-500))',
+          50: 'rgb(var(--neutral-50))',
+          100: 'rgb(var(--neutral-100))',
+          200: 'rgb(var(--neutral-200))',
+          300: 'rgb(var(--neutral-300))',
+          400: 'rgb(var(--neutral-400))',
+          500: 'rgb(var(--neutral-500))',
+          600: 'rgb(var(--neutral-600))',
+          700: 'rgb(var(--neutral-700))',
+          800: 'rgb(var(--neutral-800))',
+          900: 'rgb(var(--neutral-900))',
+          950: 'rgb(var(--neutral-950))',
         },
-        main: {
-          blue: 'rgb(var(--main-blue))',
-        },
-        sec: {
-          green: 'rgb(var(--sec-green))',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        body: 'hsl(var(--body-background))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: 'var(--primary)',
-          bg: 'hsl(var(--primary-bg))',
-          foreground: 'hsl(var(--primary-foreground))',
-          hover: 'hsl(var(--primary-hover))',
+          DEFAULT: 'rgb(var(--primary-800))',
+          50: 'rgb(var(--primary-50))',
+          100: 'rgb(var(--primary-100))',
+          200: 'rgb(var(--primary-200))',
+          300: 'rgb(var(--primary-300))',
+          400: 'rgb(var(--primary-400))',
+          500: 'rgb(var(--primary-500))',
+          600: 'rgb(var(--primary-600))',
+          700: 'rgb(var(--primary-700))',
+          800: 'rgb(var(--primary-800))',
+          900: 'rgb(var(--primary-900))',
+          950: 'rgb(var(--primary-950))',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+        success: {
+          DEFAULT: 'rgb(var(--success-600))',
+          100: 'rgb(var(--success-100))',
+          200: 'rgb(var(--success-200))',
+          300: 'rgb(var(--success-300))',
+          400: 'rgb(var(--success-400))',
+          500: 'rgb(var(--success-500))',
+          600: 'rgb(var(--success-600))',
+          700: 'rgb(var(--success-700))',
+          800: 'rgb(var(--success-800))',
+          900: 'rgb(var(--success-900))',
+          950: 'rgb(var(--success-950))',
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+        warning: {
+          DEFAULT: 'rgb(var(--warning-600))',
+          100: 'rgb(var(--warning-100))',
+          200: 'rgb(var(--warning-200))',
+          300: 'rgb(var(--warning-300))',
+          400: 'rgb(var(--warning-400))',
+          500: 'rgb(var(--warning-500))',
+          600: 'rgb(var(--warning-600))',
+          700: 'rgb(var(--warning-700))',
+          800: 'rgb(var(--warning-800))',
+          900: 'rgb(var(--warning-900))',
+          950: 'rgb(var(--warning-950))',
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+        error: {
+          DEFAULT: 'rgb(var(--error-700))',
+          100: 'rgb(var(--error-100))',
+          200: 'rgb(var(--error-200))',
+          300: 'rgb(var(--error-300))',
+          400: 'rgb(var(--error-400))',
+          500: 'rgb(var(--error-500))',
+          600: 'rgb(var(--error-600))',
+          700: 'rgb(var(--error-700))',
+          800: 'rgb(var(--error-800))',
+          900: 'rgb(var(--error-900))',
+          950: 'rgb(var(--error-950))',
         },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+        savings: {
+          DEFAULT: 'rgb(var(--savings-600))',
+          100: 'rgb(var(--savings-100))',
+          200: 'rgb(var(--savings-200))',
+          300: 'rgb(var(--savings-300))',
+          400: 'rgb(var(--savings-400))',
+          500: 'rgb(var(--savings-500))',
+          600: 'rgb(var(--savings-600))',
+          700: 'rgb(var(--savings-700))',
+          800: 'rgb(var(--savings-800))',
+          900: 'rgb(var(--savings-900))',
+          950: 'rgb(var(--savings-950))',
         },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+        borrow: {
+          DEFAULT: 'rgb(var(--borrow-600))',
+          100: 'rgb(var(--borrow-100))',
+          200: 'rgb(var(--borrow-200))',
+          300: 'rgb(var(--borrow-300))',
+          400: 'rgb(var(--borrow-400))',
+          500: 'rgb(var(--borrow-500))',
+          600: 'rgb(var(--borrow-600))',
+          700: 'rgb(var(--borrow-700))',
+          800: 'rgb(var(--borrow-800))',
+          900: 'rgb(var(--borrow-900))',
+          950: 'rgb(var(--borrow-950))',
         },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        farms: {
+          DEFAULT: 'rgb(var(--farms-600))',
+          50: 'rgb(var(--farms-50))',
+          100: 'rgb(var(--farms-100))',
+          200: 'rgb(var(--farms-200))',
+          300: 'rgb(var(--farms-300))',
+          400: 'rgb(var(--farms-400))',
+          500: 'rgb(var(--farms-500))',
+          600: 'rgb(var(--farms-600))',
+          700: 'rgb(var(--farms-700))',
+          800: 'rgb(var(--farms-800))',
+          900: 'rgb(var(--farms-900))',
+          950: 'rgb(var(--farms-950))',
         },
-        nav: {
-          primary: 'rgb(var(--nav-primary))',
+        page: {
+          savings: 'rgb(var(--page-savings))',
+          borrow: 'rgb(var(--page-borrow))',
+          farms: 'rgb(var(--page-farms))',
         },
-        panel: {
-          border: 'var(--panel-border)',
-          bg: 'var(--panel-bg)',
+        fg: {
+          primary: {
+            DEFAULT: 'rgb(var(--neutral-950))',
+            inverse: 'rgb(var(--neutral-50))',
+          },
+          secondary: {
+            DEFAULT: 'rgb(var(--neutral-800))',
+            inverse: 'rgb(var(--neutral-200))',
+          },
+          tertiary: 'rgb(var(--neutral-600))',
+          quaternary: 'rgb(var(--neutral-500))',
+          brand: {
+            primary: 'rgb(var(--primary-500))',
+            secondary: 'rgb(var(--primary-600))',
+            tertiary: 'rgb(var(--primary-700))',
+            quaternary: 'rgb(var(--primary-800))',
+          },
+          system: {
+            success: {
+              primary: 'rgb(var(--success-500))',
+              secondary: 'rgb(var(--success-600))',
+            },
+            warning: {
+              primary: 'rgb(var(--warning-500))',
+              secondary: 'rgb(var(--warning-600))',
+            },
+            error: {
+              primary: 'rgb(var(--error-600))',
+              secondary: 'rgb(var(--error-700))',
+            },
+          },
         },
-        'input-background': 'var(--input-background)',
-        'icon-foreground': 'rgb(var(--icon-foreground))',
-        'product-blue': 'rgb(var(--product-blue))',
-        'product-green': 'rgb(var(--product-green))',
-        'product-orange': 'rgb(var(--product-orange))',
-        'product-red': 'rgb(var(--product-red))',
-        'product-dai': 'rgb(var(--product-dai))',
-        'product-sdai': 'rgb(var(--product-sdai))',
-        'prompt-foreground': 'var(--prompt-foreground)',
-        'success-background': 'var(--success-background)',
-        spark: 'rgb(var(--spark))',
-        checkbox: 'var(--checkbox)',
-        error: 'rgb(var(--product-red))',
-        'light-blue': 'rgb(var(--nav-primary))',
-        'product-dark-blue': 'rgb(var(--product-dark-blue))',
+        alpha: {
+          dialog: 'color-mix(in srgb, rgb(var(--base-black)) 40%, transparent)',
+          overlay: 'color-mix(in srgb, rgb(var(--neutral-100)) 30%, transparent)',
+        },
       },
       backgroundImage: {
         // gradients
@@ -403,19 +316,23 @@ export default {
           'linear-gradient(125deg, #FFF 19.84%, #8CDB8B 40.17%, #00C2A1 64.6%)',
         'gradient-savings-opportunity-button': 'linear-gradient(105deg, #43E26B, #10B73D)',
         'gradient-borrow-rate-orange': 'linear-gradient(89.87deg, #FFFFFF 0.14%, #FFE6A4 50.03%, #FF895D 99.92%)',
+        'gradient-farms-1': 'linear-gradient(89.84deg, #FFFFFF -2.08%, #FFB5B5 48.92%, #FA43BD 99.92%)',
+        'gradient-farms-2': 'linear-gradient(270deg, #FA43BD -47.6%, #F5F5FA 102.16%)',
+        'gradient-farms-3': 'linear-gradient(89.84deg, #FA43BD -2.08%, #FFB5B5 48.92%, #FFFFFF 99.92%)',
+        'gradient-spark-rewards-1': 'linear-gradient(351deg, #5823F3 -2.08%, #61A8FF 86.76%)',
+        'gradient-spark-rewards-2':
+          'linear-gradient(90deg, rgba(88, 35, 243, 0.10) -23.03%, rgba(97, 168, 255, 0.10) 100%)',
         // backgrounds with images
         'sdai-token-panel': 'url(/src/ui/assets/savings/sdai-token-panel-bg.svg), linear-gradient(#101014, #101014)',
         'susds-token-panel': 'url(/src/ui/assets/savings/susds-token-panel-bg.svg), linear-gradient(#101014, #101014)',
+        'active-farm-panel': 'url(/src/ui/assets/savings/active-farm-panel-bg.svg), linear-gradient(#101014, #101014)',
         'savings-opportunity-panel': 'url(/src/ui/assets/savings/savings-opportunity-panel-bg.svg)',
+        'farm-cta-panel': 'url(/src/ui/assets/farms/farm-cta-panel-bg.svg)',
         'dai-upgrade': 'url(/src/ui/assets/savings/dai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'sdai-upgrade': 'url(/src/ui/assets/savings/sdai-upgrade-bg.svg), linear-gradient(#101014, #101014)',
         'savings-welcome': 'url(/src/ui/assets/savings/savings-welcome-bg.svg)',
         'connect-wallet-cta':
           'url(/src/ui/assets/banners/connect-wallet-cta-bg.svg), linear-gradient(#101014, #101014)',
-      },
-      fontWeight: {
-        regular: '400',
-        medium: '500',
       },
       boxShadow: {
         nav: '0px 20px 40px 0px var(--nav-shadow)',
@@ -499,32 +416,32 @@ export default {
     plugin(({ addUtilities, theme }) => {
       addUtilities({
         '.typography-display-1': {
-          fontSize: '2.375rem', // 38px
-          lineHeight: '2.375rem', // 38px
+          fontSize: '4.5rem', // 72px
+          lineHeight: '4.5rem', // 72px
           letterSpacing: 'calc(-2 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-display-2': {
-          fontSize: '1.875rem', // 30px
-          lineHeight: '1.875rem', // 30px
+          fontSize: '3.5rem', // 56px
+          lineHeight: '3.5rem', // 56px
           letterSpacing: 'calc(-2 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-display-3': {
-          fontSize: '1.5rem', // 24px
-          lineHeight: '1.5rem', // 24px
+          fontSize: '3rem', // 48px
+          lineHeight: '3.75rem', // 60px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-heading-1': {
-          fontSize: '2.625rem', // 42px
-          lineHeight: '3rem', // 48px
+          fontSize: '2.25rem', // 36px
+          lineHeight: '2.625rem', // 42px
           letterSpacing: 'calc(-1 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
@@ -562,130 +479,82 @@ export default {
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.typography-heading-6': {
-          fontSize: '0.875rem', // 14px
-          lineHeight: '1rem', // 20px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-heading-7': {
-          fontSize: '0.75rem', // 12px
-          lineHeight: '0.875rem', // 14px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
         '.typography-body-1': {
-          fontSize: '1.25rem', // 20px
-          lineHeight: '1.875rem', // 30px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          fontSize: '1rem', // 16px
+          lineHeight: '1.5rem', // 24px
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
 
         '.typography-body-2': {
-          fontSize: '1.125rem', // 18px
-          lineHeight: '1.75rem', // 28px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1.25rem', // 20px
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
 
         '.typography-body-3': {
-          fontSize: '1rem', // 16px
-          lineHeight: '1.5rem', // 24px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1.125rem', // 18px
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
 
         '.typography-body-4': {
-          fontSize: '0.875rem', // 14px
-          lineHeight: '1.25rem', // 20px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '400',
-          fontFamily: theme('fontFamily.sans'),
-        },
-
-        '.typography-body-5': {
           fontSize: '0.75rem', // 12px
           lineHeight: '1.125rem', // 18px
-          letterSpacing: 'calc(-1 * 0.01em)',
-          fontWeight: '400',
-          fontFamily: theme('fontFamily.sans'),
-        },
-
-        '.typography-body-6': {
-          fontSize: '0.625rem', // 10px
-          lineHeight: '0.875rem', // 14px
-          letterSpacing: 'calc(-1 * 0.01em)',
+          letterSpacing: '0px',
           fontWeight: '400',
           fontFamily: theme('fontFamily.sans'),
         },
 
         // @todo update typography below when added
         '.typography-label-1': {
-          fontSize: '1.5rem',
-          lineHeight: '1.75rem',
-          letterSpacing: 'calc(-1 * 0.01em)',
+          fontSize: '1rem', // 16px
+          lineHeight: '1.125rem', // 18px
+          letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-label-2': {
-          fontSize: '1.25rem',
-          lineHeight: '1.5rem',
-          letterSpacing: 'calc(-1 * 0.01em)',
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1rem', // 16px
+          letterSpacing: 'calc(-0.5 * 0.01em)',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-label-3': {
-          fontSize: '1.125rem',
-          lineHeight: '1.375rem',
-          letterSpacing: 'calc(-0.5 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-label-4': {
-          fontSize: '1rem',
-          lineHeight: '1.125rem',
-          letterSpacing: 'calc(-0.5 * 0.01em)',
-          fontWeight: '500',
-          fontFamily: theme('fontFamily.roobert'),
-        },
-
-        '.typography-label-5': {
-          fontSize: '0.875rem',
-          lineHeight: '1rem',
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1rem', // 16px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
-        '.typography-label-6': {
-          fontSize: '0.75rem',
-          lineHeight: '1rem',
+        '.typography-label-4': {
+          fontSize: '0.75rem', // 12px
+          lineHeight: '1rem', // 16px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-button-1': {
-          fontSize: '1rem',
-          lineHeight: '1.25rem',
+          fontSize: '1rem', // 16px
+          lineHeight: '1.25rem', // 20px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
         },
 
         '.typography-button-2': {
-          fontSize: '0.875rem',
-          lineHeight: '1rem',
+          fontSize: '0.875rem', // 14px
+          lineHeight: '1rem', // 16px
           letterSpacing: '0px',
           fontWeight: '500',
           fontFamily: theme('fontFamily.roobert'),
@@ -733,61 +602,41 @@ export default {
           },
 
           '.typography-body-1': {
-            fontSize: '1.5rem', // 24px
-            lineHeight: '2.25rem', // 36px
-          },
-
-          '.typography-body-2': {
-            fontSize: '1.25rem', // 20px
-            lineHeight: '1.875rem', // 30px
-          },
-
-          '.typography-body-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.75rem', // 28px
           },
 
-          '.typography-body-4': {
+          '.typography-body-2': {
             fontSize: '1rem', // 16px
             lineHeight: '1.5rem', // 24px
           },
 
-          '.typography-body-5': {
+          '.typography-body-3': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1.25rem', // 20px
           },
 
-          '.typography-body-6': {
+          '.typography-body-4': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1.125rem', // 18px
           },
 
           '.typography-label-1': {
-            fontSize: '1.5rem', // 24px
-            lineHeight: '1.75rem', // 28px
-          },
-
-          '.typography-label-2': {
-            fontSize: '1.25rem', // 20px
-            lineHeight: '1.5rem', // 24px
-          },
-
-          '.typography-label-3': {
             fontSize: '1.125rem', // 18px
             lineHeight: '1.375rem', // 22px
           },
 
-          '.typography-label-4': {
+          '.typography-label-2': {
             fontSize: '1rem', // 16px
             lineHeight: '1.125rem', // 18px
           },
 
-          '.typography-label-5': {
+          '.typography-label-3': {
             fontSize: '0.875rem', // 14px
             lineHeight: '1rem', // 16px
           },
 
-          '.typography-label-6': {
+          '.typography-label-4': {
             fontSize: '0.75rem', // 12px
             lineHeight: '1rem', // 16px
           },
@@ -815,7 +664,6 @@ export default {
           lineHeight: '100%',
         },
 
-        // needed to override the default line heights
         '@screen sm': {
           '.leading-spacious': {
             lineHeight: '150%',
@@ -845,6 +693,33 @@ export default {
         '.icon-md': {
           width: '24px',
           height: '24px',
+        },
+      })
+
+      addUtilities({
+        '.icon-primary': {
+          color: 'rgb(var(--base-black))',
+        },
+        '.icon-primary-inverse': {
+          color: 'rgb(var(--base-white))',
+        },
+        '.icon-secondary': {
+          color: 'rgb(var(--neutral-500))',
+        },
+        '.icon-tertiary': {
+          color: 'rgb(var(--neutral-300))',
+        },
+        '.icon-brand-primary': {
+          color: 'rgb(var(--primary-700))',
+        },
+        '.icon-brand-secondary': {
+          color: 'rgb(var(--primary-800))',
+        },
+        '.icon-system-success-primary': {
+          color: 'rgb(var(--success-600))',
+        },
+        '.icon-system-success-secondary': {
+          color: 'rgb(var(--success-700))',
         },
       })
     }),

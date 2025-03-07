@@ -1,10 +1,10 @@
 import { formatGwei } from 'viem'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export function formatGasPrice(gasPrice: NormalizedUnitNumber): string {
-  const formattedGwei = formatGwei(toBigInt(gasPrice.shiftedBy(18)))
+  const formattedGwei = formatGwei(toBigInt(NormalizedUnitNumber.toBaseUnit(gasPrice, 18)))
   const formatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
   })

@@ -1,10 +1,11 @@
 import { farmAddresses } from '@/config/chain/constants'
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { mainnet } from 'viem/chains'
 import { InactiveFarmInfoPanel } from './InactiveFarmInfoPanel'
 
@@ -33,7 +34,7 @@ const mockFarm: Farm = {
 const meta: Meta<typeof InactiveFarmInfoPanel> = {
   title: 'Features/FarmDetails/Components/FarmInfoPanel/InactiveFarmInfoPanel',
   component: InactiveFarmInfoPanel,
-  decorators: [WithClassname('max-w-lg'), WithTooltipProvider()],
+  decorators: [WithClassname('max-w-lg'), WithTooltipProvider(), withRouter],
   args: {
     assetsGroupType: 'stablecoins',
     farm: mockFarm,

@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 
 // @note: only allowed value here is 'true' a function or nested object
 // actual value of data test id (string) is generated based on a path in the object tree
@@ -34,11 +34,13 @@ export const testIds = makeTestIds({
       explanation: true,
     },
     EModeButton: true,
+    EModeBadge: true,
     SuccessViewContent: true,
     AddressInput: {
       input: true,
       error: true,
     },
+    ConvertStablesPanel: true,
     ConvertStablesButton: true,
     SwitchNotSupportedNetworkButton: true,
     ConnectOrSandboxCTAPanel: true,
@@ -65,29 +67,30 @@ export const testIds = makeTestIds({
     },
   },
   savings: {
-    sDaiBalance: true,
-    sDaiBalanceInDai: true,
+    navigation: {
+      container: true,
+      item: true,
+      itemLabel: true,
+      itemBalance: true,
+    },
     upgradeSDaiBanner: true,
-    stablecoinsAmount: true,
-    stablecoinsInWallet: {
-      upgradeDaiToUsds: true,
-      upgradeDaiToUsdsCell: true,
+    supportedStablecoins: {
       moreDropdown: true,
-      downgradeUsdsToDai: true,
     },
-    opportunity: {
-      panel: true,
-      savingsRate: true,
-    },
-    sdai: {
-      panel: true,
-      balance: true,
-      balanceInAsset: true,
-    },
-    susds: {
-      panel: true,
-      balance: true,
-      balanceInAsset: true,
+    account: {
+      depositCTA: {
+        panel: true,
+        apy: true,
+      },
+      mainPanel: {
+        container: true,
+        apy: true,
+        oneYearProjection: true,
+      },
+      savingsToken: {
+        balance: true,
+        balanceInUnderlyingToken: true,
+      },
     },
   },
   dialog: {
@@ -204,6 +207,7 @@ export const testIds = makeTestIds({
       cap: true,
       maxCap: true,
       cooldownTimer: true,
+      borrowLiquidity: true,
     },
     oraclePanel: {
       asset: true,
@@ -287,6 +291,11 @@ export const testIds = makeTestIds({
       claimButton: true,
       staked: true,
       pointsSyncWarning: true,
+    },
+  },
+  sparkRewards: {
+    activeRewardsPanel: {
+      amountToClaim: true,
     },
   },
 })

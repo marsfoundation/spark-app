@@ -2,8 +2,9 @@ import { BigNumber } from 'bignumber.js'
 
 import { TokenWithValue } from '@/domain/common/types'
 import { MarketInfo, UserPosition } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { times } from 'remeda'
 
 import { PositionSummary } from './types'
 
@@ -34,7 +35,7 @@ export function getTicks({
   const maxTickValue = totalCollateralUSD.gt(0) ? totalCollateralUSD : xAxisFallbackMax
 
   const numTicks = (numLabels - 1) * ticksPerLabel + 1
-  const ticks = Array.from({ length: numTicks }).map((_, i) => {
+  const ticks = times(numTicks, (i) => {
     const x = (i / (numTicks - 1)) * 100
 
     const label = USD_MOCK_TOKEN.format(NormalizedUnitNumber(maxTickValue.dividedBy(numTicks - 1).multipliedBy(i)), {

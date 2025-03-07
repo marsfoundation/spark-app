@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 
 import { EModeCategoryName } from '@/domain/e-mode/types'
-import { Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface PositionOverview {
   healthFactor: BigNumber | undefined

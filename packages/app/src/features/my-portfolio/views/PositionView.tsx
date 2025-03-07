@@ -1,10 +1,9 @@
 import { EModeCategoryId } from '@/domain/e-mode/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { PageLayout } from '@/ui/layouts/PageLayout'
-
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { HealthFactorPanelContent } from '@/ui/molecules/new/health-factor-panel-content/HealthFactorPanelContent'
+import { HealthFactorPanelContent } from '@/ui/molecules/health-factor-panel-content/HealthFactorPanelContent'
 import { BorrowTable } from '../components/borrow-table/BorrowTable'
 import { CreatePositionPanel } from '../components/create-position-panel/CreatePositionPanel'
 import { DepositTable } from '../components/deposit-table/DepositTable'
@@ -46,7 +45,7 @@ export function PositionView({
           <DepositTable assets={deposits} openDialog={openDialog} />
           <BorrowTable assets={borrows} eModeCategoryId={eModeCategoryId} openDialog={openDialog} />
         </div>
-        <div className="order-1 flex flex-col gap-6 xl:order-2 xl:flex md:grid md:grid-cols-2 xl:flex-col">
+        <div className="order-1 flex flex-col gap-6 md:grid md:grid-cols-2 xl:order-2 xl:flex xl:flex-col">
           <Panel variant="secondary">
             <HealthFactorPanelContent hf={hf} liquidationDetails={liquidationDetails} />
           </Panel>

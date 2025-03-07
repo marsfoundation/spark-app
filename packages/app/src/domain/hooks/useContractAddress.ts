@@ -1,8 +1,6 @@
+import { CheckedAddress, raise } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
-
-import { raise } from '@/utils/assert'
 import { useStore } from '../state'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { getOriginChainId, useOriginChainId } from './useOriginChainId'
 
 export function getOptionalContractAddress(

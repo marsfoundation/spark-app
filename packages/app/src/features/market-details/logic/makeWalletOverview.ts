@@ -3,10 +3,9 @@ import { getBorrowMaxValue } from '@/domain/action-max-value-getters/getBorrowMa
 import { getDepositMaxValue } from '@/domain/action-max-value-getters/getDepositMaxValue'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
 import { getValidateBorrowArgs, validateBorrow } from '@/domain/market-validators/validateBorrow'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { applyTransformers } from '@/utils/applyTransformers'
-import { assert } from '@/utils/assert'
+import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WalletOverview } from '../types'
 
 export interface MakeWalletOverviewParams {

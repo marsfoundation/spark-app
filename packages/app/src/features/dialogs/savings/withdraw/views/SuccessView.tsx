@@ -28,7 +28,7 @@ export function SuccessView({ tokenToWithdraw, closeDialog, sendModeExtension }:
             <SuccessViewPanelTitle>Recipient</SuccessViewPanelTitle>
             <BlockExplorerAddressLink
               address={sendModeExtension.receiver}
-              className="typography-label-4 text-primary"
+              className="typography-label-2 text-primary"
             />
           </>
         )}

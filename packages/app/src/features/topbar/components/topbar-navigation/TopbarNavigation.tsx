@@ -1,6 +1,6 @@
 import { Path, paths } from '@/config/paths'
-import { SavingsInfoQueryResults } from '@/features/navbar/types'
 import { SavingsAPYBadge } from '@/features/savings/components/navbar-item/SavingsAPYBadge'
+import { SavingsConverterQueryResults } from '@/features/topbar/types'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +20,7 @@ export interface TopbarNavigationInfo {
 }
 
 export interface TopbarNavigationProps {
-  savingsInfo: SavingsInfoQueryResults | undefined
+  savingsConverter: SavingsConverterQueryResults | undefined
   blockedPages: Path[]
   borrowSubLinks: Array<{
     to: string
@@ -30,7 +30,7 @@ export interface TopbarNavigationProps {
 }
 
 export function TopbarNavigation({
-  savingsInfo,
+  savingsConverter,
   blockedPages,
   borrowSubLinks,
   isBorrowSubLinkActive,
@@ -50,10 +50,10 @@ export function TopbarNavigation({
           prefixIcon={LINKS_DATA.savings.icon}
           type="savings"
           postfixSlot={
-            savingsInfo?.data || savingsInfo?.isLoading ? (
+            savingsConverter?.data || savingsConverter?.isLoading ? (
               <SavingsAPYBadge
-                APY={savingsInfo.data?.apy}
-                isLoading={savingsInfo.isLoading}
+                APY={savingsConverter.data?.apy}
+                isLoading={savingsConverter.isLoading}
                 className="hidden lg:inline-flex"
               />
             ) : undefined
@@ -67,7 +67,9 @@ export function TopbarNavigation({
             label={LINKS_DATA.borrow.label}
             type="borrow"
             prefixIcon={LINKS_DATA.borrow.icon}
-            postfixSlot={<ChevronDown className={cn(linksDropdownOpen && 'rotate-180')} />}
+            postfixSlot={
+              <ChevronDown className={cn('transition-transform duration-300', linksDropdownOpen && 'rotate-180')} />
+            }
             active={isBorrowSubLinkActive}
             highlighted={linksDropdownOpen}
           />

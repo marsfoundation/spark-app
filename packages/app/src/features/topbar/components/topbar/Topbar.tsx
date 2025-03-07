@@ -8,9 +8,11 @@ import { TopbarWallet, TopbarWalletProps } from '@/features/topbar/components/to
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
 import { Link } from 'react-router-dom'
+import { SparkRewardsSummary } from '../../types'
 import { TopbarAirdrop, TopbarAirdropProps } from '../topbar-airdrop/TopbarAirdrop'
 import { TopbarNavigationDialog } from '../topbar-navigation/TopbarNavigationDialog'
 import { TopbarRewards, TopbarRewardsProps } from '../topbar-rewards/TopbarRewards'
+import { TopbarSparkRewards } from '../topbar-spark-rewards/TopbarSparkRewards'
 
 export interface TopbarProps {
   walletInfo: TopbarWalletProps
@@ -19,6 +21,7 @@ export interface TopbarProps {
   networkInfo: TopbarNetworkProps
   airdropInfo: TopbarAirdropProps
   rewardsInfo: TopbarRewardsProps
+  sparkRewardsSummary: SparkRewardsSummary
   isMobileDisplay: boolean
 }
 
@@ -27,6 +30,7 @@ export function Topbar({
   menuInfo,
   navigationInfo,
   networkInfo,
+  sparkRewardsSummary,
   rewardsInfo,
   airdropInfo,
   isMobileDisplay,
@@ -39,15 +43,15 @@ export function Topbar({
         <Link
           to="/"
           className={cn(
-            'group focus-visible:bg-reskin-base-white focus-visible:text-reskin-neutral-950 focus-visible:ring',
-            'focus-visible:outline-none focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
-            'flex h-14 w-10 shrink-0 items-center justify-center gap-2 sm:w-14',
+            'group focus-visible:bg-primary focus-visible:text-neutral-950 focus-visible:ring',
+            'focus-visible:outline-none focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+            'flex h-14 w-10 shrink-0 items-center justify-center gap-2 sm:w-16',
           )}
         >
           <img
             src={assets.brand.symbolGradient}
             alt="Spark logo"
-            className="aspect-square h-6 select-none brightness-0 transition duration-300 md:h-9 sm:h-8 group-focus-visible:filter-none group-hover:filter-none"
+            className="aspect-square h-6 select-none brightness-0 transition duration-300 group-hover:filter-none group-focus-visible:filter-none sm:h-8 md:h-9"
           />
         </Link>
         {isMobileDisplay && <TopbarNavigationDialog {...navigationInfo} />}
@@ -56,6 +60,7 @@ export function Topbar({
       <div className={cn(boxClasses, 'hidden h-full w-full justify-between gap-2 sm:flex')}>
         <TopbarNavigation {...navigationInfo} />
         <div className="flex gap-2">
+          {import.meta.env.VITE_DEV_SPARK_REWARDS === '1' && <TopbarSparkRewards {...sparkRewardsSummary} />}
           <TopbarRewards {...rewardsInfo} />
           <TopbarAirdrop {...airdropInfo} />
         </div>

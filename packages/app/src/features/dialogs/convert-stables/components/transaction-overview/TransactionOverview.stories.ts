@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'

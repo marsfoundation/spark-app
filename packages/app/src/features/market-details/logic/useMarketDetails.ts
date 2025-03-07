@@ -1,25 +1,24 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { getNativeAssetInfo } from '@/config/chain/utils/getNativeAssetInfo'
+import { paths } from '@/config/paths'
 import { useCapAutomatorInfo } from '@/domain/cap-automator/useCapAutomatorInfo'
 import { useD3MInfo } from '@/domain/d3m-info/useD3MInfo'
 import { NotFoundError } from '@/domain/errors/not-found'
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
-import { Token } from '@/domain/types/Token'
-import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { raise } from '@/utils/assert'
-import { useChainId } from 'wagmi'
-
-import { paths } from '@/config/paths'
 import { UseOracleInfoResult, useOracleInfo } from '@/domain/oracles/useOracleInfo'
 import { useSandboxPageRedirect } from '@/domain/sandbox/useSandboxPageRedirect'
 import { OpenDialogFunction, useOpenDialog } from '@/domain/state/dialogs'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { Token } from '@/domain/types/Token'
+import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
+import { CheckedAddress, raise } from '@marsfoundation/common-universal'
+import { useChainId } from 'wagmi'
 import { MarketOverview, WalletOverview } from '../types'
 import { makeDaiMarketOverview } from './makeDaiMarketOverview'
 import { makeMarketOverview } from './makeMarketOverview'
 import { makeWalletOverview } from './makeWalletOverview'
 import { useMarketDetailsParams } from './useMarketDetailsParams'
+import { useSparkRewards } from './useSparkRewards'
 
 export interface UseMarketDetailsResult {
   token: Token
@@ -73,16 +72,20 @@ export function useMarketDetails(): UseMarketDetailsResult {
     marketInfo,
   })
 
+  const sparkRewards = useSparkRewards({ chainId, reserve })
+
   const marketOverview = isDaiOverview
     ? makeDaiMarketOverview({
         reserve,
         marketInfo,
         D3MInfo,
+        sparkRewards,
       })
     : makeMarketOverview({
         reserve,
         marketInfo,
         capAutomatorInfo,
+        sparkRewards,
       })
 
   const walletOverview = makeWalletOverview({

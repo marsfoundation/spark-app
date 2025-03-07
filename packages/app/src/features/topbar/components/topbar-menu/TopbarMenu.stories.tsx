@@ -1,13 +1,14 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
 import { userEvent, within } from '@storybook/test'
 import { useState } from 'react'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarMenu } from './TopbarMenu'
 
 const meta: Meta<typeof TopbarMenu> = {
   title: 'Features/Topbar/Components/TopbarMenu',
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end h-96'), withRouter()],
   play: async ({ canvasElement }) => {
     const button = await within(canvasElement).findByRole('button')
 
@@ -40,6 +41,9 @@ const meta: Meta<typeof TopbarMenu> = {
           rewards: [],
           totalClaimableReward: NormalizedUnitNumber(0),
           onClaim: () => {},
+        }}
+        sparkRewardsSummary={{
+          totalUsdAmount: NormalizedUnitNumber(100),
         }}
       />
     )

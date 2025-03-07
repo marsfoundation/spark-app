@@ -1,16 +1,17 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { UpgradeDialogPageObject } from '../UpgradeDialog.PageObject'
 
 test.describe('Upgrade sDAI to sUSDS', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
-
   test('does not show upgrade banner when sDai balance is 0', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -18,16 +19,18 @@ test.describe('Upgrade sDAI to sUSDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
-    // wait to load
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '10,000.00 sUSDS', estimatedUsdsValue: '10,000.23' })
-
-    await savingsPage.expectUpgradeDaiToUsdsButtonToBeHidden()
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
+    await savingsPage.expectUpgradeSDaiBannerToBeHidden()
   })
 
   test('uses upgrade action', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -35,11 +38,12 @@ test.describe('Upgrade sDAI to sUSDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
-    const upgradeDialog = new UpgradeDialogPageObject(page)
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
 
     await upgradeDialog.actionsContainer.expectEnabledActionAtIndex(0)
     await upgradeDialog.actionsContainer.expectActions([
@@ -49,7 +53,11 @@ test.describe('Upgrade sDAI to sUSDS', () => {
   })
 
   test('displays transaction overview', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -57,34 +65,39 @@ test.describe('Upgrade sDAI to sUSDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
 
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
-    const upgradeDialog = new UpgradeDialogPageObject(page)
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
 
     await upgradeDialog.expectTransactionOverview({
       apyChange: {
-        current: '6.00%',
-        updated: '6.25%',
+        current: '11.50%',
+        updated: '12.50%',
       },
       routeItems: [
         {
           tokenAmount: '10,000.00 sDAI',
-          tokenUsdValue: '$11,085.91',
+          tokenUsdValue: '$11,255.99',
         },
         {
-          tokenAmount: '11,085.65 sUSDS',
-          tokenUsdValue: '$11,085.91',
+          tokenAmount: '11,065.02 sUSDS',
+          tokenUsdValue: '$11,255.99',
         },
       ],
-      outcome: '11,085.65 sUSDS',
-      outcomeUsd: '$11,085.91',
+      outcome: '11,065.02 sUSDS',
+      outcomeUsd: '$11,255.99',
     })
   })
 
   test('executes transaction', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -92,14 +105,17 @@ test.describe('Upgrade sDAI to sUSDS', () => {
       },
     })
 
-    const savingsPage = new SavingsPageObject(page)
+    const savingsPage = new SavingsPageObject(testContext)
+
+    await savingsPage.clickSavingsNavigationItemAction('DAI')
     await savingsPage.clickUpgradeSDaiButtonAction()
 
-    const upgradeDialog = new UpgradeDialogPageObject(page)
-    await upgradeDialog.actionsContainer.acceptAllActionsAction(2, fork)
-    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,085.91' })
+    const upgradeDialog = new UpgradeDialogPageObject(testContext)
+    await upgradeDialog.actionsContainer.acceptAllActionsAction(2)
+    await upgradeDialog.expectUpgradeSuccessPage({ token: 'sDAI', amount: '10,000.00', usdValue: '$11,255.99' })
     await upgradeDialog.clickBackToSavingsButton()
 
-    await savingsPage.expectSavingsUsdsBalance({ susdsBalance: '21,085.65 sUSDS', estimatedUsdsValue: '21,086.13' })
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
+    await savingsPage.expectSavingsAccountBalance({ balance: '21,065.02', estimatedValue: '21,428.579836' })
   })
 })

@@ -2,10 +2,10 @@ import { Address, parseEther, parseUnits } from 'viem'
 
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
-import { recordEvent } from '@/domain/analytics'
+import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
+import { BaseUnitNumber, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
 
 export async function createSandbox(opts: {
   originChainId: number
@@ -26,14 +26,19 @@ export async function createSandbox(opts: {
     BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
   )
 
-  // @note: tenderly doesn't support parallel calls
-  for (const [_, token] of Object.entries(opts.mintBalances.tokens)) {
-    const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
+  await Promise.all(
+    Object.values(opts.mintBalances.tokens).map(async (token) => {
+      const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
+      await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+    }),
+  )
 
-    await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+  if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
+    const { setupSparkRewards } = await import('./setupSparkRewards')
+    await setupSparkRewards({ forkUrl, account: CheckedAddress(opts.userAddress) })
   }
 
-  recordEvent('sandbox-created')
+  trackEvent('sandbox-created')
 
   return forkUrl
 }
@@ -41,6 +46,6 @@ export async function createSandbox(opts: {
 /**
  * @returns string concatenated prefix and timestamp
  */
-export function getChainIdWithPrefix(prefix: number, timestampSeconds: number): number {
-  return Number.parseInt(prefix.toString() + timestampSeconds.toString())
+export function getChainIdWithPrefix(prefix: number, timestamp: UnixTime): number {
+  return Number.parseInt(prefix.toString() + timestamp.toString())
 }

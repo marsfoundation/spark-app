@@ -2,7 +2,7 @@ import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { Position } from './Position'
 

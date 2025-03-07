@@ -1,9 +1,9 @@
 import { calculateCompoundedInterest, calculateLinearInterest, rayDiv, rayMul } from '@aave/math-utils'
 import BigNumber from 'bignumber.js'
 
-import { NumberLike, bigNumberify } from '@/utils/bigNumber'
+import { NumberLike, bigNumberify } from '@marsfoundation/common-universal'
 
-import { BaseUnitNumber, Percentage } from '../types/NumericValues'
+import { BaseUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 interface GetScaledBalanceArgs {
   rate: BigNumber
@@ -74,5 +74,5 @@ export function parseRawPercentage(
   value: NumberLike,
   { allowMoreThan1 }: { allowMoreThan1?: boolean } = { allowMoreThan1: true },
 ): Percentage {
-  return Percentage(bigNumberify(value).div(10_000), allowMoreThan1)
+  return Percentage(bigNumberify(value).div(10_000), { allowMoreThan1 })
 }

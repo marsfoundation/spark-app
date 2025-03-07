@@ -1,5 +1,5 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { PsmConvertActionPath, getPsmConvertActionPath } from '../../psm-convert/logic/getPsmConvertActionPath'
 
 export type ConvertStablesActionPath = PsmConvertActionPath | 'dai-usds' | 'usds-dai'
@@ -7,18 +7,18 @@ export type ConvertStablesActionPath = PsmConvertActionPath | 'dai-usds' | 'usds
 export interface GetConvertStablesActionPathParams {
   inToken: Token
   outToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
 }
 
 export function getConvertStablesActionPath({
   inToken,
   outToken,
-  tokensInfo,
+  tokenRepository,
   chainId,
 }: GetConvertStablesActionPathParams): ConvertStablesActionPath {
-  const dai = tokensInfo.DAI?.symbol
-  const usds = tokensInfo.USDS?.symbol
+  const dai = tokenRepository.DAI?.symbol
+  const usds = tokenRepository.USDS?.symbol
 
   if (inToken.symbol === dai && outToken.symbol === usds) {
     return 'dai-usds'
@@ -28,5 +28,5 @@ export function getConvertStablesActionPath({
     return 'usds-dai'
   }
 
-  return getPsmConvertActionPath({ inToken, outToken, tokensInfo, chainId })
+  return getPsmConvertActionPath({ inToken, outToken, tokenRepository, chainId })
 }

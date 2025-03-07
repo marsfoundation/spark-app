@@ -1,13 +1,13 @@
 import { dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { getMockToken, testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
@@ -21,7 +21,7 @@ const usds = getMockToken({ symbol: TokenSymbol('USDS') })
 const dai = getMockToken({ symbol: TokenSymbol('DAI') })
 const amount = NormalizedUnitNumber(1)
 
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: usdc, balance: NormalizedUnitNumber(100) },
     { token: dai, balance: NormalizedUnitNumber(100) },
@@ -46,7 +46,7 @@ const hookRenderer = setupUseContractActionRenderer({
       amount,
     },
     enabled: true,
-    context: { tokensInfo: mockTokensInfo },
+    context: { tokenRepository: mockTokenRepository },
   },
 })
 
@@ -99,7 +99,7 @@ describe(createPsmConvertActionConfig.name, () => {
           amount,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -147,7 +147,7 @@ describe(createPsmConvertActionConfig.name, () => {
           amount,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -195,7 +195,7 @@ describe(createPsmConvertActionConfig.name, () => {
           amount,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({

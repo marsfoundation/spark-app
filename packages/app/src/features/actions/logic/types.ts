@@ -1,16 +1,17 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
-import { WriteErrorKind, useWrite } from '@/domain/hooks/useWrite'
+import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsInfo } from '@/domain/savings-info/types'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-import { Address, TransactionReceipt } from 'viem'
+import { Address, BlockTag, ContractFunctionParameters, TransactionReceipt } from 'viem'
 import { Config } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
 import { ApproveAction } from '../flavours/approve/types'
 import { BorrowAction, BorrowObjective } from '../flavours/borrow/types'
 import { ClaimFarmRewardsAction, ClaimFarmRewardsObjective } from '../flavours/claim-farm-rewards/types'
 import { ClaimMarketRewardsAction, ClaimMarketRewardsObjective } from '../flavours/claim-market-rewards/types'
+import { ClaimSparkRewardsAction, ClaimSparkRewardsObjective } from '../flavours/claim-spark-rewards/types'
 import { ConvertStablesObjective } from '../flavours/convert-stables/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../flavours/deposit-to-savings/types'
 import { DepositAction, DepositObjective } from '../flavours/deposit/types'
@@ -26,6 +27,7 @@ import { UpgradeAction, UpgradeObjective } from '../flavours/upgrade/types'
 import { WithdrawFromSavingsAction, WithdrawFromSavingsObjective } from '../flavours/withdraw-from-savings/types'
 import { WithdrawAction, WithdrawObjective } from '../flavours/withdraw/types'
 import { PermitStore } from './permits'
+import { BatchWriteErrorKind } from './useBatchWrite'
 
 /**
  * Objective is an input to action component. It is a high level description of what user wants to do.
@@ -47,6 +49,7 @@ export type Objective =
   | UnstakeObjective
   | ClaimFarmRewardsObjective
   | ConvertStablesObjective
+  | ClaimSparkRewardsObjective
 export type ObjectiveType = Objective['type']
 
 export type Action =
@@ -68,16 +71,18 @@ export type Action =
   | UnstakeAction
   | PsmConvertAction
   | ClaimFarmRewardsAction
+  | ClaimSparkRewardsAction
 export type ActionType = Action['type']
 
-export type ActionHandlerState =
+type BaseActionHandlerState<ErrorKind extends string> =
   | { status: 'disabled' }
   | { status: 'ready' }
   | { status: 'loading' }
   | { status: 'success' }
-  | { status: 'error'; errorKind?: ActionHandlerErrorKind; message: string }
+  | { status: 'error'; errorKind?: ErrorKind; message: string }
 
-export type ActionHandlerErrorKind = 'initial-params' | WriteErrorKind | 'tx-verify'
+export type ActionHandlerState = BaseActionHandlerState<'initial-params' | WriteErrorKind | 'tx-verify'>
+export type BatchActionHandlerState = BaseActionHandlerState<BatchWriteErrorKind>
 
 export interface ActionHandler {
   action: Action
@@ -85,11 +90,16 @@ export interface ActionHandler {
   onAction: () => void
 }
 
+export interface BatchActionHandler {
+  actions: Action[]
+  state: BatchActionHandlerState
+  onAction: () => void
+}
+
 export interface ActionContext {
   marketInfo?: MarketInfo
-  tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
+  tokenRepository?: TokenRepository
+  savingsAccounts?: SavingsAccountRepository
   permitStore?: PermitStore
   farmsInfo?: FarmsInfo
   txReceipts: [Action, TransactionReceipt][]
@@ -105,11 +115,11 @@ type InitialParamsQueryOptions = UseQueryOptions<any, Error, InitialParamsBase, 
 export type InitialParamsQueryResult = UseQueryResult<InitialParamsBase>
 type VerifyTransactionQueryOptions = UseQueryOptions<any, Error, VerifyTransactionResultBase, QueryKey>
 export type VerifyTransactionResult = UseQueryResult<VerifyTransactionResultBase>
-export type GetWriteConfigResult = Parameters<typeof useWrite>[0]
+export type GetWriteConfigResult = ContractFunctionParameters & { simulationBlockTag?: BlockTag }
 
 export interface ActionConfig {
   initialParamsQueryOptions?: () => InitialParamsQueryOptions
-  getWriteConfig: (initialParams: InitialParamsQueryResult) => GetWriteConfigResult
+  getWriteConfig: (initialParams?: InitialParamsQueryResult) => GetWriteConfigResult
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void
@@ -117,8 +127,9 @@ export interface ActionConfig {
 
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
-  tokensInfo?: TokensInfo
-  savingsDaiInfo?: SavingsInfo
-  savingsUsdsInfo?: SavingsInfo
+  tokenRepository?: TokenRepository
+  savingsDaiInfo?: SavingsConverter
+  savingsUsdsInfo?: SavingsConverter
   farmsInfo?: FarmsInfo
+  savingsAccounts?: SavingsAccountRepository
 }

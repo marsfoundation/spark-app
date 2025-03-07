@@ -1,43 +1,48 @@
-import { assets } from '@/ui/assets'
-import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { Typography } from '@/ui/atoms/typography/Typography'
-import { cn } from '@/ui/utils/style'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
 import { useTimestamp } from '@/utils/useTimestamp'
+import { TimerResetIcon } from 'lucide-react'
 
 interface CooldownTimerProps {
   renewalPeriod: number
   latestUpdateTimestamp: number
+  cooldownOverContent?: React.ReactNode
+  cooldownActiveContent?: React.ReactNode
   /**
    * @warning This prop is only for storybook purposes.
    */
   forceOpen?: boolean
 }
 
-export function CooldownTimer({ renewalPeriod, latestUpdateTimestamp, forceOpen }: CooldownTimerProps) {
+export function CooldownTimer(props: CooldownTimerProps) {
   const { timestamp } = useTimestamp({
     refreshIntervalInMs: 1000,
   })
-
+  const { renewalPeriod, latestUpdateTimestamp, forceOpen } = props
   const timeLeft = Math.max(0, renewalPeriod - (timestamp - latestUpdateTimestamp))
+  const cooldownOverContent = props.cooldownOverContent ?? (
+    <>
+      The cap renewal cooldown is over. <br /> It might be changed at any time.
+    </>
+  )
+  const cooldownActiveContent = props.cooldownActiveContent ?? (
+    <>
+      The instantly available cap has <br /> a renewal time of {secondsToHours(props.renewalPeriod)} hours.
+    </>
+  )
 
   return (
     <Tooltip open={forceOpen}>
       <TooltipTrigger data-testid={testIds.marketDetails.capAutomator.cooldownTimer}>
-        <IconPill icon={assets.timer} />
+        <TimerResetIcon size={16} className="text-fg-brand-tertiary" />
       </TooltipTrigger>
-      <TooltipContentShort className="p-3">
-        <div className="max-w-56">
-          <Typography className={cn('text-basics-dark-grey text-xs')}>Cooldown period:</Typography>
-          <Typography className={cn('mt-1 mb-2 font-semibold')}>{secondsToTime(timeLeft)}</Typography>
-          <Typography className={cn('text-basics-dark-grey text-xs')}>
-            {timeLeft === 0
-              ? 'The cap renewal cooldown is over. It might be changed at any time.'
-              : `The instantly available cap has a renewal time of ${secondsToHours(renewalPeriod)} hours.`}
-          </Typography>
+      <TooltipContent className="p-3">
+        <div className="typography-label-4 flex flex-col gap-2 text-tertiary">
+          Cooldown period:
+          <div className="typography-label-2 text-primary-inverse">{secondsToTime(timeLeft)}</div>
+          {timeLeft === 0 ? cooldownOverContent : cooldownActiveContent}
         </div>
-      </TooltipContentShort>
+      </TooltipContent>
     </Tooltip>
   )
 }

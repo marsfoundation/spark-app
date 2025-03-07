@@ -1,14 +1,11 @@
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { within } from '@storybook/test'
 import { withRouter } from 'storybook-addon-remix-react-router'
-
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { raise } from '@/utils/assert'
-
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketsTable } from './MarketsTable'
 
 const meta: Meta<typeof MarketsTable> = {
@@ -20,11 +17,9 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.wstETH,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
-          airdrops: [],
+        borrowApyDetails: { baseApy: Percentage(0.11) },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -37,11 +32,9 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.GNO,
         reserveStatus: 'paused',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [],
-          airdrops: [],
+        borrowApyDetails: { baseApy: Percentage(0.11) },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -54,11 +47,25 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.ETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
+        borrowApyDetails: {
+          baseApy: Percentage(0.11),
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('wstETH'),
+              action: 'borrow',
+              longDescription: 'Borrow ETH and get wstETH',
+              apy: Percentage(0.12),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get RED',
+            },
+          ],
+        },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
           airdrops: [TokenSymbol('SPK')],
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -71,11 +78,23 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.rETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
-          airdrops: [],
+        borrowApyDetails: { baseApy: Percentage(0.11) },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
+          airdrops: [TokenSymbol('SPK')],
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('USDS'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get USDS',
+              apy: Percentage(0.01),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get RED',
+            },
+          ],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -88,12 +107,10 @@ const meta: Meta<typeof MarketsTable> = {
       {
         token: tokens.DAI,
         reserveStatus: 'active',
-        borrowAPYDetails: {
-          apy: Percentage(0.0553),
-          incentives: [],
-          airdrops: [TokenSymbol('SPK')],
+        borrowApyDetails: {
+          baseApy: Percentage(0.0553),
         },
-        depositAPYDetails: { apy: Percentage(0.05), incentives: [], airdrops: [] },
+        depositApyDetails: { baseApy: Percentage(0.05) },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {

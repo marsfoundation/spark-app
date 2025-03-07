@@ -1,9 +1,9 @@
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { TxOverviewRouteItem } from '../../common/types'
 
 export interface TxOverview {
-  baseStable: Token
+  underlyingToken: Token
   APY: Percentage
   stableEarnRate: NormalizedUnitNumber
   route: TxOverviewRouteItem[]

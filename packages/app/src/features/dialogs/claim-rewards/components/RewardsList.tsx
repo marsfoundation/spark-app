@@ -1,4 +1,4 @@
-import { Reward } from '@/features/navbar/components/rewards-badge/types'
+import { Reward } from '@/features/topbar/types'
 import { TokenAmount } from '@/ui/molecules/token-amount/TokenAmount'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
@@ -14,7 +14,7 @@ export function RewardsList({ rewards, className }: RewardsListProps) {
       {rewards.map(({ token, amount }, index) => (
         <div
           key={token.symbol}
-          className="flex items-center justify-between border-b py-4 text-base text-basics-black last:border-none"
+          className="typography-label-2 flex items-center justify-between border-b py-4 text-primary last:border-none"
           data-testid={testIds.dialog.claimRewards.transactionOverview.row(index)}
         >
           <TokenAmount

@@ -1,8 +1,7 @@
 import { migrationActionsConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { assert, raise } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
+import { assert, assertNever, raise } from '@marsfoundation/common-universal'
 import { ApproveAction } from '../../approve/types'
 import { DowngradeAction } from '../../downgrade/types'
 import { PsmConvertAction } from '../../psm-convert/types'
@@ -10,8 +9,8 @@ import { UnstakeAction, UnstakeObjective } from '../types'
 import { getUnstakeActionPath } from './getUnstakeActionPath'
 
 export function createUnstakeActions(objective: UnstakeObjective, context: ActionContext): Action[] {
-  const { farmsInfo, chainId, tokensInfo } = context
-  assert(farmsInfo && tokensInfo, 'Farms info and tokens info are required for stake action')
+  const { farmsInfo, chainId, tokenRepository } = context
+  assert(farmsInfo && tokenRepository, 'Farms info and tokens info are required for stake action')
 
   const { stakingToken, rewardToken } = farmsInfo.findOneFarmByAddress(objective.farm)
 
@@ -26,7 +25,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
   const actionPath = getUnstakeActionPath({
     token: objective.token,
-    tokensInfo,
+    tokenRepository,
     stakingToken,
   })
 
@@ -62,7 +61,7 @@ export function createUnstakeActions(objective: UnstakeObjective, context: Actio
 
       const convertToUsdcAction: PsmConvertAction = {
         type: 'psmConvert',
-        inToken: tokensInfo.USDS ?? raise('USDS token is required for usds psm convert action'),
+        inToken: tokenRepository.USDS ?? raise('USDS token is required for usds psm convert action'),
         outToken: objective.token,
         amount: objective.amount,
       }

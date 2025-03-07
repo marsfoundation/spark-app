@@ -2,32 +2,23 @@ import React, { useState } from 'react'
 
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { assets } from '@/ui/assets'
+import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
-import { Button } from '@/ui/atoms/new/button/Button'
 import { ScrollArea } from '@/ui/atoms/scroll-area/ScrollArea'
-import { Tooltip, TooltipContentShort } from '@/ui/atoms/tooltip/Tooltip'
-import { TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
-import { cn } from '@/ui/utils/style'
 import { useIsIntersecting } from '@/ui/utils/useIntersecting'
 
-interface ToSLinkProps {
-  className?: string
-}
-function ToSLink({ className }: ToSLinkProps) {
+function ToSLink() {
   return (
-    <Link
-      to={links.termsOfUse}
-      className={cn('text-basics-black underline hover:text-basics-black', className)}
-      external
-    >
+    <Link to={links.termsOfUse} variant="secondary" external>
       Terms of Service
     </Link>
   )
 }
 
 const points = [
-  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+  // biome-ignore lint/correctness/useJsxKeyInIterable:
   <p>
     I am not the person or entities who reside in, are citizens of, are incorporated in, or have a registered office in
     the United States of America or any Prohibited Localities, as defined in the <ToSLink />. I will not in the future
@@ -36,7 +27,7 @@ const points = [
     lawfully permitted to access this site and use its services under the laws of the jurisdiction in which I reside and
     am located.
   </p>,
-  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+  // biome-ignore lint/correctness/useJsxKeyInIterable:
   <p>
     The Site displays information publicly available on blockchain systems related to third party protocols, including
     Spark, and may offer interaction methods for use with a third-party wallet application or device based on such
@@ -50,7 +41,7 @@ const points = [
     including asset value pricing, and you are responsible for understanding the risks of the third party protocols you
     interact with and keeping up to date with protocol or governance changes for such protocols.
   </p>,
-  // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
+  // biome-ignore lint/correctness/useJsxKeyInIterable:
   <p>
     Your use of the Site is conditioned on your acknowledgement and understanding of the potential risks and regulatory
     issues as further described in the <ToSLink />, and you agree to hold the Site Operator harmless from such risks.
@@ -81,17 +72,17 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
 
   return (
     <MultiPanelDialog>
-      <div className="font-semibold text-xl">Terms of Service and Disclaimer</div>
-      <div>
-        By using this site, I represent that I have read and agree to the <ToSLink className="text-blue-600" /> and{' '}
-        <Link to={links.privacyPolicy} className="underline" external>
+      <div className="typography-heading-5">Terms of Service and Disclaimer</div>
+      <div className="typography-body-2">
+        By using this site, I represent that I have read and agree to the <ToSLink /> and{' '}
+        <Link to={links.privacyPolicy} variant="secondary" external>
           Privacy Policy
         </Link>
         . Undefined terms used below are in reference to definitions in the Terms of Service.
       </div>
       <ScrollArea
         viewportRef={scrollAreaRef}
-        className="h-64 rounded-md border border-light-grey pr-3 pl-2"
+        className="typography-body-2 h-64 rounded-sm bg-secondary pr-3 pl-2 text-primary shadow-inner"
         type="always"
       >
         <div className="grid grid-cols-[auto_1fr] gap-4">
@@ -116,7 +107,7 @@ export function TermsOfService({ onAgree }: TermsOfServiceProps) {
               Agree and Continue
             </Button>
           </TooltipTrigger>
-          <TooltipContentShort>Read terms before accepting</TooltipContentShort>
+          <TooltipContent>Read terms before accepting</TooltipContent>
         </Tooltip>
       )}
     </MultiPanelDialog>

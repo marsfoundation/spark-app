@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { Address, Client, Hash, parseAbiItem } from 'viem'
 import { getLogs, getTransactionReceipt, watchBlockNumber } from 'viem/actions'

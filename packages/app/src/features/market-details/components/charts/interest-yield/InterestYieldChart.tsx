@@ -1,11 +1,9 @@
-import BigNumber from 'bignumber.js'
-import { Circle } from 'lucide-react'
-
-import { Percentage } from '@/domain/types/NumericValues'
-import { useParentSize } from '@/ui/utils/useParentSize'
-
 import { colors } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { useElementSize } from '@/ui/utils/useElementSize'
+import { Percentage } from '@marsfoundation/common-universal'
+import BigNumber from 'bignumber.js'
+import { Circle } from 'lucide-react'
 import { Chart } from './components/Chart'
 import { getYields } from './logic/getYields'
 
@@ -23,7 +21,8 @@ export function InterestYieldChart({
   variableRateSlope2,
   baseVariableBorrowRate,
 }: InterestYieldChartProps) {
-  const [ref, { width }] = useParentSize()
+  const [ref, { width }] = useElementSize()
+
   const yields = getYields({
     optimalUtilizationRate,
     variableRateSlope1,
@@ -57,11 +56,11 @@ export function InterestYieldChart({
       <div className="ml-10 flex items-center gap-4">
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.primary} stroke="0" />
-          <div className="text-slate-500 text-xs">Borrow APY</div>
+          <div className="typography-label-4 text-secondary">Borrow APY</div>
         </div>
         <div className="flex items-center gap-1.5">
           <Circle size={4} fill={colors.secondary} stroke="0" />
-          <div className="text-slate-500 text-xs">Utilization Rate</div>
+          <div className="typography-label-4 text-secondary">Utilization Rate</div>
         </div>
       </div>
       <Chart {...chartProps} />

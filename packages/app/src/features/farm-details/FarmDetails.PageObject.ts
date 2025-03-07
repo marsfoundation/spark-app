@@ -1,8 +1,8 @@
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { AssetsInTests, TOKENS_ON_FORK } from '@/test/e2e/constants'
-import { ForkContext } from '@/test/e2e/forking/setupFork'
 import { getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
 
@@ -43,8 +43,10 @@ export class FarmDetailsPageObject extends BasePageObject {
     }
   }
 
-  async expectStaked(staked: string): Promise<void> {
-    await expect(this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)).toContainText(staked)
+  async expectStaked({ amount, asset }: { amount: string; asset: string }): Promise<void> {
+    const stakedLocator = this.page.getByTestId(testIds.farmDetails.activeFarmInfoPanel.staked)
+    await expect(stakedLocator).toContainText(amount)
+    await expect(stakedLocator.getByRole('img')).toHaveAttribute('alt', asset)
   }
 
   async expectInfoPanelToBeVisible(): Promise<void> {
@@ -52,26 +54,22 @@ export class FarmDetailsPageObject extends BasePageObject {
   }
 
   async expectTokenBalance({
-    fork,
     symbol,
-    minBalance,
-    maxBalance,
+    balance,
     address,
   }: {
-    fork: ForkContext
     symbol: AssetsInTests
-    minBalance: number
-    maxBalance: number
+    balance: NormalizedUnitNumber
     address: Address
   }): Promise<void> {
-    const token: { address: Address; decimals: number } = (TOKENS_ON_FORK as any)[fork.chainId][symbol]
-    const balance = await getTokenBalance({
+    const chainId = await this.testContext.testnetController.client.getChainId()
+    const token: { address: Address; decimals: number } = (TOKENS_ON_FORK as any)[chainId][symbol]
+    const actualBalance = await getTokenBalance({
+      client: this.testContext.testnetController.client,
       address,
-      forkUrl: fork.forkUrl,
       token,
     })
-    expect(balance.toNumber()).toBeGreaterThanOrEqual(minBalance)
-    expect(balance.toNumber()).toBeLessThanOrEqual(maxBalance)
+    expect(balance.eq(actualBalance)).toBe(true)
   }
 
   async expectPointsSyncWarning(): Promise<void> {

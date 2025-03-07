@@ -1,9 +1,9 @@
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import { ReactNode, useState } from 'react'
-
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { TableCell } from '@/ui/atoms/table/Table'
-import { Typography } from '@/ui/atoms/typography/Typography'
+import { cn } from '@/ui/utils/style'
+import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
+import { ChevronDown } from 'lucide-react'
+import { ReactNode, useState } from 'react'
 
 interface CollapsibleCellProps {
   children: [ReactNode, ReactNode]
@@ -20,15 +20,13 @@ export function CollapsibleCell({ children }: CollapsibleCellProps) {
           <div className="flex flex-row justify-between">
             {TriggerContent}
             <div className="flex cursor-pointer flex-col justify-center">
-              <button role="switch">
-                <Typography variant="prompt">
-                  {open ? (
-                    <ChevronUp className="-translate-y-[1px] ml-1 inline-block" size={16} />
-                  ) : (
-                    <ChevronDown className="-translate-y-[1px] ml-1 inline-block" size={16} />
-                  )}
-                </Typography>
-              </button>
+              <IconButton
+                role="switch"
+                size="m"
+                variant="transparent"
+                icon={ChevronDown}
+                className={cn('transition-transform duration-300', open && 'rotate-180')}
+              />
             </div>
           </div>
         </CollapsiblePrimitive.CollapsibleTrigger>

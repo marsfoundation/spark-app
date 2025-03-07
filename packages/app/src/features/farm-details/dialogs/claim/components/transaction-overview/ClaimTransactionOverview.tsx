@@ -1,4 +1,4 @@
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { testIds } from '@/ui/utils/testIds'
 import { TxOverview } from '../../types'
 

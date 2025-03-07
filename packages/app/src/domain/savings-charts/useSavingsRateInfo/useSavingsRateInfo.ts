@@ -1,39 +1,63 @@
+import { SavingsRateQueryOptions } from '@/config/chain/types'
 import { Timeframe } from '@/ui/charts/defaults'
+import { filterDataByTimeframe } from '@/ui/charts/utils'
 import { SimplifiedQueryResult } from '@/utils/types'
-import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
-import { getFilteredSavingsRateData } from './getFilteredSavingsRateData'
-import { savingsRateQueryOptions } from './query'
-import { SavingsRateInfo } from './types'
+import { skipToken, useQuery } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
+import { SavingsRateChartData } from '../savings-rate-query/types'
+import { SAVINGS_RATE_TIMEFRAMES, SavingsRateTimeframe } from './common'
 
 export interface UseSavingsRateInfoParams {
   chainId: number
-  timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
-  savingsRateApiUrl: string | undefined
+  savingsRateQueryOptions: SavingsRateQueryOptions | undefined
 }
 
-export type UseSavingsRateInfoResult = SimplifiedQueryResult<SavingsRateInfo>
+export interface UseSavingsRateInfoResult {
+  queryResult: SimplifiedQueryResult<SavingsRateChartData>
+  selectedTimeframe: SavingsRateTimeframe
+  setSelectedTimeframe: (timeframe: Timeframe) => void
+  availableTimeframes: SavingsRateTimeframe[]
+}
 
 export function useSavingsRateInfo({
-  chainId,
-  timeframe,
   currentTimestamp,
   staleTime,
-  savingsRateApiUrl,
+  savingsRateQueryOptions,
 }: UseSavingsRateInfoParams): UseSavingsRateInfoResult {
-  return useQuery({
-    ...savingsRateQueryOptions({
-      chainId,
-      savingsRateApiUrl,
-    }),
-    select: useCallback(
-      (savingsRateInfo: SavingsRateInfo) =>
-        getFilteredSavingsRateData({ savingsRateInfo, timeframe, currentTimestamp }),
-      [timeframe, currentTimestamp],
-    ),
-    staleTime,
-    enabled: !!savingsRateApiUrl,
-  })
+  const [selectedTimeframe, setSelectedTimeframe] = useState<SavingsRateTimeframe>('3M')
+
+  const result = useQuery(
+    savingsRateQueryOptions
+      ? { ...savingsRateQueryOptions(), staleTime }
+      : { queryKey: ['unsupported-savings-rate-query'], queryFn: skipToken },
+  )
+
+  const queryResult = useMemo(() => {
+    if (!result.data) {
+      return result
+    }
+
+    const filtered = filterDataByTimeframe({
+      data: result.data.apy,
+      timeframe: selectedTimeframe,
+      currentTimestamp,
+    })
+    return {
+      ...result,
+      data: { apy: filtered },
+    }
+  }, [result, selectedTimeframe, currentTimestamp])
+
+  return {
+    queryResult,
+    selectedTimeframe,
+    setSelectedTimeframe: (selectedTimeframe) => {
+      if (SAVINGS_RATE_TIMEFRAMES.includes(selectedTimeframe)) {
+        setSelectedTimeframe(selectedTimeframe as any)
+      }
+    },
+    availableTimeframes: SAVINGS_RATE_TIMEFRAMES,
+  }
 }

@@ -1,4 +1,13 @@
-import { Abi, ContractFunctionName, TransactionReceipt, encodeFunctionData } from 'viem'
+import {
+  Abi,
+  AbiStateMutability,
+  BlockTag,
+  ContractFunctionArgs,
+  ContractFunctionName,
+  ContractFunctionParameters,
+  TransactionReceipt,
+  encodeFunctionData,
+} from 'viem'
 import {
   UseSimulateContractParameters,
   UseWriteContractParameters,
@@ -10,10 +19,12 @@ import {
 
 import { __TX_LIST_KEY } from '@/test/e2e/constants'
 import { JSONStringifyRich } from '@/utils/object'
+import { captureError } from '@/utils/sentry'
 import { useOnDepsChange } from '@/utils/useOnDepsChange'
 import { MutationKey, useMutation } from '@tanstack/react-query'
 import { writeContractMutationOptions } from 'wagmi/query'
-import { recordEvent } from '../analytics'
+import { trackEvent } from '../analytics/mixpanel'
+import { HandledWriteError } from '../errors/HandledWriteError'
 import { sanityCheckTx } from './sanityChecks'
 import { useIncreasedGasLimit } from './useIncreasedGasLimit'
 import { useOriginChainId } from './useOriginChainId'
@@ -136,25 +147,25 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
     return { kind: 'ready' }
   })()
 
+  useOnDepsChange(() => {
+    if (status.kind === 'error') {
+      captureError(new HandledWriteError(status.error))
+    }
+  }, [status.kind])
+
   const finalWrite =
     parameters && enabled
       ? () => {
           sanityCheckTx(parameters.request, chainId)
           callbacks.onBeforeWrite?.()
 
-          if (walletType === 'sandbox') {
-            recordEvent('sandbox-tx-sent', {
-              receiver: parameters.request.address,
-              method: parameters.request.functionName,
-            })
-          } else {
-            recordEvent('tx-sent', {
-              walletType,
-              chainId,
-              receiver: parameters.request.address,
-              method: parameters.request.functionName,
-            })
-          }
+          trackEvent('tx-sent', {
+            walletType,
+            chainId,
+            receiver: parameters.request.address,
+            method: parameters.request.functionName,
+            args: JSONStringifyRich(parameters.request.args),
+          })
 
           writeContract(parameters.request as any)
         }
@@ -170,9 +181,20 @@ export function useWrite<TAbi extends Abi, TFunctionName extends ContractFunctio
 
 // useful for creating conditional configs without losing type-safety
 export function ensureConfigTypes<
-  TAbi extends Abi,
-  TFunctionName extends ContractFunctionName<TAbi, 'nonpayable' | 'payable'>,
->(config: UseSimulateContractParameters<TAbi, TFunctionName>): UseSimulateContractParameters<Abi, string> {
+  abi extends Abi | readonly unknown[] = Abi,
+  mutability extends AbiStateMutability = AbiStateMutability,
+  functionName extends ContractFunctionName<abi, mutability> = ContractFunctionName<abi, mutability>,
+  args extends ContractFunctionArgs<abi, mutability, functionName> = ContractFunctionArgs<
+    abi,
+    mutability,
+    functionName
+  >,
+>(
+  config: ContractFunctionParameters<abi, mutability, functionName, args> & {
+    value?: bigint
+    simulationBlockTag?: BlockTag
+  },
+): typeof config {
   return config as any
 }
 

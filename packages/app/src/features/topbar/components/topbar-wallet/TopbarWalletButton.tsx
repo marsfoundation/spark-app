@@ -1,11 +1,11 @@
 import { ChevronUp } from 'lucide-react'
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 
-import { WalletDropdownTriggerInfo } from '@/features/navbar/types'
-import { shortenAddress } from '@/ui/utils/shortenAddress'
+import { WalletDropdownTriggerInfo } from '@/features/topbar/types'
 
-import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { Button, ButtonIcon } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 export interface TopbarWalletButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, WalletDropdownTriggerInfo {
   open: boolean
@@ -44,7 +44,7 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
     return (
       <Button {...buttonProps}>
         <img src={avatar} alt="wallet-avatar" className="icon-md rounded-full" />
-        <div className="hidden truncate sm:block">{ensName ? ensName : shortenAddress(address)}</div>
+        <div className="hidden truncate sm:block">{ensName ? ensName : CheckedAddress.formatShort(address)}</div>
         {chevron}
       </Button>
     )

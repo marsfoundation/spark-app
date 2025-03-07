@@ -1,13 +1,13 @@
 import { migrationActionsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
 import { describe, test } from 'vitest'
@@ -21,7 +21,7 @@ const sDAI = testTokens.sDAI
 const sUSDS = testTokens.sUSDS
 const chainId = mainnet.id
 
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: DAI, balance: NormalizedUnitNumber(100) },
     { token: sDAI, balance: NormalizedUnitNumber(100) },
@@ -41,7 +41,7 @@ const hookRenderer = setupUseContractActionRenderer({
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
   args: {
     action: { type: 'upgrade', fromToken: DAI, toToken: USDS, amount: upgradeAmount },
-    context: { tokensInfo: mockTokensInfo },
+    context: { tokenRepository: mockTokenRepository },
     enabled: true,
   },
 })
@@ -89,7 +89,7 @@ describe(createUpgradeActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: { type: 'upgrade', fromToken: sDAI, toToken: sUSDS, amount: upgradeAmount },
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
         enabled: true,
       },
       extraHandlers: [

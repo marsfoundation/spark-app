@@ -1,6 +1,6 @@
 import { defineConfig } from '@wagmi/cli'
 import { etherscan } from '@wagmi/cli/plugins'
-import { base, gnosis, mainnet } from 'wagmi/chains'
+import { arbitrum, base, gnosis, mainnet } from 'wagmi/chains'
 import { z } from 'zod'
 import 'dotenv/config'
 
@@ -137,6 +137,20 @@ export default defineConfig({
             [mainnet.id]: '0xd0A61F2963622e992e6534bde4D52fd0a89F39E0',
           },
         },
+        {
+          name: 'UsdcVault',
+          address: {
+            [mainnet.id]: '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE',
+            [base.id]: '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858',
+            [arbitrum.id]: '0x940098b108fB7D0a7E374f6eDED7760787464609',
+          },
+        },
+        {
+          name: 'SparkRewards',
+          address: {
+            [mainnet.id]: '0xaf76856f788519704a9411839614e144fed52d8a',
+          },
+        },
       ],
     }),
     etherscan({
@@ -173,12 +187,14 @@ export default defineConfig({
           name: 'SSRAuthOracle',
           address: {
             [base.id]: '0x65d946e533748A998B1f0E430803e39A6388f7a1',
+            [arbitrum.id]: '0xEE2816c1E1eed14d444552654Ed3027abC033A36',
           },
         },
         {
-          name: 'BasePsm3',
+          name: 'Psm3',
           address: {
             [base.id]: '0x1601843c5E9bC251A3272907010AFa41Fa18347E',
+            [arbitrum.id]: '0x2B05F8e1cACC6974fD79A673a341Fe1f58d27266',
           },
         },
       ],

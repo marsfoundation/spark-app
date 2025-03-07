@@ -1,12 +1,15 @@
 import { EModeCategoryName } from '@/domain/e-mode/types'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 export class EModeDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /.*/)
-    this.region = this.locateDialogByHeader('Set E-Mode Category')
+  constructor(testContext: TestContext) {
+    super({
+      testContext,
+      header: /Set E-Mode Category/,
+    })
   }
 
   // #region locators

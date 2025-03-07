@@ -4,7 +4,7 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketsView } from './MarketsView'
@@ -29,16 +29,29 @@ export const Desktop: Story = {
       totalAvailableUSD: NormalizedUnitNumber(1.4 * 10 ** 12),
       totalBorrowsUSD: NormalizedUnitNumber(828.48 * 10 ** 9),
     },
-    chainName: 'Ethereum Mainnet',
     activeAndPausedMarketEntries: [
       {
         token: tokens.ETH,
         reserveStatus: 'active',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
+        borrowApyDetails: { baseApy: Percentage(0.11) },
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
           airdrops: [TokenSymbol('SPK')],
-          incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+          legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('USDS'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get USDS',
+              apy: Percentage(0.01),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply ETH and get RED',
+              apy: Percentage(0.01),
+            },
+          ],
         },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
@@ -51,15 +64,26 @@ export const Desktop: Story = {
       {
         token: tokens.DAI,
         reserveStatus: 'active',
-        borrowAPYDetails: {
-          apy: Percentage(0.11),
-          incentives: [],
+        borrowApyDetails: {
+          baseApy: Percentage(0.11),
           airdrops: [TokenSymbol('SPK')],
+          sparkRewards: [
+            {
+              rewardTokenSymbol: TokenSymbol('wstETH'),
+              action: 'borrow',
+              longDescription: 'Borrow ETH and get wstETH',
+              apy: Percentage(0.12),
+            },
+            {
+              rewardTokenSymbol: TokenSymbol('RED'),
+              action: 'supply',
+              longDescription: 'Supply rETH and get RED',
+              apy: Percentage(0.08),
+            },
+          ],
         },
-        depositAPYDetails: {
-          apy: Percentage(0.157),
-          incentives: [],
-          airdrops: [],
+        depositApyDetails: {
+          baseApy: Percentage(0.157),
         },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
@@ -72,15 +96,11 @@ export const Desktop: Story = {
       {
         token: tokens.USDT,
         reserveStatus: 'paused',
-        borrowAPYDetails: {
-          apy: undefined,
-          incentives: [],
-          airdrops: [],
+        borrowApyDetails: {
+          baseApy: undefined,
         },
-        depositAPYDetails: {
-          apy: undefined,
-          incentives: [],
-          airdrops: [],
+        depositApyDetails: {
+          baseApy: undefined,
         },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
@@ -95,8 +115,8 @@ export const Desktop: Story = {
       {
         token: tokens.GNO,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: Percentage(0.11), incentives: [], airdrops: [] },
-        depositAPYDetails: { apy: Percentage(0.157), incentives: [], airdrops: [] },
+        borrowApyDetails: { baseApy: Percentage(0.11) },
+        depositApyDetails: { baseApy: Percentage(0.157) },
         totalBorrowed: NormalizedUnitNumber(0),
         totalSupplied: NormalizedUnitNumber(11.99),
         marketStatus: {
@@ -108,8 +128,8 @@ export const Desktop: Story = {
       {
         token: tokens.USDC,
         reserveStatus: 'frozen',
-        borrowAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
-        depositAPYDetails: { apy: undefined, incentives: [], airdrops: [] },
+        borrowApyDetails: { baseApy: undefined },
+        depositApyDetails: { baseApy: undefined },
         totalBorrowed: NormalizedUnitNumber(1257),
         totalSupplied: NormalizedUnitNumber(0),
         marketStatus: {

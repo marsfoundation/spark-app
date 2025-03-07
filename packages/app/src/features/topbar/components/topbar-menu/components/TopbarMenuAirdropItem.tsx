@@ -1,12 +1,12 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { useGrowingAirdropAmount } from '@/features/topbar/logic/use-airdrop-info/useGrowingAirdropAmount'
 import { assets } from '@/ui/assets'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ChevronRight, ExternalLinkIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Airdrop, TopbarAirdropProps } from '../../topbar-airdrop/TopbarAirdrop'
@@ -67,7 +67,7 @@ function TopbarMenuAirdropDialog({
         <MenuItem variant="secondary" asChild withSeparator>
           <button className="flex items-center gap-2 rounded-none p-6">
             <div className="flex flex-col items-start gap-2">
-              <span className="typography-label-5 text-secondary">Spark Airdrop Tokens</span>
+              <span className="typography-label-3 text-secondary">Spark Airdrop Tokens</span>
               <div className="flex items-center gap-2">
                 <img src={assets.brand.symbolGradient} alt="spark logo" className="icon-md" />
                 {SPK_MOCK_TOKEN.format(amount ?? NormalizedUnitNumber(0), { style: 'compact' })}
@@ -82,13 +82,13 @@ function TopbarMenuAirdropDialog({
         <DialogTitle className="border-primary border-b p-5 pt-6">Spark Airdrop Tokens</DialogTitle>
 
         <MenuItem className="flex flex-col items-start gap-2 p-6">
-          <span className="typography-label-5 text-secondary">Amount</span>
+          <span className="typography-label-3 text-secondary">Amount</span>
           <div className="flex items-center gap-2">
             <img src={assets.brand.symbolGradient} className="icon-md" />
             {isLoading ? (
               <Skeleton className="h-6 w-10 rounded-sm" />
             ) : (
-              <div className="typography-label-4" data-chromatic="ignore">
+              <div className="typography-label-2" data-chromatic="ignore">
                 {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
               </div>
             )}
@@ -96,12 +96,12 @@ function TopbarMenuAirdropDialog({
         </MenuItem>
 
         <div className="flex flex-col gap-4 bg-secondary p-6">
-          <span className="typography-body-5 text-secondary">
+          <span className="typography-body-3 text-secondary">
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </span>
 
-          <MenuItem asChild>
-            <Link to={links.docs.sparkAirdrop} external className="cursor-pointer border border-primary">
+          <MenuItem asChild className="cursor-pointer">
+            <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
               Learn more
               <MenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />
             </Link>

@@ -4,8 +4,8 @@ import { create } from 'zustand'
 import { ZUSTAND_APP_STORE_LOCAL_STORAGE_KEY } from '@/config/consts'
 import { makeFunctionsComparisonStable } from '@/test/integration/object-utils'
 
+import { Percentage } from '@marsfoundation/common-universal'
 import { StoreState, storeImplementation } from '.'
-import { Percentage } from '../types/NumericValues'
 
 describe(storeImplementation.name, () => {
   afterEach(() => localStorage.clear())

@@ -1,14 +1,18 @@
-import { expect } from '@playwright/test'
-
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
-import { ForkContext } from '@/test/e2e/forking/setupFork'
-import { buildUrl } from '@/test/e2e/setup'
-import { calculateAssetsWorth } from '@/test/e2e/utils'
+import { TestContext, buildUrl } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
+import { expect } from '@playwright/test'
 
 export class BorrowPageObject extends BasePageObject {
+  public readonly actionsContainer: ActionsPageObject
+
+  constructor(testContext: TestContext) {
+    super(testContext)
+    this.actionsContainer = new ActionsPageObject(testContext, this.locatePanelByHeader('Actions'))
+  }
+
   // #region actions
   async fillDepositAssetAction(index: number, asset: string, amount: number): Promise<void> {
     const inputGroup = this.page
@@ -51,19 +55,27 @@ export class BorrowPageObject extends BasePageObject {
     await this.page.getByRole('link', { name: 'View in Savings' }).click()
   }
 
-  async depositAssetsActions(assetsToDeposit: Record<string, number>, daiToBorrow: number): Promise<void> {
-    const actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
-    await this.depositWithoutBorrowActions(assetsToDeposit, daiToBorrow, actionsContainer)
-    await actionsContainer.acceptActionAtIndex(Object.entries(assetsToDeposit).length * 2) // accept final borrow action
+  async depositAssetsActions({
+    assetsToDeposit,
+    daiToBorrow,
+  }: {
+    assetsToDeposit: Record<string, number>
+    daiToBorrow: number
+  }): Promise<void> {
+    await this.depositWithoutBorrowActions({
+      assetsToDeposit,
+      daiToBorrow,
+    })
+    await this.actionsContainer.acceptActionAtIndex(Object.entries(assetsToDeposit).length * 2) // accept final borrow action
   }
 
-  async depositWithoutBorrowActions(
-    assetsToDeposit: Record<string, number>,
-    daiToBorrow?: number,
-    _actionsContainer?: ActionsPageObject,
-  ): Promise<void> {
-    const actionsContainer = _actionsContainer ?? new ActionsPageObject(this.locatePanelByHeader('Actions'))
-
+  async depositWithoutBorrowActions({
+    assetsToDeposit,
+    daiToBorrow,
+  }: {
+    assetsToDeposit: Record<string, number>
+    daiToBorrow?: number
+  }): Promise<void> {
     let index = 0
     for (const [asset, amount] of Object.entries(assetsToDeposit)) {
       if (index !== 0) {
@@ -74,8 +86,8 @@ export class BorrowPageObject extends BasePageObject {
     }
     await this.fillBorrowAssetAction(daiToBorrow ?? 1) // defaulted value won't matter, if only depositing
     await this.submitAction()
-    await actionsContainer.acceptAllActionsAction(2 * index) // omitting the borrow action
-    await actionsContainer.expectEnabledActionAtIndex(2 * index)
+    await this.actionsContainer.acceptAllActionsAction(2 * index) // omitting the borrow action
+    await this.actionsContainer.expectEnabledActionAtIndex(2 * index)
   }
 
   async goToEasyBorrowAction(): Promise<void> {
@@ -115,35 +127,22 @@ export class BorrowPageObject extends BasePageObject {
     await expect(this.page.getByTestId(testIds.easyBorrow.form.usdsBorrowAlert)).toBeVisible()
   }
 
-  async expectSuccessPage(
-    deposited: TestTokenWithValue[],
-    borrowed: TestTokenWithValue,
-    fork: ForkContext,
-    assetsWorthOverride?: Record<string, number>,
-  ): Promise<void> {
+  async expectSuccessPage({
+    deposited,
+    borrowed,
+  }: {
+    deposited: TestTokenWithValue[]
+    borrowed: TestTokenWithValue
+  }): Promise<void> {
     await expect(this.page.getByText('Congrats, all done!')).toBeVisible()
-
-    const transformed = [...deposited, borrowed].reduce(
-      (acc, { asset, amount: value }) => ({ ...acc, [asset]: value }),
-      {},
-    )
-
-    const assetsWorth = await (async () => {
-      if (assetsWorthOverride) {
-        return assetsWorthOverride
-      }
-
-      const { assetsWorth } = await calculateAssetsWorth(fork.forkUrl, transformed)
-      return assetsWorth
-    })()
 
     if (deposited.length > 0) {
       const depositSummary = await this.page.getByTestId(testIds.easyBorrow.success.deposited).textContent()
-      expectAssets(depositSummary!, deposited, assetsWorth)
+      expectAssets(depositSummary!, deposited)
     }
 
     const borrowSummary = await this.page.getByTestId(testIds.easyBorrow.success.borrowed).textContent()
-    expectAssets(borrowSummary!, [borrowed], assetsWorth)
+    expectAssets(borrowSummary!, [borrowed])
   }
   // #endregion
 }

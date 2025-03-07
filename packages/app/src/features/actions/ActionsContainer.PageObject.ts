@@ -1,20 +1,17 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
-import { ForkContext } from '@/test/e2e/forking/setupFork'
-import { isPage } from '@/test/e2e/utils'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
+import { Percentage } from '@marsfoundation/common-universal'
 import { ActionType } from './logic/types'
 
 export class ActionsPageObject extends BasePageObject {
-  constructor(pageOrLocator: Page | Locator) {
-    if (isPage(pageOrLocator)) {
-      super(pageOrLocator)
+  constructor(testContext: TestContext, locator?: Locator) {
+    super(testContext, locator)
+    if (!locator) {
       this.region = this.locatePanelByHeader('Actions')
-    } else {
-      super(pageOrLocator)
     }
   }
 
@@ -27,27 +24,32 @@ export class ActionsPageObject extends BasePageObject {
   }
 
   // #region actions
-  async acceptAllActionsAction(expectedNumberOfActions: number, forkContext?: ForkContext): Promise<void> {
+  async acceptAllActionsAction(expectedNumberOfActions: number): Promise<void> {
     for (let index = 0; index < expectedNumberOfActions; index++) {
       const row = this.region.getByTestId(testIds.actions.row(index))
 
       await row.getByRole('button', { name: actionButtonRegex }).click()
+      await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
       // @note: we are setting block timestamp of the next tx (especially after executing all txs)
-      if (forkContext?.isVnet) {
-        await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
-        await forkContext.progressSimulation(this.page, 5)
-      }
+      await this.testContext.testnetController.progressSimulation(5)
     }
   }
 
-  async acceptActionAtIndex(index: number, forkContext?: ForkContext): Promise<void> {
+  async acceptActionAtIndex(index: number): Promise<void> {
     const row = this.region.getByTestId(testIds.actions.row(index))
     await row.getByRole('button', { name: actionButtonRegex }).click()
+    await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
     // @note: we are setting block timestamp of the next tx (especially after executing all txs)
-    if (forkContext?.isVnet) {
-      await expect(row.getByRole('button', { name: actionButtonRegex })).not.toBeVisible()
-      await forkContext.progressSimulation(this.page, 5)
-    }
+    await this.testContext.testnetController.progressSimulation(5)
+  }
+
+  async acceptBatchedActions(): Promise<void> {
+    this.testContext.testnetController.autoProgressSimulationController.enable(5)
+    const button = this.region.getByRole('button', { name: 'Execute' })
+    await button.click()
+    await expect(button).not.toBeVisible()
+    this.testContext.testnetController.autoProgressSimulationController.disable()
+    await this.testContext.testnetController.progressSimulation(5)
   }
 
   async switchPreferPermitsAction(): Promise<void> {
@@ -236,6 +238,8 @@ function actionToTitle(action: SimplifiedAction): string {
         ? `Exit from ${action.rewardToken} Farm`
         : `Withdraw ${action.stakingToken} from ${action.rewardToken} Farm`
     case 'claimFarmRewards':
+      return 'Claim rewards'
+    case 'claimSparkRewards':
       return 'Claim rewards'
     case 'psmConvert':
       return `Convert ${action.inToken} to ${action.outToken}`

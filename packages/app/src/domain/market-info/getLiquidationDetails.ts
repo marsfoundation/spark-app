@@ -1,12 +1,9 @@
-import BigNumber from 'bignumber.js'
-
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithValue } from '@/domain/common/types'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-
-import { raise } from '@/utils/assert'
+import { NormalizedUnitNumber, Percentage, raise } from '@marsfoundation/common-universal'
+import BigNumber from 'bignumber.js'
 import { eModeCategoryIdToName } from '../e-mode/constants'
 
 export interface LiquidationDetails {
@@ -33,10 +30,12 @@ export function getLiquidationDetails({
   const { defaultAssetToBorrow } =
     getChainConfigEntry(marketInfo.chainId).markets ?? raise('Markets config is not defined on this chain')
 
-  if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow) {
+  if (borrows.length !== 1 || borrows[0]!.token.symbol !== defaultAssetToBorrow.symbol) {
     return undefined
   }
-  const borrowInUSD = borrows[0]!.value.multipliedBy(marketInfo.findOneTokenBySymbol(defaultAssetToBorrow).unitPriceUsd)
+  const borrowInUSD = borrows[0]!.value.multipliedBy(
+    marketInfo.findOneTokenBySymbol(defaultAssetToBorrow.symbol).unitPriceUsd,
+  )
 
   const collateralEModeIds = collaterals.map(
     (collateral) => marketInfo.findOneReserveBySymbol(collateral.token.symbol).eModeCategory?.id,

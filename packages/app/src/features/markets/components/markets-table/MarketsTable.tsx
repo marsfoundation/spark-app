@@ -1,9 +1,9 @@
 import { paths } from '@/config/paths'
 import { sortByAPY, sortByUsdValue } from '@/domain/common/sorters'
-import { LinkButton } from '@/ui/atoms/new/link-button/LinkButton'
+import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
-import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
+import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
 import { generatePath } from 'react-router-dom'
@@ -26,6 +26,7 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
       hideTableHeader={hideTableHeader}
       data={entries}
       data-testid={dataTestId}
+      defaultSortingState={[{ id: 'totalSupplied', desc: true }]}
       columnDefinition={{
         asset: {
           header: 'Assets',
@@ -39,13 +40,14 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           sortable: true,
           sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'totalSupplied'),
           renderCell: ({ token, totalSupplied, reserveStatus }, mobileViewOptions) => (
-            <CompactValueCell
+            <AmountCell
               token={token}
-              value={totalSupplied}
-              dimmed={reserveStatus !== 'active'}
+              amount={totalSupplied}
+              formattingOptions={{
+                dimmed: reserveStatus !== 'active',
+                style: 'compact',
+              }}
               mobileViewOptions={mobileViewOptions}
-              compactValue
-              hideEmpty
               data-testid={testIds.markets.table.cell.totalSupplied}
             />
           ),
@@ -54,8 +56,8 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           header: <ApyTooltip variant="supply">Deposit APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => sortByAPY(a.original.depositAPYDetails.apy, b.original.depositAPYDetails.apy),
-          renderCell: ({ depositAPYDetails, reserveStatus, token }, mobileViewOptions) => (
+          sortingFn: (a, b) => sortByAPY(a.original.depositApyDetails.baseApy, b.original.depositApyDetails.baseApy),
+          renderCell: ({ depositApyDetails: depositAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}
               incentivizedReserve={token}
@@ -71,13 +73,14 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           sortable: true,
           sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'totalBorrowed'),
           renderCell: ({ token, totalBorrowed, reserveStatus }, mobileViewOptions) => (
-            <CompactValueCell
+            <AmountCell
               token={token}
-              value={totalBorrowed}
-              dimmed={reserveStatus !== 'active'}
+              amount={totalBorrowed}
+              formattingOptions={{
+                dimmed: reserveStatus !== 'active',
+                style: 'compact',
+              }}
               mobileViewOptions={mobileViewOptions}
-              compactValue
-              hideEmpty
               data-testid={testIds.markets.table.cell.totalBorrowed}
             />
           ),
@@ -86,14 +89,13 @@ export function MarketsTable({ entries, chainId, hideTableHeader, 'data-testid':
           header: <ApyTooltip variant="borrow">Borrow APY</ApyTooltip>,
           headerAlign: 'right',
           sortable: true,
-          sortingFn: (a, b) => sortByAPY(a.original.borrowAPYDetails.apy, b.original.borrowAPYDetails.apy),
-          renderCell: ({ borrowAPYDetails, reserveStatus, token }, mobileViewOptions) => (
+          sortingFn: (a, b) => sortByAPY(a.original.borrowApyDetails.baseApy, b.original.borrowApyDetails.baseApy),
+          renderCell: ({ borrowApyDetails: borrowAPYDetails, reserveStatus, token }, mobileViewOptions) => (
             <ApyWithRewardsCell
               reserveStatus={reserveStatus}
               incentivizedReserve={token}
               apyDetails={borrowAPYDetails}
               mobileViewOptions={mobileViewOptions}
-              bold
               data-testid={testIds.markets.table.cell.borrowAPY}
             />
           ),

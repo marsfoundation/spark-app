@@ -1,7 +1,7 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { cn } from '@/ui/utils/style'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface SavingsAPYBadgeProps {
   APY?: Percentage
@@ -21,7 +21,7 @@ export function SavingsAPYBadge({ APY, isLoading, className }: SavingsAPYBadgePr
         <Skeleton className="h-4 w-5 rounded-sm bg-primary/80 backdrop-brightness-75" />
       ) : (
         APY && (
-          <span className="typography-label-5 !leading-none text-primary-inverse">
+          <span className="typography-label-3 !leading-none text-primary-inverse">
             {formatPercentage(APY, { minimumFractionDigits: 0 })}
           </span>
         )

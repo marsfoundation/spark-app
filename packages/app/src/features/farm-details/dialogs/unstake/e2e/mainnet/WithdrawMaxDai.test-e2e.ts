@@ -1,8 +1,8 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { Address } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -10,14 +10,14 @@ import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
 test.describe('Withdraw max DAI from SKY farm', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
   let stakeDialog: StakeDialogPageObject
   let account: Address
 
   test.beforeEach(async ({ page }) => {
-    ;({ account } = await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: { blockNumber: DEFAULT_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -32,13 +32,14 @@ test.describe('Withdraw max DAI from SKY farm', () => {
           USDC: 10_000,
         },
       },
-    }))
+    })
 
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    stakeDialog = new StakeDialogPageObject(page)
+    stakeDialog = new StakeDialogPageObject(testContext)
+    account = testContext.account
 
     await stakeDialog.selectAssetAction('USDS')
     await stakeDialog.fillAmountAction(10_000)
@@ -46,11 +47,11 @@ test.describe('Withdraw max DAI from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await fork.progressSimulation(page, 24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
     await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
-    unstakeDialog = new UnstakeDialogPageObject(page)
+    unstakeDialog = new UnstakeDialogPageObject(testContext)
 
     await unstakeDialog.selectAssetAction('DAI')
     await unstakeDialog.clickMaxAmountAction()
@@ -120,9 +121,8 @@ test.describe('Withdraw max DAI from SKY farm', () => {
         usdValue: '10,000.00',
       },
       reward: {
-        min: 3538,
-        max: 3541,
-        usdValue: '213',
+        amount: 49.44,
+        usdValue: '2.98',
         token: 'SKY',
       },
     })
@@ -136,8 +136,8 @@ test.describe('Withdraw max DAI from SKY farm', () => {
 
     await farmDetailsPage.expectTokenToDepositBalance('DAI', '20,000.00')
     await farmDetailsPage.expectReward({
-      reward: '3,539',
-      rewardUsd: '$213',
+      reward: '49.436543',
+      rewardUsd: '2.98',
     })
   })
 
@@ -153,10 +153,8 @@ test.describe('Withdraw max DAI from SKY farm', () => {
 
     await farmDetailsPage.expectTokenBalance({
       address: account,
-      fork,
       symbol: 'SKY',
-      minBalance: 3_525,
-      maxBalance: 3_545,
+      balance: NormalizedUnitNumber('49.4365427929088'),
     })
   })
 })

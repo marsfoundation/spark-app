@@ -1,6 +1,6 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Address } from '@/ui/atoms/address/Address'
-import { CopyButton } from '@/ui/molecules/new/copy-button/CopyButton'
+import { CopyButton } from '@/ui/molecules/copy-button/CopyButton'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 
 interface TopbarWalletAddressDisplayProps {
   walletIcon: string
@@ -14,7 +14,7 @@ export function TopbarWalletAddressDisplay({ walletIcon, address }: TopbarWallet
         <img src={walletIcon} alt="Wallet icon" className="aspect-square h-12 md:h-6" />
       </div>
 
-      <div className="typography-label-4 overflow-hidden text-primary">
+      <div className="typography-label-2 overflow-hidden text-primary">
         <div className="flex items-center gap-1">
           <Address compact address={address} />
           <CopyButton text={address} />

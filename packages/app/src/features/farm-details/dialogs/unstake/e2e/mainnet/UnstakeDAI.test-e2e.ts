@@ -1,6 +1,5 @@
 import { FarmDetailsPageObject } from '@/features/farm-details/FarmDetails.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { overrideInfoSkyRouteWithHAR } from '@/test/e2e/info-sky'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
@@ -9,13 +8,16 @@ import { StakeDialogPageObject } from '../../../stake/StakeDialog.PageObject'
 import { UnstakeDialogPageObject } from '../../UnstakeDialog.PageObject'
 
 test.describe('Unstake DAI from SKY farm', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let farmDetailsPage: FarmDetailsPageObject
   let unstakeDialog: UnstakeDialogPageObject
   let stakeDialog: StakeDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'farmDetails',
       initialPageParams: {
         chainId: mainnet.id.toString(),
@@ -32,9 +34,9 @@ test.describe('Unstake DAI from SKY farm', () => {
     })
     await overrideInfoSkyRouteWithHAR({ page, key: '1-sky-farm-with-8_51-apy' })
 
-    farmDetailsPage = new FarmDetailsPageObject(page)
+    farmDetailsPage = new FarmDetailsPageObject(testContext)
     await farmDetailsPage.clickInfoPanelStakeButtonAction()
-    stakeDialog = new StakeDialogPageObject(page)
+    stakeDialog = new StakeDialogPageObject(testContext)
 
     await stakeDialog.selectAssetAction('USDS')
     await stakeDialog.fillAmountAction(10_000)
@@ -42,11 +44,11 @@ test.describe('Unstake DAI from SKY farm', () => {
 
     await stakeDialog.clickBackToFarmAction()
 
-    await fork.progressSimulation(page, 24 * 60 * 60) // 24 hours
+    await testContext.testnetController.progressSimulationAndMine(24 * 60 * 60) // 24 hours
     await page.reload()
 
     await farmDetailsPage.clickInfoPanelUnstakeButtonAction()
-    unstakeDialog = new UnstakeDialogPageObject(page)
+    unstakeDialog = new UnstakeDialogPageObject(testContext)
 
     await unstakeDialog.selectAssetAction('DAI')
     await unstakeDialog.fillAmountAction(5_000)
@@ -91,9 +93,9 @@ test.describe('Unstake DAI from SKY farm', () => {
     await farmDetailsPage.expectTokenToDepositBalance('DAI', '15,000.00')
     await farmDetailsPage.expectTokenToDepositBalance('USDS', '-')
     await farmDetailsPage.expectReward({
-      reward: '3,539',
-      rewardUsd: '$213',
+      reward: '49.43940',
+      rewardUsd: '2.98',
     })
-    await farmDetailsPage.expectStaked('5,000.00 USDS')
+    await farmDetailsPage.expectStaked({ amount: '5,000.00', asset: 'USDS' })
   })
 })

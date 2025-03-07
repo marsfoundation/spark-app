@@ -1,11 +1,11 @@
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { PortalRef } from '@/ui/utils/usePortalRef'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { VariantProps, cva } from 'class-variance-authority'
 import { X } from 'lucide-react'
 import * as React from 'react'
-import { RefObject } from 'react'
-import { IconButton } from '../new/icon-button/IconButton'
+import { IconButton } from '../icon-button/IconButton'
 
 const Dialog = DialogPrimitive.Root
 
@@ -67,8 +67,8 @@ const contentVariants = cva(
 const overlayVariants = cva('', {
   variants: {
     overlayVariant: {
-      default: 'bg-reskin-alpha-dialog backdrop-blur-sm',
-      delicate: 'bg-reskin-neutral-950/25 backdrop-blur-[1.5px]',
+      default: 'bg-alpha-dialog backdrop-blur-sm',
+      delicate: 'bg-neutral-950/25 backdrop-blur-[1.5px]',
     },
   },
   defaultVariants: {
@@ -82,7 +82,7 @@ const DialogContent = React.forwardRef<
     VariantProps<typeof contentVariants> &
     VariantProps<typeof overlayVariants> & {
       showCloseButton?: boolean
-      portalContainerRef?: RefObject<HTMLElement>
+      portalContainerRef?: PortalRef
       preventAutoFocus?: boolean
     }
 >(

@@ -1,14 +1,13 @@
+import { Path, paths } from '@/config/paths'
+import { TestnetClient } from '@marsfoundation/common-testnets'
+import { assert, CheckedAddress, assertNever, extractUrlFromClient } from '@marsfoundation/common-universal'
 import { Page } from '@playwright/test'
 import { generatePath } from 'react-router-dom'
-import { Address, Hash, parseEther, parseUnits } from 'viem'
-
-import { Path, paths } from '@/config/paths'
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
-
-import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
+import { Address, Chain, Hash, parseEther, parseUnits } from 'viem'
 import { AssetsInTests, TOKENS_ON_FORK } from './constants'
-import { ForkContext } from './forking/setupFork'
-import { injectFixedDate, injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
+import { getTestnetContext } from './getTestnetContext'
+import { injectFlags, injectNetworkConfiguration, injectWalletConfiguration } from './injectSetup'
+import { SetupSparkRewardsParams, setupSparkRewards } from './setupSparkRewards'
 import { generateAccount } from './utils'
 
 export type InjectableWallet = { address: Address } | { privateKey: string }
@@ -24,95 +23,113 @@ export type AccountOptions<T extends ConnectionType> = T extends 'not-connected'
   ? {
       type: T
     }
-  : T extends 'connected-random'
-    ? {
-        type: T
-        assetBalances?: Partial<Record<AssetsInTests, number>>
-      }
-    : T extends 'connected-pkey'
-      ? {
-          type: T
-          privateKey: Hash
-          assetBalances?: Partial<Record<AssetsInTests, number>>
-        }
-      : T extends 'connected-address'
+  : (T extends 'connected-random'
+      ? {}
+      : T extends 'connected-pkey'
         ? {
-            type: T
-            address: Address
-            assetBalances?: Partial<Record<AssetsInTests, number>>
+            privateKey: Hash
           }
-        : never
+        : T extends 'connected-address'
+          ? {
+              address: Address
+            }
+          : never) & {
+      type: T
+      atomicBatchSupported?: boolean
+      assetBalances?: Partial<Record<AssetsInTests, number>>
+      sparkRewards?: SetupSparkRewardsParams['rewardsConfig']
+    }
 
+export interface BlockchainOptions {
+  chain: Chain
+  blockNumber: bigint
+}
 export interface SetupOptions<K extends Path, T extends ConnectionType> {
+  blockchain: BlockchainOptions
   initialPage: K
   initialPageParams?: PathParams<K>
   account: AccountOptions<T>
   skipInjectingNetwork?: boolean
+  balanceOverrides?: Record<Address, Partial<Record<AssetsInTests, number>>>
 }
 
-export type SetupReturn<T extends ConnectionType> = T extends 'not-connected'
-  ? {
-      getLogs: () => string[]
-    }
-  : {
-      account: Address
-      getLogs: () => string[]
-    }
+export type ProgressSimulation = (seconds: number) => Promise<void>
+export interface TestnetController {
+  client: TestnetClient
+  progressSimulation: ProgressSimulation
+  progressSimulationAndMine: ProgressSimulation
+  autoProgressSimulationController: AutoSimulationProgressController
+}
+
+export type TestContext<T extends ConnectionType = 'not-connected'> = (T extends 'not-connected'
+  ? {}
+  : { account: Address }) & {
+  testnetController: TestnetController
+  page: Page
+}
 
 // should be called at the beginning of any test
 export async function setup<K extends Path, T extends ConnectionType>(
   page: Page,
-  forkContext: ForkContext,
   options: SetupOptions<K, T>,
-): Promise<SetupReturn<T>> {
-  if (options.skipInjectingNetwork === true) {
-    // if explicitly disabled, do not inject network config abort all network requests to RPC providers
-    await page.route(/alchemy/, (route) => route.abort())
-    await page.route(/rpc.ankr/, (route) => route.abort())
-  } else {
-    await injectNetworkConfiguration(page, forkContext.forkUrl, forkContext.chainId)
-  }
-  await injectFixedDate(page, forkContext.simulationDate)
-  await injectFlags(page, forkContext)
-  let address: Address | undefined
+): Promise<TestContext<T>> {
+  const { client: testnetClient, initialSnapshotId } = await getTestnetContext(options.blockchain)
+  await testnetClient.revert(initialSnapshotId)
 
-  if (options.account.type !== 'not-connected') {
-    if (options.account.type === 'connected-random') {
-      const account = generateAccount({ privateKey: undefined })
-      address = account.address
-      await injectWalletConfiguration(page, account)
-      await injectFunds(forkContext, account.address, options.account.assetBalances)
-    }
-    if (options.account.type === 'connected-pkey') {
-      const account = generateAccount({ privateKey: options.account.privateKey })
-      address = account.address
-      await injectWalletConfiguration(page, account)
-      await injectFunds(forkContext, account.address, options.account.assetBalances)
-    }
-    if (options.account.type === 'connected-address') {
-      address = options.account.address
-      await injectWalletConfiguration(page, { address })
+  if (options.balanceOverrides) {
+    for (const [address, balances] of Object.entries(options.balanceOverrides)) {
+      await injectFunds(testnetClient, address as Address, balances)
     }
   }
 
-  const errorLogs = [] as string[]
+  const autoProgressSimulationController = await injectPageSetup({ page, testnetClient, options })
+  const address = await setupAccount({ page, testnetClient, options: options.account })
 
-  page.on('console', (message) => {
-    if (message.type() === 'error') {
-      errorLogs.push(message.text())
-    }
-  })
+  async function progressSimulation(seconds: number): Promise<void> {
+    const { timestamp: currentTimestamp } = await testnetClient.getBlock()
+
+    const progressedTimestamp = currentTimestamp + BigInt(seconds)
+    await testnetClient.setNextBlockTimestamp(progressedTimestamp)
+    await page.clock.setFixedTime(Number(currentTimestamp) * 1000)
+  }
+
+  async function progressSimulationAndMine(seconds: number): Promise<void> {
+    await progressSimulation(seconds)
+    await testnetClient.mineBlocks(1n)
+    await progressSimulation(1)
+  }
+
+  // @note: Set next block to be mined timestamp to be 5 seconds more.
+  await progressSimulation(5)
+
+  const testnetController: TestnetController = {
+    client: testnetClient,
+    progressSimulation,
+    progressSimulationAndMine,
+    autoProgressSimulationController,
+  }
+
+  const testContext = {
+    page,
+    account: address,
+    testnetController,
+  }
+
+  if (options.account.type !== 'not-connected' && options.account.sparkRewards && address) {
+    await setupSparkRewards({
+      testContext,
+      account: CheckedAddress(address),
+      rewardsConfig: options.account.sparkRewards,
+    })
+  }
 
   await page.goto(buildUrl(options.initialPage, options.initialPageParams))
 
-  return {
-    account: address,
-    getLogs: () => errorLogs,
-  } as any
+  return testContext as any
 }
 
-export async function injectFunds(
-  forkContext: ForkContext,
+async function injectFunds(
+  testnetClient: TestnetClient,
   address: Address,
   assetBalances?: AssetBalances,
 ): Promise<void> {
@@ -120,45 +137,116 @@ export async function injectFunds(
     return
   }
 
-  if (forkContext.isVnet) {
-    const promises = Object.entries(assetBalances).map(async ([tokenName, balance]) => {
-      if (tokenName === 'ETH' || tokenName === 'XDAI') {
-        await tenderlyRpcActions.setBalance(
-          forkContext.forkUrl,
-          address,
-          BaseUnitNumber(parseEther(balance.toString())),
-        )
-      } else {
-        await tenderlyRpcActions.setTokenBalance(
-          forkContext.forkUrl,
-          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
-          address,
-          BaseUnitNumber(
-            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
-          ),
-        )
-      }
-    })
-    await Promise.all(promises)
-  } else {
-    // todo remove once we only support vnets
-    for (const [tokenName, balance] of Object.entries(assetBalances)) {
-      if (tokenName === 'ETH' || tokenName === 'XDAI') {
-        await tenderlyRpcActions.setBalance(
-          forkContext.forkUrl,
-          address,
-          BaseUnitNumber(parseEther(balance.toString())),
-        )
-      } else {
-        await tenderlyRpcActions.setTokenBalance(
-          forkContext.forkUrl,
-          (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].address,
-          address,
-          BaseUnitNumber(
-            parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[forkContext.chainId][tokenName].decimals),
-          ),
-        )
-      }
+  const chainId = await testnetClient.getChainId()
+  for (const [tokenName, balance] of Object.entries(assetBalances)) {
+    const { timestamp } = await testnetClient.getBlock()
+    await testnetClient.setNextBlockTimestamp(timestamp + 1n)
+    if (tokenName === 'ETH' || tokenName === 'XDAI') {
+      await testnetClient.setBalance(address, parseEther(balance.toString()))
+    } else {
+      await testnetClient.setErc20Balance(
+        (TOKENS_ON_FORK as any)[chainId][tokenName].address,
+        address,
+        parseUnits(balance.toString(), (TOKENS_ON_FORK as any)[chainId][tokenName].decimals),
+      )
     }
   }
+}
+
+async function setupAccount<T extends ConnectionType>({
+  page,
+  testnetClient,
+  options,
+}: {
+  page: Page
+  testnetClient: TestnetClient
+  options: AccountOptions<T>
+}): Promise<Address | undefined> {
+  switch (options.type) {
+    case 'connected-random': {
+      const account = generateAccount({ privateKey: undefined })
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
+      await injectFunds(testnetClient, account.address, options.assetBalances)
+      return account.address
+    }
+
+    case 'connected-pkey': {
+      const account = generateAccount({ privateKey: options.privateKey })
+      await injectWalletConfiguration(page, account, options.atomicBatchSupported)
+      await injectFunds(testnetClient, account.address, options.assetBalances)
+      return account.address
+    }
+
+    case 'connected-address': {
+      await injectWalletConfiguration(page, { address: options.address }, options.atomicBatchSupported)
+      return options.address
+    }
+
+    case 'not-connected':
+      return undefined
+
+    default:
+      assertNever(options)
+  }
+}
+
+async function injectPageSetup({
+  page,
+  testnetClient,
+  options,
+}: {
+  page: Page
+  testnetClient: TestnetClient
+  options: SetupOptions<any, any>
+}): Promise<AutoSimulationProgressController> {
+  const rpcUrl = extractUrlFromClient(testnetClient)
+
+  if (options.skipInjectingNetwork === true) {
+    // if explicitly disabled, do not inject network config abort all network requests to RPC providers
+    await page.route(/alchemy/, (route) => route.abort())
+    await page.route(/rpc.ankr/, (route) => route.abort())
+    await page.route(/blockanalitica.com/, (route) => route.abort())
+  } else {
+    await injectNetworkConfiguration({
+      page,
+      rpcUrl,
+      chainId: options.blockchain.chain.id,
+    })
+  }
+
+  await injectFlags(page, testnetClient, options.blockchain.chain.id)
+
+  let autoSimulationProgressDelta: number | undefined
+  await page.route(rpcUrl, async (route) => {
+    const body = await route.request().postDataJSON()
+    if (body.jsonrpc === '2.0' && body.method === 'eth_sendTransaction') {
+      if (autoSimulationProgressDelta) {
+        const { timestamp: currentTimestamp } = await testnetClient.getBlock()
+
+        const progressedTimestamp = currentTimestamp + BigInt(autoSimulationProgressDelta)
+        await testnetClient.setNextBlockTimestamp(progressedTimestamp)
+      }
+    }
+    return route.continue()
+  })
+
+  const autoProgressSimulationController: AutoSimulationProgressController = {
+    enable: (deltaSeconds: number) => {
+      assert(deltaSeconds > 0, 'deltaSeconds should be greater than 0')
+      autoSimulationProgressDelta = deltaSeconds
+    },
+    disable: () => {
+      autoSimulationProgressDelta = undefined
+    },
+  }
+
+  const { timestamp } = await testnetClient.getBlock()
+  await page.clock.setFixedTime(Number(timestamp) * 1000)
+
+  return autoProgressSimulationController
+}
+
+export interface AutoSimulationProgressController {
+  enable: (deltaSeconds: number) => void
+  disable: () => void
 }

@@ -1,5 +1,5 @@
 import { randomInt } from '@/utils/random'
-import { solidFetch } from '@/utils/solidFetch'
+import { solidFetch } from '@marsfoundation/common-universal'
 
 export async function request(
   forkUrl: string,

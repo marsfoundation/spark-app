@@ -1,7 +1,5 @@
 import { assets } from '@/ui/assets'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
-
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { IconPill } from '../../atoms/icon-pill/IconPill'
 
 interface FrozenPillProps {
@@ -12,9 +10,9 @@ export function FrozenPill({ 'data-testid': dataTestId }: FrozenPillProps) {
   return (
     <Tooltip>
       <TooltipTrigger className="flex">
-        <IconPill icon={assets.snowflake} className="border-none bg-blue-50" data-testid={dataTestId} />
+        <IconPill icon={assets.snowflake} className="border-none bg-brand-primary" data-testid={dataTestId} />
       </TooltipTrigger>
-      <TooltipContentLong>
+      <TooltipContent variant="long">
         <TooltipContentLayout>
           <TooltipContentLayout.Header>
             <TooltipContentLayout.Icon src={assets.snowflake} />
@@ -26,7 +24,7 @@ export function FrozenPill({ 'data-testid': dataTestId }: FrozenPillProps) {
             these assets are unavailable. Withdrawals and debt repayments are still allowed.
           </TooltipContentLayout.Body>
         </TooltipContentLayout>
-      </TooltipContentLong>
+      </TooltipContent>
     </Tooltip>
   )
 }

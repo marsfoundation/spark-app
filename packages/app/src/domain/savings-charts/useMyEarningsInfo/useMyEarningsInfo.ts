@@ -1,28 +1,22 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { TokenWithBalance } from '@/domain/common/types'
-import { SavingsInfo } from '@/domain/savings-info/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
+import { MyEarningsQueryOptions } from '@/config/chain/types'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Timeframe } from '@/ui/charts/defaults'
 import { SimplifiedQueryResult } from '@/utils/types'
-import { useCallback } from 'react'
+import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { skipToken, useQuery } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
+import { useChainId } from 'wagmi'
+import { MY_EARNINGS_TIMEFRAMES, MyEarningsTimeframe } from './common'
 import { getFilteredEarningsWithPredictions } from './getFilteredEarningsWithPredictions'
-import { getSavingsDisplayType } from './getSavingsDisplayType'
-import { myEarningsQueryOptions } from './query'
-import { selectMyEarningsSavingsDataByDisplayType } from './selectMyEarningsSavingsDataByDataType'
 import { MyEarningsInfoItem } from './types'
 
 export interface UseMyEarningsInfoParams {
   address?: CheckedAddress
-  chainId: number
-  timeframe: Timeframe
   currentTimestamp: number
   staleTime: number
-  savingsUsdsInfo: SavingsInfo | null
-  susdsWithBalance: TokenWithBalance | undefined
-  savingsDaiInfo: SavingsInfo | null
-  sdaiWithBalance: TokenWithBalance | undefined
-  getEarningsApiUrl: ((address: CheckedAddress) => string) | undefined
+  savingsConverter: SavingsConverter | null
+  savingsTokenBalance: NormalizedUnitNumber | undefined
+  myEarningsQueryOptions: MyEarningsQueryOptions | undefined
 }
 
 export type MyEarningsInfo =
@@ -35,61 +29,64 @@ export type MyEarningsInfo =
 export interface UseMyEarningsInfoResult {
   queryResult: SimplifiedQueryResult<MyEarningsInfo>
   shouldDisplayMyEarnings: boolean
+  selectedTimeframe: MyEarningsTimeframe
+  setSelectedTimeframe: (timeframe: Timeframe) => void
+  availableTimeframes: MyEarningsTimeframe[]
 }
 
 export function useMyEarningsInfo({
   address,
-  chainId,
-  timeframe,
   currentTimestamp,
   staleTime,
-  savingsUsdsInfo,
-  susdsWithBalance,
-  savingsDaiInfo,
-  sdaiWithBalance,
-  getEarningsApiUrl,
+  savingsConverter,
+  savingsTokenBalance,
+  myEarningsQueryOptions,
 }: UseMyEarningsInfoParams): UseMyEarningsInfoResult {
-  const displayType = getSavingsDisplayType({
-    savingsUsdsInfo,
-    susdsWithBalance,
-    savingsDaiInfo,
-    sdaiWithBalance,
-  })
-
-  const { savingsInfo, savingsTokenWithBalance } = selectMyEarningsSavingsDataByDisplayType({
-    savingsUsdsInfo,
-    savingsDaiInfo,
-    sdaiWithBalance,
-    susdsWithBalance,
-    displayType,
-  })
+  const [selectedTimeframe, setSelectedTimeframe] = useState<MyEarningsTimeframe>('All')
+  const chainId = useChainId()
 
   const queryResult = useQuery({
-    ...myEarningsQueryOptions({
-      address,
-      chainId,
-      getEarningsApiUrl,
-    }),
-    select: useCallback(
-      (myEarningsInfo: MyEarningsInfoItem[]) =>
-        getFilteredEarningsWithPredictions({
-          myEarningsInfo,
-          timeframe,
-          currentTimestamp,
-          savingsInfo,
-          savingsTokenWithBalance,
-        }),
-      [timeframe, currentTimestamp, savingsInfo, savingsTokenWithBalance],
-    ),
-    enabled: !!getEarningsApiUrl && !!savingsInfo && !!savingsTokenWithBalance,
+    ...(myEarningsQueryOptions && address
+      ? myEarningsQueryOptions(address, chainId)
+      : { queryKey: ['unsupported-my-earnings-query'], queryFn: skipToken }),
     staleTime,
   })
 
-  const hasHistoricalData = (queryResult.data?.data?.length ?? 0) > 0
-  const hasSavingTokenBalance = savingsTokenWithBalance?.balance.gt(0) ?? false
+  const dataWithPredictions = useMemo(() => {
+    if (!queryResult.data) {
+      return undefined
+    }
+
+    return getFilteredEarningsWithPredictions({
+      currentTimestamp,
+      timeframe: selectedTimeframe,
+      myEarningsInfo: queryResult.data,
+      savingsConverter,
+      savingsTokenBalance,
+    })
+  }, [queryResult.data, selectedTimeframe, currentTimestamp, savingsConverter, savingsTokenBalance])
+
+  const queryResultWithPredictions = useMemo(
+    () =>
+      ({
+        ...queryResult,
+        data: dataWithPredictions,
+      }) as SimplifiedQueryResult<MyEarningsInfo>,
+    [queryResult, dataWithPredictions],
+  )
+
+  const hasHistoricalData = (queryResultWithPredictions.data?.data?.length ?? 0) > 0
+  const hasSavingTokenBalance = savingsTokenBalance?.gt(0) ?? false
 
   return {
-    queryResult,
-    shouldDisplayMyEarnings: hasHistoricalData || hasSavingTokenBalance,
+    queryResult: queryResultWithPredictions,
+    shouldDisplayMyEarnings: Boolean(myEarningsQueryOptions && address && (hasHistoricalData || hasSavingTokenBalance)),
+    selectedTimeframe,
+    setSelectedTimeframe: (selectedTimeframe) => {
+      if (MY_EARNINGS_TIMEFRAMES.includes(selectedTimeframe)) {
+        setSelectedTimeframe(selectedTimeframe as any)
+      }
+    },
+    availableTimeframes: MY_EARNINGS_TIMEFRAMES,
   }
 }

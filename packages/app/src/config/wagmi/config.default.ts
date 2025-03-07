@@ -1,17 +1,13 @@
+import { SandboxNetwork } from '@/domain/state/sandbox'
+import { raise } from '@marsfoundation/common-universal'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { Chain } from 'viem'
 import { gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
-
-import { SandboxNetwork } from '@/domain/state/sandbox'
-import { raise } from '@/utils/assert'
-
 import { getChains } from './getChains'
 import { getTransports } from './getTransports'
 import { getWallets } from './getWallets'
 import { createWagmiStorage } from './storage'
-
-const wallets = getWallets()
 
 export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
   const forkChain = getForkChainFromSandboxConfig(sandboxNetwork)
@@ -24,7 +20,7 @@ export function getConfig(sandboxNetwork?: SandboxNetwork): Config {
     projectId: import.meta.env.VITE_WALLET_CONNECT_ID || raise('Missing VITE_WALLET_CONNECT_ID'),
     chains,
     transports,
-    wallets,
+    wallets: getWallets(),
     storage,
   })
 

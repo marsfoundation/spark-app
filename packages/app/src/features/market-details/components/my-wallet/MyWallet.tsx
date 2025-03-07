@@ -1,9 +1,9 @@
 import { BorrowEligibilityStatus } from '@/domain/market-info/reserve-status'
 import { OpenDialogFunction } from '@/domain/state/dialogs'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { borrowDialogConfig } from '@/features/dialogs/borrow/BorrowDialog'
 import { depositDialogConfig } from '@/features/dialogs/deposit/DepositDialog'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ActionRow } from './components/ActionRow'
 import { BorrowRow } from './components/BorrowRow'
 import { TokenBalance } from './components/TokenBalance'
@@ -31,7 +31,7 @@ export interface MyWalletProps {
 export function MyWallet({ token, tokenBalance, lend, deposit, borrow, openDialog }: MyWalletProps) {
   return (
     <WalletPanelContent>
-      <h3 className="font-semibold text-base text-sky-950 md:text-xl">My Wallet</h3>
+      <h3 className="typography-heading-4 text-primary">My Wallet</h3>
       <TokenBalance token={token} balance={tokenBalance} />
       {lend && (
         <ActionRow

@@ -1,5 +1,5 @@
-import { AssetsGroup } from '@/domain/farms/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { AssetsGroup } from '@/config/chain/types'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'

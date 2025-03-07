@@ -1,24 +1,22 @@
+import { TopbarPageObject } from '@/features/topbar/Topbar.PageObject'
+import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-
-import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
-import { NavbarPageObject } from '@/features/navbar/Navbar.PageObject'
-import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
 import { ClaimRewardsDialogPageObject } from './ClaimRewardsDialog.PageObject'
 
 test.describe('Claim rewards dialog', () => {
-  const fork = setupFork({
-    blockNumber: 20189272n, // block number where the reward program is finished
-    chainId: mainnet.id,
-  })
-  let navbar: NavbarPageObject
+  let navbar: TopbarPageObject
   let claimRewardsDialog: ClaimRewardsDialogPageObject
-  let actionsContainer: ActionsPageObject
+  let testContext: TestContext<'connected-address'>
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'easyBorrow',
       account: {
         type: 'connected-address',
@@ -26,11 +24,10 @@ test.describe('Claim rewards dialog', () => {
       },
     })
 
-    navbar = new NavbarPageObject(page)
+    navbar = new TopbarPageObject(testContext)
     await navbar.openClaimRewardsDialog()
 
-    claimRewardsDialog = new ClaimRewardsDialogPageObject(page)
-    actionsContainer = new ActionsPageObject(claimRewardsDialog.locatePanelByHeader('Actions'))
+    claimRewardsDialog = new ClaimRewardsDialogPageObject(testContext)
   })
 
   test('displays correct transaction overview', async () => {
@@ -38,13 +35,13 @@ test.describe('Claim rewards dialog', () => {
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '$25,583.20',
+        amountUSD: '$29,717.60',
       },
     ])
   })
 
   test('has correct action plan', async () => {
-    await actionsContainer.expectActions([
+    await claimRewardsDialog.actionsContainer.expectActions([
       {
         type: 'claimMarketRewards',
         asset: 'wstETH',
@@ -52,18 +49,18 @@ test.describe('Claim rewards dialog', () => {
     ])
   })
 
-  test('executes transaction', async ({ page }) => {
-    await actionsContainer.acceptAllActionsAction(1)
+  test('executes transaction', async () => {
+    await claimRewardsDialog.actionsContainer.acceptAllActionsAction(1)
 
     await claimRewardsDialog.expectClaimRewardsSuccessPage([
       {
         tokenSymbol: 'wstETH',
         amount: '6.3697',
-        amountUSD: '$25,583.20',
+        amountUSD: '$29,717.60',
       },
     ])
 
-    const myPortfolioPage = new MyPortfolioPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
     await myPortfolioPage.goToMyPortfolioAction()
 
     await myPortfolioPage.expectBalancesInDepositTable({

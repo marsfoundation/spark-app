@@ -1,6 +1,6 @@
 import { RiskWarning } from '@/domain/liquidation-risk-warning/types'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { LabeledSwitch } from '@/ui/molecules/labeled-switch/LabeledSwitch'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface RiskAcknowledgementProps {
@@ -24,7 +24,7 @@ export function RiskAcknowledgement({ warning, onStatusChange }: RiskAcknowledge
         </div>
       </Alert>
       <LabeledSwitch onCheckedChange={onStatusChange} data-testid={testIds.component.RiskAcknowledgement.switch}>
-        <div className="font-semibold text-basics-black text-sm">I acknowledge risks involved</div>
+        <div className="typography-label-3 text-primary">I acknowledge risks involved</div>
       </LabeledSwitch>
     </div>
   )

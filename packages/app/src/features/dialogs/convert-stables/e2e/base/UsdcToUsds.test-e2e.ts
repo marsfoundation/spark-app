@@ -1,17 +1,23 @@
+import { psm3Address } from '@/config/contracts-generated'
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
+import { BASE_DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { base } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from '../../ConvertStablesDialog.PageObject'
+import { convertStablesValidationIssueToMessage } from '../../logic/form/validator'
 
 test.describe('Convert USDC to USDS', () => {
-  const fork = setupFork({ chainId: base.id, blockNumber: 22143788n, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let convertStablesDialog: ConvertStablesDialogPageObject
+  let testContext: TestContext
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    testContext = await setup(page, {
+      blockchain: {
+        blockNumber: BASE_DEFAULT_BLOCK_NUMBER,
+        chain: base,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -22,10 +28,10 @@ test.describe('Convert USDC to USDS', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickConvertStablesButtonAction()
 
-    convertStablesDialog = new ConvertStablesDialogPageObject(page)
+    convertStablesDialog = new ConvertStablesDialogPageObject(testContext)
     await convertStablesDialog.selectAssetInAction('USDC')
     await convertStablesDialog.selectAssetOutAction('USDS')
     await convertStablesDialog.fillAmountInAction(10_000)
@@ -60,7 +66,27 @@ test.describe('Convert USDC to USDS', () => {
     await convertStablesDialog.actionsContainer.acceptAllActionsAction(2)
     await convertStablesDialog.expectSuccessPage()
     await convertStablesDialog.clickBackToSavingsButton()
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDC', '-')
-    await savingsPage.expectStablecoinsInWalletAssetBalance('USDS', '10,000.00')
+    await savingsPage.expectSupportedStablecoinBalance('USDC', '-')
+    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,000.00')
+  })
+
+  test('fails validation if psm3 usds balance is too low', async ({ page }) => {
+    await testContext.testnetController.client.setErc20Balance(
+      TOKENS_ON_FORK[base.id].USDS.address,
+      psm3Address[base.id],
+      0n,
+    )
+    await testContext.testnetController.progressSimulation(5)
+    await page.reload()
+
+    await savingsPage.clickConvertStablesButtonAction()
+    convertStablesDialog = new ConvertStablesDialogPageObject(testContext)
+    await convertStablesDialog.selectAssetInAction('USDC')
+    await convertStablesDialog.selectAssetOutAction('USDS')
+    await convertStablesDialog.fillAmountInAction(10_000)
+
+    await convertStablesDialog.expectAssetInputError(
+      convertStablesValidationIssueToMessage['usds-withdraw-cap-reached'],
+    )
   })
 })

@@ -1,27 +1,24 @@
 import {
-  basePsm3Address,
   dssLitePsmConfig,
   migrationActionsConfig,
+  psm3Address,
   usdsPsmWrapperConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { assert } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
-import { base } from 'viem/chains'
+import { assert, CheckedAddress, assertNever } from '@marsfoundation/common-universal'
 import { ApproveAction } from '../../approve/types'
 import { ConvertStablesObjective } from '../types'
 import { getConvertStablesActionPath } from './getConvertStablesActionPath'
 
 export function createConvertStablesActions(objective: ConvertStablesObjective, context: ActionContext): Action[] {
-  const { chainId, tokensInfo } = context
-  assert(tokensInfo, 'Tokens info is required for convert stables objective')
+  const { chainId, tokenRepository } = context
+  assert(tokenRepository, 'Tokens info is required for convert stables objective')
 
   const actionPath = getConvertStablesActionPath({
     inToken: objective.inToken,
     outToken: objective.outToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 
@@ -51,7 +48,9 @@ export function createConvertStablesActions(objective: ConvertStablesObjective, 
 
     case 'base-usdc-usds':
     case 'base-usds-usdc':
-      return [getApproveAction(CheckedAddress(basePsm3Address[base.id])), createPsmConvertAction(objective)]
+    case 'arbitrum-usdc-usds':
+    case 'arbitrum-usds-usdc':
+      return [getApproveAction(getContractAddress(psm3Address, chainId)), createPsmConvertAction(objective)]
 
     case 'dai-usds':
       return [

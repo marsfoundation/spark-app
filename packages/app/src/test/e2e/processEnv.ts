@@ -1,4 +1,4 @@
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 
 export function processEnv(key: string): string {
   const value = process.env[key]

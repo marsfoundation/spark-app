@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { mainnet } from 'viem/chains'
 import { AppConfig } from '.'
 import { clientEnv } from './clientEnv'
@@ -48,6 +48,10 @@ export function getDefaultAppConfig(): AppConfig {
           USDS: {
             address: '0xdC035D45d973E3EC169d2276DDab16f1e407384F',
             decimals: 18,
+          },
+          cbBTC: {
+            address: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+            decimals: 8,
           },
         },
       },

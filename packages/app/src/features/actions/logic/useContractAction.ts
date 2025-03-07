@@ -3,6 +3,7 @@ import {
   Action,
   ActionHandler,
   ActionHandlerState,
+  GetWriteConfigResult,
   InitialParamsBase,
   VerifyTransactionResultBase,
 } from '@/features/actions/logic/types'
@@ -13,6 +14,7 @@ import { createApproveActionConfig } from '../flavours/approve/logic/approveActi
 import { createBorrowActionConfig } from '../flavours/borrow/logic/borrowAction'
 import { createClaimFarmRewardsActionConfig } from '../flavours/claim-farm-rewards/logic/claimFarmRewardsAction'
 import { createClaimMarketRewardsActionConfig } from '../flavours/claim-market-rewards/logic/claimMarketRewardsAction'
+import { createClaimSparkRewardsActionConfig } from '../flavours/claim-spark-rewards/logic/claimSparkRewardsAction'
 import { createDepositToSavingsActionConfig } from '../flavours/deposit-to-savings/logic/depositToSavingsAction'
 import { createDepositActionConfig } from '../flavours/deposit/logic/depositAction'
 import { createDowngradeActionConfig } from '../flavours/downgrade/logic/downgradeAction'
@@ -48,9 +50,11 @@ export function useContractAction({ action, context, enabled }: UseContractActio
     enabled,
   })
 
+  const { simulationBlockTag, ...writeArgs } = getWriteConfig(initialParams)
   const write = useWrite(
     {
-      ...getWriteConfig(initialParams),
+      ...writeArgs,
+      blockTag: simulationBlockTag,
       enabled,
     },
     {
@@ -127,7 +131,7 @@ function mapStatusesToActionState({
   return mapWriteResultToActionState(write)
 }
 
-function actionToConfig(action: Action, context: ActionContext): ActionConfig {
+export function actionToConfig(action: Action, context: ActionContext): ActionConfig {
   switch (action.type) {
     case 'approve':
       return createApproveActionConfig(action, context)
@@ -163,6 +167,8 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
       return createPsmConvertActionConfig(action, context)
     case 'claimFarmRewards':
       return createClaimFarmRewardsActionConfig(action, context)
+    case 'claimSparkRewards':
+      return createClaimSparkRewardsActionConfig(action, context)
     case 'permit':
       return createEmptyActionConfig()
   }
@@ -171,7 +177,7 @@ function actionToConfig(action: Action, context: ActionContext): ActionConfig {
 function createEmptyActionConfig(): ActionConfig {
   return {
     initialParamsQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
-    getWriteConfig: () => ({}),
+    getWriteConfig: () => ({}) as GetWriteConfigResult,
     verifyTransactionQueryOptions: () => ({ queryKey: [], queryFn: skipToken }),
     invalidates: () => [],
     beforeWriteCheck: () => {},

@@ -1,9 +1,9 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useAccount, useConfig } from 'wagmi'
+import { useTokenRepositoryForFeature } from '../token-repository/useTokenRepositoryForFeature'
 import { farmsApiDetailsQueryOptions } from './farmApiDetailsQuery'
 import { farmsBlockchainDetailsQueryOptions } from './farmBlockchainDetailsQuery'
 import { FarmsInfo } from './farmsInfo'
@@ -21,15 +21,15 @@ export function useFarmsInfo({ chainId }: UseFarmsInfoParams): UseFarmsInfoResul
   const wagmiConfig = useConfig()
   const { address: account } = useAccount()
 
-  const { farms, extraTokens } = getChainConfigEntry(chainId)
-  const { tokensInfo } = useTokensInfo({ tokens: extraTokens, chainId })
+  const { farms } = getChainConfigEntry(chainId)
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'farms' })
   assert(farms, 'Farms config is not defined on this chain')
   const farmConfigs = farms.configs
 
   const farmsApiDetailsResult = useQuery(farmsApiDetailsQueryOptions({ farmConfigs }))
 
   const { data } = useSuspenseQuery({
-    ...farmsBlockchainDetailsQueryOptions({ farmConfigs, wagmiConfig, tokensInfo, chainId, account }),
+    ...farmsBlockchainDetailsQueryOptions({ farmConfigs, wagmiConfig, tokenRepository, chainId, account }),
     select: useCallback(
       (data: FarmBlockchainDetails[]) => mergeBlockchainAndApiDetails(data, farmsApiDetailsResult.data),
       [farmsApiDetailsResult.data],

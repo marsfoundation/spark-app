@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { TopbarWalletDropdown, TopbarWalletDropdownProps } from './TopbarWalletDropdown'
 
 export interface TopbarWalletProps {
@@ -8,7 +8,7 @@ export interface TopbarWalletProps {
 
 export function TopbarWallet({ connectedWalletInfo, onConnect }: TopbarWalletProps) {
   return (
-    <div className="md:w-44 sm:w-36">
+    <div className="sm:w-36 md:w-44">
       {connectedWalletInfo ? (
         <TopbarWalletDropdown {...connectedWalletInfo} />
       ) : (

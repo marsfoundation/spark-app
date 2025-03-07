@@ -1,11 +1,11 @@
 import { savingsXDaiAdapterAbi, savingsXDaiAdapterAddress } from '@/config/contracts-generated'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { gnosis } from 'viem/chains'
 import { describe, test } from 'vitest'
@@ -18,7 +18,7 @@ const sdai = testTokens.sDAI
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -48,7 +48,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -56,7 +56,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           abi: savingsXDaiAdapterAbi,
           functionName: 'depositXDAI',
           args: [account],
-          value: toBigInt(toBigInt(dai.toBaseUnit(depositValue))),
+          value: toBigInt(dai.toBaseUnit(depositValue)),
           from: account,
           result: 1n,
         }),

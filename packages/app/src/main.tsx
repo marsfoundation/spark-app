@@ -1,6 +1,6 @@
 import './css/main.css'
 import './css/fonts.css'
-import './utils/sentry.ts'
+import './utils/sentry'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'

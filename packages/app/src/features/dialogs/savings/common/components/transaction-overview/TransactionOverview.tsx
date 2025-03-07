@@ -1,7 +1,7 @@
 import { Token } from '@/domain/types/Token'
-import { TransactionOverview } from '@/ui/organisms/new/transaction-overview/TransactionOverview'
+import { TransactionOverview } from '@/ui/organisms/transaction-overview/TransactionOverview'
 import { testIds } from '@/ui/utils/testIds'
-import { assert } from '@/utils/assert'
+import { assert } from '@marsfoundation/common-universal'
 import { SavingsDialogTxOverview } from '../../types'
 import { TransactionOverviewPlaceholder } from './components/TransactionOverviewPlaceholder'
 
@@ -15,7 +15,7 @@ export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY 
   if (txOverview.status !== 'success') {
     return <TransactionOverviewPlaceholder badgeToken={selectedToken.symbol} showAPY={showAPY} showSkyBadge />
   }
-  const { APY, baseStable, stableEarnRate, route } = txOverview
+  const { APY, underlyingToken, stableEarnRate, route } = txOverview
 
   assert(route.length > 0, 'Route must have at least one item')
   const outcome = route.at(-1)!
@@ -25,7 +25,7 @@ export function SavingsTransactionOverview({ txOverview, selectedToken, showAPY 
       {showAPY && (
         <TransactionOverview.Row>
           <TransactionOverview.Label>APY</TransactionOverview.Label>
-          <TransactionOverview.SavingsApy apy={APY} stableEarnRate={stableEarnRate} baseStable={baseStable} />
+          <TransactionOverview.SavingsApy apy={APY} stableEarnRate={stableEarnRate} underlyingToken={underlyingToken} />
         </TransactionOverview.Row>
       )}
       <TransactionOverview.Row>

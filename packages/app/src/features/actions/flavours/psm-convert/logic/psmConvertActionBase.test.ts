@@ -1,13 +1,13 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address } from '@/config/contracts-generated'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { psm3Abi, psm3Address } from '@/config/contracts-generated'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { getMockToken, testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
@@ -20,7 +20,7 @@ const usdc = getMockToken({ symbol: TokenSymbol('USDC'), decimals: 6 })
 const usds = getMockToken({ symbol: TokenSymbol('USDS') })
 const amount = NormalizedUnitNumber(1)
 
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: usdc, balance: NormalizedUnitNumber(100) },
     { token: usds, balance: NormalizedUnitNumber(100) },
@@ -43,7 +43,7 @@ const hookRenderer = setupUseContractActionRenderer({
       amount,
     },
     enabled: true,
-    context: { tokensInfo: mockTokensInfo },
+    context: { tokenRepository: mockTokenRepository },
   },
 })
 
@@ -52,8 +52,8 @@ describe(createPsmConvertActionConfig.name, () => {
     const { result, queryInvalidationManager } = hookRenderer({
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usdc.address,
@@ -86,7 +86,7 @@ describe(createPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usdc.address,
-        spender: basePsm3Address[base.id],
+        spender: psm3Address[base.id],
         account,
         chainId,
       }),
@@ -103,12 +103,12 @@ describe(createPsmConvertActionConfig.name, () => {
           amount,
         },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
-          to: basePsm3Address[base.id],
-          abi: basePsm3Abi,
+          to: psm3Address[base.id],
+          abi: psm3Abi,
           functionName: 'swapExactIn',
           args: [
             usds.address,
@@ -141,7 +141,7 @@ describe(createPsmConvertActionConfig.name, () => {
     await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
       allowanceQueryKey({
         token: usds.address,
-        spender: basePsm3Address[base.id],
+        spender: psm3Address[base.id],
         account,
         chainId,
       }),

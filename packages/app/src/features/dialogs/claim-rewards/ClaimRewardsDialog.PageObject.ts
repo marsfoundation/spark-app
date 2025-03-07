@@ -1,13 +1,11 @@
-import { Locator, Page, expect } from '@playwright/test'
-
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-
+import { Locator, expect } from '@playwright/test'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 
 export class ClaimRewardsDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /.*/)
-    this.region = this.locateDialogByHeader('Claim rewards')
+  constructor(testContext: TestContext) {
+    super({ testContext, header: /Claim rewards/ })
   }
 
   // #region assertions

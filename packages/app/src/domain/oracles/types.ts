@@ -1,8 +1,8 @@
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Token } from '../types/Token'
 
 import { OracleFeedProvider } from '@/config/chain/types'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface OracleInfoBase {
@@ -33,6 +33,7 @@ export interface FixedOracleInfo extends OracleInfoBase {
 export interface UnderlyingAssetOracleInfo extends OracleInfoBase {
   type: 'underlying-asset'
   asset: string
+  providedBy?: OracleFeedProvider[]
 }
 
 export interface UnknownOracleInfo extends OracleInfoBase {

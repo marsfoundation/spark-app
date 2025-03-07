@@ -16,7 +16,7 @@ export function SuccessView({ collateralSetting, token, onProceed }: SuccessView
   return (
     <SuccessViewContent>
       <SuccessViewCheckmark />
-      <SuccessViewSummaryPanel className="typography-label-4 text-primary">
+      <SuccessViewSummaryPanel className="typography-label-2 text-primary">
         <div className="flex items-center gap-2">
           <TokenIcon token={token} className="h-5" />
           {token.symbol}

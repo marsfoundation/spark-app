@@ -1,8 +1,7 @@
-import { assets } from '@/ui/assets'
-import { IconPill } from '@/ui/atoms/icon-pill/IconPill'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { assets, getTokenColor, getTokenImage } from '@/ui/assets'
 import { Link } from '@/ui/atoms/link/Link'
-import { Tooltip, TooltipContentLong, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
-import { TooltipContentLayout } from '@/ui/atoms/tooltip/TooltipContentLayout'
+import { Tooltip, TooltipContent, TooltipContentLayout, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { links } from '@/ui/constants/links'
 
 interface AirdropBadgeProps {
@@ -10,12 +9,21 @@ interface AirdropBadgeProps {
 }
 
 export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
+  const spk = TokenSymbol('SPK')
+  const spkColor = getTokenColor(spk)
+
   return (
     <Tooltip>
-      <TooltipTrigger>
-        <IconPill icon={assets.sparkIcon} data-testid={dataTestId} />
+      <TooltipTrigger asChild>
+        <button
+          className="rounded-xxs border p-[3px] outline-none"
+          style={{ borderColor: spkColor }}
+          data-testid={dataTestId}
+        >
+          <img src={getTokenImage(spk)} alt={spk} className="size-3" />
+        </button>
       </TooltipTrigger>
-      <TooltipContentLong>
+      <TooltipContent variant="long">
         <TooltipContentLayout>
           <TooltipContentLayout.Header>
             <TooltipContentLayout.Icon src={assets.sparkIcon} />
@@ -31,7 +39,7 @@ export function AirdropBadge({ 'data-testid': dataTestId }: AirdropBadgeProps) {
             .
           </TooltipContentLayout.Body>
         </TooltipContentLayout>
-      </TooltipContentLong>
+      </TooltipContent>
     </Tooltip>
   )
 }

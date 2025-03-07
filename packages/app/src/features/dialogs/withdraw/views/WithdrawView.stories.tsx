@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { getMockMarketInfo, getMockReserve } from '@/test/integration/constants'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'

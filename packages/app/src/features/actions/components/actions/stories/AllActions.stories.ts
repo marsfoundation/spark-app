@@ -10,7 +10,7 @@ const meta: Meta<typeof Actions> = {
   parameters: {
     layout: 'fullscreen',
   },
-  decorators: [WithTooltipProvider(), WithClassname('max-w-[856px] p-0')],
+  decorators: [WithTooltipProvider(), WithClassname('max-w-[856px] p-0 bg-primary')],
 }
 
 export default meta

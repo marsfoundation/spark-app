@@ -1,12 +1,12 @@
+import { AssetsGroup } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
-import { AssetsGroup } from '@/domain/farms/types'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { getTokenColor, getTokenImage } from '@/ui/assets'
 import { LinkDecorator } from '@/ui/atoms/link-decorator/LinkDecorator'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 
 export interface FarmTileProps {
@@ -63,7 +63,7 @@ export function FarmTile({
         </div>
         <div className="flex h-full flex-col px-6 pb-7">
           <div className="mb-auto grid w-full grid-flow-col grid-cols-[auto,auto] grid-rows-[auto,auto]">
-            <div className="typography-label-5 text-secondary" data-testid={testIds.farms.tile.stakeText}>
+            <div className="typography-label-3 text-secondary" data-testid={testIds.farms.tile.stakeText}>
               Deposit {entryAssetsGroup.name}
             </div>
             <div className="typography-heading-3 text-primary" data-testid={testIds.farms.tile.rewardText}>
@@ -71,7 +71,7 @@ export function FarmTile({
             </div>
             {apy?.gt(0) && (
               <>
-                <div className="typography-label-5 justify-self-end text-secondary">APY</div>
+                <div className="typography-label-3 justify-self-end text-secondary">APY</div>
                 <div
                   className="typography-heading-3 justify-self-end text-primary"
                   data-testid={testIds.farms.tile.apy}
@@ -84,8 +84,8 @@ export function FarmTile({
           <div className="mt-11 mb-6 border-primary border-t" />
           {staked.gt(0) ? (
             <>
-              <div className="typography-label-5 mb-2 text-secondary">Tokens deposited:</div>
-              <div className="typography-label-4 flex items-center gap-1.5">
+              <div className="typography-label-3 mb-2 text-secondary">Tokens deposited:</div>
+              <div className="typography-label-2 flex items-center gap-1.5">
                 <img src={getTokenImage(stakingToken.symbol)} alt="farm-reward-icon" className="icon-md" />
                 <span data-testid={testIds.farms.tile.staked}>{stakingToken.format(staked, { style: 'auto' })}</span>{' '}
                 {stakingToken.symbol}
@@ -93,8 +93,8 @@ export function FarmTile({
             </>
           ) : (
             <>
-              <div className="typography-label-5 mb-2 text-secondary">Tokens to deposit:</div>
-              <IconStack paths={entryTokenIcons} iconBorder />
+              <div className="typography-label-3 mb-2 text-secondary">Tokens to deposit:</div>
+              <IconStack items={entryTokenIcons} iconBorder="white" />
             </>
           )}
         </div>

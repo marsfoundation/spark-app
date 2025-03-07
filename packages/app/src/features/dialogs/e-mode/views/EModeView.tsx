@@ -11,7 +11,7 @@ import { PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
 import { CategoriesGrid } from '../components/CategoriesGrid'
 import { EModeCategoryTile } from '../components/EModeCategoryTile'
@@ -41,15 +41,18 @@ export function EModeView({
 }: EModeViewProps) {
   return (
     <MultiPanelDialog>
-      <DialogTitle>Set E-Mode Category</DialogTitle>
-
-      <p className="text-basics-dark-grey text-sm leading-tight">
-        E-Mode allows you to borrow assets belonging to the selected category. Please visit our{' '}
-        <Link to={links.docs.eMode} external>
-          FAQ guide
-        </Link>{' '}
-        to learn more about how it works and the applied restrictions.
-      </p>
+      <div className="flex flex-col gap-3">
+        <DialogTitle>Set E-Mode Category</DialogTitle>
+        <p className="typography-body-3 text-secondary">
+          E-Mode allows you to borrow assets belonging to the selected category.
+          <br />
+          Please visit our{' '}
+          <Link to={links.docs.eMode} external>
+            FAQ guide
+          </Link>{' '}
+          to learn more about how it works and the applied restrictions.
+        </p>
+      </div>
 
       <CategoriesGrid>
         {Object.values(eModeCategories).map((eModeCategory) => (

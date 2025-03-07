@@ -4,11 +4,12 @@ import {
   CollateralEligibilityStatus,
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 import { CapAutomatorConfig } from '@/domain/cap-automator/types'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { InterestYieldChartProps } from './components/charts/interest-yield/InterestYieldChart'
 
 export interface DssAutoline {
@@ -44,23 +45,28 @@ export interface MarketOverview {
     supplyCap?: NormalizedUnitNumber
     apy: Percentage | undefined
     capAutomatorInfo?: CapAutomatorConfig
+    sparkRewards: MarketSparkRewards[]
   }
   collateral: CollateralStatusInfo
   borrow: {
     hasSparkAirdrop: boolean
     status: BorrowEligibilityStatus
     totalBorrowed: NormalizedUnitNumber
+    borrowLiquidity: NormalizedUnitNumber
+    limitedByBorrowCap: boolean
     borrowCap?: NormalizedUnitNumber
     apy: Percentage | undefined
     reserveFactor: Percentage
     chartProps: InterestYieldChartProps
     capAutomatorInfo?: CapAutomatorConfig
+    sparkRewards: MarketSparkRewards[]
   }
   lend?: {
     status: 'yes' // only for dai
     token: Token
     totalLent: NormalizedUnitNumber
     apy: Percentage | undefined
+    sparkRewards: MarketSparkRewards[]
   }
   eMode?: {
     maxLtv: Percentage

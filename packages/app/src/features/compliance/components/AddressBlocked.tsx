@@ -1,6 +1,5 @@
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { shortenAddress } from '@/ui/utils/shortenAddress'
+import { Button } from '@/ui/atoms/button/Button'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Banner } from './Banner'
 
 export interface AddressBlockedProps {
@@ -13,7 +12,7 @@ export function AddressBlocked({ disconnect, address }: AddressBlockedProps) {
       <Banner.Content>
         <Banner.Header> Address blocked </Banner.Header>
         <Banner.Description>
-          We're sorry but address <strong>{shortenAddress(address, { startLength: 10 })}</strong> is blacklisted.
+          We're sorry but address <strong>{CheckedAddress.formatShort(address)}</strong> is blacklisted.
         </Banner.Description>
       </Banner.Content>
       <Button className="w-full" size="l" onClick={() => disconnect()}>

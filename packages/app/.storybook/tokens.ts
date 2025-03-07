@@ -1,5 +1,5 @@
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { zeroAddress } from 'viem'
-import { CheckedAddress } from '../src/domain/types/CheckedAddress'
 import { Token } from '../src/domain/types/Token'
 import { TokenSymbol } from '../src/domain/types/TokenSymbol'
 
@@ -45,6 +45,13 @@ export const tokens = {
     name: 'USDC',
     decimals: 6,
     address: CheckedAddress('0x6Fb5ef893d44F4f88026430d82d4ef269543cB23'),
+  }),
+  sUSDC: new Token({
+    unitPriceUsd: '1',
+    symbol: TokenSymbol('sUSDC'),
+    name: 'sUSDC',
+    decimals: 18,
+    address: CheckedAddress('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
   }),
   WETH: new Token({
     unitPriceUsd: '2235.0672',
@@ -114,7 +121,7 @@ export const tokens = {
     symbol: TokenSymbol('XDAI'),
     name: 'XDAI',
     decimals: 18,
-    address: CheckedAddress('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
+    address: CheckedAddress.EEEE(),
   }),
   SKY: new Token({
     unitPriceUsd: '0.05',
@@ -135,6 +142,27 @@ export const tokens = {
     decimals: 18,
     name: 'Chronicle',
     symbol: TokenSymbol('CLE'),
+    unitPriceUsd: '0',
+  }),
+  RED: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'RedStone',
+    symbol: TokenSymbol('RED'),
+    unitPriceUsd: '0',
+  }),
+  SPK: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'Spark',
+    symbol: TokenSymbol('SPK'),
+    unitPriceUsd: '0.12',
+  }),
+  ABC: new Token({
+    address: CheckedAddress(zeroAddress),
+    decimals: 18,
+    name: 'Token with no price and image',
+    symbol: TokenSymbol('ABC'),
     unitPriceUsd: '0',
   }),
 }

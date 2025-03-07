@@ -1,7 +1,6 @@
 import { Mode } from '@/features/dialogs/savings/withdraw/types'
-import { assert } from '@/utils/assert'
+import { assert, CheckedAddress } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
-import { CheckedAddress } from '../types/CheckedAddress'
 import { receiverValidationIssueToMessage, validateReceiver } from './validateReceiver'
 
 interface AssertWithdrawParams {

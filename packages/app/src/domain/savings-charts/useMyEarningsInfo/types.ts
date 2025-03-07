@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface MyEarningsInfoDataItem {
   date: Date

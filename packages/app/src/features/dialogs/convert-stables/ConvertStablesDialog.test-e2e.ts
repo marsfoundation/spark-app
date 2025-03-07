@@ -1,18 +1,20 @@
 import { SavingsPageObject } from '@/pages/Savings.PageObject'
-import { USDS_ACTIVATED_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { ConvertStablesDialogPageObject } from './ConvertStablesDialog.PageObject'
 
 test.describe('Convert Stables Dialog', () => {
-  const fork = setupFork({ blockNumber: USDS_ACTIVATED_BLOCK_NUMBER, chainId: mainnet.id, useTenderlyVnet: true })
   let savingsPage: SavingsPageObject
   let convertStablesDialog: ConvertStablesDialogPageObject
 
   test.beforeEach(async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'savings',
       account: {
         type: 'connected-random',
@@ -23,9 +25,9 @@ test.describe('Convert Stables Dialog', () => {
       },
     })
 
-    savingsPage = new SavingsPageObject(page)
+    savingsPage = new SavingsPageObject(testContext)
     await savingsPage.clickConvertStablesButtonAction()
-    convertStablesDialog = new ConvertStablesDialogPageObject(page)
+    convertStablesDialog = new ConvertStablesDialogPageObject(testContext)
   })
 
   test('has correct selectors configuration', async ({ page }) => {

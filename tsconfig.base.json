@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "customConditions": ["@marsfoundation/local-spark-monorepo"],
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true
+  }
+}

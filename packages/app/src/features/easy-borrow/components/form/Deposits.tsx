@@ -1,18 +1,16 @@
+import { paths } from '@/config/paths'
+import { TokenWithBalance } from '@/domain/common/types'
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { Button, ButtonIcon } from '@/ui/atoms/button/Button'
+import { Link } from '@/ui/atoms/link/Link'
+import { Panel } from '@/ui/atoms/panel/Panel'
+import { Info } from '@/ui/molecules/info/Info'
+import { AssetInput } from '@/ui/organisms/asset-input/AssetInput'
+import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { PlusIcon } from 'lucide-react'
 import { Control } from 'react-hook-form'
-
-import { TokenWithBalance } from '@/domain/common/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { testIds } from '@/ui/utils/testIds'
-
-import { paths } from '@/config/paths'
-import { Link } from '@/ui/atoms/link/Link'
-import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { Info } from '@/ui/molecules/info/Info'
-import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
-import { cn } from '@/ui/utils/style'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
 import { ExistingPosition } from '../../logic/types'
 import { TokenSummary } from './TokenSummary'
@@ -49,7 +47,7 @@ export function Deposits({
       <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <div className="flex items-center justify-between">
           <div className="flex h-8 flex-row items-center gap-1">
-            <h4 className="typography-label-2 text-primary">Deposit</h4>
+            <h4 className="typography-heading-5 text-primary">Deposit</h4>
             <Info>
               Some assets (e.g., isolated assets) are only accessible via the{' '}
               <Link to={paths.myPortfolio}>My portfolio</Link> at this time.

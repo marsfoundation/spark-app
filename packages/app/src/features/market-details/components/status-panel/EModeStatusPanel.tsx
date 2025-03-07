@@ -2,20 +2,17 @@ import { paths } from '@/config/paths'
 import { formatPercentage } from '@/domain/common/format'
 import { eModeCategoryIdToName } from '@/domain/e-mode/constants'
 import { EModeCategoryId } from '@/domain/e-mode/types'
-import { Percentage } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { assets } from '@/ui/assets'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
 import { EModeBadge } from '@/ui/molecules/e-mode-badge/EModeBadge'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
-import { cn } from '@/ui/utils/style'
+import { Percentage } from '@marsfoundation/common-universal'
+import { MoveDownIcon, MoveUpIcon } from 'lucide-react'
 import { Header } from './components/Header'
 import { InfoTilesGrid } from './components/InfoTilesGrid'
 import { StatusPanelGrid } from './components/StatusPanelGrid'
 import { StatusIcon } from './components/status-icon/StatusIcon'
-import { TokenBadge } from './components/token-badge/TokenBadge'
 
 export interface EModeStatusPanelProps {
   maxLtv: Percentage
@@ -23,7 +20,6 @@ export interface EModeStatusPanelProps {
   liquidationPenalty: Percentage
   categoryId: EModeCategoryId
   eModeCategoryTokens: TokenSymbol[]
-  token?: Token
 }
 
 export function EModeStatusPanel({
@@ -32,7 +28,6 @@ export function EModeStatusPanel({
   liquidationPenalty,
   categoryId,
   eModeCategoryTokens,
-  token,
 }: EModeStatusPanelProps) {
   const categoryName = eModeCategoryIdToName[categoryId]
 
@@ -40,7 +35,6 @@ export function EModeStatusPanel({
     <StatusPanelGrid>
       <StatusIcon status="yes" />
       <Header status="yes" variant="e-mode" />
-      {token && <TokenBadge symbol={token.symbol} />}
       <InfoTilesGrid>
         <InfoTile>
           <InfoTile.Label>Max LTV</InfoTile.Label>
@@ -66,7 +60,7 @@ export function EModeStatusPanel({
             <EModeBadge categoryId={categoryId} />
           </InfoTile.Value>
         </InfoTile>
-        <p className="col-span-1 text-slate-500 text-xs sm:col-span-3">
+        <p className="typography-body-4 col-span-1 text-secondary sm:col-span-3">
           E-Mode for {categoryName} assets increases your LTV within the {categoryName} category. This means that when
           E-Mode is enabled, you will have higher borrowing power for assets in this category:{' '}
           {eModeCategoryTokens.join(', ')}. You can enter E-Mode from your{' '}
@@ -91,9 +85,11 @@ interface WithArrowProps {
   reverseArrow?: boolean
 }
 function WithArrow({ children, reverseArrow }: WithArrowProps) {
+  const Arrow = reverseArrow ? MoveDownIcon : MoveUpIcon
+
   return (
-    <div className="flex min-w-[72px] flex-row justify-between gap-1 sm:min-w-fit">
-      <img src={assets.greenArrowUp} className={cn('h-4 w-4', reverseArrow && 'rotate-180')} />
+    <div className="flex min-w-[72px] flex-row items-center justify-between gap-1 sm:min-w-fit">
+      <Arrow className="icon-xs icon-system-success-primary" />
       {children}
     </div>
   )

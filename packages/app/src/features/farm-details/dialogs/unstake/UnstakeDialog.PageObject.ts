@@ -1,10 +1,11 @@
 import { DialogPageObject } from '@/features/dialogs/common/Dialog.PageObject'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-import { Page, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class UnstakeDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /Withdraw/)
+  constructor(testContext: TestContext) {
+    super({ testContext, header: /Withdraw/ })
   }
 
   // #region actions
@@ -33,7 +34,7 @@ export class UnstakeDialogPageObject extends DialogPageObject {
     await expect(this.page.getByTestId(testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.switch)).not.toBeChecked()
   }
 
-  async expectExitFarmSwitchReward({ min, max, token, usdValue }: Reward): Promise<void> {
+  async expectExitFarmSwitchReward({ amount, token, usdValue }: Reward): Promise<void> {
     const regexp = /~([\d,\.]+) (\w+) \(~\$([\d,\.]+)\)/
     const rewardRowText = await this.page
       .getByTestId(testIds.farmDetails.unstakeDialog.exitFarmSwitchPanel.reward)
@@ -44,8 +45,7 @@ export class UnstakeDialogPageObject extends DialogPageObject {
 
     const [rewardAmount, rewardToken, rewardUsdValue] = match!.slice(1)
     const rewardNumber = Number(rewardAmount?.replace(/,/g, ''))
-    expect(rewardNumber).toBeGreaterThanOrEqual(min)
-    expect(rewardNumber).toBeLessThanOrEqual(max)
+    expect(rewardNumber).toBe(amount)
     expect(rewardToken).toBe(token)
     expect(rewardUsdValue).toContain(usdValue)
   }
@@ -92,9 +92,8 @@ export class UnstakeDialogPageObject extends DialogPageObject {
       .getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcome)
       .textContent()
     const rewardNumber = Number(rewardAmount?.replace(/[^0-9.]/g, ''))
+    expect(rewardNumber).toBe(reward.amount)
 
-    expect(rewardNumber).toBeGreaterThanOrEqual(reward.min)
-    expect(rewardNumber).toBeLessThanOrEqual(reward.max)
     await expect(
       this.page.getByTestId(testIds.farmDetails.unstakeDialog.transactionOverview.rewardOutcome),
     ).toContainText(reward.token)
@@ -111,8 +110,7 @@ export class UnstakeDialogPageObject extends DialogPageObject {
 }
 
 export interface Reward {
-  min: number
-  max: number
+  amount: number
   token: string
   usdValue: string
 }

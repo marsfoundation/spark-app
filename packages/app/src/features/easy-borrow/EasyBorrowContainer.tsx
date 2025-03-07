@@ -25,7 +25,7 @@ function EasyBorrowContainer() {
     borrowDetails,
     guestMode,
     openSandboxModal,
-    healthFactorPanelRef,
+    focusOnActionsPanel,
     riskAcknowledgement,
     actionsContext,
   } = useEasyBorrow()
@@ -53,7 +53,7 @@ function EasyBorrowContainer() {
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
-      healthFactorPanelRef={healthFactorPanelRef}
+      focusOnActionsPanel={focusOnActionsPanel}
       riskAcknowledgement={riskAcknowledgement}
       actionsContext={actionsContext}
     />

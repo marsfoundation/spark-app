@@ -1,30 +1,29 @@
 import { susdsAbi } from '@/config/abis/susdsAbi'
 import { SPARK_UI_REFERRAL_CODE, SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
 import {
-  basePsm3Abi,
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Abi,
+  psm3Address,
   psmActionsConfig,
   savingsXDaiAdapterAbi,
   savingsXDaiAdapterAddress,
+  usdcVaultAbi,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Token } from '@/domain/types/Token'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext, GetWriteConfigResult } from '@/features/actions/logic/types'
 import { calculateGemConversionFactor } from '@/features/actions/utils/savings'
-import { assert, raise } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
-import { toBigInt } from '@/utils/bigNumber'
+import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
+import { assert, CheckedAddress, NormalizedUnitNumber, assertNever, raise } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
-import { base, gnosis } from 'viem/chains'
+import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
@@ -33,11 +32,11 @@ export function createDepositToSavingsActionConfig(
   context: ActionContext,
 ): ActionConfig {
   const { account, chainId } = context
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const actionPath = getSavingsDepositActionPath({
     token: action.token,
     savingsToken: action.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 
@@ -61,6 +60,29 @@ export function createDepositToSavingsActionConfig(
             functionName: 'deposit',
             args: [assetsAmount, account],
           })
+
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc':
+        case 'arbitrum-usdc-to-susdc': {
+          assert(
+            context.savingsAccounts,
+            'Savings account repository info is required for usdc deposit to savings action',
+          )
+          const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
+
+          const minAmountOut = calculateMinSharesAmountOut({
+            savingsConverter,
+            savingsToken,
+            amountIn: action.value,
+          })
+
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: usdcVaultAbi,
+            functionName: 'deposit',
+            args: [assetsAmount, account, minAmountOut, SPARK_UI_REFERRAL_CODE],
+          })
+        }
 
         case 'dai-to-susds':
           return ensureConfigTypes({
@@ -100,23 +122,24 @@ export function createDepositToSavingsActionConfig(
           })
 
         case 'base-usds-to-susds':
-        case 'base-usdc-to-susds': {
-          assert(context.savingsUsdsInfo, 'Savings info is required for usdc psm withdraw from savings action')
+        case 'base-usdc-to-susds':
+        case 'arbitrum-usds-to-susds':
+        case 'arbitrum-usdc-to-susds': {
+          assert(
+            context.savingsAccounts,
+            'Savings accounts repository is required for psm withdraw from savings action',
+          )
+          const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
 
-          const currentTimestamp = context.savingsUsdsInfo.currentTimestamp
-          // We don't know when the block with transaction will be mined so
-          // we calculate the minimal amount of sUSDS to receive as the amount
-          // the user would receive in 1 epoch (30 minutes)
-          const minimalSharesAmount = context.savingsUsdsInfo.predictSharesAmount({
-            assets: action.value, // we pass NormalizedUnitNumber, so 1 USDC = 1 USDS
-            timestamp: currentTimestamp + EPOCH_LENGTH,
+          const minAmountOut = calculateMinSharesAmountOut({
+            savingsConverter,
+            savingsToken,
+            amountIn: action.value,
           })
 
-          const minAmountOut = toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
-
           return ensureConfigTypes({
-            address: basePsm3Address[base.id],
-            abi: basePsm3Abi,
+            address: getContractAddress(psm3Address, chainId),
+            abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [
               token.address,
@@ -157,11 +180,16 @@ export function createDepositToSavingsActionConfig(
           ]
         case 'dai-to-sdai':
         case 'usds-to-susds':
+        case 'usdc-to-susdc':
+        case 'base-usdc-to-susdc':
+        case 'arbitrum-usdc-to-susdc':
           return [balancesQueryKeyPrefix, getAllowanceQueryKey(action.savingsToken.address)]
 
         case 'base-usds-to-susds':
         case 'base-usdc-to-susds':
-          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+        case 'arbitrum-usds-to-susds':
+        case 'arbitrum-usdc-to-susds':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:
           assertNever(actionPath)
@@ -191,7 +219,7 @@ function getUsdcDepositConfig({
     gemDecimals: token.decimals,
     assetsTokenDecimals: savingsToken.decimals,
   })
-  const assetsMinAmountOut = toBigInt(token.toBaseUnit(actionValue).multipliedBy(gemConversionFactor))
+  const assetsMinAmountOut = toBigInt(BaseUnitNumber(token.toBaseUnit(actionValue).multipliedBy(gemConversionFactor)))
 
   return ensureConfigTypes({
     address: psmActionsAddress,
@@ -199,4 +227,26 @@ function getUsdcDepositConfig({
     functionName: 'swapAndDeposit',
     args: [account, assetsAmount, assetsMinAmountOut],
   })
+}
+
+interface CalculateMinSharesAmountOutParams {
+  savingsConverter: SavingsConverter
+  savingsToken: Token
+  amountIn: NormalizedUnitNumber
+}
+function calculateMinSharesAmountOut({
+  savingsConverter,
+  savingsToken,
+  amountIn,
+}: CalculateMinSharesAmountOutParams): bigint {
+  const currentTimestamp = savingsConverter.currentTimestamp
+  // We don't know when the block with transaction will be mined so
+  // we calculate the minimal amount of sUSDS to receive as the amount
+  // the user would receive in 1 epoch (30 minutes)
+  const minimalSharesAmount = savingsConverter.predictSharesAmount({
+    assets: amountIn, // we pass NormalizedUnitNumber, so decimals don't matter
+    timestamp: currentTimestamp + EPOCH_LENGTH,
+  })
+
+  return toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
 }

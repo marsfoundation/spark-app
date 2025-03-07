@@ -1,13 +1,13 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getMigrateDialogFormValidator(tokensInfo: TokensInfo) {
+export function getMigrateDialogFormValidator(tokenRepository: TokenRepository) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
-    const balance = tokensInfo.findOneBalanceBySymbol(field.symbol)
+    const balance = tokenRepository.findOneBalanceBySymbol(field.symbol)
 
     const issue = validateMigration({
       value,

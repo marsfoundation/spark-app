@@ -1,16 +1,15 @@
 import { TokenWithBalance, TokenWithFormValue } from '@/domain/common/types'
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Objective } from '@/features/actions/logic/types'
-import { getMockMarketInfo } from '@/test/integration/constants'
+import { getMockMarketInfo, getMockTokenRepository } from '@/test/integration/constants'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import BigNumber from 'bignumber.js'
-import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { withRouter } from 'storybook-addon-remix-react-router'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
@@ -19,6 +18,7 @@ import { BorrowDetails } from '../logic/useEasyBorrow'
 import { EasyBorrowView } from './EasyBorrowView'
 
 const mockMarketInfo = getMockMarketInfo()
+const mockTokenRepository = getMockTokenRepository()
 
 interface EasyBorrowViewStoryProps {
   assetsToDeposit: TokenWithFormValue[]
@@ -85,6 +85,7 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
   const setDesiredLoanToValue = () => {}
   const openConnectModal = () => {}
   const openSandboxModal = () => {}
+  const focusOnActionsPanel = () => {}
   /* eslint-enable func-style */
 
   const pageStatus = {
@@ -94,7 +95,6 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
     goToSuccessScreen: () => {},
     submitForm: () => {},
   }
-  const healthFactorPanelRef = useRef<HTMLDivElement>(null)
 
   return (
     <EasyBorrowView
@@ -111,9 +111,9 @@ function EasyBorrowViewStory(props: EasyBorrowViewStoryProps) {
       guestMode={guestMode}
       openConnectModal={openConnectModal}
       openSandboxModal={openSandboxModal}
-      healthFactorPanelRef={healthFactorPanelRef}
+      focusOnActionsPanel={focusOnActionsPanel}
       riskAcknowledgement={riskAcknowledgement}
-      actionsContext={{ marketInfo: mockMarketInfo }}
+      actionsContext={{ marketInfo: mockMarketInfo, tokenRepository: mockTokenRepository }}
     />
   )
 }

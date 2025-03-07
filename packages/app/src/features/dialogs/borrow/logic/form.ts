@@ -5,9 +5,9 @@ import {
   getValidateBorrowArgs,
   validateBorrow,
 } from '@/domain/market-validators/validateBorrow'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { AssetInputSchema } from '../../common/logic/form'
@@ -47,6 +47,7 @@ export function getFormFieldsForBorrowDialog({
   const changeAsset = (newSymbol: TokenSymbol): void => {
     form.setValue('symbol', newSymbol)
     form.setValue('value', '')
+    form.setValue('isMaxSelected', false)
     form.clearErrors()
   }
 

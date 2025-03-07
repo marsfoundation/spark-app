@@ -1,53 +1,60 @@
+import { Token } from '@/domain/types/Token'
+import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { cn } from '@/ui/utils/style'
 import { cva } from 'class-variance-authority'
 
-import { Typography } from '@/ui/atoms/typography/Typography'
-import { cn } from '@/ui/utils/style'
-
 interface IconStackProps {
-  paths: string[]
+  items: (string | Token)[]
   maxIcons?: number
-  size?: 'base' | 'lg'
+  size?: 'base' | 'm' | 'lg'
   stackingOrder?: 'first-on-top' | 'last-on-top'
-  iconBorder?: boolean
   className?: string
+  iconBorder?: 'white' | 'transparent'
+  iconClassName?: string
 }
 
 export function IconStack({
-  paths: srcs,
+  items,
   maxIcons = Number.MAX_SAFE_INTEGER,
   size = 'base',
   stackingOrder = 'last-on-top',
-  iconBorder = false,
   className,
+  iconBorder,
+  iconClassName,
 }: IconStackProps) {
-  if (maxIcons + 1 === srcs.length) {
+  if (maxIcons + 1 === items.length) {
     // let's make sure we show +2 minimum
-    maxIcons = srcs.length
+    maxIcons = items.length
   }
 
-  const slicedIcons = srcs.slice(0, maxIcons)
-  const omittedLength = srcs.length - slicedIcons.length
+  const slicedItems = items.slice(0, maxIcons)
+  const omittedLength = items.length - slicedItems.length
 
   return (
     <div className={cn(stackVariants({ size }), className)}>
-      {slicedIcons.map((src, index, srcs) => (
-        <img
-          key={index}
-          src={src}
-          className={iconVariants({ size, iconBorder })}
-          style={stackingOrder === 'first-on-top' ? { zIndex: srcs.length - index } : undefined}
-        />
-      ))}
+      {slicedItems.map((item, index, items) => {
+        const style = stackingOrder === 'first-on-top' ? { zIndex: items.length - index } : undefined
+        const commonProps = {
+          className: cn(iconVariants({ size, border: iconBorder }), iconClassName),
+          style,
+        }
+
+        return typeof item === 'string' ? (
+          <img src={item} key={index} {...commonProps} />
+        ) : (
+          <TokenIcon token={item} key={index} {...commonProps} />
+        )
+      })}
       {omittedLength > 0 && (
-        <Typography
+        <div
           className={cn(
-            'flex items-center justify-center rounded-full bg-light-blue font-semibold text-white',
+            'flex items-center justify-center rounded-full bg-primary-600 text-primary-inverse',
+            size === 'base' ? 'typography-label-4' : 'typography-label-2',
             iconVariants({ size }),
           )}
-          variant={size === 'base' ? 'prompt' : 'h4'}
         >
           +{omittedLength}
-        </Typography>
+        </div>
       )}
     </div>
   )
@@ -56,19 +63,43 @@ export function IconStack({
 const iconVariants = cva('rounded-full', {
   variants: {
     size: {
-      base: 'h-6 w-6',
-      lg: 'h-10 w-10',
+      base: 'size-6',
+      m: 'size-6 md:size-8',
+      lg: 'size-10',
     },
-    iconBorder: {
-      true: 'box-content border-[1.5px] border-white',
+    border: {
+      white: 'border-base-white',
+      transparent: 'border-transparent',
     },
   },
+  compoundVariants: [
+    {
+      border: ['white', 'transparent'],
+      className: 'box-content',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'base',
+      className: 'border-2',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'm',
+      className: 'border-[2.5px]',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'lg',
+      className: 'border-[3px]',
+    },
+  ],
 })
 
 const stackVariants = cva('isolate flex flex-row', {
   variants: {
     size: {
       base: '-space-x-2',
+      m: '-space-x-2 md:-space-x-2.5',
       lg: '-space-x-3',
     },
   },

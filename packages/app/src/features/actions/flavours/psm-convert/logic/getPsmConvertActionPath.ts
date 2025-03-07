@@ -1,8 +1,8 @@
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { raise } from '@/utils/assert'
-import { base } from 'viem/chains'
+import { raise } from '@marsfoundation/common-universal'
+import { arbitrum, base } from 'viem/chains'
 
 export type PsmConvertActionPath =
   | 'dai-usdc'
@@ -11,23 +11,25 @@ export type PsmConvertActionPath =
   | 'usds-usdc'
   | 'base-usdc-usds'
   | 'base-usds-usdc'
+  | 'arbitrum-usdc-usds'
+  | 'arbitrum-usds-usdc'
 
 export interface GetPsmConvertActionPathParams {
   inToken: Token
   outToken: Token
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
 }
 
 export function getPsmConvertActionPath({
   inToken,
   outToken,
-  tokensInfo,
+  tokenRepository,
   chainId,
-}: { inToken: Token; outToken: Token; tokensInfo: TokensInfo; chainId: number }): PsmConvertActionPath {
-  const dai = tokensInfo.DAI?.symbol
+}: { inToken: Token; outToken: Token; tokenRepository: TokenRepository; chainId: number }): PsmConvertActionPath {
+  const dai = tokenRepository.DAI?.symbol
   const usdc = TokenSymbol('USDC')
-  const usds = tokensInfo.USDS?.symbol
+  const usds = tokenRepository.USDS?.symbol
 
   if (chainId === base.id) {
     if (inToken.symbol === usdc && outToken.symbol === usds) {
@@ -36,6 +38,16 @@ export function getPsmConvertActionPath({
 
     if (inToken.symbol === usds && outToken.symbol === usdc) {
       return 'base-usds-usdc'
+    }
+  }
+
+  if (chainId === arbitrum.id) {
+    if (inToken.symbol === usdc && outToken.symbol === usds) {
+      return 'arbitrum-usdc-usds'
+    }
+
+    if (inToken.symbol === usds && outToken.symbol === usdc) {
+      return 'arbitrum-usds-usdc'
     }
   }
 

@@ -1,29 +1,27 @@
 import { SPARK_UI_REFERRAL_CODE_BIGINT } from '@/config/consts'
-import { basePsm3Abi, basePsm3Address, dssLitePsmConfig, usdsPsmWrapperConfig } from '@/config/contracts-generated'
+import { dssLitePsmConfig, psm3Abi, psm3Address, usdsPsmWrapperConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import { assert } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { assert, assertNever } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { QueryKey } from '@tanstack/react-query'
-import { base } from 'viem/chains'
 import { allowanceQueryKey } from '../../approve/logic/query'
 import { PsmConvertAction } from '../types'
 import { getPsmConvertActionPath } from './getPsmConvertActionPath'
 
 export function createPsmConvertActionConfig(action: PsmConvertAction, context: ActionContext): ActionConfig {
-  const { account, chainId, tokensInfo } = context
-  assert(tokensInfo, 'Tokens info is required for psm convert action')
-  const usdc = tokensInfo.findOneTokenBySymbol(TokenSymbol('USDC'))
+  const { account, chainId, tokenRepository } = context
+  assert(tokenRepository, 'Tokens info is required for psm convert action')
+  const usdc = tokenRepository.findOneTokenBySymbol(TokenSymbol('USDC'))
 
   const actionPath = getPsmConvertActionPath({
     inToken: action.inToken,
     outToken: action.outToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 
@@ -53,7 +51,9 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
         }
 
         case 'base-usdc-usds':
-        case 'base-usds-usdc': {
+        case 'base-usds-usdc':
+        case 'arbitrum-usdc-usds':
+        case 'arbitrum-usds-usdc': {
           const assetIn = action.inToken.address
           const assetOut = action.outToken.address
           const amountIn = toBigInt(action.inToken.toBaseUnit(action.amount))
@@ -61,8 +61,8 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
           const receiver = account
 
           return ensureConfigTypes({
-            address: basePsm3Address[base.id],
-            abi: basePsm3Abi,
+            address: getContractAddress(psm3Address, chainId),
+            abi: psm3Abi,
             functionName: 'swapExactIn',
             args: [assetIn, assetOut, amountIn, minAmountOut, receiver, SPARK_UI_REFERRAL_CODE_BIGINT],
           })
@@ -92,7 +92,9 @@ export function createPsmConvertActionConfig(action: PsmConvertAction, context: 
 
         case 'base-usdc-usds':
         case 'base-usds-usdc':
-          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(basePsm3Address, chainId))]
+        case 'arbitrum-usdc-usds':
+        case 'arbitrum-usds-usdc':
+          return [balancesQueryKeyPrefix, getAllowanceQueryKey(getContractAddress(psm3Address, chainId))]
 
         default:
           assertNever(actionPath)

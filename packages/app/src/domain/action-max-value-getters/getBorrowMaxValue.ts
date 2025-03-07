@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 interface GetBorrowMaxValueParams {
   asset: {

@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
 import { Objective } from '@/features/actions/logic/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export interface CreateUpgradeObjectivesParams {
   type: 'upgrade' | 'downgrade'

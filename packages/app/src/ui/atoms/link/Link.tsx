@@ -1,37 +1,46 @@
-import React from 'react'
+import { cn } from '@/ui/utils/style'
+import { VariantProps, cva } from 'class-variance-authority'
+import { forwardRef } from 'react'
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom'
 
-import { cn } from '@/ui/utils/style'
-
-export interface LinkProps extends RouterLinkProps {
+export interface LinkProps extends VariantProps<typeof linkVariants>, RouterLinkProps {
   external?: boolean
 }
 
-const linkStyle = cn(
-  'cursor-pointer bg-gradient-spark-secondary active:brightness-[75%]',
-  'rounded-[1px] bg-clip-text text-transparent hover:brightness-[85%]',
-  'focus-visible:outline-none focus-visible:ring focus-visible:ring-reskin-primary-200 focus-visible:ring-offset-0',
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
+  ({ children, variant, external, className, ...props }, ref) => (
+    <RouterLink
+      {...props}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className={cn(linkVariants({ variant }), className)}
+      ref={ref}
+    >
+      {children}
+    </RouterLink>
+  ),
 )
 
-const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(({ to, className, external, ...props }, ref) => {
-  if (external) {
-    return (
-      <a
-        href={to.toString()}
-        className={cn(linkStyle, className)}
-        target="_blank"
-        rel="noreferrer"
-        ref={ref}
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-        {...props}
-      />
-    )
-  }
-
-  return <RouterLink to={to} className={cn(linkStyle, className)} ref={ref} {...props} />
+const linkVariants = cva('', {
+  variants: {
+    variant: {
+      primary:
+        'bg-gradient-spark-secondary bg-clip-text text-transparent hover:brightness-[90%] active:brightness-[80%]',
+      secondary: 'text-brand-primary hover:brightness-[150%] active:brightness-[200%]',
+      underline: 'underline underline-offset-2',
+      decorator: '',
+      unstyled: '',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+  },
+  compoundVariants: [
+    {
+      variant: ['primary', 'secondary', 'decorator'],
+      className: cn(
+        'cursor-pointer rounded-[1px] focus-visible:outline-none focus-visible:ring',
+        'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+      ),
+    },
+  ],
 })
-Link.displayName = 'Link'
-
-export { Link }

@@ -1,43 +1,41 @@
+import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
-
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { setupFork } from '@/test/e2e/forking/setupFork'
-import { setup } from '@/test/e2e/setup'
-import { calculateAssetsWorth, screenshot } from '@/test/e2e/utils'
-
 import { BorrowPageObject } from './Borrow.PageObject'
 import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
 
 test.describe('MyPortfolio', () => {
-  const fork = setupFork({ blockNumber: DEFAULT_BLOCK_NUMBER, chainId: mainnet.id })
-
-  test.skip('guest state', async ({ page }) => {
-    await setup(page, fork, {
+  test('guest state', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       account: {
         type: 'not-connected',
       },
       initialPage: 'myPortfolio',
     })
-    const myPortfolioPage = new MyPortfolioPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
 
     await myPortfolioPage.expectGuestScreen()
-
-    await screenshot(page, 'myPortfolio-guest')
   })
 
   test('empty account', async ({ page }) => {
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'myPortfolio',
       account: {
         type: 'connected-random',
       },
     })
-    const myPortfolioPage = new MyPortfolioPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
 
     await myPortfolioPage.expectPositionToBeEmpty()
-
-    await screenshot(page, 'myPortfolio-empty-account')
   })
 
   test('no position', async ({ page }) => {
@@ -48,14 +46,18 @@ test.describe('MyPortfolio', () => {
       USDC: 400,
       WETH: 1,
     }
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'myPortfolio',
       account: {
         type: 'connected-random',
         assetBalances,
       },
     })
-    const myPortfolioPage = new MyPortfolioPageObject(page)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
 
     await myPortfolioPage.expectPositionToBeEmpty()
     await myPortfolioPage.expectBalancesInDepositTable({
@@ -64,8 +66,6 @@ test.describe('MyPortfolio', () => {
       sDAI: 300,
       USDC: 400,
     })
-
-    await screenshot(page, 'myPortfolio-no-position')
   })
 
   test('with open position', async ({ page }) => {
@@ -74,7 +74,11 @@ test.describe('MyPortfolio', () => {
       rETH: 2,
     }
     const daiToBorrow = 1500
-    await setup(page, fork, {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
       initialPage: 'easyBorrow',
       account: {
         type: 'connected-random',
@@ -82,20 +86,18 @@ test.describe('MyPortfolio', () => {
       },
     })
 
-    const borrowPage = new BorrowPageObject(page)
-    await borrowPage.depositAssetsActions(assetsToDeposit, daiToBorrow)
+    const borrowPage = new BorrowPageObject(testContext)
+    await borrowPage.depositAssetsActions({ assetsToDeposit, daiToBorrow })
     await borrowPage.viewInMyPortfolioAction()
 
-    const myPortfolioPage = new MyPortfolioPageObject(page)
-    await myPortfolioPage.expectHealthFactor('5.42')
-    await myPortfolioPage.expectDepositedAssets((await calculateAssetsWorth(fork.forkUrl, assetsToDeposit)).total)
-    await myPortfolioPage.expectBorrowedAssets((await calculateAssetsWorth(fork.forkUrl, { DAI: daiToBorrow })).total)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
+    await myPortfolioPage.expectHealthFactor('9.68')
+    await myPortfolioPage.expectDepositedAssets('$18.16K')
+    await myPortfolioPage.expectBorrowedAssets('$1,500')
 
     await myPortfolioPage.expectDepositTable(assetsToDeposit)
     await myPortfolioPage.expectBalancesInDepositTable({
       DAI: daiToBorrow,
     })
-
-    await screenshot(page, 'myPortfolio-open-position')
   })
 })

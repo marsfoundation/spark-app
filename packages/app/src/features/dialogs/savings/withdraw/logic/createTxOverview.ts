@@ -1,87 +1,73 @@
-import { SavingsInfo } from '@/domain/savings-info/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { Token } from '@/domain/types/Token'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { SavingsAccount } from '@/domain/savings-converters/types'
 import { TransferFromUserFormNormalizedData } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
-import { raise } from '@/utils/assert'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SavingsDialogTxOverview } from '../../common/types'
 
 export interface CreateTxOverviewParams {
   formValues: TransferFromUserFormNormalizedData
-  tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
-  savingsToken: Token
+  savingsAccount: SavingsAccount
+  savingsTokenBalance: NormalizedUnitNumber
 }
 export function createTxOverview({
   formValues,
-  tokensInfo,
-  savingsInfo,
-  savingsToken,
+  savingsAccount,
+  savingsTokenBalance,
 }: CreateTxOverviewParams): SavingsDialogTxOverview {
-  const [tokenValue, savingsTokenValue] = (() => {
-    if (formValues.isMaxSelected) {
-      const savingsTokenValue = tokensInfo.findOneTokenWithBalanceBySymbol(savingsToken.symbol).balance
-      const tokenValue = savingsInfo.convertToAssets({ shares: savingsTokenValue })
+  const converter = savingsAccount.converter
 
-      return [tokenValue, savingsTokenValue]
+  const [outTokenAmount, savingsTokenInAmount] = (() => {
+    if (formValues.isMaxSelected) {
+      const outTokenAmount = converter.convertToAssets({ shares: savingsTokenBalance })
+
+      return [outTokenAmount, savingsTokenBalance]
     }
 
-    const tokenValue = formValues.value
-    const savingsTokenValue = savingsInfo.convertToShares({ assets: tokenValue })
-    return [tokenValue, savingsTokenValue]
+    const outTokenAmount = formValues.value
+    const savingsTokenInAmount = converter.convertToShares({ assets: outTokenAmount })
+    return [outTokenAmount, savingsTokenInAmount]
   })()
 
-  if (tokenValue.eq(0)) {
+  if (outTokenAmount.eq(0)) {
     return { status: 'no-overview' }
   }
 
-  const savingsRate = NormalizedUnitNumber(savingsTokenValue.multipliedBy(savingsInfo.apy))
+  const savingsRate = NormalizedUnitNumber(savingsTokenInAmount.multipliedBy(converter.apy))
   const route = getWithdrawRoute({
     formValues,
-    tokensInfo,
-    savingsInfo,
-    savingsToken,
-    savingsTokenValue,
+    savingsAccount,
+    savingsTokenInAmount,
   })
 
   return {
-    baseStable:
-      (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
-      raise('Cannot find stable token'),
+    underlyingToken: savingsAccount.underlyingToken,
     status: 'success',
-    APY: savingsInfo.apy,
+    APY: converter.apy,
     stableEarnRate: savingsRate,
     route,
     skyBadgeToken: formValues.token,
-    outTokenAmount: tokenValue,
+    outTokenAmount,
   }
 }
 
 export interface GetWithdrawRouteParams {
   formValues: TransferFromUserFormNormalizedData
-  tokensInfo: TokensInfo
-  savingsInfo: SavingsInfo
-  savingsToken: Token
-  savingsTokenValue: NormalizedUnitNumber
+  savingsAccount: SavingsAccount
+  savingsTokenInAmount: NormalizedUnitNumber
 }
 function getWithdrawRoute({
   formValues,
-  tokensInfo,
-  savingsInfo,
-  savingsToken,
-  savingsTokenValue,
+  savingsAccount,
+  savingsTokenInAmount,
 }: GetWithdrawRouteParams): TxOverviewRouteItem[] {
   const value = formValues.value
-  const intermediary =
-    (savingsToken.symbol === tokensInfo.sDAI?.symbol ? tokensInfo.DAI : tokensInfo.USDS) ??
-    raise('Cannot find intermediary token')
+  const intermediary = savingsAccount.underlyingToken
 
   return [
     {
-      token: savingsToken,
-      value: savingsTokenValue,
-      usdValue: savingsInfo.convertToAssets({ shares: savingsTokenValue }),
+      token: savingsAccount.savingsToken,
+      value: savingsTokenInAmount,
+      usdValue: savingsAccount.converter.convertToAssets({ shares: savingsTokenInAmount }),
     },
     {
       token: intermediary,

@@ -2,9 +2,8 @@ import { lendingPoolAddress, migrationActionsConfig, wethGatewayAddress } from '
 import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ActionsSettings } from '@/domain/state/actions-settings'
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { assert, raise } from '@/utils/assert'
+import { assert, BaseUnitNumber, raise } from '@marsfoundation/common-universal'
 import { maxUint256 } from 'viem'
 import { useChainId } from 'wagmi'
 import { ApproveDelegationAction } from '../flavours/approve-delegation/types'
@@ -29,12 +28,19 @@ import { Action, ActionContext, Objective } from './types'
 export interface UseCreateActionsParams {
   objectives: Objective[]
   actionsSettings: ActionsSettings
-  actionContext: ActionContext
+  context: ActionContext
+  canWalletBatch: boolean
 }
 
-export function useCreateActions({ objectives, actionsSettings, actionContext }: UseCreateActionsParams): Action[] {
+export function useCreateActions({
+  objectives,
+  actionsSettings: _actionSettings,
+  context,
+  canWalletBatch,
+}: UseCreateActionsParams): Action[] {
   const chainConfig = useChainConfigEntry()
   const chainId = useChainId()
+  const actionsSettings = { ..._actionSettings, preferPermits: canWalletBatch ? false : _actionSettings.preferPermits }
 
   function getNativeAssetInfoSymbol(): TokenSymbol {
     return chainConfig.markets?.nativeAssetInfo.nativeAssetSymbol ?? raise('Native asset info is not defined')
@@ -127,7 +133,7 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         }
 
         if (objective.token.symbol === chainConfig.usdsSymbol) {
-          const marketInfo = actionContext.marketInfo ?? raise('Market info is required for borrow action')
+          const marketInfo = context.marketInfo ?? raise('Market info is required for borrow action')
 
           const borrowAction: BorrowAction = {
             type: 'borrow',
@@ -259,19 +265,19 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
       }
 
       case 'unstake': {
-        return createUnstakeActions(objective, actionContext)
+        return createUnstakeActions(objective, context)
       }
 
       case 'withdrawFromSavings': {
-        return createWithdrawFromSavingsActions(objective, actionContext)
+        return createWithdrawFromSavingsActions(objective, context)
       }
 
       case 'depositToSavings': {
-        return createDepositToSavingsActions(objective, actionContext)
+        return createDepositToSavingsActions(objective, context)
       }
 
       case 'stake': {
-        return createStakeActions(objective, actionContext)
+        return createStakeActions(objective, context)
       }
 
       case 'claimFarmRewards': {
@@ -285,8 +291,21 @@ export function useCreateActions({ objectives, actionsSettings, actionContext }:
         ]
       }
 
+      case 'claimSparkRewards': {
+        return [
+          {
+            type: 'claimSparkRewards',
+            token: objective.token,
+            epoch: objective.epoch,
+            cumulativeAmount: objective.cumulativeAmount,
+            merkleRoot: objective.merkleRoot,
+            merkleProof: objective.merkleProof,
+          },
+        ]
+      }
+
       case 'convertStables': {
-        return createConvertStablesActions(objective, actionContext)
+        return createConvertStablesActions(objective, context)
       }
     }
   })

@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
+import { times } from 'remeda'
 import { ScrollArea, ScrollBar } from './ScrollArea'
 
 const meta: Meta<typeof ScrollArea> = {
@@ -14,7 +15,7 @@ export const Vertical: Story = {
   render: () => (
     <ScrollArea className="h-[200px] w-fit px-4">
       <div className="flex flex-col gap-2">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {times(20, (i) => (
           <div key={i}>Item {i}</div>
         ))}
       </div>
@@ -27,7 +28,7 @@ export const Horizontal: Story = {
   render: () => (
     <ScrollArea className="w-96">
       <div className="flex w-max flex-row gap-2 py-4">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {times(20, (i) => (
           <div key={i}>Item {i}</div>
         ))}
       </div>

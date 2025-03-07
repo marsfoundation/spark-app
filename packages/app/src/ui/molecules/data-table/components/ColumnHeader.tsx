@@ -1,4 +1,4 @@
-import { Button } from '@/ui/atoms/new/button/Button'
+import { Button } from '@/ui/atoms/button/Button'
 import { cn } from '@/ui/utils/style'
 import { Column } from '@tanstack/react-table'
 import { ChevronDownIcon, ChevronUpIcon, ChevronsUpDown } from 'lucide-react'
@@ -22,7 +22,7 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
       {sortable ? (
         <Button
           variant="transparent"
-          className="!typography-label-6 h-4 cursor-pointer rounded-[1px] p-0 text-secondary"
+          className="!typography-label-4 h-4 cursor-pointer rounded-[1px] p-0 text-secondary"
           onClick={() => sortable && column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {column.getIsSorted() !== false ? (
@@ -39,7 +39,7 @@ export function ColumnHeader<T>({ column, columnDefinition }: ColumnHeaderProps<
           {header}
         </Button>
       ) : (
-        <span className="typography-label-6 h-4 text-secondary ">{header}</span>
+        <span className="typography-label-4 h-4 text-secondary ">{header}</span>
       )}
     </div>
   )

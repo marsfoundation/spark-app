@@ -1,11 +1,11 @@
 import { TokenWithBalance } from '@/domain/common/types'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { AssetInput } from '@/ui/organisms/new/asset-input/AssetInput'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
+import { Panel } from '@/ui/atoms/panel/Panel'
+import { AssetInput } from '@/ui/organisms/asset-input/AssetInput'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { raise } from '@/utils/assert'
+import { raise } from '@marsfoundation/common-universal'
 import { XIcon } from 'lucide-react'
 import { Control } from 'react-hook-form'
 import { EasyBorrowFormSchema } from '../../logic/form/validation'
@@ -38,7 +38,7 @@ export function Borrow({
     <Panel className="flex flex-col" data-testid={testIds.easyBorrow.form.borrow} spacing="none">
       <Panel className={cn('flex flex-1 flex-col gap-4 bg-primary', showTokenSummary && 'rounded-b-none')}>
         <div className="flex items-center justify-between">
-          <h4 className="typography-label-2 h-8 text-primary">Borrow</h4>
+          <h4 className="typography-heading-5 h-8 text-primary">Borrow</h4>
           {pageStatus.state === 'confirmation' && (
             <IconButton onClick={pageStatus.onProceedToForm} variant="transparent" size="l" icon={XIcon} />
           )}

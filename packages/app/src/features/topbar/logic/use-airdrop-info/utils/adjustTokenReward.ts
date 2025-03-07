@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 interface AdjustTokenRewardParams {
   airdropTimestampInMs: number

@@ -2,7 +2,7 @@ import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets, getTokenImage } from '@/ui/assets'
 import HandCoinsIcon from '@/ui/assets/hand-coins.svg?react'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { MenuItem, MenuItemIcon } from '@/ui/atoms/new/menu-item/MenuItem'
+import { MenuItem, MenuItemIcon } from '@/ui/atoms/menu-item/MenuItem'
 import { ChevronRight } from 'lucide-react'
 import { TopbarRewardsProps } from '../../topbar-rewards/TopbarRewards'
 
@@ -17,7 +17,7 @@ export function TopbarMenuRewardsItem({ onClaim, totalClaimableReward, rewards }
         <MenuItem variant="secondary" asChild withSeparator>
           <button className="flex items-center gap-2 rounded-none p-6">
             <div className="flex flex-col items-start gap-2">
-              <span className="typography-label-5 text-secondary">Rewards</span>
+              <span className="typography-label-3 text-secondary">Rewards</span>
               <div className="flex items-center gap-2">
                 <img src={assets.giftGradient} alt="Gift icon" className="icon-md" />
                 {USD_MOCK_TOKEN.formatUSD(totalClaimableReward, { compact: true })}
@@ -36,12 +36,12 @@ export function TopbarMenuRewardsItem({ onClaim, totalClaimableReward, rewards }
             <div className="flex items-center gap-2">
               <img src={getTokenImage(token.symbol)} alt={`${token.symbol} icon`} className="h-6" />
 
-              <div className="typography-label-4">
+              <div className="typography-label-2">
                 {token.format(amount, { style: 'auto' })} {token.symbol}
               </div>
             </div>
 
-            <div className="typography-label-6 text-secondary">{token.formatUSD(amount)}</div>
+            <div className="typography-label-4 text-secondary">{token.formatUSD(amount)}</div>
           </MenuItem>
         ))}
 

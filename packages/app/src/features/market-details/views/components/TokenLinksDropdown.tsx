@@ -1,5 +1,4 @@
 import { useBlockExplorerAddressLink } from '@/domain/hooks/useBlockExplorerAddressLink'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Token } from '@/domain/types/Token'
 import BoxArrowTopRight from '@/ui/assets/box-arrow-top-right.svg?react'
 import { Address } from '@/ui/atoms/address/Address'
@@ -10,9 +9,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { Link } from '@/ui/atoms/link/Link'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { MoreVerticalIcon } from 'lucide-react'
 import { PropsWithChildren, ReactNode } from 'react'
 
@@ -31,7 +31,7 @@ export function TokenLinksDropdown({ token, aToken, variableDebtTokenAddress, ch
   ]
   return (
     <TokenLinksWrapper>
-      <DropdownMenuLabel className="p-4 pb-0 font-normal text-basics-dark-grey">Token Contracts</DropdownMenuLabel>
+      <DropdownMenuLabel className="p-4 pb-0 text-secondary">Token Contracts</DropdownMenuLabel>
       {tokenContractsLinks.map((contractLink) => (
         <BlockExplorerAddressLink key={contractLink.address} address={contractLink.address} chainId={chainId}>
           <TokenLinksDropdownItem {...contractLink} />
@@ -62,7 +62,7 @@ function BlockExplorerAddressLink({ address, children, chainId }: BlockExplorerA
   const contractLink = useBlockExplorerAddressLink({ address, chainId })
 
   return contractLink ? (
-    <Link to={contractLink} external>
+    <Link to={contractLink} variant="unstyled" external>
       {children}
     </Link>
   ) : (
@@ -82,11 +82,11 @@ function TokenLinksDropdownItem({ address, token, label }: TokenLinksDropdownIte
       <div className="flex max-w-60 flex-1 flex-col gap-1">
         <div className="flex items-center gap-1">
           <TokenIcon token={token} className="h-4 w-4" />
-          <div className="flex flex-row items-center gap-2.5 font-normal text-basics-dark-grey lg:gap-1 group-hover:text-nav-primary lg:text-xs">
+          <div className="typography-label-4 flex flex-row items-center gap-2.5 text-secondary group-hover:text-brand-primary lg:gap-1">
             {label}
           </div>
         </div>
-        <div className="flex items-center gap-2 font-semibold text-basics-black">
+        <div className="typography-body-3 flex items-center gap-2 text-primary">
           <Address address={address} postfix={<BoxArrowTopRight className="h-3.5 w-3.5" />} />
         </div>
       </div>

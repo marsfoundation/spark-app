@@ -1,5 +1,5 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
@@ -7,8 +7,7 @@ import { aaveDataLayerQueryKey } from '@/domain/market-info/aave-data-layer/quer
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { CheckedAddress, UnixTime, toBigInt } from '@marsfoundation/common-universal'
 import { DepositAction } from '../types'
 
 export function createDepositActionConfig(action: DepositAction, context: ActionContext): ActionConfig {
@@ -23,7 +22,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
       const token = action.token.address
       const permit = permitStore?.find(action.token)
 
-      if (token === NATIVE_ASSET_MOCK_ADDRESS) {
+      if (token === CheckedAddress.EEEE()) {
         return ensureConfigTypes({
           abi: wethGatewayConfig.abi,
           address: wethGateway,
@@ -43,7 +42,7 @@ export function createDepositActionConfig(action: DepositAction, context: Action
             value,
             context.account,
             SPARK_UI_REFERRAL_CODE,
-            toBigInt(getTimestampInSeconds(permit.deadline)),
+            UnixTime.fromDate(permit.deadline),
             Number(permit.signature.v),
             permit.signature.r,
             permit.signature.s,

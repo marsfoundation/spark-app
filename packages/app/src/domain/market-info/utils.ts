@@ -1,9 +1,7 @@
-import { assert } from '@/utils/assert'
 import { formatUserSummary } from '@aave/math-utils'
-
-import { bigNumberify } from '../../utils/bigNumber'
-import { CheckedAddress } from '../types/CheckedAddress'
-import { NormalizedUnitNumber, Percentage } from '../types/NumericValues'
+import { assert, CheckedAddress } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import { AaveBaseCurrency, AaveFormattedReserve, AaveUserSummary, RawAaveUserReserve } from './aave-data-layer/query'
 import type {
   IsolatedBorrowingState,
@@ -51,12 +49,12 @@ export function normalizeUserSummary(formattedUserSummary: AaveUserSummary): Use
   const healthFactor = rawHealthFactor.eq(-1) ? undefined : rawHealthFactor
 
   return {
-    loanToValue: Percentage(loanToValue, true),
+    loanToValue: Percentage(loanToValue, { allowMoreThan1: true }),
     healthFactor,
     maxLoanToValue: Percentage(formattedUserSummary.currentLoanToValue),
     availableBorrowsUSD: NormalizedUnitNumber(formattedUserSummary.availableBorrowsUSD),
     totalBorrowsUSD: NormalizedUnitNumber(formattedUserSummary.totalBorrowsUSD),
-    currentLiquidationThreshold: Percentage(formattedUserSummary.currentLiquidationThreshold, true),
+    currentLiquidationThreshold: Percentage(formattedUserSummary.currentLiquidationThreshold, { allowMoreThan1: true }),
     totalCollateralUSD: NormalizedUnitNumber(formattedUserSummary.totalCollateralUSD),
     totalLiquidityUSD: NormalizedUnitNumber(formattedUserSummary.totalLiquidityUSD),
   }

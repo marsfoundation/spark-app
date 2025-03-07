@@ -1,22 +1,22 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { BasePageObject } from '@/test/e2e/BasePageObject'
 import { TestTokenWithValue, expectAssets } from '@/test/e2e/assertions'
-import { ForkContext } from '@/test/e2e/forking/setupFork'
-import { calculateAssetsWorth, isPage } from '@/test/e2e/utils'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
+
+export interface DialogPageObjectParams {
+  testContext: TestContext
+  header: RegExp
+}
 
 export class DialogPageObject extends BasePageObject {
   public readonly actionsContainer: ActionsPageObject
-  constructor(pageOrLocator: Page | Locator, header: RegExp) {
-    if (isPage(pageOrLocator)) {
-      super(pageOrLocator)
-      this.region = this.locateDialogByHeader(header)
-    } else {
-      super(pageOrLocator)
-    }
-    this.actionsContainer = new ActionsPageObject(this.locatePanelByHeader('Actions'))
+  constructor({ testContext, header }: DialogPageObjectParams) {
+    super(testContext)
+    this.region = this.locateDialogByHeader(header)
+    this.actionsContainer = new ActionsPageObject(testContext, this.locatePanelByHeader('Actions'))
   }
 
   getDialog(): Locator {
@@ -53,20 +53,14 @@ export class DialogPageObject extends BasePageObject {
   // #endregion actions
 
   // #region assertions
-  async expectSuccessPage(
-    tokenWithValue: TestTokenWithValue[],
-    fork: ForkContext,
-    assetWorthOverrides?: Record<string, number>,
-  ): Promise<void> {
+  async expectSuccessPage({
+    tokenWithValue,
+  }: {
+    tokenWithValue: TestTokenWithValue[]
+  }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
-
-    const transformed = tokenWithValue.reduce((acc, { asset, amount: value }) => ({ ...acc, [asset]: value }), {})
-
-    const { assetsWorth } = await calculateAssetsWorth(fork.forkUrl, transformed)
-    const mergedAssetsWorth = { ...assetsWorth, ...assetWorthOverrides }
-
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    expectAssets(summary!, tokenWithValue, mergedAssetsWorth)
+    expectAssets(summary!, tokenWithValue)
   }
 
   async expectRiskLevelBefore(riskLevel: string): Promise<void> {

@@ -1,15 +1,15 @@
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { Percentage } from '@/domain/types/NumericValues'
 import { ActionsContainer } from '@/features/actions/ActionsContainer'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { assets } from '@/ui/assets'
+import { Button } from '@/ui/atoms/button/Button'
 import { Form } from '@/ui/atoms/form/Form'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ConnectOrSandboxCTAPanel } from '@/ui/organisms/connect-or-sandbox-cta-panel/ConnectOrSandboxCTAPanel'
 import { RiskAcknowledgement } from '@/ui/organisms/risk-acknowledgement/RiskAcknowledgement'
+import { Percentage } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
@@ -35,7 +35,7 @@ export interface EasyBorrowPanelProps {
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 
@@ -75,7 +75,7 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
                   )}
                 </Panel>
               )}
-              <Panel>
+              <Panel ref={props.focusOnActionsPanel}>
                 <ActionsContainer
                   objectives={objectives}
                   context={actionsContext}

@@ -1,6 +1,6 @@
 import { infoSkyApiUrl } from '@/config/consts'
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { UseQueryResult, queryOptions, useQuery } from '@tanstack/react-query'
 import { Address, zeroAddress } from 'viem'
 import { z } from 'zod'

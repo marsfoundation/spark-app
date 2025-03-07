@@ -1,9 +1,9 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatTooltipDate, formatUSDTicks, getVerticalDomainWithPadding } from '@/ui/charts/utils'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveCardinal } from '@visx/curve'
 import { localPoint } from '@visx/event'
@@ -203,7 +203,7 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={colors.primary}>
-        TVL: <span className="font-semibold">{USD_MOCK_TOKEN.formatUSD(data.totalStaked)}</span>
+        TVL: {USD_MOCK_TOKEN.formatUSD(data.totalStaked)}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

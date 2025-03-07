@@ -1,11 +1,11 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
 import { ChartTooltipContent } from '@/ui/charts/ChartTooltipContent'
 import { colors as colorsPreset } from '@/ui/charts/colors'
 import { Margins, defaultMargins } from '@/ui/charts/defaults'
 import { formatPercentageTick, formatTooltipDate, getVerticalDomainWithPadding } from '@/ui/charts/utils'
+import { Percentage } from '@marsfoundation/common-universal'
 import { AxisBottom, AxisLeft } from '@visx/axis'
-import { curveStepAfter } from '@visx/curve'
+import { curveCardinal } from '@visx/curve'
 import { localPoint } from '@visx/event'
 import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
@@ -103,7 +103,7 @@ function Chart({
             data={data}
             x={(data) => xValueScale(data.date)}
             y={(data) => yValueScale(data.apr.toNumber())}
-            curve={curveStepAfter}
+            curve={curveCardinal}
           />
           <AreaClosed
             strokeWidth={2}
@@ -111,7 +111,7 @@ function Chart({
             x={(data) => xValueScale(data.date)}
             y={(data) => yValueScale(data.apr.toNumber())}
             yScale={yValueScale}
-            curve={curveStepAfter}
+            curve={curveCardinal}
             fill="url(#area-gradient)"
           />
 
@@ -199,7 +199,7 @@ function TooltipContent({ data }: { data: ChartDataPoint }) {
     <ChartTooltipContent>
       <ChartTooltipContent.Date>{formatTooltipDate(data.date)}</ChartTooltipContent.Date>
       <ChartTooltipContent.Value dotColor={colors.primary}>
-        APY: <span className="font-semibold">{formatPercentage(data.apr, { minimumFractionDigits: 0 })}</span>
+        APY: {formatPercentage(data.apr, { minimumFractionDigits: 0 })}
       </ChartTooltipContent.Value>
     </ChartTooltipContent>
   )

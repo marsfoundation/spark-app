@@ -5,8 +5,8 @@ import { NavLink, To, useMatch } from 'react-router-dom'
 
 const buttonVariants = cva(
   cn(
-    'typography-label-4 inline-flex h-20 flex-nowrap items-center sm:h-10',
-    'group gap-2 border-reskin-base-white border-l-4 bg-primary px-4 py-2 sm:rounded-sm sm:border sm:border-primary',
+    'typography-label-2 inline-flex h-20 flex-nowrap items-center sm:h-10',
+    'group gap-2 border-base-white border-l-4 bg-primary px-4 py-2 sm:rounded-sm sm:border sm:border-primary',
     'border-solid border-opacity-40 transition-colors sm:shadow-xs',
     'focus-visible:outline-none focus-visible:ring-1 ',
   ),
@@ -14,16 +14,16 @@ const buttonVariants = cva(
     variants: {
       type: {
         savings: cn(
-          'active:border-reskin-page-savings hover:border-reskin-page-savings/40',
-          'hover:shadow-reskin-page-savings/15 focus-visible:ring-reskin-page-savings',
+          'hover:border-page-savings/40 active:border-page-savings',
+          'hover:shadow-page-savings/15 focus-visible:ring-page-savings',
         ),
         farms: cn(
-          'active:border-reskin-page-farm hover:border-reskin-page-farms/40',
-          'hover:shadow-reskin-page-farms/15 focus-visible:ring-reskin-page-farms',
+          'hover:border-page-farms/40 active:border-page-farm',
+          'hover:shadow-page-farms/15 focus-visible:ring-page-farms',
         ),
         borrow: cn(
-          'active:border-reskin-page-borrow hover:border-reskin-page-borrow/40',
-          'hover:shadow-reskin-page-borrow/15 focus-visible:ring-reskin-page-borrow',
+          'hover:border-page-borrow/40 active:border-page-borrow',
+          'hover:shadow-page-borrow/15 focus-visible:ring-page-borrow',
         ),
       },
       isActive: {
@@ -34,13 +34,13 @@ const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      { type: 'savings', isHighlighted: true, class: 'border-reskin-page-savings/40 shadow-reskin-page-savings/15' },
-      { type: 'farms', isHighlighted: true, class: 'border-reskin-page-farms/40 shadow-reskin-page-farms/15' },
-      { type: 'borrow', isHighlighted: true, class: 'border-reskin-page-borrow/40 shadow-reskin-page-borrow/15' },
+      { type: 'savings', isHighlighted: true, class: 'border-page-savings/40 shadow-page-savings/15' },
+      { type: 'farms', isHighlighted: true, class: 'border-page-farms/40 shadow-page-farms/15' },
+      { type: 'borrow', isHighlighted: true, class: 'border-page-borrow/40 shadow-page-borrow/15' },
       // @note overrides didn't work without important flag
-      { type: 'savings', isActive: true, class: '!border-reskin-page-savings' },
-      { type: 'farms', isActive: true, class: '!border-reskin-page-farms' },
-      { type: 'borrow', isActive: true, class: '!border-reskin-page-borrow' },
+      { type: 'savings', isActive: true, class: '!border-page-savings' },
+      { type: 'farms', isActive: true, class: '!border-page-farms' },
+      { type: 'borrow', isActive: true, class: '!border-page-borrow' },
     ],
     defaultVariants: {
       isActive: false,
@@ -72,7 +72,7 @@ export const TopbarButton = forwardRef<HTMLAnchorElement | HTMLButtonElement, To
     const content = (
       <>
         {prefixIcon}
-        <span className="inline lg:inline sm:hidden">{label}</span>
+        <span className="inline sm:hidden lg:inline">{label}</span>
 
         {postfixSlot &&
           cloneElement(postfixSlot, {

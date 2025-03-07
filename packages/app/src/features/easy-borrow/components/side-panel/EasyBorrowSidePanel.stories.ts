@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { EasyBorrowSidePanel } from './EasyBorrowSidePanel'
 

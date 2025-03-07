@@ -1,5 +1,5 @@
-import { FarmConfig } from '@/domain/farms/types'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { FarmConfig } from '@/config/chain/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { Address } from 'viem'
 import { Config } from 'wagmi'
@@ -8,7 +8,7 @@ import { getFarmBlockchainDetails } from './getFarmBlockchainDetails'
 export interface FarmsBlockchainDetailsQueryOptionsParams {
   farmConfigs: FarmConfig[]
   wagmiConfig: Config
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   chainId: number
   account: Address | undefined
 }
@@ -17,7 +17,7 @@ export interface FarmsBlockchainDetailsQueryOptionsParams {
 export function farmsBlockchainDetailsQueryOptions({
   farmConfigs,
   wagmiConfig,
-  tokensInfo,
+  tokenRepository,
   chainId,
   account,
 }: FarmsBlockchainDetailsQueryOptionsParams) {
@@ -26,7 +26,7 @@ export function farmsBlockchainDetailsQueryOptions({
     queryFn: async () => {
       return await Promise.all(
         farmConfigs.map((farmConfig) =>
-          getFarmBlockchainDetails({ farmConfig, wagmiConfig, tokensInfo, chainId, account }),
+          getFarmBlockchainDetails({ farmConfig, wagmiConfig, tokenRepository, chainId, account }),
         ),
       )
     },

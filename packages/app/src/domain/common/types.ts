@@ -1,5 +1,5 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Reserve } from '../market-info/marketInfo'
-import { NormalizedUnitNumber } from '../types/NumericValues'
 import { Token } from '../types/Token'
 
 export interface TokenWithBalance {

@@ -8,8 +8,6 @@ const Select = SelectPrimitive.Root
 
 const SelectGroup = SelectPrimitive.Group
 
-const SelectValue = SelectPrimitive.Value
-
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -17,14 +15,20 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex w-full items-center justify-between rounded-xl border border-input bg-input-background px-4 py-4 ring-offset-background disabled:cursor-not-allowed placeholder:text-muted-foreground disabled:opacity-70 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+      'group flex w-full items-center justify-between',
+      'rounded-sm border border-primary bg-primary text-fg-primary',
+      'p-3 ring-offset-base-black placeholder:text-secondary',
+      'hover:border-tertiary hover:shadow-sm',
+      'disabled:cursor-not-allowed disabled:border-secondary disabled:opacity-50 disabled:shadow-xs ',
+      'focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+      'data-[state=open]:border-secondary data-[state=open]:shadow-sm',
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <img src={assets.chevronDown} />
+      <img src={assets.chevronDown} className="transition-transform group-data-[state=open]:rotate-180" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -38,7 +42,8 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 min-w-[8rem] overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
+        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=open]:animate-in',
+        'relative z-50 min-w-[8rem] overflow-hidden rounded-sm border border-primary bg-primary text-fg-primary shadow-xl',
         position === 'popper' &&
           'data-[side=left]:-translate-x-1 data-[side=top]:-translate-y-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1',
         // @note: passing max-h and overflow-y-auto is important to make scroll when there is not enough vertical space
@@ -52,7 +57,7 @@ const SelectContent = React.forwardRef<
     >
       <SelectPrimitive.Viewport
         className={cn(
-          'divide-y',
+          'divide-y divide-primary',
           position === 'popper' &&
             'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]',
         )}
@@ -64,14 +69,6 @@ const SelectContent = React.forwardRef<
 ))
 SelectContent.displayName = SelectPrimitive.Content.displayName
 
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Label ref={ref} className={cn('py-1.5 pr-2 pl-8 font-semibold text-sm', className)} {...props} />
-))
-SelectLabel.displayName = SelectPrimitive.Label.displayName
-
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
@@ -79,7 +76,11 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-default select-none items-center rounded-sm px-4 py-4 pr-2 pl-8 outline-none data-[disabled]:pointer-events-none focus:bg-accent focus:text-accent-foreground data-[disabled]:opacity-50',
+      'relative flex w-full cursor-default select-none items-center px-3 py-4 outline-none',
+      'hover:cursor-pointer hover:bg-secondary',
+      'active:bg-tertiary',
+      'focus-visible:bg-secondary',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     {...props}
@@ -89,12 +90,5 @@ const SelectItem = React.forwardRef<
 ))
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
-const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Separator ref={ref} className={cn('-mx-1 my-1 h-px bg-muted', className)} {...props} />
-))
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName
-
-export { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue }
+// not a complete list of elements - refer to https://ui.shadcn.com/docs/components/select for more
+export { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger }

@@ -12,7 +12,7 @@ export function KeyPoints({ children, className }: KeyPointsProps) {
 
 function KeyPointsItem({ children, variant }: { children: ReactNode; variant: 'positive' | 'negative' }) {
   return (
-    <li className="typography-label-4 flex items-center gap-2.5">
+    <li className="typography-label-2 flex items-center gap-2.5">
       {variant === 'positive' && <CheckIcon className="icon-xs text-system-success-primary" />}
       {variant === 'negative' && <XIcon className="icon-xs text-system-error-primary" />}
       {children}

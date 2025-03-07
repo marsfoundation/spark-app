@@ -1,8 +1,9 @@
 import { getChainConfigEntry } from '@/config/chain'
-import { Path, getSupportedPages, pathGroups } from '@/config/paths'
-import { useNetworkChange } from '@/features/navbar/logic/useNetworkChange'
+import { Path, PathGroup, getSupportedPages, pathGroups } from '@/config/paths'
+import { entries } from 'remeda'
 import { useChainId, useChains } from 'wagmi'
 import { Chain } from '../types'
+import { useNetworkChange } from './useNetworkChange'
 
 export interface UseSelectNetworkDialogParams {
   closeDialog: () => void
@@ -15,7 +16,7 @@ export interface UseSelectNetworkDialogResult {
 export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogParams): UseSelectNetworkDialogResult {
   const currentChainId = useChainId()
   const supportedChains = useChains()
-  const { changeNetwork } = useNetworkChange({
+  const { changeNetwork, isPending, variables } = useNetworkChange({
     onSuccess: () => {
       closeDialog()
     },
@@ -29,6 +30,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
       logo: config.meta.logo,
       supportedPages: formatSupportedPages(getSupportedPages(config)),
       selected: chain.id === currentChainId,
+      isInSwitchingProcess: isPending && variables === chain.id,
       onSelect: () => {
         if (chain.id === currentChainId) {
           closeDialog()
@@ -46,9 +48,7 @@ export function useSelectNetworkDialog({ closeDialog }: UseSelectNetworkDialogPa
 }
 
 function formatSupportedPages(supportedPages: Path[]): string[] {
-  const pageGroups = supportedPages.map(
-    (path) => Object.entries(pathGroups).find(([, paths]) => paths.includes(path))?.[0],
-  )
+  const pageGroups = supportedPages.map((path) => entries(pathGroups).find(([, paths]) => paths.includes(path))?.[0])
   const pageGroupNames = pageGroups.map((group) => group && pageGroupToName[group])
   const uniquePageGroupNames = pageGroupNames.filter(
     (pageGroupName, index, self) => self.indexOf(pageGroupName) === index,
@@ -57,8 +57,9 @@ function formatSupportedPages(supportedPages: Path[]): string[] {
   return uniquePageGroupNames
 }
 
-const pageGroupToName: Record<string, string> = {
+const pageGroupToName: Record<PathGroup, string> = {
   borrow: 'Borrow',
   savings: 'Savings',
   farms: 'Farms',
+  sparkRewards: 'Rewards',
 }

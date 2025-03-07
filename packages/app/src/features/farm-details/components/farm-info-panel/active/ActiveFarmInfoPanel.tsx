@@ -2,15 +2,15 @@ import { getChainConfigEntry } from '@/config/chain'
 import { farmAddresses } from '@/config/chain/constants'
 import { formatPercentage } from '@/domain/common/format'
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { RewardPointsSyncStatus } from '@/features/farm-details/types'
+import { getTokenImage } from '@/ui/assets'
+import { Button } from '@/ui/atoms/button/Button'
 import { DelayedComponent } from '@/ui/atoms/delayed-component/DelayedComponent'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { assert } from '@/utils/assert'
+import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { mainnet } from 'viem/chains'
 import { ApyTooltip } from '../../apy-tooltip/ApyTooltip'
 import { ChroniclePointsTooltip } from '../../chronicle-points-tooltip/ChroniclePointsTooltip'
@@ -48,15 +48,19 @@ export function ActiveFarmInfoPanel({
     getChainConfigEntry(chainId).originChainId === mainnet.id
 
   return (
-    <Panel className="flex min-h-[380px] w-full flex-1 flex-col self-stretch">
-      <div className="flex justify-between">
-        <div className="flex items-center gap-1">
-          <h2 className="typography-heading-4 text-primary">Overview</h2>
+    <Panel
+      spacing="m"
+      className="flex flex-col justify-between gap-8 bg-active-farm-panel bg-right bg-no-repeat md:bg-contain"
+    >
+      <div className="flex w-full flex-row items-center justify-between">
+        <div className="flex flex-row items-center gap-1">
+          <h2 className="typography-heading-4 text-primary-inverse">Overview</h2>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="md:-mt-2 md:-mr-2 flex flex-row gap-1">
           {canClaim && (
             <Button
               size="s"
+              variant="tertiary"
               onClick={openClaimDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.claimButton}
             >
@@ -66,7 +70,7 @@ export function ActiveFarmInfoPanel({
           {farm.staked.gt(0) && (
             <Button
               size="s"
-              variant="secondary"
+              variant="tertiary"
               onClick={openUnstakeDialog}
               data-testid={testIds.farmDetails.activeFarmInfoPanel.unstakeButton}
             >
@@ -75,7 +79,7 @@ export function ActiveFarmInfoPanel({
           )}
         </div>
       </div>
-      <div className="flex flex-grow flex-col items-center justify-center gap-2">
+      <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 md:items-baseline">
           <GrowingReward
             rewardToken={farm.rewardToken}
@@ -93,40 +97,42 @@ export function ActiveFarmInfoPanel({
           </DelayedComponent>
         )}
       </div>
-      <div className="flex flex-col gap-4">
-        <div
-          className={cn(
-            'flex flex-col items-start gap-2 md:flex-row md:items-center',
-            farm.apy?.gt(0) ? 'w-full text-sm md:justify-between' : 'md:gap-12',
-          )}
-        >
-          {farm.depositors && (
-            <DetailsItem title="Participants">
-              <div className="typography-label-4 text-primary">{farm.depositors}</div>
-            </DetailsItem>
-          )}
-
-          <DetailsItem title="TVL">
-            <div className="typography-label-4 text-primary">
-              {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+      <div className="flex divide-x divide-fg-secondary">
+        {farm.depositors && (
+          <DetailsItem title="Participants">
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
+              {farm.depositors}
             </div>
           </DetailsItem>
-          {farm.apy?.gt(0) && (
-            <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="typography-label-4 text-reskin-magenta">
-                {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
-              </div>
-            </DetailsItem>
-          )}
-          <DetailsItem title="My Deposit">
-            <div
-              className="typography-label-4 text-primary"
-              data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
-            >
-              {farm.stakingToken.format(farm.staked, { style: 'auto' })} {farm.stakingToken.symbol}
+        )}
+        <DetailsItem title="TVL">
+          <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
+            {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+          </div>
+        </DetailsItem>
+        {farm.apy?.gt(0) && (
+          <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-feature-farms-primary">
+              {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
             </div>
           </DetailsItem>
-        </div>
+        )}
+        <DetailsItem title="My Deposit">
+          <div
+            className={cn(
+              'typography-label-3 lg:typography-label-1 xl:typography-heading-5',
+              'flex items-center gap-1 text-primary-inverse lg:gap-1.5',
+            )}
+            data-testid={testIds.farmDetails.activeFarmInfoPanel.staked}
+          >
+            <img
+              src={getTokenImage(farm.stakingToken.symbol)}
+              className="h-3 shrink-0 lg:h-4"
+              alt={farm.stakingToken.symbol}
+            />
+            {farm.stakingToken.format(farm.staked, { style: 'auto' })}
+          </div>
+        </DetailsItem>
       </div>
     </Panel>
   )

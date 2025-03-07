@@ -1,15 +1,15 @@
 import { UnknownOracleInfo } from '@/domain/oracles/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { InfoTile } from '@/features/market-details/components/info-tile/InfoTile'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { BlockExplorerAddressLink } from '@/ui/molecules/block-explorer-address-link/BlockExplorerAddressLink'
-import { InfoTile } from '@/ui/molecules/info-tile/InfoTile'
 import { testIds } from '@/ui/utils/testIds'
 
 export function UnknownOraclePanel({ chainId, token, price, priceOracleAddress }: UnknownOracleInfo) {
   return (
     <Panel className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <h3 className="typography-heading-5 text-primary">Oracle</h3>
+        <h3 className="typography-label-1 text-primary">Oracle</h3>
       </div>
       <div className="flex flex-col gap-4 sm:gap-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-10">

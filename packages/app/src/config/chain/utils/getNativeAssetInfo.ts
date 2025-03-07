@@ -1,4 +1,4 @@
-import { raise } from '@/utils/assert'
+import { raise } from '@marsfoundation/common-universal'
 import { getChainConfigEntry } from '..'
 import { NativeAssetInfo } from '../types'
 

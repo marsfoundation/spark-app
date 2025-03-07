@@ -1,6 +1,6 @@
 import { testAddresses } from '@/test/integration/constants'
 
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { validateBorrow } from './validateBorrow'
 
 describe(validateBorrow.name, () => {

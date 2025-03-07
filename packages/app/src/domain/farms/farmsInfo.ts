@@ -1,5 +1,4 @@
-import { raise } from '@/utils/assert'
-import { CheckedAddress } from '../types/CheckedAddress'
+import { CheckedAddress, raise } from '@marsfoundation/common-universal'
 import { Farm } from './types'
 
 export class FarmsInfo {

@@ -1,6 +1,6 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { ReserveStatus } from '../market-info/reserve-status'
-import { NormalizedUnitNumber } from '../types/NumericValues'
 
 interface GetDepositMaxValueParams {
   asset: {

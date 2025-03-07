@@ -1,6 +1,6 @@
 import { TokenWithBalance } from '@/domain/common/types'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
+import { Panel } from '@/ui/atoms/panel/Panel'
+import { Switch } from '@/ui/atoms/switch/Switch'
 import { Info } from '@/ui/molecules/info/Info'
 import { MyWalletChart } from './MyWalletChart'
 
@@ -19,7 +19,7 @@ export function MyWalletPanel({ assets, includeDeposits, setIncludeDeposits }: M
           <Info>Assets in your wallet supported by Spark.</Info>
         </div>
         <div className="flex items-center gap-2">
-          <div className="typography-label-5 text-secondary">Include deposits</div>
+          <div className="typography-label-3 text-secondary">Include deposits</div>
           <Switch checked={includeDeposits} onCheckedChange={setIncludeDeposits} />
         </div>
       </div>

@@ -12,6 +12,10 @@ const TOKENS_ON_MAINNET = {
     address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     decimals: 6,
   },
+  sUSDC: {
+    address: '0xBc65ad17c5C0a2A4D159fa5a503f4992c7B545FE',
+    decimals: 18,
+  },
   sDAI: {
     address: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
     decimals: 18,
@@ -55,6 +59,10 @@ const TOKENS_ON_MAINNET = {
   SKY: {
     address: '0x56072c95faa701256059aa122697b133aded9279',
     decimals: 18,
+  },
+  cbBTC: {
+    address: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+    decimals: 8,
   },
 } as const
 
@@ -109,6 +117,28 @@ export const TOKENS_ON_FORK = {
       address: '0x5875eEE11Cf8398102FdAd704C9E96607675467a',
       decimals: 18,
     },
+    sUSDC: {
+      address: '0x3128a0F7f0ea68E7B7c9B00AFa7E41045828e858',
+      decimals: 18,
+    },
+  },
+  42161: {
+    USDC: {
+      address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+      decimals: 6,
+    },
+    USDS: {
+      address: '0x6491c05A82219b8D1479057361ff1654749b876b',
+      decimals: 18,
+    },
+    sUSDS: {
+      address: '0xdDb46999F8891663a8F2828d25298f70416d7610',
+      decimals: 18,
+    },
+    sUSDC: {
+      address: '0x940098b108fB7D0a7E374f6eDED7760787464609',
+      decimals: 18,
+    },
   },
 } as const
 
@@ -118,22 +148,20 @@ type NonNativeTokens =
   | keyof (typeof TOKENS_ON_FORK)[8453]
 export type AssetsInTests = 'ETH' | 'XDAI' | NonNativeTokens
 
-// @note At this block number:
-// DAI oracle returns exactly 1
-// GNO is offboarded
-export const DEFAULT_BLOCK_NUMBER = 19092430n
-export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
-export const USDS_ACTIVATED_BLOCK_NUMBER = 20771186n
-
-export const LITE_PSM_ACTIONS_OPERABLE = 20618776n
-export const LITE_PSM_ACTIONS_OPERABLE_DATE = new Date('2024-08-27T08:40:00Z')
-
-export const WBTC_SUPPLY_CAP_REACHED_BLOCK_NUMBER = 19034436n
-
-export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
-
-export const WEETH_ACTIVE_BLOCK_NUMBER = 20173717n
-
 export const __TX_LIST_KEY = '__PLAYWRIGHT_TX_LIST' as any
 
-export const CAP_AUTOMATOR_BLOCK_NUMBER = 20670518n
+// @note: Block from 14 December 2024:
+// Stable oracles returning exactly 1
+// GNO is offboarded
+// USDS, PSM light are deployed
+export const DEFAULT_BLOCK_NUMBER = 21400000n
+
+// Edge cases
+export const GNO_ACTIVE_BLOCK_NUMBER = 18365842n
+export const SUSDC_ACTIVE_BLOCK_NUMBER = 21978000n
+
+export const BASE_DEFAULT_BLOCK_NUMBER = 23000000n
+export const BASE_SUSDC_ACTIVE_BLOCK_NUMBER = 27183000n
+export const GNOSIS_DEFAULT_BLOCK_NUMBER = 34543308n
+export const ARBITRUM_DEFAULT_BLOCK_NUMBER = 305215000n
+export const ARBITRUM_SUSDC_ACTIVE_BLOCK_NUMBER = 312509000n

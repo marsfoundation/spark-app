@@ -1,9 +1,9 @@
 import { Address } from 'viem'
 import { UseSignTypedDataReturnType } from 'wagmi'
 
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { toBigInt } from '@/utils/bigNumber'
+import { UnixTime, toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 const EIP2612_TYPES = {
   Permit: [
@@ -51,7 +51,7 @@ export function getSignPermitDataConfig({
       spender,
       value: toBigInt(token.toBaseUnit(value)),
       nonce,
-      deadline: toBigInt(deadline),
+      deadline: UnixTime(deadline),
     },
   }
 }

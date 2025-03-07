@@ -8,7 +8,7 @@ import { DialogForm } from '@/features/dialogs/common/components/form/DialogForm
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { FormFieldsForDialog, PageStatus } from '@/features/dialogs/common/types'
 import { DialogTitle } from '@/ui/atoms/dialog/Dialog'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { UseFormReturn } from 'react-hook-form'
 import { TransactionOverview } from '../components/TransactionOverview'
 import { TxOverview } from '../logic/createTxOverview'

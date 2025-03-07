@@ -10,7 +10,6 @@ const meta: Meta<typeof ChartTabsPanel> = {
   decorators: [WithClassname('max-w-lg')],
   args: {
     height: 300,
-    selectedTimeframe: 'All',
     tabs: mockChartsPanelMultipleTabs,
   },
 }

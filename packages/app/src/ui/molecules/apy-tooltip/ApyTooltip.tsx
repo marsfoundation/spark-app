@@ -1,8 +1,6 @@
-import { ReactNode } from 'react'
-
 import { Link } from '@/ui/atoms/link/Link'
 import { links } from '@/ui/constants/links'
-
+import { ReactNode } from 'react'
 import { Info } from '../info/Info'
 
 interface ApyTooltipProps {

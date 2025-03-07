@@ -1,10 +1,10 @@
-import { BaseUnitNumber } from '@/domain/types/NumericValues'
-import { toHex } from '@/utils/bigNumber'
+import { BaseUnitNumber, toBigInt } from '@marsfoundation/common-universal'
+import { toHex } from 'viem'
 import { z } from 'zod'
 import { request } from '../sandbox/request'
 
 async function setBalance(forkUrl: string, address: string, balance: BaseUnitNumber): Promise<void> {
-  await request(forkUrl, 'tenderly_setBalance', [address, toHex(balance)])
+  await request(forkUrl, 'tenderly_setBalance', [address, toHex(toBigInt(balance))])
 }
 
 async function setTokenBalance(
@@ -13,7 +13,7 @@ async function setTokenBalance(
   walletAddress: string,
   balance: BaseUnitNumber,
 ): Promise<void> {
-  await request(forkUrl, 'tenderly_setErc20Balance', [tokenAddress, walletAddress, toHex(balance)])
+  await request(forkUrl, 'tenderly_setErc20Balance', [tokenAddress, walletAddress, toHex(toBigInt(balance))])
 }
 
 const snapshotResponseSchema = z.object({

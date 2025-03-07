@@ -1,8 +1,7 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
-import { useSavingsDaiInfo } from '@/domain/savings-info/useSavingsDaiInfo'
-import { useSavingsUsdsInfo } from '@/domain/savings-info/useSavingsUsdsInfo'
-import { useSavingsTokens } from '@/domain/savings/useSavingsTokens'
-import { Percentage } from '@/domain/types/NumericValues'
+import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
@@ -10,21 +9,19 @@ import {
   getFieldsForTransferFromUserForm,
   useDebouncedFormValues,
 } from '@/features/dialogs/common/logic/transfer-from-user/form'
-import { getTransferFromUserFormValidator } from '@/features/dialogs/common/logic/transfer-from-user/validation'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { determineApyImprovement } from '@/features/savings/logic/determineApyImprovement'
-import { assert, raise } from '@/utils/assert'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { raise } from '@marsfoundation/common-universal'
 import { useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
 import { useChainId } from 'wagmi'
 import { SavingsDialogTxOverview } from '../../common/types'
 import { createTxOverview } from './createTxOverview'
-import { createObjectives } from './objectives'
-import { depositValidationIssueToMessage } from './validation'
+import { useDepositToSavingsValidator } from './useDepositToSavingsValidator'
 
 export interface UseSavingsDepositDialogParams {
   initialToken: Token
+  savingsToken: Token
 }
 
 export interface UseSavingsDepositDialogResults {
@@ -35,32 +32,35 @@ export interface UseSavingsDepositDialogResults {
   tokenToDeposit: TokenWithValue
   pageStatus: PageStatus
   txOverview: SavingsDialogTxOverview
-  savingsUsdsSwitchInfo: SavingsUsdsSwitchInfo
   actionsContext: InjectedActionsContext
-}
-
-export interface SavingsUsdsSwitchInfo {
-  showSwitch: boolean
-  checked: boolean
-  apyImprovement?: Percentage
-  onSwitch: () => void
+  underlyingToken: Token
 }
 
 export function useSavingsDepositDialog({
+  savingsToken,
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const chainId = useChainId()
-  const { savingsDaiInfo } = useSavingsDaiInfo({ chainId })
-  const { savingsUsdsInfo } = useSavingsUsdsInfo({ chainId })
-  assert(savingsDaiInfo || savingsUsdsInfo, 'Neither sDai nor sUSDS is supported')
-
-  const { tokensInfo, inputTokens } = useSavingsTokens({ chainId })
+  const chainConfig = getChainConfigEntry(chainId)
+  const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
+  const selectedAccountConfig =
+    chainConfig.savings?.accounts?.find((account) => account.savingsToken === savingsToken.symbol) ??
+    raise('Savings account is not found')
+  const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
+  )
+  const savingsAccounts = useSavingsAccountRepository({ chainId })
+  const savingsAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
-  const [upgradeSwitchChecked, setUpgradeSwitchChecked] = useState(true)
 
+  const validator = useDepositToSavingsValidator({
+    chainId,
+    tokenRepository,
+    savingsAccount,
+  })
   const form = useForm<AssetInputSchema>({
-    resolver: zodResolver(getTransferFromUserFormValidator(tokensInfo, depositValidationIssueToMessage)),
+    resolver: zodResolver(validator),
     defaultValues: {
       symbol: initialToken.symbol,
       value: '',
@@ -74,36 +74,21 @@ export function useSavingsDepositDialog({
     isFormValid,
   } = useDebouncedFormValues({
     form,
-    tokensInfo,
+    tokenRepository,
   })
 
-  const savingsType = (() => {
-    if (savingsDaiInfo && !savingsUsdsInfo) {
-      return 'sdai'
-    }
-    if (!savingsDaiInfo && savingsUsdsInfo) {
-      return 'susds'
-    }
-    // both are defined
+  const objectives: Objective[] = [
+    {
+      type: 'depositToSavings',
+      value: formValues.value,
+      token: formValues.token,
+      savingsToken,
+    },
+  ]
 
-    if (formValues.token.symbol === tokensInfo.USDS?.symbol) {
-      return 'susds' // do not handle case of downgrading sUSDS to DAI
-    }
-
-    return upgradeSwitchChecked ? 'susds' : 'sdai'
-  })()
-  const showUpgradeSwitch = !!savingsDaiInfo && !!savingsUsdsInfo && formValues.token.symbol !== tokensInfo.USDS?.symbol
-
-  const objectives = createObjectives({
-    formValues,
-    tokensInfo,
-    type: savingsType,
-  })
   const txOverview = createTxOverview({
     formValues,
-    tokensInfo,
-    savingsInfo: (savingsType === 'sdai' ? savingsDaiInfo : savingsUsdsInfo) ?? raise('Cannot find savings info'),
-    type: savingsType,
+    savingsAccount,
   })
 
   const tokenToDeposit: TokenWithValue = {
@@ -113,8 +98,9 @@ export function useSavingsDepositDialog({
   const actionsEnabled = formValues.value.gt(0) && isFormValid && !isDebouncing
 
   return {
-    selectableAssets: inputTokens,
-    assetsFields: getFieldsForTransferFromUserForm({ form, tokensInfo }),
+    selectableAssets: supportedStablecoins,
+    assetsFields: getFieldsForTransferFromUserForm({ form, tokenRepository }),
+    underlyingToken: savingsAccount.underlyingToken,
     form,
     objectives,
     tokenToDeposit,
@@ -124,15 +110,9 @@ export function useSavingsDepositDialog({
       actionsEnabled,
       goToSuccessScreen: () => setPageStatus('success'),
     },
-    savingsUsdsSwitchInfo: {
-      showSwitch: showUpgradeSwitch,
-      checked: upgradeSwitchChecked,
-      apyImprovement: determineApyImprovement({ savingsUsdsInfo, savingsDaiInfo }),
-      onSwitch: () => setUpgradeSwitchChecked((upgradeSwitchChecked) => !upgradeSwitchChecked),
-    },
     actionsContext: {
-      tokensInfo,
-      savingsUsdsInfo: savingsUsdsInfo ?? undefined,
+      tokenRepository,
+      savingsAccounts,
     },
   }
 }

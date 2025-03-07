@@ -3,11 +3,11 @@ import { OpenDialogFunction } from '@/domain/state/dialogs'
 import { collateralDialogConfig } from '@/features/dialogs/collateral/CollateralDialog'
 import { depositDialogConfig } from '@/features/dialogs/deposit/DepositDialog'
 import { withdrawDialogConfig } from '@/features/dialogs/withdraw/WithdrawDialog'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Button } from '@/ui/atoms/button/Button'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { ApyTooltip } from '@/ui/molecules/apy-tooltip/ApyTooltip'
 import { ActionsCell } from '@/ui/molecules/data-table/components/ActionsCell'
-import { CompactValueCell } from '@/ui/molecules/data-table/components/CompactValueCell'
+import { AmountCell } from '@/ui/molecules/data-table/components/AmountCell'
 import { PercentageCell } from '@/ui/molecules/data-table/components/PercentageCell'
 import { SwitchCell } from '@/ui/molecules/data-table/components/SwitchCell'
 import { TokenWithLogo } from '@/ui/molecules/data-table/components/TokenWithLogo'
@@ -36,7 +36,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
             sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'balance'),
             headerAlign: 'right',
             renderCell: ({ token, balance }, mobileViewOptions) => (
-              <CompactValueCell token={token} value={balance} mobileViewOptions={mobileViewOptions} hideEmpty />
+              <AmountCell token={token} amount={balance} mobileViewOptions={mobileViewOptions} />
             ),
           },
           deposit: {
@@ -45,7 +45,7 @@ export function DepositTable({ assets, openDialog }: DepositTableProps) {
             sortingFn: (a, b) => sortByUsdValue(a.original, b.original, 'deposit'),
             headerAlign: 'right',
             renderCell: ({ token, deposit }, mobileViewOptions) => (
-              <CompactValueCell token={token} value={deposit} mobileViewOptions={mobileViewOptions} hideEmpty />
+              <AmountCell token={token} amount={deposit} mobileViewOptions={mobileViewOptions} />
             ),
           },
           apy: {

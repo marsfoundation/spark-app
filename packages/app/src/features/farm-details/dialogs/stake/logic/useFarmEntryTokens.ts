@@ -1,27 +1,25 @@
 import { sortByUsdValueWithUsdsPriority } from '@/domain/common/sorters'
 import { TokenWithBalance } from '@/domain/common/types'
 import { Farm } from '@/domain/farms/types'
-import { useChainConfigEntry } from '@/domain/hooks/useChainConfigEntry'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
-import { useTokensInfo } from '@/domain/wallet/useTokens/useTokensInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
+import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 
 export interface UseFarmEntryTokensResult {
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
   entryTokens: TokenWithBalance[]
 }
 
 export function useFarmEntryTokens(farm: Farm): UseFarmEntryTokensResult {
-  const chainConfig = useChainConfigEntry()
-  const { tokensInfo } = useTokensInfo({ tokens: chainConfig.extraTokens })
+  const { tokenRepository } = useTokenRepositoryForFeature({ featureGroup: 'farms' })
 
   const entryTokensUnsorted = farm.entryAssetsGroup.assets.map((symbol) =>
-    tokensInfo.findOneTokenWithBalanceBySymbol(symbol),
+    tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
 
-  const entryTokens = sortByUsdValueWithUsdsPriority(entryTokensUnsorted, tokensInfo)
+  const entryTokens = sortByUsdValueWithUsdsPriority(entryTokensUnsorted, tokenRepository)
 
   return {
-    tokensInfo,
+    tokenRepository,
     entryTokens,
   }
 }

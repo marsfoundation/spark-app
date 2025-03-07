@@ -5,9 +5,10 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
+import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { BorrowStatusPanel } from './BorrowStatusPanel'
 
 const meta: Meta<typeof BorrowStatusPanel> = {
@@ -36,7 +37,10 @@ export const CanBeBorrowed: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps,
+    sparkRewards: [],
   },
 }
 
@@ -55,10 +59,13 @@ export const OnlyInSiloedMode: Story = {
     status: 'only-in-siloed-mode',
     token: tokens.WBTC,
     totalBorrowed: NormalizedUnitNumber(1244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
     chartProps,
+    sparkRewards: [],
   },
 }
 
@@ -71,7 +78,10 @@ export const BorrowCapReached: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(0),
+    limitedByBorrowCap: true,
     chartProps,
+    sparkRewards: [],
   },
 }
 
@@ -83,7 +93,10 @@ export const CannotBeBorrowed: Story = {
     totalBorrowed: NormalizedUnitNumber(0),
     apy: Percentage(0),
     reserveFactor: Percentage(0.05),
+    borrowLiquidity: NormalizedUnitNumber(0),
+    limitedByBorrowCap: true,
     chartProps,
+    sparkRewards: [],
   },
 }
 
@@ -96,6 +109,8 @@ export const WithCapAutomatorInfo: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps,
     capAutomatorInfo: {
       maxCap: NormalizedUnitNumber(2944),
@@ -104,6 +119,7 @@ export const WithCapAutomatorInfo: Story = {
       lastIncreaseTimestamp: Math.floor(STORYBOOK_TIMESTAMP / 1000 - 41903),
       lastUpdateBlock: 0,
     },
+    sparkRewards: [],
   },
 }
 
@@ -121,6 +137,8 @@ export const DAI: Story = {
     apy: Percentage(0.01),
     reserveFactor: Percentage(0.05),
     borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
     chartProps: {
       optimalUtilizationRate: Percentage('1'),
       utilizationRate: Percentage('0.97012653796557908901'),
@@ -129,5 +147,58 @@ export const DAI: Story = {
       baseVariableBorrowRate: bigNumberify('62599141818649791361008000'),
     },
     showTokenBadge: true,
+    sparkRewards: [],
+  },
+}
+
+export const WithOneSparkReward: Story = {
+  name: 'With One Spark Reward',
+  args: {
+    status: 'yes',
+    token: tokens.WBTC,
+    totalBorrowed: NormalizedUnitNumber(1244),
+    apy: Percentage(0.01),
+    reserveFactor: Percentage(0.05),
+    borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
+    chartProps,
+    sparkRewards: [
+      {
+        rewardTokenSymbol: TokenSymbol('USDS'),
+        action: 'borrow',
+        longDescription: 'Borrow WBTC and get USDS',
+        apy: Percentage(0.01),
+      },
+    ],
+  },
+}
+
+export const WithMultipleSparkReward: Story = {
+  name: 'With Multiple Spark Reward',
+  args: {
+    status: 'yes',
+    token: tokens.WBTC,
+    totalBorrowed: NormalizedUnitNumber(1244),
+    apy: Percentage(0.01),
+    reserveFactor: Percentage(0.05),
+    borrowCap: NormalizedUnitNumber(2244),
+    borrowLiquidity: NormalizedUnitNumber(1244),
+    limitedByBorrowCap: true,
+    chartProps,
+    sparkRewards: [
+      {
+        rewardTokenSymbol: TokenSymbol('USDS'),
+        action: 'borrow',
+        longDescription: 'Borrow WBTC and get USDS',
+        apy: Percentage(0.01),
+      },
+      {
+        rewardTokenSymbol: TokenSymbol('wstETH'),
+        action: 'borrow',
+        longDescription: 'Borrow WBTC and get wstETH',
+        apy: Percentage(0.012),
+      },
+    ],
   },
 }

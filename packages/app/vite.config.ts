@@ -1,6 +1,7 @@
 import { execSync } from 'node:child_process'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import react from '@vitejs/plugin-react-swc'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
@@ -19,16 +20,30 @@ export default defineConfig({
     __BUILD_TIME__: JSON.stringify(buildTime),
   },
 
+  resolve: {
+    conditions: ['@marsfoundation/local-spark-monorepo'],
+  },
+
   plugins: [
+    // nodePolyfills needs to be first
+    nodePolyfills({
+      // buffer is needed when connecting with a coinbase wallet installed on a phone
+      include: ['buffer'],
+    }),
     react(),
     tsconfigPaths(),
     svgr(),
-    sentryVitePlugin({
-      silent: true,
-      telemetry: false,
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-    }),
+    // Excluding sentry plugin from storybook build
+    ...(process.env.STORYBOOK_PREVIEW
+      ? []
+      : [
+          sentryVitePlugin({
+            silent: true,
+            telemetry: false,
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+          }),
+        ]),
   ],
 
   server: {
@@ -47,6 +62,11 @@ export default defineConfig({
         target: 'https://info-sky.blockanalitica.com/api/v1/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/info-sky-api/, ''),
+      },
+      '/spark2-api': {
+        target: 'https://spark2-api.blockanalitica.com/api/v1/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/spark2-api/, ''),
       },
     },
   },

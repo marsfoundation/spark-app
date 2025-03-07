@@ -1,16 +1,15 @@
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { Meta, StoryObj } from '@storybook/react'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-
 import { userEvent, within } from '@storybook/test'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { TopbarAirdrop } from './TopbarAirdrop'
 
 const timestampInMs = Date.now() - 30 * 1000 // timestamp snapshot is always bit stale
 
 const meta: Meta<typeof TopbarAirdrop> = {
   title: 'Features/Topbar/Components/TopbarAirdrop',
-  decorators: [WithTooltipProvider(), WithClassname('flex justify-end')],
+  decorators: [WithTooltipProvider(), WithClassname('flex justify-end h-96'), withRouter],
   component: TopbarAirdrop,
   args: {
     airdrop: {

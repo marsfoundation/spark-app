@@ -1,8 +1,8 @@
 import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { testIds } from '@/ui/utils/testIds'
 import { nonZeroOrDefault } from '@/utils/bigNumber'
+import { Percentage } from '@marsfoundation/common-universal'
 import { LoanToValueSlider } from './LoanToValueSlider'
 
 interface LoanToValuePanelProps {
@@ -25,14 +25,14 @@ export function LoanToValuePanel({
     <Panel className={className}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <div className="typography-label-2 flex flex-row justify-between text-primary">
+          <div className="typography-heading-5 flex flex-row justify-between text-primary">
             <h4>Loan to Value (LTV)</h4>
             <h4 data-testid={testIds.easyBorrow.form.ltv}>{formatPercentage(ltv)}</h4>
           </div>
 
-          <div className="typography-label-5 mt-2 flex flex-row justify-between text-secondary">
+          <div className="typography-label-3 mt-2 flex flex-row justify-between text-secondary">
             <div>Ratio of the collateral value to the borrowed value</div>
-            <div>max. {formatPercentage(maxLtv)}</div>
+            <div className="text-right">max. {formatPercentage(maxLtv)}</div>
           </div>
         </div>
 

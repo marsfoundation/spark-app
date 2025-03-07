@@ -1,5 +1,5 @@
-import { Percentage } from '@/domain/types/NumericValues'
 import { TxOverviewRouteItem } from '@/features/dialogs/common/types'
+import { Percentage } from '@marsfoundation/common-universal'
 import { TxOverviewResult } from '../../common/types'
 
 export interface TxOverview {

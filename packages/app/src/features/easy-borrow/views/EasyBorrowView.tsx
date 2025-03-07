@@ -1,9 +1,9 @@
 import { RiskAcknowledgementInfo } from '@/domain/liquidation-risk-warning/types'
 import { LiquidationDetails } from '@/domain/market-info/getLiquidationDetails'
 import { UserPositionSummary } from '@/domain/market-info/marketInfo'
-import { Percentage } from '@/domain/types/NumericValues'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { PageLayout } from '@/ui/layouts/PageLayout'
+import { Percentage } from '@marsfoundation/common-universal'
 import { UseFormReturn } from 'react-hook-form'
 import { EasyBorrowPanel } from '../components/EasyBorrowPanel'
 import { EasyBorrowSidePanel } from '../components/side-panel/EasyBorrowSidePanel'
@@ -28,7 +28,7 @@ export interface EasyBorrowViewProps {
   guestMode: boolean
   openConnectModal: () => void
   openSandboxModal: () => void
-  healthFactorPanelRef: React.RefObject<HTMLDivElement>
+  focusOnActionsPanel: (node: HTMLDivElement | null) => void
   actionsContext: InjectedActionsContext
 }
 

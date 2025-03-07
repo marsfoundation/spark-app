@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 
 export interface calculateRewardParams {
@@ -28,6 +28,7 @@ export function calculateReward({
   const earnedTimestampInMs = earnedTimestamp * 1000
 
   const timeDiff = ((timestampInMs > periodFinishInMs ? periodFinishInMs : timestampInMs) - earnedTimestampInMs) / 1000
+
   const accruedEarned = staked.multipliedBy(rewardRate).multipliedBy(BigNumber.max(timeDiff, 0)).dividedBy(totalSupply)
   const earnedInTotal = NormalizedUnitNumber(earned.plus(accruedEarned))
 

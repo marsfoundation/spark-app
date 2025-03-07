@@ -1,13 +1,12 @@
 import { poolAbi } from '@/config/abis/poolAbi'
-import { NATIVE_ASSET_MOCK_ADDRESS, SPARK_UI_REFERRAL_CODE } from '@/config/consts'
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import { lendingPoolAddress, wethGatewayAbi, wethGatewayAddress } from '@/config/contracts-generated'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { getMockToken, testAddresses } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
-import { getTimestampInSeconds } from '@/utils/time'
+import { CheckedAddress, UnixTime, toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { generatePrivateKey } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
@@ -17,7 +16,7 @@ import { createDepositActionConfig } from './depositAction'
 
 const depositValue = NormalizedUnitNumber(1)
 const depositToken = getMockToken({ symbol: TokenSymbol('TEST') })
-const nativeAsset = getMockToken({ address: NATIVE_ASSET_MOCK_ADDRESS })
+const nativeAsset = getMockToken({ address: CheckedAddress.EEEE() })
 const account = testAddresses.alice
 const chainId = mainnet.id
 const referralCode = SPARK_UI_REFERRAL_CODE
@@ -108,7 +107,7 @@ describe(createDepositActionConfig.name, () => {
             toBigInt(depositToken.toBaseUnit(depositValue)),
             account,
             referralCode,
-            toBigInt(getTimestampInSeconds(permitDeadline)),
+            UnixTime.fromDate(permitDeadline),
             0,
             random32Bytes,
             random32Bytes,

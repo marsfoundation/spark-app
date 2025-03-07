@@ -1,17 +1,23 @@
+import { TestContext } from '@/test/e2e/setup'
 import { getBalance, getTokenBalance } from '@/test/e2e/utils'
 import { testIds } from '@/ui/utils/testIds'
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, expect } from '@playwright/test'
 import { Address } from 'viem'
 import { DialogPageObject, TxOverviewWithRoute } from '../../../common/Dialog.PageObject'
+
+export interface SavingsDialogPageObjectParams {
+  testContext: TestContext
+  type: 'deposit' | 'withdraw' | 'send'
+}
 
 export class SavingsDialogPageObject extends DialogPageObject {
   private readonly type: 'deposit' | 'withdraw' | 'send'
 
-  constructor({ page, type }: { page: Page; type: 'deposit' | 'withdraw' | 'send' }) {
-    super(
-      page,
-      new RegExp(`${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'} Savings`),
-    )
+  constructor({ testContext, type }: SavingsDialogPageObjectParams) {
+    super({
+      testContext,
+      header: new RegExp(`${type === 'deposit' ? 'Deposit to' : type === 'send' ? 'Send from' : 'Withdraw from'}`),
+    })
     this.type = type
   }
 
@@ -104,30 +110,33 @@ export class SavingsDialogPageObject extends DialogPageObject {
   }
 
   async expectReceiverBalance({
-    forkUrl,
     receiver,
     expectedBalance,
   }: {
-    forkUrl: string
     receiver: Address
     expectedBalance: number
   }): Promise<void> {
-    const currentBalance = await getBalance({ forkUrl, address: receiver })
+    const currentBalance = await getBalance({
+      client: this.testContext.testnetController.client,
+      address: receiver,
+    })
     expect(currentBalance.isEqualTo(expectedBalance)).toBe(true)
   }
 
   async expectReceiverTokenBalance({
-    forkUrl,
     receiver,
     token,
     expectedBalance,
   }: {
-    forkUrl: string
     receiver: Address
     token: { address: Address; decimals: number }
     expectedBalance: number
   }): Promise<void> {
-    const currentTokenBalance = await getTokenBalance({ forkUrl, address: receiver, token })
+    const currentTokenBalance = await getTokenBalance({
+      client: this.testContext.testnetController.client,
+      address: receiver,
+      token,
+    })
     expect(currentTokenBalance.isEqualTo(expectedBalance)).toBe(true)
   }
 

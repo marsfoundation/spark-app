@@ -1,17 +1,17 @@
 import { MultiPanelDialog } from '@/features/dialogs/common/components/MultiPanelDialog'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/ui/atoms/dialog/Dialog'
-import { IconButton } from '@/ui/atoms/new/icon-button/IconButton'
-import { Switch } from '@/ui/atoms/new/switch/Switch'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
+import { Switch } from '@/ui/atoms/switch/Switch'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { testIds } from '@/ui/utils/testIds'
+import { PortalRef } from '@/ui/utils/usePortalRef'
 import { Settings } from 'lucide-react'
-import { RefObject } from 'react'
 import { ActionsGridLayout } from '../../types'
 import { UseSettingsDialogResult } from '../logic/useSettingsDialog'
 
 export interface SettingsDialogProps extends UseSettingsDialogResult {
   disabled?: boolean
-  portalContainerRef: RefObject<HTMLElement> | undefined
+  portalContainerRef: PortalRef | undefined
   actionsGridLayout: ActionsGridLayout
 }
 
@@ -54,8 +54,8 @@ export function SettingsDialog(props: SettingsDialogProps) {
           <DialogTitle>Settings</DialogTitle>
           <div className="flex items-center gap-8 rounded-sm bg-secondary p-6">
             <div className="flex flex-col gap-2">
-              <h3 className="text-basics-black">Use permits when available</h3>
-              <p className="text-basics-dark-grey text-xs">
+              <h3 className="typography-label-2 text-primary">Use permits when available</h3>
+              <p className="typography-body-3 text-secondary">
                 Permits are a way to save gas by avoiding on-chain approve transactions. Instead signed permits are
                 bundled with another transactions such as deposit or borrow.
               </p>

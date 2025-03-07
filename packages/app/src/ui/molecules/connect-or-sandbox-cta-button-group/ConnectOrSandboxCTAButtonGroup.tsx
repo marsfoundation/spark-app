@@ -1,5 +1,5 @@
 import MagicWand from '@/ui/assets/magic-wand.svg?react'
-import { Button, ButtonIcon } from '@/ui/atoms/new/button/Button'
+import { Button, ButtonIcon } from '@/ui/atoms/button/Button'
 
 export interface ConnectOrSandboxCTAButtonGroupProps {
   buttonText: string

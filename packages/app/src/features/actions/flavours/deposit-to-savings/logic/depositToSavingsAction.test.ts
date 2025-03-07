@@ -1,18 +1,24 @@
+import { SPARK_UI_REFERRAL_CODE } from '@/config/consts'
 import {
   migrationActionsConfig,
   psmActionsAbi,
   psmActionsAddress,
+  usdcVaultAbi,
+  usdcVaultAddress,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { EPOCH_LENGTH } from '@/domain/market-info/consts'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { testAddresses, testTokens } from '@/test/integration/constants'
 import { handlers } from '@/test/integration/mockTransport'
 import { setupUseContractActionRenderer } from '@/test/integration/setupUseContractActionRenderer'
-import { toBigInt } from '@/utils/bigNumber'
+import { BaseUnitNumber, bigNumberify, toBigInt } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { waitFor } from '@testing-library/react'
 import { erc4626Abi } from 'viem'
 import { mainnet } from 'viem/chains'
@@ -26,7 +32,8 @@ const sdai = testTokens.sDAI
 const usds = testTokens.USDS
 const susds = testTokens.sUSDS
 const usdc = testTokens.USDC
-const mockTokensInfo = new TokensInfo(
+const susdc = testTokens.sUSDC
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -43,6 +50,30 @@ const mockTokensInfo = new TokensInfo(
 )
 const chainId = mainnet.id
 
+const timestamp = 1000
+const savingsConverterTimestamp = timestamp + 24 * 60 * 60
+const mockSavingsConverter = new PotSavingsConverter({
+  potParams: {
+    dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
+    rho: bigNumberify(timestamp),
+    chi: bigNumberify('1000000000000000000000000000'), // 1
+  },
+  currentTimestamp: savingsConverterTimestamp,
+})
+
+const savingsAccountsWithSusdc = new SavingsAccountRepository([
+  {
+    converter: mockSavingsConverter,
+    savingsToken: susdc,
+    underlyingToken: usdc,
+  },
+])
+
+const minAmountOut = mockSavingsConverter.predictSharesAmount({
+  assets: depositValue,
+  timestamp: savingsConverterTimestamp + EPOCH_LENGTH,
+})
+
 const hookRenderer = setupUseContractActionRenderer({
   account,
   handlers: [handlers.chainIdCall({ chainId }), handlers.balanceCall({ balance: 0n, address: account })],
@@ -55,7 +86,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       chain: mainnet,
       extraHandlers: [
@@ -95,7 +126,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -105,7 +136,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           args: [
             account,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            toBigInt(BaseUnitNumber(usdc.toBaseUnit(depositValue).multipliedBy(1e12))),
           ],
           from: account,
           result: 1n,
@@ -137,7 +168,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -180,7 +211,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokensInfo: mockTokensInfo },
+        context: { tokenRepository: mockTokenRepository },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -190,7 +221,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           args: [
             account,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(usdc.toBaseUnit(depositValue).multipliedBy(1e12)),
+            toBigInt(BaseUnitNumber(usdc.toBaseUnit(depositValue).multipliedBy(1e12))),
           ],
           from: account,
           result: 1n,
@@ -216,6 +247,54 @@ describe(createDepositToSavingsActionConfig.name, () => {
       allowanceQueryKey({
         token: usdc.address,
         spender: getContractAddress(usdsPsmActionsConfig.address, chainId),
+        account,
+        chainId,
+      }),
+    )
+  })
+
+  test('deposits usdc to susdc', async () => {
+    const { result, queryInvalidationManager } = hookRenderer({
+      args: {
+        action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
+        enabled: true,
+        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
+      },
+      extraHandlers: [
+        handlers.contractCall({
+          to: getContractAddress(usdcVaultAddress, chainId),
+          abi: usdcVaultAbi,
+          functionName: 'deposit',
+          args: [
+            toBigInt(usdc.toBaseUnit(depositValue)),
+            account,
+            toBigInt(susdc.toBaseUnit(minAmountOut)),
+            SPARK_UI_REFERRAL_CODE,
+          ],
+          from: account,
+          result: 1n,
+        }),
+        handlers.mineTransaction(),
+      ],
+    })
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('ready')
+    })
+
+    result.current.onAction()
+
+    await waitFor(() => {
+      expect(result.current.state.status).toBe('success')
+    })
+
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      getBalancesQueryKeyPrefix({ account, chainId }),
+    )
+    await expect(queryInvalidationManager).toHaveReceivedInvalidationCall(
+      allowanceQueryKey({
+        token: usdc.address,
+        spender: getContractAddress(usdcVaultAddress, chainId),
         account,
         chainId,
       }),

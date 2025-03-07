@@ -1,7 +1,7 @@
 import { D3MInfo } from '@/domain/d3m-info/types'
 import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { MarketOverview } from '../types'
 import { makeMarketOverview } from './makeMarketOverview'
 
@@ -9,9 +9,15 @@ export interface MakeDaiMarketOverviewParams {
   reserve: Reserve
   marketInfo: MarketInfo
   D3MInfo: D3MInfo
+  sparkRewards: MarketSparkRewards[]
 }
 
-export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiMarketOverviewParams): MarketOverview {
+export function makeDaiMarketOverview({
+  reserve,
+  marketInfo,
+  D3MInfo,
+  sparkRewards,
+}: MakeDaiMarketOverviewParams): MarketOverview {
   const baseOverview = makeMarketOverview({
     reserve,
     marketInfo,
@@ -19,12 +25,14 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
       borrowCap: undefined,
       supplyCap: undefined,
     },
+    sparkRewards,
   })
 
   const skyCapacity = NormalizedUnitNumber(D3MInfo.maxDebtCeiling.minus(D3MInfo.D3MCurrentDebtUSD))
   const marketSize = NormalizedUnitNumber(reserve.totalLiquidity.plus(skyCapacity))
   const totalAvailable = NormalizedUnitNumber(marketSize.minus(reserve.totalDebt))
   const utilizationRate = Percentage(reserve.totalDebt.div(marketSize))
+  const lendSparkRewards = sparkRewards.filter((reward) => reward.action === 'supply')
 
   return {
     supply: undefined,
@@ -36,6 +44,7 @@ export function makeDaiMarketOverview({ reserve, marketInfo, D3MInfo }: MakeDaiM
             token: reserve.token,
             totalLent: reserve.totalLiquidity,
             apy: reserve.supplyAPY,
+            sparkRewards: lendSparkRewards,
           },
     collateral: baseOverview.collateral,
     borrow: {

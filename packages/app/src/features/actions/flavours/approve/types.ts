@@ -1,5 +1,5 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { Address } from 'viem'
 
 export interface ApproveAction {

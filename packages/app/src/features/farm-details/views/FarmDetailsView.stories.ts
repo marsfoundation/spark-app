@@ -1,5 +1,5 @@
 import { farmAddresses } from '@/config/chain/constants'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
@@ -71,6 +71,7 @@ const meta: Meta<typeof FarmDetailsView> = {
       farmHistory: { data: mockChartData } as FarmHistoryQueryResult,
       onTimeframeChange: () => {},
       timeframe: 'All',
+      availableTimeframes: ['7D', '1M', '1Y', 'All'],
     },
   },
   parameters: {
@@ -205,6 +206,7 @@ export const NoApiData: Story = {
       farmHistory: { isError: true } as FarmHistoryQueryResult,
       onTimeframeChange: () => {},
       timeframe: 'All',
+      availableTimeframes: ['7D', '1M', '1Y', 'All'],
     },
   },
 }

@@ -4,20 +4,20 @@ import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { allowanceQueryKey } from '@/features/actions/flavours/approve/logic/query'
 import { ActionConfig, ActionContext } from '@/features/actions/logic/types'
-import { raise } from '@/utils/assert'
-import { toBigInt } from '@/utils/bigNumber'
+import { toBigInt } from '@marsfoundation/common-universal'
+import { raise } from '@marsfoundation/common-universal'
 import { UpgradeAction } from '../types'
 
 export function createUpgradeActionConfig(action: UpgradeAction, context: ActionContext): ActionConfig {
   const { account, chainId } = context
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for upgrade action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for upgrade action')
   const upgradeAmount = toBigInt(action.fromToken.toBaseUnit(action.amount))
 
   return {
     getWriteConfig: () => {
       const { fromToken, toToken } = action
 
-      if (fromToken.symbol === tokensInfo.DAI?.symbol && toToken.symbol === tokensInfo.USDS?.symbol) {
+      if (fromToken.symbol === tokenRepository.DAI?.symbol && toToken.symbol === tokenRepository.USDS?.symbol) {
         return ensureConfigTypes({
           address: getContractAddress(migrationActionsConfig.address, chainId),
           abi: migrationActionsConfig.abi,
@@ -26,7 +26,7 @@ export function createUpgradeActionConfig(action: UpgradeAction, context: Action
         })
       }
 
-      if (fromToken.symbol === tokensInfo.sDAI?.symbol && toToken.symbol === tokensInfo.sUSDS?.symbol) {
+      if (fromToken.symbol === tokenRepository.sDAI?.symbol && toToken.symbol === tokenRepository.sUSDS?.symbol) {
         return ensureConfigTypes({
           address: getContractAddress(migrationActionsConfig.address, chainId),
           abi: migrationActionsConfig.abi,

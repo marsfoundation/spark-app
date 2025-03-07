@@ -2,7 +2,7 @@ import { DialogForm, DialogFormProps } from '@/features/dialogs/common/component
 import { ControlledAddressInput } from '@/features/dialogs/savings/withdraw/components/form/ControlledAddressInput'
 import { SendModeExtension } from '@/features/dialogs/savings/withdraw/types'
 import { Form } from '@/ui/atoms/form/Form'
-import { Alert } from '@/ui/molecules/new/alert/Alert'
+import { Alert } from '@/ui/molecules/alert/Alert'
 import { testIds } from '@/ui/utils/testIds'
 
 export interface SavingsWithdrawDialogFormProps extends DialogFormProps {

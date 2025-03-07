@@ -1,9 +1,14 @@
-import { AssetsGroup } from '@/domain/farms/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { base, gnosis, mainnet } from 'viem/chains'
+import { CheckedAddress } from '@marsfoundation/common-universal'
+import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
+import { AssetsGroup } from './types'
 
-export const SUPPORTED_CHAINS = [mainnet, gnosis, base] as const
+export const SUPPORTED_CHAINS = [
+  mainnet,
+  base,
+  ...(import.meta.env.VITE_FEATURE_ARBITRUM === '1' ? [arbitrum] : []),
+  gnosis,
+] as const
 export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id)
 
 export const farmStablecoinsEntryGroup: Record<1 | 8453, AssetsGroup> = {

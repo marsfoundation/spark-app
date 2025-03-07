@@ -1,20 +1,19 @@
 import {
-  basePsm3Address,
   migrationActionsConfig,
+  psm3Address,
   psmActionsConfig,
+  usdcVaultAddress,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { Action, ActionContext } from '@/features/actions/logic/types'
-import { raise } from '@/utils/assert'
-import { assertNever } from '@/utils/assertNever'
+import { CheckedAddress, assertNever, raise } from '@marsfoundation/common-universal'
 import { ApproveAction } from '../../approve/types'
 import { DepositToSavingsAction, DepositToSavingsObjective } from '../types'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActions(objective: DepositToSavingsObjective, context: ActionContext): Action[] {
-  const tokensInfo = context.tokensInfo ?? raise('Tokens info is required for deposit to savings action')
+  const tokenRepository = context.tokenRepository ?? raise('Tokens info is required for deposit to savings action')
   const chainId = context.chainId
 
   const depositAction: DepositToSavingsAction = {
@@ -35,7 +34,7 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
   const actionPath = getSavingsDepositActionPath({
     token: objective.token,
     savingsToken: objective.savingsToken,
-    tokensInfo,
+    tokenRepository,
     chainId,
   })
 
@@ -56,9 +55,16 @@ export function createDepositToSavingsActions(objective: DepositToSavingsObjecti
     case 'usds-to-susds':
       return [getApproveAction(objective.savingsToken.address), depositAction]
 
+    case 'usdc-to-susdc':
+    case 'base-usdc-to-susdc':
+    case 'arbitrum-usdc-to-susdc':
+      return [getApproveAction(getContractAddress(usdcVaultAddress, chainId)), depositAction]
+
     case 'base-usdc-to-susds':
     case 'base-usds-to-susds':
-      return [getApproveAction(getContractAddress(basePsm3Address, chainId)), depositAction]
+    case 'arbitrum-usds-to-susds':
+    case 'arbitrum-usdc-to-susds':
+      return [getApproveAction(getContractAddress(psm3Address, chainId)), depositAction]
 
     default:
       assertNever(actionPath)

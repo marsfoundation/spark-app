@@ -15,11 +15,11 @@ function BannerContent({ children }: { children: React.ReactNode }) {
 }
 
 function BannerHeader({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-semibold text-2xl text-black">{children}</h2>
+  return <h2 className="typography-heading-4 text-primary">{children}</h2>
 }
 
 function BannerDescription({ children }: { children: React.ReactNode }) {
-  return <p className="text-basics-black">{children}</p>
+  return <p className="text-primary">{children}</p>
 }
 
 Banner.Content = BannerContent

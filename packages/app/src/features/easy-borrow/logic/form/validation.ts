@@ -9,10 +9,9 @@ import {
   validateBorrow,
 } from '@/domain/market-validators/validateBorrow'
 import { depositValidationIssueToMessage, validateDeposit } from '@/domain/market-validators/validateDeposit'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { parseBigNumber } from '@/utils/bigNumber'
+import { NormalizedUnitNumber, parseBigNumber } from '@marsfoundation/common-universal'
 import { z } from 'zod'
 import { ExistingPosition } from '../types'
 import { UpgradeOptions } from '../useUpgradeOptions'

@@ -1,8 +1,8 @@
-import { PotSavingsInfo } from '@/domain/savings-info/potSavingsInfo'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { testAddresses } from '@/test/integration/constants'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
@@ -16,7 +16,7 @@ const sdai = tokens.sDAI
 const usds = tokens.USDS
 const susds = tokens.sUSDS
 const usdc = tokens.USDC
-const mockTokensInfo = new TokensInfo(
+const mockTokenRepository = new TokenRepository(
   [
     { token: dai, balance: NormalizedUnitNumber(100) },
     { token: sdai, balance: NormalizedUnitNumber(100) },
@@ -32,7 +32,7 @@ const mockTokensInfo = new TokensInfo(
   },
 )
 const timestamp = 1000
-const mockSavingsDaiInfo = new PotSavingsInfo({
+const mockSavingsDaiInfo = new PotSavingsConverter({
   potParams: {
     dsr: bigNumberify('1000001103127689513476993127'), // 10% / day
     rho: bigNumberify(timestamp),
@@ -81,7 +81,7 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     },
   ],
   txOverview: {
-    baseStable: tokens.DAI,
+    underlyingToken: tokens.DAI,
     status: 'success',
     APY: Percentage(0.05),
     stableEarnRate: NormalizedUnitNumber(542),
@@ -92,8 +92,8 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     skyBadgeToken: tokens.DAI,
     outTokenAmount: NormalizedUnitNumber(925.75),
   },
-  actionsContext: { tokensInfo: mockTokensInfo, savingsDaiInfo: mockSavingsDaiInfo },
-  savingsType: 'sdai',
+  actionsContext: { tokenRepository: mockTokenRepository, savingsDaiInfo: mockSavingsDaiInfo },
+  underlyingToken: tokens.DAI,
 }
 
 const sendArgs: Partial<SavingsWithdrawViewProps> = {

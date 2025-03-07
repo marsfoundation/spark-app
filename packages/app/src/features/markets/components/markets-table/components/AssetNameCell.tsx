@@ -3,7 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { getTokenImage } from '@/ui/assets'
 import { ColorFilter } from '@/ui/atoms/color-filter/ColorFilter'
 import { TokenIcon } from '@/ui/atoms/token-icon/TokenIcon'
-import { Tooltip, TooltipContentShort, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/tooltip/Tooltip'
 import { FrozenPill } from '@/ui/molecules/frozen-pill/FrozenPill'
 import { PausedPill } from '@/ui/molecules/paused-pill/PausedPill'
 import { cn } from '@/ui/utils/style'
@@ -26,13 +26,15 @@ export function AssetNameCell({ token, reserveStatus, 'data-testid': dataTestId 
       {tokenImage && (
         <div className="flex shrink-0">
           <ColorFilter variant={isPaused ? 'red' : 'none'}>
-            <TokenIcon token={token} className="flex h-6 w-6 lg:h-6 md:h-5 lg:w-6 md:w-5" />
+            <TokenIcon token={token} className="flex h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:w-6" />
           </ColorFilter>
         </div>
       )}
-      <div className="flex min-w-0 flex-col">
-        <TokenName token={token} className={cn(isPaused && 'text-red-600')} />
-        <p className={cn('text-slate-500 text-sx leading-none', isPaused && 'text-red-300')}>{token.symbol}</p>
+      <div className="flex min-w-0 flex-col xl:flex-row xl:items-baseline xl:gap-2">
+        <TokenName token={token} className={cn(isPaused && 'text-system-error-secondary')} />
+        <p className={cn('typography-label-4 text-secondary', isPaused && 'text-system-error-secondary/60')}>
+          {token.symbol}
+        </p>
       </div>
       {isFrozen && <FrozenPill data-testid={testIds.markets.frozenPill} />}
       {isPaused && <PausedPill data-testid={testIds.markets.pausedPill} />}
@@ -51,11 +53,11 @@ export function TokenName({ token, className }: TokenNameProps) {
   return (
     <Tooltip open={!isTruncated ? false : undefined}>
       <TooltipTrigger asChild>
-        <p className={cn('truncate font-semibold text-base lg:text-base md:text-sm', className)} ref={tokenNameRef}>
+        <p className={cn('typography-label-2 truncate', className)} ref={tokenNameRef}>
           {token.name}
         </p>
       </TooltipTrigger>
-      <TooltipContentShort>{token.name}</TooltipContentShort>
+      <TooltipContent>{token.name}</TooltipContent>
     </Tooltip>
   )
 }

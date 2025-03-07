@@ -1,19 +1,19 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { NormalizedConvertStablesFormValues } from '../../types'
 import type { ConvertStablesFormSchema } from './schema'
 
 export interface NormalizeFormValuesParams {
   formValues: ConvertStablesFormSchema
-  tokensInfo: TokensInfo
+  tokenRepository: TokenRepository
 }
 
 export function normalizeFormValues({
   formValues,
-  tokensInfo,
+  tokenRepository,
 }: NormalizeFormValuesParams): NormalizedConvertStablesFormValues {
-  const inToken = tokensInfo.findOneTokenBySymbol(formValues.inTokenSymbol)
-  const outToken = tokensInfo.findOneTokenBySymbol(formValues.outTokenSymbol)
+  const inToken = tokenRepository.findOneTokenBySymbol(formValues.inTokenSymbol)
+  const outToken = tokenRepository.findOneTokenBySymbol(formValues.outTokenSymbol)
   const amount = NormalizedUnitNumber(formValues.amount === '' ? '0' : formValues.amount)
 
   return {

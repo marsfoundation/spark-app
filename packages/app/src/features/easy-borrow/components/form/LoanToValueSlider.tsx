@@ -4,9 +4,9 @@ import * as SliderPrimitive from '@radix-ui/react-slider'
 import { formatPercentage } from '@/domain/common/format'
 import { MODERATE_HEALTH_FACTOR_THRESHOLD, RISKY_HEALTH_FACTOR_THRESHOLD, RiskLevel } from '@/domain/common/risk'
 import { healthFactorToLtv } from '@/domain/market-info/math'
-import { Percentage } from '@/domain/types/NumericValues'
 import { assets } from '@/ui/assets'
 import { cn } from '@/ui/utils/style'
+import { Percentage } from '@marsfoundation/common-universal'
 
 export interface LoanToValueSliderProps {
   ltv: Percentage
@@ -69,7 +69,7 @@ export function LoanToValueSlider({
                   isLast && '-ml-0.5 -mr-1 rounded-e-full',
                 )}
               >
-                <div className={cn('-bottom-6 typography-label-6 absolute text-secondary', isActive && 'text-primary')}>
+                <div className={cn('-bottom-6 typography-label-4 absolute text-secondary', isActive && 'text-primary')}>
                   {step.label}
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function LoanToValueSlider({
                 left: `${(maxSelectableValue / maxSliderValue) * 100}%`,
               }}
             />
-            <div className="typography-heading-7 absolute bottom-7 bg-gradient-spark-primary bg-clip-text text-transparent">
+            <div className="typography-label-4 absolute bottom-7 bg-gradient-spark-primary bg-clip-text text-transparent">
               {formatPercentage(liquidationLtv)}
             </div>
           </div>
@@ -110,10 +110,10 @@ export function LoanToValueSlider({
           />
         </SliderPrimitive.Track>
 
-        <SliderPrimitive.Thumb className="transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none">
+        <SliderPrimitive.Thumb className="transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
           <div
             className={cn(
-              'flex transform items-center justify-center rounded-full bg-basics-white p-0.5 transition-transform',
+              'flex transform items-center justify-center rounded-full bg-primary p-0.5 transition-transform',
               !disabled && 'hover:scale-125',
             )}
           >

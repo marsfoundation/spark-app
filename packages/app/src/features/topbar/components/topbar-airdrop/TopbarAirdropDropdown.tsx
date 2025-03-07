@@ -1,6 +1,6 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { SPK_MOCK_TOKEN } from '@/domain/types/Token'
 import { assets } from '@/ui/assets'
+import { Button } from '@/ui/atoms/button/Button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,10 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/atoms/dropdown/DropdownMenu'
 import { Link } from '@/ui/atoms/link/Link'
-import { Button } from '@/ui/atoms/new/button/Button'
 import { Skeleton } from '@/ui/atoms/skeleton/Skeleton'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ExternalLinkIcon, LibraryIcon } from 'lucide-react'
 
@@ -61,19 +61,19 @@ export function TopbarAirdropDropdown({
             {isLoading ? (
               <Skeleton className="h-6 w-10 rounded-sm" />
             ) : (
-              <div className="typography-label-4 tabular-nums" data-chromatic="ignore">
+              <div className="typography-label-2 tabular-nums" data-chromatic="ignore">
                 {formatAirdropAmount({ amount, precision, isGrowing })} {SPK_MOCK_TOKEN.symbol}
               </div>
             )}
           </DropdownMenuItem>
           <DropdownMenuSeparator className="my-2" />
-          <DropdownMenuItem className="!typography-body-6 pointer-events-none py-2 text-secondary">
+          <DropdownMenuItem className="!typography-body-4 pointer-events-none py-2 text-secondary">
             DAI borrowers with volatile assets and ETH depositors will be eligible for a future ⚡ SPK airdrop.
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuItem asChild>
-          <Link to={links.docs.sparkAirdrop} external className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link to={links.docs.sparkAirdrop} variant="unstyled" external>
             <DropdownMenuItemIcon icon={LibraryIcon} />
             Learn more
             <DropdownMenuItemIcon icon={ExternalLinkIcon} className="ml-auto" />

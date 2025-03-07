@@ -1,4 +1,4 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 export const mockTvlChartData = [
   { totalStaked: NormalizedUnitNumber('20034.43'), date: new Date('2024-07-16') },

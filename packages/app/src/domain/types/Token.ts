@@ -1,10 +1,7 @@
-import { assert } from '@/utils/assert'
+import { assert, BaseUnitNumber, CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
 import { zeroAddress } from 'viem'
-
 import { findSignificantPrecision } from '../common/format'
-import { CheckedAddress } from './CheckedAddress'
-import { BaseUnitNumber, NormalizedUnitNumber } from './NumericValues'
 import { TokenSymbol } from './TokenSymbol'
 
 const ZERO_PRICE_FORMAT_PLACEHOLDER = '$ N/A'
@@ -94,12 +91,11 @@ export class Token {
   }
 
   public toBaseUnit(value: NormalizedUnitNumber): BaseUnitNumber {
-    const normalizedValue = NormalizedUnitNumber(value.decimalPlaces(this.decimals, BigNumber.ROUND_DOWN))
-    return BaseUnitNumber(normalizedValue.shiftedBy(this.decimals))
+    return NormalizedUnitNumber.toBaseUnit(value, this.decimals)
   }
 
   public fromBaseUnit(value: BaseUnitNumber): NormalizedUnitNumber {
-    return NormalizedUnitNumber(value.shiftedBy(-this.decimals))
+    return BaseUnitNumber.toNormalizedUnit(value, this.decimals)
   }
 
   public toUSD(value: NormalizedUnitNumber): NormalizedUnitNumber {
@@ -134,7 +130,7 @@ export class Token {
   public createAToken(address: CheckedAddress): Token {
     return this.clone({
       address,
-      symbol: TokenSymbol(`a${this.symbol}`),
+      symbol: TokenSymbol(`sp${this.symbol}`),
       isAToken: true,
     })
   }

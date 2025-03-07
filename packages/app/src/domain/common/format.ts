@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 
 import { trimCharEnd } from '@/utils/strings'
 
-import { bigNumberify } from '../../utils/bigNumber'
-import { Percentage } from '../types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
 export interface FormatPercentageOptions {
   skipSign?: boolean

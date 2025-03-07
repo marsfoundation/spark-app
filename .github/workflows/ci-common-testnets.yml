@@ -1,0 +1,42 @@
+name: CI (common-testnets)
+
+on:
+  pull_request:
+    paths:
+      - "packages/common-*/**"
+      - ".github/workflows/ci-common-testnets.yml"
+  push:
+    branches:
+      - main
+
+jobs:
+  test-e2e:
+    strategy:
+      matrix:
+        node: [ "20" ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.14.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "pnpm"
+      - run: pnpm install
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1.2.0
+        with:
+          version: nightly-58bf161bc9dd6e74de8cb61e3ae23f701feb5512
+
+      - run: pnpm test-e2e
+        working-directory: ./packages/common-testnets
+        env:
+          TENDERLY_API_KEY: "${{ secrets.TENDERLY_API_KEY }}"
+          TENDERLY_ACCOUNT: phoenixlabs
+          TENDERLY_PROJECT: spark-app-e2e-tests
+          TEST_E2E_ALCHEMY_API_KEY: "${{ secrets.ALCHEMY_API_KEY }}"

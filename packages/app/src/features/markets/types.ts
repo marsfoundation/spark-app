@@ -5,9 +5,10 @@ import {
   ReserveStatus,
   SupplyAvailabilityStatus,
 } from '@/domain/market-info/reserve-status'
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
 import { Token } from '@/domain/types/Token'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
 export interface MarketStatus {
   supplyAvailabilityStatus: SupplyAvailabilityStatus
@@ -19,14 +20,15 @@ export interface MarketEntry {
   token: Token
   reserveStatus: ReserveStatus
   totalSupplied: NormalizedUnitNumber
-  depositAPYDetails: APYDetails
+  depositApyDetails: ApyDetails
   totalBorrowed: NormalizedUnitNumber
-  borrowAPYDetails: APYDetails
+  borrowApyDetails: ApyDetails
   marketStatus: MarketStatus
 }
 
-export interface APYDetails {
-  apy: Percentage | undefined
-  incentives: Incentive[]
-  airdrops: TokenSymbol[]
+export interface ApyDetails {
+  baseApy: Percentage | undefined
+  airdrops?: TokenSymbol[]
+  legacyRewards?: Incentive[]
+  sparkRewards?: MarketSparkRewards[]
 }

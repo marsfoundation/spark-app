@@ -2,17 +2,18 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { MarketPriceOracleInfo, YieldingFixedOracleInfo } from '@/domain/oracles/types'
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { WithClassname, WithTooltipProvider, ZeroAllowanceWagmiDecorator } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
+import { withRouter } from 'storybook-addon-remix-react-router'
 import { OraclePanel } from './OraclePanel'
 
 const meta: Meta<typeof OraclePanel> = {
   title: 'Features/MarketDetails/Components/OraclePanel',
   component: OraclePanel,
-  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator(), WithClassname('max-w-2xl')],
+  decorators: [WithTooltipProvider(), ZeroAllowanceWagmiDecorator(), WithClassname('max-w-2xl'), withRouter],
   args: {
     isLoading: false,
     error: undefined,
@@ -53,7 +54,7 @@ export const MarketPriceRedundantDesktop: Story = {
   args: {
     data: {
       ...marketPriceData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }
@@ -69,6 +70,7 @@ export const UnderlyingAssetDesktop: Story = {
       price: NormalizedUnitNumber(1.24),
       chainId: 1,
       priceOracleAddress: CheckedAddress('0x1234567890123456789012345678901234567890'),
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }
@@ -97,7 +99,7 @@ export const YieldingFixedRedundantDesktop: Story = {
   args: {
     data: {
       ...yieldingFixedData,
-      providedBy: ['chainlink', 'chronicle'],
+      providedBy: ['chainlink', 'chronicle', 'redstone'],
     },
   },
 }

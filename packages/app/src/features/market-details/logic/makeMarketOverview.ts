@@ -1,6 +1,7 @@
-import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
-
 import { CapAutomatorInfo } from '@/domain/cap-automator/types'
+import { MarketInfo, Reserve } from '@/domain/market-info/marketInfo'
+import { MarketSparkRewards } from '@/domain/spark-rewards/types'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { MarketOverview } from '../types'
 import { getReserveEModeCategoryTokens } from './getReserveEModeCategoryTokens'
 import { getSparkAirdropDetails } from './getSparkAirdropDetails'
@@ -9,12 +10,14 @@ export interface MakeMarketOverviewParams {
   marketInfo: MarketInfo
   reserve: Reserve
   capAutomatorInfo: CapAutomatorInfo
+  sparkRewards: MarketSparkRewards[]
 }
 
 export function makeMarketOverview({
   reserve,
   marketInfo,
   capAutomatorInfo,
+  sparkRewards,
 }: MakeMarketOverviewParams): MarketOverview {
   const eModeCategoryId = reserve.eModeCategory?.id
   const eModeCategoryTokens = getReserveEModeCategoryTokens(marketInfo, reserve)
@@ -22,6 +25,13 @@ export function makeMarketOverview({
     marketInfo,
     token: reserve.token.symbol,
   })
+  const capLessThanLiquidity = Boolean(reserve.borrowCap?.lt(reserve.totalLiquidity))
+  const borrowLiquidity = NormalizedUnitNumber(
+    capLessThanLiquidity ? reserve.borrowCap!.minus(reserve.totalDebt) : reserve.availableLiquidity,
+  )
+
+  const supplySparkRewards = sparkRewards.filter((reward) => reward.action === 'supply')
+  const borrowSparkRewards = sparkRewards.filter((reward) => reward.action === 'borrow')
 
   return {
     supply: {
@@ -31,6 +41,7 @@ export function makeMarketOverview({
       supplyCap: reserve.supplyCap,
       apy: reserve.supplyAPY,
       capAutomatorInfo: capAutomatorInfo.supplyCap,
+      sparkRewards: supplySparkRewards,
     },
     collateral: {
       status: reserve.collateralEligibilityStatus,
@@ -44,7 +55,9 @@ export function makeMarketOverview({
       hasSparkAirdrop: hasAirdropForBorrowing,
       status: reserve.borrowEligibilityStatus,
       totalBorrowed: reserve.totalDebt,
+      borrowLiquidity,
       borrowCap: reserve.borrowCap,
+      limitedByBorrowCap: capLessThanLiquidity,
       apy: reserve.variableBorrowApy,
       reserveFactor: reserve.reserveFactor,
       chartProps: {
@@ -55,6 +68,7 @@ export function makeMarketOverview({
         baseVariableBorrowRate: reserve.baseVariableBorrowRate,
       },
       capAutomatorInfo: capAutomatorInfo.borrowCap,
+      sparkRewards: borrowSparkRewards,
     },
     summary: {
       type: 'default',

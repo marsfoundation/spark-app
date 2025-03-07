@@ -1,10 +1,14 @@
 import { DialogPageObject, TxOverviewWithRoute } from '@/features/dialogs/common/Dialog.PageObject'
+import { TestContext } from '@/test/e2e/setup'
 import { testIds } from '@/ui/utils/testIds'
-import { Page, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class UpgradeDialogPageObject extends DialogPageObject {
-  constructor(page: Page) {
-    super(page, /Upgrade/)
+  constructor(testContext: TestContext) {
+    super({
+      testContext,
+      header: /Upgrade/,
+    })
   }
 
   // #region actions
@@ -43,7 +47,7 @@ export class UpgradeDialogPageObject extends DialogPageObject {
   }: { token: string; amount: string; usdValue: string }): Promise<void> {
     await expect(this.region.getByText('Congrats, all done!')).toBeVisible()
     const summary = await this.region.getByTestId(testIds.dialog.success).textContent()
-    await expect(summary).toMatch(`${token}${amount} ${usdValue}`)
+    expect(summary).toMatch(`${token}${amount} ${usdValue}`)
   }
   // #endregion assertions
 }

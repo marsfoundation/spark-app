@@ -1,11 +1,12 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { farmAddresses } from '@/config/chain/constants'
+import { AssetsGroup } from '@/config/chain/types'
 import { formatPercentage } from '@/domain/common/format'
-import { AssetsGroup, Farm } from '@/domain/farms/types'
+import { Farm } from '@/domain/farms/types'
 import { USD_MOCK_TOKEN } from '@/domain/types/Token'
+import { Button } from '@/ui/atoms/button/Button'
 import { Link } from '@/ui/atoms/link/Link'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { Panel } from '@/ui/atoms/new/panel/Panel'
+import { Panel } from '@/ui/atoms/panel/Panel'
 import { links } from '@/ui/constants/links'
 import { testIds } from '@/ui/utils/testIds'
 import { mainnet } from 'viem/chains'
@@ -32,7 +33,7 @@ export function InactiveFarmInfoPanel({
 }: InactiveFarmInfoPanelProps) {
   return (
     <Panel
-      className="flex min-h-[380px] w-full flex-1 flex-col justify-between self-stretch"
+      className="flex flex-col justify-between gap-8 bg-center bg-cover bg-farm-cta-panel"
       data-testid={testIds.farmDetails.infoPanel.panel}
     >
       {farm.rewardType === 'token' ? (
@@ -41,31 +42,34 @@ export function InactiveFarmInfoPanel({
         <PointsFarmDetails farm={farm} assetsGroupType={assetsGroupType} chainId={chainId} />
       )}
       <div className="flex flex-col gap-4">
-        <div className="mt-6 flex flex-col items-start gap-1 md:mt-0 md:flex-row md:items-center md:gap-12">
+        <div className="flex">
           {farm.depositors && (
             <DetailsItem title="Participants">
-              <div className="font-semibold">{farm.depositors}</div>
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
+                {farm.depositors}
+              </div>
             </DetailsItem>
           )}
           <DetailsItem title="TVL">
-            <div className="font-semibold">{USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}</div>
+            <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
+              {USD_MOCK_TOKEN.formatUSD(farm.totalSupply, { compact: true })}
+            </div>
           </DetailsItem>
           {farm.apy?.gt(0) && (
             <DetailsItem title="APY" explainer={<ApyTooltip farmAddress={farm.address} />}>
-              <div className="font-semibold text-reskin-magenta">
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-feature-farms-primary">
                 {formatPercentage(farm.apy, { minimumFractionDigits: 0 })}
               </div>
             </DetailsItem>
           )}
           {farm.apy?.isZero() && farm.totalRewarded && (
             <DetailsItem title="Total rewarded">
-              <div className="font-semibold">
+              <div className="typography-label-3 lg:typography-label-1 xl:typography-heading-5 text-primary-inverse">
                 {farm.rewardToken.format(farm.totalRewarded, { style: 'compact' })} {farm.rewardToken.symbol}
               </div>
             </DetailsItem>
           )}
         </div>
-        <div className="hidden border-basics-border border-t md:block" />
         <Button
           className="w-full"
           disabled={!walletConnected || !hasTokensToDeposit}
@@ -90,15 +94,15 @@ function PointsFarmDetails({
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="font-semibold text-2xl md:text-3xl">
+      <h2 className="typography-heading-2 bg-gradient-farms-3 bg-clip-text text-primary-inverse">
         Deposit {assetsGroupToText(assetsGroupType)} <br />
-        and earn <span className="text-reskin-magenta">{farm.rewardToken.name}</span>{' '}
+        and earn <span className="text-transparent">{farm.rewardToken.name}</span>{' '}
         <div className="inline-flex items-baseline gap-1">
           points
           {isChroniclePointsFarm && <ChroniclePointsTooltip />}
         </div>
       </h2>
-      <div className=" text-basics-dark-grey text-sm">
+      <div className="typography-body-3 text-tertiary">
         {isChroniclePointsFarm && (
           <div className="mb-2">
             Chronicle is the original oracle on Ethereum built within MakerDAO for the creation of DAI. Today,
@@ -118,15 +122,15 @@ function PointsFarmDetails({
 function TokenFarmDetails({ farm, assetsGroupType }: { farm: Farm; assetsGroupType: AssetsGroup['type'] }) {
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="font-semibold text-2xl md:text-3xl">
+      <h2 className="typography-heading-2 bg-gradient-farms-3 bg-clip-text text-primary-inverse">
         Deposit {assetsGroupToText(assetsGroupType)} <br />
         and earn{' '}
-        <span className="text-reskin-magenta">
+        <span className="text-transparent">
           {farm.apy?.gt(0) ? formatPercentage(farm.apy, { minimumFractionDigits: 0 }) : farm.rewardToken.symbol}
         </span>{' '}
         in rewards
       </h2>
-      <div className=" text-basics-dark-grey text-sm">
+      <div className="typography-body-3 text-tertiary">
         {farm.apy?.gt(0) && (
           <>Deposit any of the tokens listed below and start farming {farm.rewardToken.symbol} tokens.</>
         )}{' '}

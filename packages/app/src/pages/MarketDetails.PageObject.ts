@@ -39,6 +39,10 @@ export class MarketDetailsPageObject extends BasePageObject {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.cap)
   }
 
+  locateBorrowLiquidity(panelLocator: Locator): Locator {
+    return panelLocator.getByTestId(testIds.marketDetails.capAutomator.borrowLiquidity)
+  }
+
   locatePanelAutomatorMaxCap(panelLocator: Locator): Locator {
     return panelLocator.getByTestId(testIds.marketDetails.capAutomator.maxCap)
   }
@@ -60,9 +64,8 @@ export class MarketDetailsPageObject extends BasePageObject {
       this.locateMarketOverview()
         .getByRole('listitem')
         .filter({ has: this.page.getByText(key) })
-        .getByRole('paragraph')
         .last(),
-    ).toHaveText(value)
+    ).toContainText(value)
   }
 
   async expectConnectWalletButton(): Promise<void> {
@@ -176,12 +179,12 @@ export class MarketDetailsPageObject extends BasePageObject {
     await expect(tooltipLocator).toContainText(value)
   }
 
-  async expectBorrowCap(value: string): Promise<void> {
-    await expect(this.locatePanelAutomatorCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  async expectBorrowLiquidity(value: string): Promise<void> {
+    await expect(this.locateBorrowLiquidity(this.locateBorrowStatusPanel())).toHaveText(value)
   }
 
-  async expectBorrowMaxCap(value: string): Promise<void> {
-    await expect(this.locatePanelAutomatorMaxCap(this.locateBorrowStatusPanel())).toHaveText(value)
+  async expectBorrowCap(value: string): Promise<void> {
+    await expect(this.locatePanelAutomatorCap(this.locateBorrowStatusPanel())).toHaveText(value)
   }
 
   async expectBorrowMaxCapNotVisible(): Promise<void> {
@@ -197,13 +200,13 @@ export class MarketDetailsPageObject extends BasePageObject {
   }
 
   async expectOraclePanelToHaveTitle(title: string): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: title })).toBeVisible()
   }
 
   async expectOracleToBeRedundant(): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: /(Redundant)/ })).toBeVisible()
 
@@ -213,11 +216,11 @@ export class MarketDetailsPageObject extends BasePageObject {
       .count()
 
     // should have at least 2 providers
-    await expect(providersAmount).toBeGreaterThan(1)
+    expect(providersAmount).toBeGreaterThan(1)
   }
 
   async expectOracleToBeNotRedundant(): Promise<void> {
-    const panel = await this.locateOraclePanel()
+    const panel = this.locateOraclePanel()
 
     await expect(panel.getByRole('heading', { name: /(Redundant)/ })).not.toBeVisible()
 
@@ -226,7 +229,7 @@ export class MarketDetailsPageObject extends BasePageObject {
       .getByAltText('logo')
       .count()
 
-    await expect(providersAmount).toBe(1)
+    expect(providersAmount).toBe(1)
   }
 
   async expectOracleInfo({ price, asset, oracleContract }: OracleInfo): Promise<void> {

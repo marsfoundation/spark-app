@@ -1,25 +1,16 @@
 import { Page, expect } from '@playwright/test'
-
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { USD_MOCK_TOKEN } from '@/domain/types/Token'
 import { Abi, ContractFunctionName, ContractFunctionParameters, encodeFunctionData } from 'viem'
 import { __TX_LIST_KEY } from './constants'
 
 export interface TestTokenWithValue {
   asset: string
-  amount: number
+  amount: string
+  usdValue: string
 }
 
-export function expectAssets(summary: string, assets: TestTokenWithValue[], assetsWorth: Record<string, number>): void {
+export function expectAssets(summary: string, assets: TestTokenWithValue[]): void {
   for (const asset of assets) {
-    const worth = assetsWorth[asset.asset]!
-    const amountFormatted = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 18, // 18 is the maximum number of decimals for a token
-    }).format(asset.amount)
-    const usdValueFormatted = USD_MOCK_TOKEN.formatUSD(NormalizedUnitNumber(worth))
-
-    expect(summary).toMatch(`${asset.asset}${amountFormatted} ${usdValueFormatted}`)
+    expect(summary).toMatch(`${asset.asset}${asset.amount} ${asset.usdValue}`)
   }
 }
 

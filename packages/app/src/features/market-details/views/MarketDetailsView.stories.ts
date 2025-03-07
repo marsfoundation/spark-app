@@ -4,11 +4,11 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@/domain/types/NumericValues'
-import { bigNumberify } from '@/utils/bigNumber'
+import { bigNumberify } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
 
-import { CheckedAddress } from '@/domain/types/CheckedAddress'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { MarketDetailsView } from './MarketDetailsView'
 import { MarketDetailsViewProps } from './types'
 
@@ -53,6 +53,7 @@ const args: MarketDetailsViewProps = {
       supplyCap: NormalizedUnitNumber(112_000),
       apy: Percentage(0.05),
       capAutomatorInfo: undefined,
+      sparkRewards: [],
     },
     collateral: {
       status: 'yes',
@@ -67,6 +68,8 @@ const args: MarketDetailsViewProps = {
       totalBorrowed: NormalizedUnitNumber(1244),
       apy: Percentage(0.01),
       borrowCap: NormalizedUnitNumber(2244),
+      borrowLiquidity: NormalizedUnitNumber(1244),
+      limitedByBorrowCap: true,
       reserveFactor: Percentage(0.05),
       chartProps: {
         optimalUtilizationRate: Percentage('0.45'),
@@ -76,6 +79,7 @@ const args: MarketDetailsViewProps = {
         baseVariableBorrowRate: bigNumberify('2500000000000000000000000'),
       },
       capAutomatorInfo: undefined,
+      sparkRewards: [],
     },
 
     summary: {

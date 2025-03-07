@@ -1,12 +1,10 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { NativeAssetInfo } from '@/config/chain/types'
-import { NATIVE_ASSET_MOCK_ADDRESS } from '@/config/consts'
-import { assert, raise } from '@/utils/assert'
 import { fromRay } from '@/utils/math'
+import { assert, CheckedAddress, raise } from '@marsfoundation/common-universal'
+import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { bigNumberify } from '@marsfoundation/common-universal'
 import BigNumber from 'bignumber.js'
-import { bigNumberify } from '../../utils/bigNumber'
-import { CheckedAddress } from '../types/CheckedAddress'
-import { BaseUnitNumber, NormalizedUnitNumber, Percentage } from '../types/NumericValues'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 import { AaveDataLayerQueryReturnType, aaveDataLayerSelectFn } from './aave-data-layer/query'
@@ -159,7 +157,7 @@ export class MarketInfo {
       token: wrappedNativeToken.clone({
         symbol: nativeAssetInfo.nativeAssetSymbol,
         name: nativeAssetInfo.nativeAssetName,
-        address: NATIVE_ASSET_MOCK_ADDRESS,
+        address: CheckedAddress.EEEE(),
       }),
     }
     this.nativePosition = {
@@ -194,7 +192,7 @@ export class MarketInfo {
     return this.findReserveBySymbol(token.symbol)
   }
   findReserveByUnderlyingAsset(underlyingAsset: CheckedAddress): Reserve | undefined {
-    if (underlyingAsset === NATIVE_ASSET_MOCK_ADDRESS) {
+    if (underlyingAsset === CheckedAddress.EEEE()) {
       return this.nativePosition.reserve
     }
 
@@ -284,8 +282,8 @@ export function marketInfoSelectFn({ timeAdvance }: MarketInfoSelectFnParams = {
         isIsolated: r.reserve.isIsolated,
         eModeCategory:
           r.reserve.eModeCategoryId !== 0
-            ? eModeCategories[r.reserve.eModeCategoryId] ??
-              raise(`EMode category ${r.reserve.eModeCategoryId} not found`)
+            ? (eModeCategories[r.reserve.eModeCategoryId] ??
+              raise(`EMode category ${r.reserve.eModeCategoryId} not found`))
             : undefined,
         isSiloedBorrowing: r.reserve.isSiloedBorrowing,
         isBorrowableInIsolation: r.reserve.borrowableInIsolation,

@@ -5,10 +5,10 @@ import { multicall } from 'wagmi/actions'
 
 import { iamAutoLineAbi, iamAutoLineAddress, vatAbi, vatAddress } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
-import { bigNumberify } from '@/utils/bigNumber'
 import { fromRad, fromWad } from '@/utils/math'
+import { bigNumberify } from '@marsfoundation/common-universal'
 
-import { NormalizedUnitNumber } from '../types/NumericValues'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { getIsChainSupported } from './getIsChainSupported'
 import { D3MInfo } from './types'
 

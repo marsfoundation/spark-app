@@ -1,23 +1,24 @@
+import { formatPercentage } from '@/domain/common/format'
+import { colors as chartColors } from '@/ui/charts/colors'
+import { Margins, defaultMargins } from '@/ui/charts/defaults'
+import { formatPercentageTick } from '@/ui/charts/utils'
+import { Percentage } from '@marsfoundation/common-universal'
 import { AxisBottom, AxisLeft } from '@visx/axis'
 import { curveLinear } from '@visx/curve'
 import { localPoint } from '@visx/event'
+import { LinearGradient } from '@visx/gradient'
 import { GridRows } from '@visx/grid'
 import { Group } from '@visx/group'
 import { scaleLinear } from '@visx/scale'
-import { Bar, Line, LinePath } from '@visx/shape'
+import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { Text } from '@visx/text'
 import { TooltipWithBounds, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import { extent, max, minIndex } from 'd3-array'
 import { Fragment, MouseEvent, TouchEvent } from 'react'
-
-import { formatPercentage } from '@/domain/common/format'
-import { Percentage } from '@/domain/types/NumericValues'
-
-import { colors } from '@/ui/charts/colors'
-import { Margins, defaultMargins } from '@/ui/charts/defaults'
-import { formatPercentageTick } from '@/ui/charts/utils'
 import { GraphDataPoint } from '../types'
+
+const colors = { ...chartColors, primary: '#FFA480', secondary: '#7A6BFF' }
 
 export interface ChartProps {
   width: number
@@ -91,6 +92,24 @@ function Chart({
             x={(data) => xValueScale(data.x)}
             y={(data) => yValueScale(data.y)}
             curve={curveLinear}
+          />
+
+          <LinearGradient
+            id="area-gradient"
+            from={colors.primary}
+            to={colors.primary}
+            fromOpacity={0.5}
+            toOpacity={0}
+          />
+
+          <AreaClosed
+            strokeWidth={2}
+            data={data}
+            x={(data) => xValueScale(data.x)}
+            y={(data) => yValueScale(data.y)}
+            yScale={yValueScale}
+            curve={curveLinear}
+            fill="url(#area-gradient)"
           />
 
           <AxisBottom
@@ -189,14 +208,14 @@ function Chart({
 
 function TooltipContent({ data }: { data: GraphDataPoint }) {
   return (
-    <div className="flex gap-3 rounded-xl border border-slate-700/10 bg-white p-3 shadow">
-      <div className="flex flex-col gap-3 text-slate-500 text-xs leading-none">
+    <div className="typography-label-4 flex gap-3 rounded-sm border border-primary bg-primary p-3 shadow">
+      <div className="flex flex-col gap-3 text-secondary">
         <p>Utilization Rate:</p>
         <p>Borrow APY:</p>
       </div>
-      <div className="flex flex-col gap-3 text-sky-950 text-xs leading-none">
+      <div className="flex flex-col gap-3 text-primary">
         <p>{formatPercentage(Percentage(data.x))}</p>
-        <p>{formatPercentage(Percentage(data.y, true))}</p>
+        <p>{formatPercentage(Percentage(data.y, { allowMoreThan1: true }))}</p>
       </div>
     </div>
   )

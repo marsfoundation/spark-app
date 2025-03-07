@@ -1,18 +1,18 @@
 import { z } from 'zod'
 
 import { Farm } from '@/domain/farms/types'
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
-import { TokensInfo } from '@/domain/wallet/useTokens/TokenInfo'
+import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function getUnstakeDialogFormValidator(farm: Farm, tokensInfo: TokensInfo) {
+export function getUnstakeDialogFormValidator(farm: Farm, tokenRepository: TokenRepository) {
   return AssetInputSchema.superRefine((field, ctx) => {
     const value = NormalizedUnitNumber(field.value === '' ? '0' : field.value)
     const isMaxSelected = field.isMaxSelected
 
     const usdBalance = farm.stakingToken.toUSD(farm.staked)
-    const token = tokensInfo.findOneTokenBySymbol(field.symbol)
+    const token = tokenRepository.findOneTokenBySymbol(field.symbol)
     const tokenBalance = NormalizedUnitNumber(usdBalance.dividedBy(token.unitPriceUsd))
 
     const issue = validateUnstake({

@@ -1,25 +1,22 @@
-import { NormalizedUnitNumber } from '@/domain/types/NumericValues'
 import { Token } from '@/domain/types/Token'
-import { getTokenImage } from '@/ui/assets'
 import SuccessIcon from '@/ui/assets/icons/success.svg?react'
 import WarningIcon from '@/ui/assets/icons/warning.svg?react'
-import { Button } from '@/ui/atoms/new/button/Button'
-import { HorizontalScroll } from '@/ui/atoms/new/horizontal-scroll/HorizontalScroll'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/atoms/new/tooltip/Tooltip'
+import { Button } from '@/ui/atoms/button/Button'
+import { HorizontalScroll } from '@/ui/atoms/horizontal-scroll/HorizontalScroll'
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { useIsTruncated } from '@/ui/utils/useIsTruncated'
-import { assert } from '@/utils/assert'
+import { assert, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { cva } from 'class-variance-authority'
 import { ComponentType, ReactNode, createContext, useContext } from 'react'
-import { ActionHandlerState } from '../../logic/types'
+import { ActionHandlerState, BatchActionHandlerState } from '../../logic/types'
 import { ActionsGridLayout } from '../../types'
+import { ErrorWarning as ErrorWarningComponent } from './components/ErrorWarning'
 
 export interface ActionRowProps {
   actionIndex: number
-  actionHandlerState: ActionHandlerState
-  onAction: () => void
+  actionHandlerState: ActionHandlerState | BatchActionHandlerState
+  onAction?: () => void
   layout: ActionsGridLayout
   children: ReactNode
 }
@@ -51,7 +48,7 @@ function ActionRow({ children, actionHandlerState, actionIndex, onAction, layout
 
 const iconVariants = cva(
   cn(
-    'typography-label-5 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center',
+    'typography-label-3 grid h-6 w-12 grid-cols-[1fr_1px_1fr] items-center',
     'justify-items-center rounded-xs transition-all delay-500 duration-200 sm:h-8 sm:w-16',
   ),
   {
@@ -59,7 +56,7 @@ const iconVariants = cva(
       variant: {
         disabled: 'bg-secondary text-primary',
         ready: 'bg-brand-primary text-brand-primary',
-        loading: 'bg-reskin-orange-600/10 text-reskin-orange-600',
+        loading: 'bg-brand-primary text-brand-primary',
         success: 'bg-system-success-primary text-system-success-primary',
         error: 'bg-system-error-primary text-system-error-primary',
       },
@@ -76,7 +73,7 @@ function Icon({ icon }: { icon: ComponentType<{ className?: string }> }) {
   return (
     <div className={cn(iconVariants({ variant: actionHandlerState.status }), actionIndex === 0 && 'delay-0')}>
       <div className="text-primary">{actionIndex + 1}</div>
-      <div className="h-full w-px bg-reskin-base-white" />
+      <div className="h-full w-px bg-primary" />
       <Icon className="icon-xs" />
     </div>
   )
@@ -88,8 +85,8 @@ function Title({ children }: { children: ReactNode }) {
   return (
     <HorizontalScroll
       className={cn(
-        'typography-label-4 col-span-2 flex items-center gap-1.5',
-        'md:col-span-1 sm:overflow-visible',
+        'typography-label-2 col-span-2 flex items-center gap-1.5',
+        'sm:overflow-visible md:col-span-1',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
     >
@@ -100,11 +97,10 @@ function Title({ children }: { children: ReactNode }) {
 
 function TitleTokens({ tokens }: { tokens: Token[] }) {
   const { actionHandlerState } = useActionRowContext()
-  const icons = tokens.map((token) => getTokenImage(token.symbol))
 
   return (
     <IconStack
-      paths={icons}
+      items={tokens}
       className={cn('shrink-0', actionHandlerState.status === 'success' && 'opacity-60')}
       stackingOrder="last-on-top"
     />
@@ -122,7 +118,7 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
   return (
     <div
       className={cn(
-        'typography-label-4 col-span-full col-start-2 md:col-span-1',
+        'typography-label-2 col-span-full col-start-2 md:col-span-1',
         actionHandlerState.status === 'success' && 'text-secondary',
       )}
     >
@@ -136,33 +132,28 @@ function Amount({ token, amount }: { token: Token; amount: NormalizedUnitNumber 
 
 function ErrorWarning() {
   const { actionHandlerState, layout } = useActionRowContext()
-  const [errorTextRef, isTruncated] = useIsTruncated({ enabled: actionHandlerState.status === 'error' })
 
   if (actionHandlerState.status !== 'error') {
     return null
   }
 
   return (
-    <Tooltip open={!isTruncated ? false : undefined}>
-      <TooltipTrigger asChild>
-        <div
-          className={cn(
-            'typography-label-5 typography-label-4 col-span-full col-start-2 inline-flex min-w-0 text-secondary md:col-span-1',
-            layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
-          )}
-        >
-          <div className="truncate" ref={errorTextRef}>
-            {actionHandlerState.message}
-          </div>
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{actionHandlerState.message}</TooltipContent>
-    </Tooltip>
+    <ErrorWarningComponent
+      message={actionHandlerState.message}
+      className={cn(
+        'col-span-full col-start-2 md:col-span-1',
+        layout === 'compact' ? 'md:col-start-3' : 'md:col-start-4',
+      )}
+    />
   )
 }
 
 function Trigger({ children }: { children: ReactNode }) {
   const { actionHandlerState, onAction } = useActionRowContext()
+
+  if (onAction === undefined) {
+    return null
+  }
 
   return (
     <div

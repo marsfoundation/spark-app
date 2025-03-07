@@ -3,7 +3,7 @@ import { tokens } from '@sb/tokens'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { Percentage } from '@/domain/types/NumericValues'
+import { Percentage } from '@marsfoundation/common-universal'
 
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { ApyWithRewardsCell } from './ApyWithRewardsCell'
@@ -14,8 +14,8 @@ const meta: Meta<typeof ApyWithRewardsCell> = {
   decorators: [WithTooltipProvider(), withRouter, WithClassname('w-56')],
   args: {
     apyDetails: {
-      apy: Percentage(0.157),
-      incentives: [],
+      baseApy: Percentage(0.157),
+      legacyRewards: [],
       airdrops: [],
     },
     incentivizedReserve: tokens.ETH,
@@ -34,8 +34,8 @@ export const WithAirdrop: Story = {
   name: 'WithAirdrop',
   args: {
     apyDetails: {
-      apy: Percentage(0.157),
-      incentives: [],
+      baseApy: Percentage(0.157),
+      legacyRewards: [],
       airdrops: [TokenSymbol('SPK')],
     },
   },
@@ -45,8 +45,8 @@ export const WithRewards: Story = {
   name: 'WithRewards',
   args: {
     apyDetails: {
-      apy: Percentage(0.157),
-      incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+      baseApy: Percentage(0.157),
+      legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
       airdrops: [],
     },
   },
@@ -56,9 +56,9 @@ export const WithAirdropAndRewards: Story = {
   name: 'WithAirdropAndRewards',
   args: {
     apyDetails: {
-      apy: Percentage(0.157),
+      baseApy: Percentage(0.157),
       airdrops: [TokenSymbol('SPK')],
-      incentives: [{ token: tokens.stETH, APR: Percentage(0.1) }],
+      legacyRewards: [{ token: tokens.stETH, APR: Percentage(0.1) }],
     },
   },
 }
