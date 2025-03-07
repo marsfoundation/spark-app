@@ -27,6 +27,7 @@ export function getWithdrawDialogFormValidator({
     const formWithdrawAsset = normalizeDialogFormValues(field, marketInfo)
     const reserve = marketInfo.findOneReserveBySymbol(formWithdrawAsset.token.symbol)
     const deposited = marketInfo.findOnePositionBySymbol(formWithdrawAsset.token.symbol).collateralBalance
+    const hasZeroLtvCollateral = marketInfo.reserves.some((r) => r.usageAsCollateralEnabledOnUser && r.maxLtv.eq(0))
 
     const updatedUserSummary = updatePositionSummary({
       withdrawals: [formWithdrawAsset],
@@ -40,6 +41,7 @@ export function getWithdrawDialogFormValidator({
       asset: {
         status: reserve.status,
         unborrowedLiquidity: reserve.unborrowedLiquidity,
+        maxLtv: reserve.maxLtv,
         eModeCategory: reserve.eModeCategory,
       },
       user: {
@@ -47,6 +49,7 @@ export function getWithdrawDialogFormValidator({
         liquidationThreshold: updatedUserSummary.currentLiquidationThreshold,
         ltvAfterWithdrawal: updatedUserSummary.loanToValue,
         eModeState: marketInfo.userConfiguration.eModeState,
+        hasZeroLtvCollateral,
       },
     })
     if (validationIssue) {

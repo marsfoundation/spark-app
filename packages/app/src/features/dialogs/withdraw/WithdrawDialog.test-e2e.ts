@@ -1,14 +1,18 @@
+import { lendingPoolAddress } from '@/config/contracts-generated'
 import { withdrawalValidationIssueToMessage } from '@/domain/market-validators/validateWithdraw'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { TestContext, setup } from '@/test/e2e/setup'
+import { setAaveUsingAsCollateral } from '@marsfoundation/common-testnets'
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { CollateralDialogPageObject } from '../collateral/CollateralDialog.PageObject'
 import { DialogPageObject } from '../common/Dialog.PageObject'
 import { EModeDialogPageObject } from '../e-mode/EModeDialog.PageObject'
-import { withdrawValidationIssueToMessage } from '../savings/withdraw/logic/validation'
+
+const header = /Withdr*/
 
 test.describe('Withdraw dialog', () => {
   const initialBalances = {
@@ -16,8 +20,6 @@ test.describe('Withdraw dialog', () => {
     rETH: 100,
     ETH: 100,
   }
-
-  const header = /Withdr*/
 
   test.describe('Position with deposit and borrow', () => {
     const initialDeposits = {
@@ -413,7 +415,7 @@ test.describe('Withdraw dialog', () => {
       await myPortfolioPage.clickWithdrawButtonAction('rETH')
 
       await withdrawDialog.fillAmountAction(0)
-      await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['value-not-positive'])
+      await withdrawDialog.expectAssetInputError(withdrawalValidationIssueToMessage['value-not-positive'])
       await withdrawDialog.expectLiquidationRiskWarningNotVisible()
     })
 
@@ -661,5 +663,75 @@ test.describe('Withdraw with actions batched', () => {
     await myPortfolioPage.expectDepositTable({
       WETH: 9,
     })
+  })
+})
+
+test.describe('Mixed WBTC and cbBTC position', () => {
+  let myPortfolioPage: MyPortfolioPageObject
+  let testContext: TestContext<'connected-random'>
+
+  test.beforeEach(async ({ page }) => {
+    testContext = await setup(page, {
+      blockchain: {
+        blockNumber: DEFAULT_BLOCK_NUMBER,
+        chain: mainnet,
+      },
+      initialPage: 'myPortfolio',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          WBTC: 1,
+          cbBTC: 1,
+        },
+      },
+    })
+
+    myPortfolioPage = new MyPortfolioPageObject(testContext)
+
+    const depositDialog = new DialogPageObject({ testContext, header: /Deposit/ })
+
+    await myPortfolioPage.clickDepositButtonAction('cbBTC')
+    await depositDialog.fillAmountAction(1)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
+    await depositDialog.viewInMyPortfolioAction()
+    await myPortfolioPage.expectDepositedAssets('$101.7K')
+
+    const borrowDialog = new DialogPageObject({ testContext, header: /Borrow/ })
+    await myPortfolioPage.clickBorrowButtonAction('DAI')
+    await borrowDialog.fillAmountAction(50000)
+    await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+    await borrowDialog.viewInMyPortfolioAction()
+
+    await myPortfolioPage.clickDepositButtonAction('WBTC')
+    await depositDialog.fillAmountAction(1)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
+    await depositDialog.viewInMyPortfolioAction()
+
+    await setAaveUsingAsCollateral({
+      client: testContext.testnetController.client,
+      tokenAddress: CheckedAddress(TOKENS_ON_FORK[mainnet.id].WBTC.address),
+      lendingPoolAddress: CheckedAddress(lendingPoolAddress[mainnet.id]),
+      account: CheckedAddress(testContext.account),
+      usingAsCollateral: true,
+    })
+
+    await page.reload()
+  })
+
+  test('Cannot withdraw cbBTC', async () => {
+    await myPortfolioPage.clickWithdrawButtonAction('cbBTC')
+    const withdrawDialog = new DialogPageObject({ testContext, header })
+    await withdrawDialog.fillAmountAction(0.5)
+    await withdrawDialog.expectAssetInputError(withdrawalValidationIssueToMessage['has-zero-ltv-collateral'])
+  })
+
+  test('Can withdraw WBTC', async () => {
+    await myPortfolioPage.clickWithdrawButtonAction('WBTC')
+    const withdrawDialog = new DialogPageObject({ testContext, header })
+    await withdrawDialog.fillAmountAction(0.5)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(1)
+    await withdrawDialog.viewInMyPortfolioAction()
+
+    await myPortfolioPage.expectDepositedAssets('$152.4K')
   })
 })
