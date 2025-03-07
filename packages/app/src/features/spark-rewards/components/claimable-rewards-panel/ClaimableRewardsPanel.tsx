@@ -10,22 +10,22 @@ import { Info } from '@/ui/molecules/info/Info'
 import { ResponsiveDataTable } from '@/ui/organisms/responsive-data-table/ResponsiveDataTable'
 import { testIds } from '@/ui/utils/testIds'
 import { AlertTriangleIcon } from 'lucide-react'
-import { ActiveRewardsResult } from '../../logic/useActiveRewards'
+import { UseClaimableRewardsResult } from '../../logic/useClaimableRewards'
 
-export interface ActiveRewardsPanelProps {
-  activeRewardsResult: ActiveRewardsResult
+export interface ClaimableRewardsPanelProps {
+  claimableRewardsResult: UseClaimableRewardsResult
 }
 
-export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelProps) {
-  if (activeRewardsResult.isPending) {
+export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewardsPanelProps) {
+  if (claimableRewardsResult.isPending) {
     return <PendingPanel />
   }
 
-  if (activeRewardsResult.isError) {
+  if (claimableRewardsResult.isError) {
     return <ErrorPanel />
   }
 
-  if (activeRewardsResult.data.length === 0) {
+  if (claimableRewardsResult.data.length === 0) {
     return <NoRewards />
   }
 
@@ -34,11 +34,11 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
       <Header />
       <ResponsiveDataTable
         gridTemplateColumnsClassName="grid-cols-[3fr_2fr_2fr_140px]"
-        data={activeRewardsResult.data}
+        data={claimableRewardsResult.data}
         columnDefinition={{
           token: {
             header: 'Reward',
-            renderCell: ({ token }) => <TokenCell token={token} />,
+            renderCell: ({ token, chainId }) => <TokenCell token={token} chainId={chainId} iconBorder="white" />,
           },
           amountPending: {
             header: 'Pending',
@@ -63,7 +63,7 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
                 token={token}
                 amount={amountToClaim}
                 mobileViewOptions={mobileViewOptions}
-                data-testid={testIds.sparkRewards.activeRewardsPanel.amountToClaim}
+                data-testid={testIds.sparkRewards.claimableRewardsPanel.amountToClaim}
                 formattingOptions={{
                   zeroAmountHandling: 'show-zero',
                   showUsdValue: token.unitPriceUsd.isGreaterThan(0),
@@ -73,17 +73,11 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
           },
           actions: {
             header: '',
-            renderCell: ({ amountToClaim, openClaimDialog }) => {
+            renderCell: ({ action, actionName, isActionEnabled }) => {
               return (
                 <div className="flex justify-end sm:pl-10">
-                  <Button
-                    variant="secondary"
-                    size="s"
-                    disabled={amountToClaim.eq(0)}
-                    onClick={() => openClaimDialog()}
-                    className="w-full"
-                  >
-                    Claim
+                  <Button variant="secondary" size="s" disabled={!isActionEnabled} onClick={action} className="w-full">
+                    {actionName}
                   </Button>
                 </div>
               )
@@ -99,7 +93,7 @@ export function ActiveRewardsPanel({ activeRewardsResult }: ActiveRewardsPanelPr
 function Header() {
   return (
     <h3 className="typography-heading-5 flex items-baseline gap-1">
-      Active rewards <Info>Tooltip text</Info>
+      Claimable rewards <Info>Tooltip text</Info>
     </h3>
   )
 }

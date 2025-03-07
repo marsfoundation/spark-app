@@ -57,6 +57,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
         forkChainId,
         userAddress: account.address,
         mintBalances: sandboxConfig.mintBalances,
+        wagmiConfig: configRef.current,
       })
       setNetwork({
         originChainId: sandboxConfig.originChainId,
@@ -96,6 +97,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
         forkChainId,
         userAddress: address,
         mintBalances: sandboxConfig.mintBalances,
+        wagmiConfig: configRef.current,
       })
       setNetwork({
         originChainId: sandboxConfig.originChainId,

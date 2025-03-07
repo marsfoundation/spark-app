@@ -12,7 +12,7 @@ export class SparkRewardsPageObject extends BasePageObject {
 
   // #region assertions
   async expectAmountToClaim(amount: string): Promise<void> {
-    await expect(this.page.getByTestId(testIds.sparkRewards.activeRewardsPanel.amountToClaim)).toHaveText(amount)
+    await expect(this.page.getByTestId(testIds.sparkRewards.claimableRewardsPanel.amountToClaim)).toHaveText(amount)
   }
   // #endregion
 }

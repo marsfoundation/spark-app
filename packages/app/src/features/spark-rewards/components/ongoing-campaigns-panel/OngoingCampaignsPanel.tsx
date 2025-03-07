@@ -10,30 +10,30 @@ import { cn } from '@/ui/utils/style'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion'
 import { AlertTriangleIcon, ChevronDownIcon } from 'lucide-react'
-import { mainnet } from 'viem/chains'
 import { UseOngoingCampaignsResult } from '../../logic/useOngoingCampaigns'
 import { OngoingCampaignRow } from '../../types'
 
 export interface OngoingCampaignsPanelProps {
   ongoingCampaignsResult: UseOngoingCampaignsResult
   isGuestMode: boolean
+  className?: string
 }
 
-export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: OngoingCampaignsPanelProps) {
+export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, className }: OngoingCampaignsPanelProps) {
   if (ongoingCampaignsResult.isPending) {
-    return <PendingPanel />
+    return <PendingPanel className={className} />
   }
 
   if (ongoingCampaignsResult.isError) {
-    return <ErrorPanel />
+    return <ErrorPanel className={className} />
   }
 
   if (ongoingCampaignsResult.data.length === 0) {
-    return <NoCampaigns />
+    return <NoCampaigns className={className} />
   }
 
   return (
-    <Panel spacing="m" className="flex flex-col gap-6">
+    <Panel spacing="m" className={cn('flex flex-col gap-6', className)}>
       <Header />
       <Accordion type="multiple">
         <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary">
@@ -51,7 +51,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode }: O
                 isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
-              <IconStack items={getStackIcons(campaign)} size="base" iconBorder="white" />
+              <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
               <Title campaign={campaign} />
               {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
@@ -86,10 +86,10 @@ function Header() {
   )
 }
 
-function NoCampaigns() {
+function NoCampaigns({ className }: { className?: string }) {
   const icons = [assets.page.savingsCircle, assets.page.farmsCircle, assets.page.borrowCircle]
   return (
-    <Panel spacing="m" className="flex min-h-60 flex-col gap-9 sm:min-h-72">
+    <Panel spacing="m" className={cn('flex min-h-60 flex-col gap-9 sm:min-h-72', className)}>
       <div className="my-auto flex flex-col items-center gap-5">
         <IconStack size="lg" items={icons} iconBorder="white" />
         <div className="flex flex-col items-center gap-2 text-center">
@@ -103,9 +103,9 @@ function NoCampaigns() {
   )
 }
 
-export function PendingPanel() {
+export function PendingPanel({ className }: { className?: string }) {
   return (
-    <Panel spacing="m" className="flex min-h-60 flex-col gap-8 sm:min-h-72">
+    <Panel spacing="m" className={cn('flex min-h-60 flex-col gap-8 sm:min-h-72', className)}>
       <Skeleton className="h-6 w-28" />
       <div className="flex flex-col gap-5">
         <Skeleton className="h-4 w-44" />
@@ -118,9 +118,9 @@ export function PendingPanel() {
   )
 }
 
-function ErrorPanel() {
+function ErrorPanel({ className }: { className?: string }) {
   return (
-    <Panel spacing="m" className="flex min-h-60 flex-col sm:min-h-72">
+    <Panel spacing="m" className={cn('flex min-h-60 flex-col sm:min-h-72', className)}>
       <div className="my-auto flex items-center justify-center">
         <div className="typography-label-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-secondary/80">
           <AlertTriangleIcon className="icon-xs" />
@@ -166,7 +166,7 @@ function EngagementButton(props: ButtonProps) {
   )
 }
 
-function getStackIcons(campaign: OngoingCampaignRow): string[] {
+function getStackIcons(campaign: OngoingCampaignRow): { items: string[]; subIcon: string | undefined } {
   // social platforms
   const socialPlatformIcon =
     campaign.type === 'social' && campaign.platform ? getSocialPlatformIcon(campaign.platform) : undefined
@@ -174,7 +174,7 @@ function getStackIcons(campaign: OngoingCampaignRow): string[] {
   const tokens = [...campaign.involvedTokensSymbols, campaign.rewardTokenSymbol]
   const tokenIcons = tokens.map((token) => getTokenImage(token))
   // chains
-  const chainId = 'chainId' in campaign && campaign.chainId !== mainnet.id ? campaign.chainId : undefined
+  const chainId = 'chainId' in campaign && campaign.chainId
   const chainIcon = chainId ? getChainConfigEntry(chainId).meta.logo : undefined
-  return [socialPlatformIcon, ...tokenIcons, chainIcon].filter(Boolean)
+  return { items: [socialPlatformIcon, ...tokenIcons].filter(Boolean), subIcon: chainIcon }
 }

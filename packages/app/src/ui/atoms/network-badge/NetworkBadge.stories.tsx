@@ -1,6 +1,6 @@
 import { StoryGrid } from '@sb/components/StoryGrid'
 import { Meta, StoryObj } from '@storybook/react'
-import { base, gnosis, mainnet } from 'viem/chains'
+import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { NetworkBadge } from './NetworkBadge'
 
 const meta: Meta<typeof NetworkBadge> = {
@@ -9,6 +9,7 @@ const meta: Meta<typeof NetworkBadge> = {
     <StoryGrid className="grid-cols-1 justify-items-start bg-neutral-100">
       <NetworkBadge chainId={mainnet.id} />
       <NetworkBadge chainId={base.id} />
+      <NetworkBadge chainId={arbitrum.id} />
       <NetworkBadge chainId={gnosis.id} />
     </StoryGrid>
   ),

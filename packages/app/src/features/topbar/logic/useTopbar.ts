@@ -40,7 +40,6 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
     address: address && CheckedAddress(address),
   })
   const sparkRewardsSummary = useSparkRewardsSummary({
-    chainId: currentChainId,
     address: address && CheckedAddress(address),
   })
 

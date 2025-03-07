@@ -3,6 +3,7 @@ import { WithClassname, WithTooltipProvider } from '@sb/decorators'
 import { tokens } from '@sb/tokens'
 import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
+import { mainnet } from 'viem/chains'
 import { ClaimAllPanel } from './ClaimAllPanel'
 
 const meta: Meta<typeof ClaimAllPanel> = {
@@ -10,32 +11,40 @@ const meta: Meta<typeof ClaimAllPanel> = {
   component: ClaimAllPanel,
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {
-    activeRewardsResult: {
+    selectNetwork: () => {},
+    claimableRewardsSummaryResult: {
       isPending: false,
       isError: false,
       error: null,
-      data: [
-        {
-          token: tokens.wstETH,
-          amountPending: NormalizedUnitNumber(0.01),
-          amountToClaim: NormalizedUnitNumber(0.02),
-          openClaimDialog: () => {},
-        },
-        {
-          token: tokens.sUSDS,
-          amountPending: NormalizedUnitNumber(23),
-          amountToClaim: NormalizedUnitNumber(97),
-          openClaimDialog: () => {},
-        },
-        {
-          token: tokens.RED,
-          amountPending: NormalizedUnitNumber(122),
-          amountToClaim: NormalizedUnitNumber(1721),
-          openClaimDialog: () => {},
-        },
-      ],
+      data: {
+        usdSum: NormalizedUnitNumber(144.46),
+        isClaimEnabled: true,
+        claimableRewardsWithPrice: [
+          {
+            token: tokens.wstETH,
+            amountPending: NormalizedUnitNumber(0.01),
+            amountToClaim: NormalizedUnitNumber(0.02),
+            chainId: mainnet.id,
+          },
+          {
+            token: tokens.sUSDS,
+            amountPending: NormalizedUnitNumber(23),
+            amountToClaim: NormalizedUnitNumber(97),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(122),
+            amountToClaim: NormalizedUnitNumber(1721),
+            chainId: mainnet.id,
+          },
+        ],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
     },
-    onClaimAll: () => {},
   },
 }
 
@@ -48,7 +57,7 @@ export const Tablet = getTabletStory(Desktop)
 
 export const Pending: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsSummaryResult: {
       isPending: true,
       isError: false,
       error: null,
@@ -59,10 +68,10 @@ export const Pending: Story = {
 
 export const ErrorState: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsSummaryResult: {
       isPending: false,
       isError: true,
-      error: new Error('Failed to load active rewards data'),
+      error: new Error('Failed to load claimable rewards data'),
       data: undefined,
     },
   },
@@ -70,65 +79,93 @@ export const ErrorState: Story = {
 
 export const OneTokenWithoutPrice: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsSummaryResult: {
       isPending: false,
       isError: false,
       error: null,
-      data: [
-        {
-          token: tokens.RED,
-          amountPending: NormalizedUnitNumber(1232),
-          amountToClaim: NormalizedUnitNumber(1721),
-          openClaimDialog: () => {},
-        },
-      ],
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: true,
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(1232),
+            amountToClaim: NormalizedUnitNumber(1721),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithPrice: [],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
     },
   },
 }
 export const TwoTokensWithoutPrice: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsSummaryResult: {
       isPending: false,
       isError: false,
       error: null,
-      data: [
-        {
-          token: tokens.RED,
-          amountPending: NormalizedUnitNumber(1232),
-          amountToClaim: NormalizedUnitNumber(1721),
-          openClaimDialog: () => {},
-        },
-        {
-          token: tokens.ABC,
-          amountPending: NormalizedUnitNumber(12),
-          amountToClaim: NormalizedUnitNumber(243),
-          openClaimDialog: () => {},
-        },
-      ],
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: true,
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(1232),
+            amountToClaim: NormalizedUnitNumber(1721),
+            chainId: mainnet.id,
+          },
+          {
+            token: tokens.ABC,
+            amountPending: NormalizedUnitNumber(12),
+            amountToClaim: NormalizedUnitNumber(243),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithPrice: [],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
     },
   },
 }
 
 export const NothingToClaim: Story = {
   args: {
-    activeRewardsResult: {
+    claimableRewardsSummaryResult: {
       isPending: false,
       isError: false,
       error: null,
-      data: [
-        {
-          token: tokens.wstETH,
-          amountPending: NormalizedUnitNumber(0),
-          amountToClaim: NormalizedUnitNumber(0),
-          openClaimDialog: () => {},
-        },
-        {
-          token: tokens.sUSDS,
-          amountPending: NormalizedUnitNumber(0),
-          amountToClaim: NormalizedUnitNumber(0),
-          openClaimDialog: () => {},
-        },
-      ],
+      data: {
+        usdSum: NormalizedUnitNumber(0),
+        isClaimEnabled: false,
+        claimableRewardsWithPrice: [
+          {
+            token: tokens.wstETH,
+            amountPending: NormalizedUnitNumber(0),
+            amountToClaim: NormalizedUnitNumber(0),
+            chainId: mainnet.id,
+          },
+          {
+            token: tokens.sUSDS,
+            amountPending: NormalizedUnitNumber(0),
+            amountToClaim: NormalizedUnitNumber(0),
+            chainId: mainnet.id,
+          },
+        ],
+        claimableRewardsWithoutPrice: [
+          {
+            token: tokens.RED,
+            amountPending: NormalizedUnitNumber(0),
+            amountToClaim: NormalizedUnitNumber(0),
+            chainId: mainnet.id,
+          },
+        ],
+        claimAll: () => {},
+        chainId: mainnet.id,
+      },
     },
   },
 }
