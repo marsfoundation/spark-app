@@ -1,6 +1,6 @@
-import { Logger } from '@marsfoundation/common-universal/logger'
 import { MockObject, expect, mockFn, mockObject } from 'earl'
 import { ZodError, z } from 'zod'
+import { Logger } from '../logger/Logger.js'
 import { HttpClient, HttpError } from './HttpClient.js'
 import { HttpServerMock, PostBody, getResponseSchema, postBodySchema } from './HttpServer.mock.js'
 

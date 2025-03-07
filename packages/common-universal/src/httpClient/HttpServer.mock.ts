@@ -1,7 +1,7 @@
 import { Server } from 'node:http'
-import { assert } from '@marsfoundation/common-universal'
 import express, { Express } from 'express'
 import { z } from 'zod'
+import { assert } from '../assert/assert.js'
 
 export class HttpServerMock {
   public app: Express

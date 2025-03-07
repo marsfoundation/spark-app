@@ -1,4 +1,4 @@
-import { sleep } from '@marsfoundation/common-universal'
+import { sleep } from '../async/async.js'
 
 export interface RetryOptions {
   fetch: FetchType
