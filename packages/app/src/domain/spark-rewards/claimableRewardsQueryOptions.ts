@@ -22,8 +22,10 @@ const SPARK_REWARDS_CHAIN_IDS = [mainnet.id]
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function claimableRewardsQueryOptions({ wagmiConfig, account }: ClaimableRewardsQueryOptionsParams) {
-  const sandboxForkChainId = useStore.getState().sandbox.network?.forkChainId
-  const sparkRewardChainIds = sandboxForkChainId ? [sandboxForkChainId] : SPARK_REWARDS_CHAIN_IDS
+  const sandboxForkChainId = useStore((store) => store.sandbox.network?.forkChainId)
+  const sparkRewardChainIds = sandboxForkChainId
+    ? [...SPARK_REWARDS_CHAIN_IDS, sandboxForkChainId]
+    : SPARK_REWARDS_CHAIN_IDS
 
   return queryOptions({
     queryKey: claimableRewardsQueryKey({ account }),
