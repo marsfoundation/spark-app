@@ -2,7 +2,7 @@ import { MockObject, expect, mockFn, mockObject } from 'earl'
 import { ZodError, z } from 'zod'
 import { Logger } from '../logger/Logger.js'
 import { HttpClient, HttpError } from './HttpClient.js'
-import { HttpServerMock, PostBody, getResponseSchema, postBodySchema } from './HttpServer.mock'
+import { HttpServerMock, PostBody, getResponseSchema, postBodySchema } from './HttpServer.mock.js'
 
 describe(HttpClient.name, () => {
   let httpServer: HttpServerMock
