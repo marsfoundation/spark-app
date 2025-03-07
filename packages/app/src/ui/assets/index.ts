@@ -82,6 +82,7 @@ import dai from './tokens/dai.svg'
 import eth from './tokens/eth.svg'
 import eure from './tokens/eure.svg'
 import gno from './tokens/gno.svg'
+import lbtc from './tokens/lbtc.svg'
 import mkr from './tokens/mkr.svg'
 import red from './tokens/red.svg'
 import reth from './tokens/reth.svg'
@@ -91,6 +92,7 @@ import spk from './tokens/spk.svg'
 import steth from './tokens/steth.svg'
 import susdc from './tokens/susdc.svg'
 import susds from './tokens/susds.svg'
+import tbtc from './tokens/tbtc.svg'
 import unknown from './tokens/unknown.svg'
 import usdc from './tokens/usdc.svg'
 import usds from './tokens/usds.svg'
@@ -202,6 +204,8 @@ export const assets = {
     cle,
     red,
     spk,
+    lbtc,
+    tbtc,
     unknown,
   },
   socialPlatforms: {
@@ -313,4 +317,6 @@ const tokenColors: Record<TokenSymbol, `${number} ${number} ${number}`> = {
   [TokenSymbol('cbBTC')]: '0 82 255',
   [TokenSymbol('RED')]: '174 8 34',
   [TokenSymbol('SPK')]: '358 54 99',
+  [TokenSymbol('LBTC')]: '58 114 107',
+  [TokenSymbol('tBTC')]: '29 34 41',
 }
