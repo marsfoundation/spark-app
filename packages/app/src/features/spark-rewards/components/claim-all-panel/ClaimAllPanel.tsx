@@ -34,7 +34,7 @@ export function ClaimAllPanel({ claimableRewardsSummaryResult, selectNetwork, cl
     claimableRewardsSummaryResult.data
 
   if (claimableRewardsWithPrice.length === 0 && claimableRewardsWithoutPrice.length === 0) {
-    return <EarnRewardsBanner />
+    return <EarnRewardsBanner className={className} />
   }
 
   return (
