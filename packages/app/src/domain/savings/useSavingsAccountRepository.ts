@@ -7,11 +7,16 @@ import { useTokenRepositoryForFeature } from '../token-repository/useTokenReposi
 
 export interface UseSavingsAccountRepositoryParams {
   chainId: number
+  timestamp?: number
 }
 
-export function useSavingsAccountRepository({ chainId }: UseSavingsAccountRepositoryParams): SavingsAccountRepository {
+export function useSavingsAccountRepository({
+  chainId,
+  timestamp: _timestamp,
+}: UseSavingsAccountRepositoryParams): SavingsAccountRepository {
   const wagmiConfig = useConfig()
-  const { timestamp } = useTimestamp()
+  const { timestamp: defaultTimestamp } = useTimestamp()
+  const timestamp = _timestamp ?? defaultTimestamp
   const { savings } = getChainConfigEntry(chainId)
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const fetchConverterQueries = savings?.accounts.map(({ fetchConverterQuery }) => fetchConverterQuery) ?? []

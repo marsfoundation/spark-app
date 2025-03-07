@@ -25,6 +25,7 @@ import { UseGeneralStatsResult, useGeneralStats } from './general-stats/useGener
 import { getInterestData } from './getInterestData'
 import { MigrationInfo, makeMigrationInfo } from './makeMigrationInfo'
 import { SavingsOverview } from './makeSavingsOverview'
+import { usePrefetchNodeTimestamp } from './usePrefetchNodeTimestamp'
 import { usePrefetchValidators } from './usePrefetchValidators'
 import { useSparkRewardsSummary } from './useSparkRewardsSummary'
 
@@ -88,6 +89,7 @@ export function useSavings(): UseSavingsResults {
   const { isInSandbox } = useSandboxState()
 
   usePrefetchValidators({ chainId, tokenRepository, savingsAccounts })
+  usePrefetchNodeTimestamp({ chainId })
 
   const firstAccountInConfig = savings?.accounts?.[0] ?? raise('There are no accounts in config')
   const [_selectedAccount, setSelectedAccount] = useState<TokenSymbol>(firstAccountInConfig.savingsToken)
