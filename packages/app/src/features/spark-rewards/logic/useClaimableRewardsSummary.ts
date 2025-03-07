@@ -63,7 +63,7 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
         isClaimEnabled,
         claimableRewardsWithPrice,
         claimableRewardsWithoutPrice,
-        chainId: chainId,
+        chainId,
         claimAll: () => {},
       }
     },
