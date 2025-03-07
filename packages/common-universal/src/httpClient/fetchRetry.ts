@@ -48,7 +48,7 @@ export function getRetryDelay(options: RetryOptions, currentAttempt: number): nu
 }
 
 export const defaultRetryOptions: RetryOptions = {
-  fetch,
+  fetch: (...args) => fetch(...args),
   maxCalls: 5,
   delay: (attempt) => 2 ** attempt * 150,
   isRetryableStatus: (status) => status >= 500,
