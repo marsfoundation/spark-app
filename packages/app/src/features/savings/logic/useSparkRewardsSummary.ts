@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { Token } from '@/domain/types/Token'
 import { Percentage } from '@marsfoundation/common-universal'
@@ -15,9 +16,10 @@ export function useSparkRewardsSummary({
   savingsToken,
 }: UseSparkRewardsSummaryParams): AccountSparkRewardsSummary {
   const wagmiConfig = useConfig()
+  const { isInSandbox } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
     select: (data) => {
       const campaigns = data
         .filter((campaign) => campaign.chainId === chainId)

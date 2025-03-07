@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { Token } from '@/domain/types/Token'
 import { SimplifiedQueryResult } from '@/utils/types'
@@ -20,9 +21,10 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
   const wagmiConfig = useConfig()
   const chainId = useChainId()
   const { address: account } = useAccount()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account, isInSandbox, sandboxChainId }),
     select: (data) =>
       data
         .filter((reward) => reward.chainId === chainId)

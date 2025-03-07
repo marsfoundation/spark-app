@@ -1,4 +1,5 @@
 import { Reserve } from '@/domain/market-info/marketInfo'
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { CheckedAddress } from '@marsfoundation/common-universal'
@@ -18,9 +19,10 @@ export type SparkRewardsByReserve = Record<
 
 export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsByReserveParams): SparkRewardsByReserve {
   const wagmiConfig = useConfig()
+  const { isInSandbox } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
     select: (data) => {
       const campaigns = data.filter((campaign) => campaign.chainId === chainId)
       return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {

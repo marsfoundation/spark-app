@@ -9,22 +9,28 @@ import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
 import { checkedAddressSchema, hexSchema, normalizedUnitNumberSchema } from '../common/validation'
 import { getContractAddress } from '../hooks/useContractAddress'
-import { useStore } from '../state'
 import { Token } from '../types/Token'
 import { TokenSymbol } from '../types/TokenSymbol'
 
 export interface ClaimableRewardsQueryOptionsParams {
   wagmiConfig: Config
   account?: Address
+  isInSandbox: boolean
+  sandboxChainId: number | undefined
 }
 
 const SPARK_REWARDS_CHAIN_IDS = [mainnet.id]
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function claimableRewardsQueryOptions({ wagmiConfig, account }: ClaimableRewardsQueryOptionsParams) {
-  const sandboxForkChainId = useStore((store) => store.sandbox.network?.forkChainId)
-  const sparkRewardChainIds = sandboxForkChainId
-    ? [...SPARK_REWARDS_CHAIN_IDS, sandboxForkChainId]
+export function claimableRewardsQueryOptions({
+  wagmiConfig,
+  account,
+  isInSandbox,
+  sandboxChainId,
+}: ClaimableRewardsQueryOptionsParams) {
+  // connectedChainId is used to fetch sandbox mock rewards. Unique is used to remove duplicate if connected to supported chain.
+  const sparkRewardChainIds = isInSandbox
+    ? [...SPARK_REWARDS_CHAIN_IDS, sandboxChainId].filter(Boolean)
     : SPARK_REWARDS_CHAIN_IDS
 
   return queryOptions({

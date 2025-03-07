@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { useQuery } from '@tanstack/react-query'
@@ -8,9 +9,10 @@ export type UseOngoingCampaignsResult = SimplifiedQueryResult<(OngoingCampaignRo
 
 export function useOngoingCampaigns(): UseOngoingCampaignsResult {
   const wagmiConfig = useConfig()
+  const { isInSandbox } = useSandboxState()
 
   return useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
     select: (data) =>
       data.map((campaign) => ({
         ...campaign,
