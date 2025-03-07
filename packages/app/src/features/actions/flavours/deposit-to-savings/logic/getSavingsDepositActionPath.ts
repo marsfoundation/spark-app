@@ -51,6 +51,10 @@ export function getSavingsDepositActionPath({
     if (token.symbol === usdc && savingsToken.symbol === susds) {
       return 'base-usdc-to-susds'
     }
+
+    if (token.symbol === usdc && savingsToken.symbol === susdc) {
+      return 'base-usdc-to-susdc'
+    }
   }
 
   if (chainId === arbitrum.id) {
