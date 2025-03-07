@@ -166,6 +166,16 @@ export const mainnetConfig: ChainConfigEntry = {
         asset: 'BTC',
         providedBy: ['chainlink', 'chronicle', 'redstone'],
       },
+      [TokenSymbol('LBTC')]: {
+        type: 'underlying-asset',
+        asset: 'BTC',
+        providedBy: ['chainlink', 'chronicle', 'redstone'],
+      },
+      [TokenSymbol('tBTC')]: {
+        type: 'underlying-asset',
+        asset: 'BTC',
+        providedBy: ['chainlink', 'chronicle', 'redstone'],
+      },
     },
   },
   savings: {
