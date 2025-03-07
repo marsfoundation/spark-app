@@ -48,6 +48,7 @@ export function getRetryDelay(options: RetryOptions, currentAttempt: number): nu
 }
 
 export const defaultRetryOptions: RetryOptions = {
+  // passing fetch directly would lose binding to window in browser
   fetch: (...args) => fetch(...args),
   maxCalls: 5,
   delay: (attempt) => 2 ** attempt * 150,
