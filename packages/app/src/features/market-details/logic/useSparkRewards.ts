@@ -1,4 +1,5 @@
 import { Reserve } from '@/domain/market-info/marketInfo'
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
 import { MarketSparkRewards } from '@/domain/spark-rewards/types'
@@ -14,9 +15,10 @@ export type UseSparkRewardsResult = MarketSparkRewards[]
 
 export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): UseSparkRewardsResult {
   const wagmiConfig = useConfig()
+  const { isInSandbox } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
     select: (data) => {
       const campaigns = data.filter((campaign) => campaign.chainId === chainId)
       return [

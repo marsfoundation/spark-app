@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { claimSparkRewardsDialogConfig } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog'
@@ -20,9 +21,10 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
   const { switchChain } = useSwitchChain()
   const connectedChainId = useChainId()
   const { address: account } = useAccount()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account, isInSandbox, sandboxChainId }),
     select: (data) =>
       data.map(({ rewardToken, cumulativeAmount, pendingAmount, preClaimed, chainId }) => {
         const isConnectedChainReward = chainId === connectedChainId

@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -19,14 +20,15 @@ export interface ClaimableRewardsSummary {
 
 export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
   const wagmiConfig = useConfig()
-  const connectedChainId = useChainId()
+  const chainId = useChainId()
   const { address: account } = useAccount()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account, isInSandbox, sandboxChainId }),
     select: (data) => {
       const claimableRewards = data
-        .filter(({ chainId }) => chainId === connectedChainId)
+        .filter((reward) => reward.chainId === chainId)
         .map(({ rewardToken, cumulativeAmount, pendingAmount, preClaimed, chainId }) => {
           const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
           return {
@@ -61,7 +63,7 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
         isClaimEnabled,
         claimableRewardsWithPrice,
         claimableRewardsWithoutPrice,
-        chainId: connectedChainId,
+        chainId: chainId,
         claimAll: () => {},
       }
     },

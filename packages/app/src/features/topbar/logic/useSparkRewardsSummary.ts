@@ -1,3 +1,4 @@
+import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -9,9 +10,10 @@ export interface UseSparkRewardsSummaryParams {
 
 export function useSparkRewardsSummary({ address }: UseSparkRewardsSummaryParams): SparkRewardsSummary {
   const wagmiConfig = useConfig()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   const { data } = useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account: address }),
+    ...claimableRewardsQueryOptions({ wagmiConfig, account: address, isInSandbox, sandboxChainId }),
     select: (data) => {
       const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
         const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
