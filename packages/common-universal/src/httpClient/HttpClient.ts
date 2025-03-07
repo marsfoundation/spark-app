@@ -32,7 +32,7 @@ export class HttpClient {
     return schema.parse(await result.json())
   }
 
-  async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T> | string> {
+  async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] GET request - ${url}`, { url })
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
@@ -40,7 +40,7 @@ export class HttpClient {
     }
 
     if (schema instanceof ZodString) {
-      return await result.text()
+      return schema.parse(await result.text())
     }
     return schema.parse(await result.json())
   }
