@@ -5,9 +5,9 @@ export class LogFormatterObject implements LogFormatter {
     const core = {
       time: entry.time.toISOString(),
       level: entry.level,
-      service: entry.service,
-      message: entry.message,
-      error: entry.resolvedError,
+      ...(entry.service && { service: entry.service }),
+      ...(entry.message && { message: entry.message }),
+      ...(entry.resolvedError && { error: entry.resolvedError }),
     }
 
     return { ...core, parameters: entry.parameters }
