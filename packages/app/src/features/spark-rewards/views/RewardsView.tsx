@@ -21,15 +21,13 @@ export function RewardsView({
   return (
     <PageLayout>
       <h1 className="typography-heading-1">Rewards</h1>
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[11fr_5fr]">
-        <div className="flex flex-col gap-5">
-          <ClaimableRewardsPanel claimableRewardsResult={claimableRewardsResult} />
-          <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={false} />
-        </div>
+      <div className="grid grid-cols-1 gap-5 lg:grid-flow-col lg:grid-cols-[11fr_5fr] lg:grid-rows-[auto_auto]">
+        <ClaimableRewardsPanel claimableRewardsResult={claimableRewardsResult} />
+        <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={false} />
         <ClaimAllPanel
           claimableRewardsSummaryResult={claimableRewardsSummaryResult}
           selectNetwork={selectNetwork}
-          className="self-start"
+          className="row-start-2 lg:row-span-full lg:self-start"
         />
       </div>
     </PageLayout>
