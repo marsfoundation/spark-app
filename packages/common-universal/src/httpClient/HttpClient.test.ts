@@ -61,6 +61,17 @@ describe(HttpClient.name, () => {
       )
       expect(httpServer.requestsCount['/status']).toEqual(5)
     })
+
+    it('returns text response', async () => {
+      httpServer.app.get('/text', (_req, res) => {
+        res.status(200).send('plain text GET response')
+      })
+      const url = httpServer.getUrl('/text')
+
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const response = await httpClient.get(url, z.string())
+      expect(response).toEqual('plain text GET response')
+    })
   })
 
   describe(HttpClient.prototype.post.name, () => {
@@ -123,6 +134,17 @@ describe(HttpClient.name, () => {
         `Failed POST ${url}: 500 - {"status":500}`,
       )
       expect(httpServer.requestsCount['/post']).toEqual(5)
+    })
+
+    it('returns text response', async () => {
+      httpServer.app.post('/text', (_req, res) => {
+        res.status(200).send('plain text POST response')
+      })
+      const url = httpServer.getUrl('/text')
+
+      const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
+      const response = await httpClient.post(url, {}, z.string())
+      expect(response).toEqual('plain text POST response')
     })
   })
 })
