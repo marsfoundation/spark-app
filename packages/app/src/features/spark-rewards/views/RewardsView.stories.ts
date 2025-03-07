@@ -15,6 +15,7 @@ const meta: Meta<typeof RewardsView> = {
   },
   decorators: [WithTooltipProvider(), withRouter()],
   args: {
+    selectNetwork: () => {},
     ongoingCampaignsResult: {
       data: [
         {

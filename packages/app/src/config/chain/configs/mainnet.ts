@@ -81,7 +81,7 @@ export const mainnetConfig: ChainConfigEntry = {
   usdsSymbol: usds.symbol,
   susdsSymbol: susds.symbol,
   meta: {
-    name: 'Ethereum Mainnet',
+    name: 'Ethereum',
     logo: assets.chain.ethereum,
   },
   permitSupport: {

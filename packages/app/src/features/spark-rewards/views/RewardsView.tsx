@@ -9,20 +9,28 @@ export interface RewardsViewProps {
   ongoingCampaignsResult: UseOngoingCampaignsResult
   claimableRewardsResult: UseClaimableRewardsResult
   claimableRewardsSummaryResult: UseClaimableRewardsSummaryResult
+  selectNetwork: () => void
 }
 
 export function RewardsView({
   ongoingCampaignsResult,
   claimableRewardsResult,
   claimableRewardsSummaryResult,
+  selectNetwork,
 }: RewardsViewProps) {
   return (
     <PageLayout>
       <h1 className="typography-heading-1">Rewards</h1>
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[11fr_5fr]">
-        <ClaimableRewardsPanel claimableRewardsResult={claimableRewardsResult} />
-        <ClaimAllPanel claimableRewardsSummaryResult={claimableRewardsSummaryResult} className="self-start" />
-        <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={false} />
+        <div className="flex flex-col gap-5">
+          <ClaimableRewardsPanel claimableRewardsResult={claimableRewardsResult} />
+          <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={false} />
+        </div>
+        <ClaimAllPanel
+          claimableRewardsSummaryResult={claimableRewardsSummaryResult}
+          selectNetwork={selectNetwork}
+          className="self-start"
+        />
       </div>
     </PageLayout>
   )
