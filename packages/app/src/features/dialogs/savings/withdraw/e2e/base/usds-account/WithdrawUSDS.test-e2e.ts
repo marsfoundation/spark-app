@@ -88,4 +88,22 @@ test.describe('Withdraw USDS', () => {
 
     await withdrawDialog.expectAssetInputError(withdrawValidationIssueToMessage['usds-withdraw-cap-reached'])
   })
+
+  test('withdraw with broken browser timer', async ({ page }) => {
+    // In the next 3 lines we simulate the browser timer being 30 seconds ahead
+    // of the current time on node. setNextBlockTimestamp bascially fixes
+    // timestamp on the node until a transaction is mined.
+    const { timestamp } = await testContext.testnetController.client.getBlock()
+    await testContext.testnetController.client.setNextBlockTimestamp(timestamp + 5n)
+    await page.clock.setFixedTime((Number(timestamp) + 30) * 1000) // 30 seconds
+
+    await savingsPage.closeDialog()
+    await savingsPage.clickSavingsNavigationItemAction('USDS')
+    await savingsPage.clickWithdrawFromAccountButtonAction()
+    await withdrawDialog.fillAmountAction(1000)
+
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(2)
+
+    await withdrawDialog.clickBackToSavingsButton()
+  })
 })
