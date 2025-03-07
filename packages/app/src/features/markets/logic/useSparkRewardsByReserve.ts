@@ -19,10 +19,10 @@ export type SparkRewardsByReserve = Record<
 
 export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsByReserveParams): SparkRewardsByReserve {
   const wagmiConfig = useConfig()
-  const { isInSandbox } = useSandboxState()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
     select: (data) => {
       const campaigns = data.filter((campaign) => campaign.chainId === chainId)
       return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
