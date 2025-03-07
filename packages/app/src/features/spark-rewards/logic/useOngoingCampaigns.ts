@@ -9,10 +9,10 @@ export type UseOngoingCampaignsResult = SimplifiedQueryResult<(OngoingCampaignRo
 
 export function useOngoingCampaigns(): UseOngoingCampaignsResult {
   const wagmiConfig = useConfig()
-  const { isInSandbox } = useSandboxState()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   return useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
     select: (data) =>
       data.map((campaign) => ({
         ...campaign,

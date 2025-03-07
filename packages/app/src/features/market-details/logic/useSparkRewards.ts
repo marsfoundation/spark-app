@@ -15,10 +15,10 @@ export type UseSparkRewardsResult = MarketSparkRewards[]
 
 export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): UseSparkRewardsResult {
   const wagmiConfig = useConfig()
-  const { isInSandbox } = useSandboxState()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
     select: (data) => {
       const campaigns = data.filter((campaign) => campaign.chainId === chainId)
       return [

@@ -16,10 +16,10 @@ export function useSparkRewardsSummary({
   savingsToken,
 }: UseSparkRewardsSummaryParams): AccountSparkRewardsSummary {
   const wagmiConfig = useConfig()
-  const { isInSandbox } = useSandboxState()
+  const { isInSandbox, sandboxChainId } = useSandboxState()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
     select: (data) => {
       const campaigns = data
         .filter((campaign) => campaign.chainId === chainId)
