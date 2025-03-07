@@ -100,18 +100,39 @@ const iconVariants = cva('rounded-full', {
   ],
 })
 
-const subIconVariants = cva('absolute right-0 bottom-0 box-content translate-x-[15%] translate-y-[15%] rounded-full', {
+const subIconVariants = cva('absolute right-0 bottom-0 translate-x-[15%] translate-y-[15%] rounded-full', {
   variants: {
     size: {
-      base: 'size-3 border',
-      m: 'size-3 border-[1.25px] md:size-4',
-      lg: 'size-5 border-[1.5px]',
+      base: 'size-3',
+      m: 'size-3 md:size-4',
+      lg: 'size-5',
     },
     border: {
       white: 'border-base-white',
       transparent: 'border-transparent',
     },
   },
+  compoundVariants: [
+    {
+      border: ['white', 'transparent'],
+      className: 'box-content',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'base',
+      className: 'border',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'm',
+      className: 'border-[1.25px]',
+    },
+    {
+      border: ['white', 'transparent'],
+      size: 'lg',
+      className: 'border-[1.5px]',
+    },
+  ],
 })
 
 const stackVariants = cva('isolate flex flex-row', {
