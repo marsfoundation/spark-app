@@ -380,43 +380,22 @@ importers:
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
-      remeda:
-        specifier: ^2.10.0
-        version: 2.20.2
       uuid:
         specifier: ^11.0.3
         version: 11.0.3
-      zod:
-        specifier: ^3.0
-        version: 3.22.4
     devDependencies:
-      '@sinonjs/fake-timers':
-        specifier: ^13.0.5
-        version: 13.0.5
-      '@types/express':
-        specifier: ^5.0.0
-        version: 5.0.0
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
-      '@types/sinonjs__fake-timers':
-        specifier: ^8.1.5
-        version: 8.1.5
       '@types/uuid':
         specifier: ^10.0.0
         version: 10.0.0
       earl:
         specifier: ^1.3.0
         version: 1.3.0
-      express:
-        specifier: ^5.0.1
-        version: 5.0.1
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
-      tinyspy:
-        specifier: ^3.0.2
-        version: 3.0.2
 
   packages/common-testnets:
     dependencies:
