@@ -2,6 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
+import { useNodeTimestamp } from '@/domain/time/useNodeTimestamp'
 import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
@@ -10,7 +11,6 @@ import { InjectedActionsContext, Objective } from '@/features/actions/logic/type
 import { AssetInputSchema } from '@/features/dialogs/common/logic/form'
 import { useDebouncedFormValues } from '@/features/dialogs/common/logic/transfer-from-user/form'
 import { FormFieldsForDialog, PageState, PageStatus } from '@/features/dialogs/common/types'
-import { useTimestamp } from '@/utils/useTimestamp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { raise } from '@marsfoundation/common-universal'
 import { useEffect, useState } from 'react'
@@ -46,13 +46,15 @@ export function useSavingsWithdrawDialog({
   mode,
   savingsToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
-  const { updateTimestamp } = useTimestamp()
-  useEffect(() => {
-    updateTimestamp()
-  }, [updateTimestamp])
-
   const chainId = useChainId()
-  const savingsAccounts = useSavingsAccountRepository({ chainId })
+  const { timestamp, refresh } = useNodeTimestamp({ chainId })
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    refresh()
+  }, [refresh, chainId])
+
+  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp })
   const chainConfig = getChainConfigEntry(chainId)
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
