@@ -16,6 +16,7 @@ export interface ValidateWithdrawArgs {
   asset: {
     status: ReserveStatus
     unborrowedLiquidity: NormalizedUnitNumber
+    maxLtv: Percentage
     eModeCategory?: EModeCategory
   }
   user: {
@@ -48,7 +49,7 @@ export function validateWithdraw({ value, asset, user }: ValidateWithdrawArgs): 
     return 'exceeds-unborrowed-liquidity'
   }
 
-  if (user.hasZeroLtvCollateral) {
+  if (user.hasZeroLtvCollateral && !asset.maxLtv.isZero()) {
     return 'has-zero-ltv-collateral'
   }
 

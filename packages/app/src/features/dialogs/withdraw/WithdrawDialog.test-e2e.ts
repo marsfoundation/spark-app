@@ -666,9 +666,12 @@ test.describe('Withdraw with actions batched', () => {
   })
 })
 
-test.describe('Position with asset with 0 LTV', () => {
-  test('Cannot withdraw asset with non-zero LTV', async ({ page }) => {
-    const testContext = await setup(page, {
+test.describe('Mixed WBTC and cbBTC position', () => {
+  let myPortfolioPage: MyPortfolioPageObject
+  let testContext: TestContext<'connected-random'>
+
+  test.beforeEach(async ({ page }) => {
+    testContext = await setup(page, {
       blockchain: {
         blockNumber: DEFAULT_BLOCK_NUMBER,
         chain: mainnet,
@@ -683,7 +686,7 @@ test.describe('Position with asset with 0 LTV', () => {
       },
     })
 
-    const myPortfolioPage = new MyPortfolioPageObject(testContext)
+    myPortfolioPage = new MyPortfolioPageObject(testContext)
 
     const depositDialog = new DialogPageObject({ testContext, header: /Deposit/ })
 
@@ -713,10 +716,22 @@ test.describe('Position with asset with 0 LTV', () => {
     })
 
     await page.reload()
+  })
 
+  test('Cannot withdraw cbBTC', async () => {
     await myPortfolioPage.clickWithdrawButtonAction('cbBTC')
     const withdrawDialog = new DialogPageObject({ testContext, header })
     await withdrawDialog.fillAmountAction(0.5)
     await withdrawDialog.expectAssetInputError(withdrawalValidationIssueToMessage['has-zero-ltv-collateral'])
+  })
+
+  test('Can withdraw WBTC', async () => {
+    await myPortfolioPage.clickWithdrawButtonAction('WBTC')
+    const withdrawDialog = new DialogPageObject({ testContext, header })
+    await withdrawDialog.fillAmountAction(0.5)
+    await withdrawDialog.actionsContainer.acceptAllActionsAction(1)
+    await withdrawDialog.viewInMyPortfolioAction()
+
+    await myPortfolioPage.expectDepositedAssets('$152.4K')
   })
 })
