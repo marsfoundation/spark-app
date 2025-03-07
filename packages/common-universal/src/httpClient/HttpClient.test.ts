@@ -17,7 +17,7 @@ describe(HttpClient.name, () => {
   describe(HttpClient.prototype.get.name, () => {
     it('returns successful response', async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
-      const response = await httpClient.get(httpServer.getUrl('/status?status=200'), { schema: getResponseSchema })
+      const response = await httpClient.get(httpServer.getUrl('/status?status=200'), getResponseSchema)
 
       expect(response).toEqual({ status: 200 })
     })
@@ -27,7 +27,7 @@ describe(HttpClient.name, () => {
       const logger = getMockLogger()
       const httpClient = new HttpClient(logger, { delay: 0 })
 
-      await httpClient.get(url, { schema: getResponseSchema })
+      await httpClient.get(url, getResponseSchema)
       expect(logger.trace).toHaveBeenOnlyCalledWith(`[HttpClient] GET request - ${url}`, { url })
     })
 
@@ -37,16 +37,16 @@ describe(HttpClient.name, () => {
         invalid: z.boolean(),
       })
 
-      await expect(() =>
-        httpClient.get(httpServer.getUrl('/status?status=200'), { schema: invalidSchema }),
-      ).toBeRejectedWith(ZodError)
+      await expect(() => httpClient.get(httpServer.getUrl('/status?status=200'), invalidSchema)).toBeRejectedWith(
+        ZodError,
+      )
     })
 
     it("doesn't retry in case of client error", async () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const url = httpServer.getUrl('/status?status=400')
 
-      await expect(() => httpClient.get(url, { schema: getResponseSchema })).toBeRejectedWith(
+      await expect(() => httpClient.get(url, getResponseSchema)).toBeRejectedWith(
         `Failed GET ${url}: 400 - {"status":400}`,
       )
       expect(httpServer.requestsCount['/status']).toEqual(1)
@@ -56,7 +56,7 @@ describe(HttpClient.name, () => {
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
       const url = httpServer.getUrl('/status?status=500')
 
-      await expect(() => httpClient.get(url, { schema: getResponseSchema })).toBeRejectedWith(
+      await expect(() => httpClient.get(url, getResponseSchema)).toBeRejectedWith(
         `Failed GET ${url}: 500 - {"status":500}`,
       )
       expect(httpServer.requestsCount['/status']).toEqual(5)
@@ -69,7 +69,7 @@ describe(HttpClient.name, () => {
       const url = httpServer.getUrl('/text')
 
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
-      const response = await httpClient.get(url, { responseAsText: true })
+      const response = await httpClient.get(url, z.string())
       expect(response).toEqual('plain text GET response')
     })
   })
@@ -81,7 +81,7 @@ describe(HttpClient.name, () => {
         status: 200,
       }
 
-      expect(await httpClient.post(httpServer.getUrl('/post'), body, { schema: postBodySchema })).toEqual(body)
+      expect(await httpClient.post(httpServer.getUrl('/post'), body, postBodySchema)).toEqual(body)
     })
 
     it('logs request', async () => {
@@ -92,7 +92,7 @@ describe(HttpClient.name, () => {
         status: 200,
       }
 
-      expect(await httpClient.post(url, body, { schema: postBodySchema })).toEqual(body)
+      expect(await httpClient.post(url, body, postBodySchema)).toEqual(body)
       expect(logger.trace).toHaveBeenOnlyCalledWith(`[HttpClient] POST request - ${url}`, { url, body })
     })
 
@@ -105,9 +105,7 @@ describe(HttpClient.name, () => {
         invalid: z.boolean(),
       })
 
-      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, { schema: invalidSchema })).toBeRejectedWith(
-        ZodError,
-      )
+      await expect(() => httpClient.post(httpServer.getUrl('/post'), body, invalidSchema)).toBeRejectedWith(ZodError)
     })
 
     it("doesn't retries in case of client error by default", async () => {
@@ -117,7 +115,7 @@ describe(HttpClient.name, () => {
         status: 400,
       }
 
-      await expect(() => httpClient.post(url, body, { schema: postBodySchema })).toBeRejectedWith(
+      await expect(() => httpClient.post(url, body, postBodySchema)).toBeRejectedWith(
         HttpError,
         `Failed POST ${url}: 400 - {"status":400}`,
       )
@@ -131,7 +129,7 @@ describe(HttpClient.name, () => {
         status: 500,
       }
 
-      await expect(() => httpClient.post(url, body, { schema: postBodySchema })).toBeRejectedWith(
+      await expect(() => httpClient.post(url, body, postBodySchema)).toBeRejectedWith(
         HttpError,
         `Failed POST ${url}: 500 - {"status":500}`,
       )
@@ -145,7 +143,7 @@ describe(HttpClient.name, () => {
       const url = httpServer.getUrl('/text')
 
       const httpClient = new HttpClient(Logger.SILENT, { delay: 0 })
-      const response = await httpClient.post(url, {}, { responseAsText: true })
+      const response = await httpClient.post(url, {}, z.string())
       expect(response).toEqual('plain text POST response')
     })
   })

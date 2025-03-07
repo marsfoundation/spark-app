@@ -1,5 +1,5 @@
 import { mergeDeep } from 'remeda'
-import { z } from 'zod'
+import { ZodString, z } from 'zod'
 import { Logger } from '../logger/Logger.js'
 import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 
@@ -12,13 +12,7 @@ export class HttpClient {
     this.fetchWithRetries = fetchRetry(options)
   }
 
-  async post<T extends z.ZodTypeAny>(url: string, body: object, options: { schema: T }): Promise<z.infer<T>>
-  async post(url: string, body: object, options: { responseAsText: boolean }): Promise<string>
-  async post<T extends z.ZodTypeAny>(
-    url: string,
-    body: object,
-    options: { schema: T; responseAsText: boolean },
-  ): Promise<z.infer<T>> {
+  async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
     const result = await this.fetchWithRetries(url, {
@@ -32,28 +26,23 @@ export class HttpClient {
       throw new HttpError('POST', url, result.status, await result.text())
     }
 
-    if (options?.responseAsText) {
+    if (schema instanceof ZodString) {
       return await result.text()
     }
-    return options.schema.parse(await result.json())
+    return schema.parse(await result.json())
   }
 
-  async get<T extends z.ZodTypeAny>(url: string, options: { schema: T }): Promise<z.infer<T>>
-  async get(url: string, options: { responseAsText: boolean }): Promise<string>
-  async get<T extends z.ZodTypeAny>(
-    url: string,
-    options: { schema: T; responseAsText: boolean },
-  ): Promise<z.infer<T> | string> {
+  async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T> | string> {
     this.logger.trace(`[HttpClient] GET request - ${url}`, { url })
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
       throw new HttpError('GET', url, result.status, await result.text())
     }
 
-    if (options.responseAsText) {
+    if (schema instanceof ZodString) {
       return await result.text()
     }
-    return options.schema.parse(await result.json())
+    return schema.parse(await result.json())
   }
 }
 
