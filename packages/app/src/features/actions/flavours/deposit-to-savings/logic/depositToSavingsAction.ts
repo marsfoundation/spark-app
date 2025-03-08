@@ -25,6 +25,7 @@ import { QueryKey } from '@tanstack/react-query'
 import { Address, erc4626Abi } from 'viem'
 import { gnosis } from 'viem/chains'
 import { DepositToSavingsAction } from '../types'
+import { formatMinAmountOutForPsm3 } from './formatMinAmountOutForPsm3'
 import { getSavingsDepositActionPath } from './getSavingsDepositActionPath'
 
 export function createDepositToSavingsActionConfig(
@@ -61,7 +62,31 @@ export function createDepositToSavingsActionConfig(
             args: [assetsAmount, account],
           })
 
-        case 'usdc-to-susdc':
+        case 'usdc-to-susdc': {
+          assert(
+            context.savingsAccounts,
+            'Savings account repository info is required for usdc deposit to savings action',
+          )
+          const savingsConverter = context.savingsAccounts.findOneBySavingsToken(savingsToken).converter
+
+          const minAmountOut = toBigInt(
+            savingsToken.toBaseUnit(
+              calculateMinSharesAmountOut({
+                savingsConverter,
+                savingsToken,
+                amountIn: action.value,
+              }),
+            ),
+          )
+
+          return ensureConfigTypes({
+            address: savingsToken.address,
+            abi: usdcVaultAbi,
+            functionName: 'deposit',
+            args: [assetsAmount, account, minAmountOut, SPARK_UI_REFERRAL_CODE],
+          })
+        }
+
         case 'base-usdc-to-susdc':
         case 'arbitrum-usdc-to-susdc': {
           assert(
@@ -75,12 +100,17 @@ export function createDepositToSavingsActionConfig(
             savingsToken,
             amountIn: action.value,
           })
+          const minAmountOutFormatted = formatMinAmountOutForPsm3({
+            susds: savingsToken,
+            susdsAmount: minAmountOut,
+            assetIn: token,
+          })
 
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: usdcVaultAbi,
             functionName: 'deposit',
-            args: [assetsAmount, account, minAmountOut, SPARK_UI_REFERRAL_CODE],
+            args: [assetsAmount, account, minAmountOutFormatted, SPARK_UI_REFERRAL_CODE],
           })
         }
 
@@ -137,6 +167,12 @@ export function createDepositToSavingsActionConfig(
             amountIn: action.value,
           })
 
+          const minAmountOutFormatted = formatMinAmountOutForPsm3({
+            susds: savingsToken,
+            susdsAmount: minAmountOut,
+            assetIn: token,
+          })
+
           return ensureConfigTypes({
             address: getContractAddress(psm3Address, chainId),
             abi: psm3Abi,
@@ -145,7 +181,7 @@ export function createDepositToSavingsActionConfig(
               token.address,
               savingsToken.address,
               assetsAmount,
-              minAmountOut,
+              minAmountOutFormatted,
               account,
               SPARK_UI_REFERRAL_CODE_BIGINT,
             ],
@@ -236,9 +272,8 @@ interface CalculateMinSharesAmountOutParams {
 }
 function calculateMinSharesAmountOut({
   savingsConverter,
-  savingsToken,
   amountIn,
-}: CalculateMinSharesAmountOutParams): bigint {
+}: CalculateMinSharesAmountOutParams): NormalizedUnitNumber {
   const currentTimestamp = savingsConverter.currentTimestamp
   // We don't know when the block with transaction will be mined so
   // we calculate the minimal amount of sUSDS to receive as the amount
@@ -248,5 +283,5 @@ function calculateMinSharesAmountOut({
     timestamp: currentTimestamp + EPOCH_LENGTH,
   })
 
-  return toBigInt(savingsToken.toBaseUnit(minimalSharesAmount))
+  return minimalSharesAmount
 }

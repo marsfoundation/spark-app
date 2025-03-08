@@ -16,6 +16,7 @@ import { waitFor } from '@testing-library/react'
 import { base } from 'viem/chains'
 import { describe, test } from 'vitest'
 import { createDepositToSavingsActionConfig } from './depositToSavingsAction'
+import { formatMinAmountOutForPsm3 } from './formatMinAmountOutForPsm3'
 
 const account = testAddresses.alice
 const depositValue = NormalizedUnitNumber(1)
@@ -125,6 +126,12 @@ describe(createDepositToSavingsActionConfig.name, () => {
   })
 
   test('deposits usdc to susds', async () => {
+    const minAmountOutFormatted = formatMinAmountOutForPsm3({
+      susds,
+      susdsAmount: minAmountOut,
+      assetIn: usdc,
+    })
+
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
@@ -141,7 +148,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
             usdc.address,
             susds.address,
             toBigInt(usdc.toBaseUnit(depositValue)),
-            toBigInt(susds.toBaseUnit(minAmountOut)),
+            minAmountOutFormatted,
             account,
             referralCode,
           ],
@@ -171,6 +178,12 @@ describe(createDepositToSavingsActionConfig.name, () => {
   })
 
   test('deposits base usdc to susdc', async () => {
+    const minAmountOutFormatted = formatMinAmountOutForPsm3({
+      susds,
+      susdsAmount: minAmountOut,
+      assetIn: usdc,
+    })
+
     const { result, queryInvalidationManager } = hookRenderer({
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
@@ -183,12 +196,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
           to: getContractAddress(usdcVaultAddress, chainId),
           abi: usdcVaultAbi,
           functionName: 'deposit',
-          args: [
-            toBigInt(usdc.toBaseUnit(depositValue)),
-            account,
-            toBigInt(susdc.toBaseUnit(minAmountOut)),
-            SPARK_UI_REFERRAL_CODE,
-          ],
+          args: [toBigInt(usdc.toBaseUnit(depositValue)), account, minAmountOutFormatted, SPARK_UI_REFERRAL_CODE],
           from: account,
           result: 1n,
         }),

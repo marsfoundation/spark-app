@@ -10,12 +10,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(10),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('value-not-positive')
@@ -28,12 +30,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'frozen',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe(undefined)
@@ -46,12 +50,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'frozen',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe(undefined)
@@ -64,12 +70,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'paused',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('reserve-paused')
@@ -82,12 +90,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'not-active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('reserve-not-active')
@@ -100,12 +110,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(1),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('exceeds-balance')
@@ -118,12 +130,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(9),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('exceeds-unborrowed-liquidity')
@@ -136,12 +150,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.5),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe(undefined)
@@ -154,12 +170,14 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
         },
         user: {
           deposited: NormalizedUnitNumber(10),
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(1),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('exceeds-ltv')
@@ -180,6 +198,7 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
           eModeCategory,
         },
         user: {
@@ -187,6 +206,7 @@ describe(validateWithdraw.name, () => {
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.85),
           eModeState: { enabled: true, category: eModeCategory },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe(undefined)
@@ -196,6 +216,7 @@ describe(validateWithdraw.name, () => {
         asset: {
           status: 'active',
           unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
           eModeCategory,
         },
         user: {
@@ -203,8 +224,49 @@ describe(validateWithdraw.name, () => {
           liquidationThreshold: Percentage(0.8),
           ltvAfterWithdrawal: Percentage(0.85),
           eModeState: { enabled: false },
+          hasZeroLtvCollateral: false,
         },
       }),
     ).toBe('exceeds-ltv')
+  })
+
+  test('accounts for zero ltv collateral if max ltv is not zero', () => {
+    expect(
+      validateWithdraw({
+        value: NormalizedUnitNumber(10),
+        asset: {
+          status: 'frozen',
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0.8),
+        },
+        user: {
+          deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
+          ltvAfterWithdrawal: Percentage(0.5),
+          eModeState: { enabled: false },
+          hasZeroLtvCollateral: true,
+        },
+      }),
+    ).toBe('has-zero-ltv-collateral')
+  })
+
+  test('does not account for zero ltv collateral if max ltv is zero', () => {
+    expect(
+      validateWithdraw({
+        value: NormalizedUnitNumber(10),
+        asset: {
+          status: 'frozen',
+          unborrowedLiquidity: NormalizedUnitNumber(100),
+          maxLtv: Percentage(0),
+        },
+        user: {
+          deposited: NormalizedUnitNumber(10),
+          liquidationThreshold: Percentage(0.8),
+          ltvAfterWithdrawal: Percentage(0.5),
+          eModeState: { enabled: false },
+          hasZeroLtvCollateral: true,
+        },
+      }),
+    ).toBe(undefined)
   })
 })
