@@ -1,5 +1,5 @@
 import { mergeDeep } from 'remeda'
-import { z } from 'zod'
+import { ZodString, z } from 'zod'
 import { Logger } from '../logger/Logger.js'
 import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 
@@ -26,6 +26,9 @@ export class HttpClient {
       throw new HttpError('POST', url, result.status, await result.text())
     }
 
+    if (schema instanceof ZodString) {
+      return await result.text()
+    }
     return schema.parse(await result.json())
   }
 
@@ -34,6 +37,10 @@ export class HttpClient {
     const result = await this.fetchWithRetries(url)
     if (!result.ok) {
       throw new HttpError('GET', url, result.status, await result.text())
+    }
+
+    if (schema instanceof ZodString) {
+      return schema.parse(await result.text())
     }
     return schema.parse(await result.json())
   }

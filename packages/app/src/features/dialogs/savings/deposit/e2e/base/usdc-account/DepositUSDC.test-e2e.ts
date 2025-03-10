@@ -93,4 +93,17 @@ test.describe('Deposit USDC', () => {
     await depositDialog.fillAmountAction(10_000)
     await depositDialog.expectAssetInputError(depositValidationIssueToMessage['exceeds-psm3-balance'])
   })
+
+  test('executes deposit for small amount', async () => {
+    await depositDialog.fillAmountAction(0.000003)
+    await depositDialog.actionsContainer.acceptAllActionsAction(2)
+
+    await depositDialog.expectSuccessPage()
+    await depositDialog.clickBackToSavingsButton()
+
+    await savingsPage.expectSavingsAccountBalance({
+      balance: '<0.01',
+      estimatedValue: '0.000002082864',
+    })
+  })
 })
