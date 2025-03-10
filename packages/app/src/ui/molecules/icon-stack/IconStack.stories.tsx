@@ -1,8 +1,6 @@
+import { assets, getTokenImage } from '@/ui/assets'
 import { tokens } from '@sb/tokens'
 import { Meta, StoryObj } from '@storybook/react'
-
-import { getTokenImage } from '@/ui/assets'
-
 import { IconStack } from './IconStack'
 
 const meta: Meta<typeof IconStack> = {
@@ -64,5 +62,14 @@ export const WithATokens: Story = {
   args: {
     iconBorder: 'white',
     items: [tokens.wstETH, tokens.wstETH.createAToken(tokens.wstETH.address)],
+  },
+}
+
+export const WithSubIcon: Story = {
+  args: {
+    iconBorder: 'white',
+    items: [tokens.USDS, tokens.sUSDS, tokens.sUSDC].map(({ symbol }) => getTokenImage(symbol)),
+    subIcon: assets.chain.ethereum,
+    size: 'lg',
   },
 }

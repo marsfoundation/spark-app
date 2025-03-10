@@ -27,7 +27,7 @@ export const gnosisConfig: ChainConfigEntry = {
   usdsSymbol: undefined,
   susdsSymbol: undefined,
   meta: {
-    name: 'Gnosis Chain',
+    name: 'Gnosis',
     logo: assets.chain.gnosis,
   },
   tokensWithMalformedApprove: [],

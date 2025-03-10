@@ -12,7 +12,11 @@ export function GuestView({ ongoingCampaignsResult }: GuestViewProps) {
     <PageLayout>
       <h1 className="typography-heading-1">Rewards</h1>
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[11fr_5fr]">
-        <OngoingCampaignsPanel ongoingCampaignsResult={ongoingCampaignsResult} isGuestMode={true} />
+        <OngoingCampaignsPanel
+          ongoingCampaignsResult={ongoingCampaignsResult}
+          isGuestMode={true}
+          className="self-start"
+        />
         <EarnRewardsBanner className="self-start" />
       </div>
     </PageLayout>

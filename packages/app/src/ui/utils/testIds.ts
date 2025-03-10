@@ -294,7 +294,7 @@ export const testIds = makeTestIds({
     },
   },
   sparkRewards: {
-    activeRewardsPanel: {
+    claimableRewardsPanel: {
       amountToClaim: true,
     },
   },

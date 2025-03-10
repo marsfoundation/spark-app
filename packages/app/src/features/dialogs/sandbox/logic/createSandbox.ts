@@ -1,17 +1,18 @@
-import { Address, Chain, parseEther, parseUnits } from 'viem'
-
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
 import { CheckedAddress, UnixTime, raise } from '@marsfoundation/common-universal'
 import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
+import { Address, Chain, parseEther, parseUnits } from 'viem'
+import { Config } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 
 export async function createSandbox(opts: {
   originChainId: number
   forkChainId: number
   userAddress: Address
+  wagmiConfig: Config
   mintBalances: NonNullable<AppConfig['sandbox']>['mintBalances']
 }): Promise<string> {
   const { rpcUrl: forkUrl } = await createTenderlyFork({
@@ -36,7 +37,7 @@ export async function createSandbox(opts: {
 
   if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
     const { setupSparkRewards } = await import('./setupSparkRewards')
-    await setupSparkRewards({ testnetClient, account: CheckedAddress(opts.userAddress) })
+    await setupSparkRewards({ testnetClient, account: CheckedAddress(opts.userAddress), wagmiConfig: opts.wagmiConfig })
   }
 
   trackEvent('sandbox-created')

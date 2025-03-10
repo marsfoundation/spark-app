@@ -1,7 +1,7 @@
 import { sparkRewardsConfig } from '@/config/contracts-generated'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
-import { activeRewardsQueryKey } from '@/domain/spark-rewards/activeRewardsQueryOptions'
+import { claimableRewardsQueryKey } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { getBalancesQueryKeyPrefix } from '@/domain/wallet/getBalancesQueryKeyPrefix'
 import { toBigInt } from '@marsfoundation/common-universal'
 import { ActionConfig, ActionContext } from '../../../logic/types'
@@ -32,6 +32,6 @@ export function createClaimSparkRewardsActionConfig(
       })
     },
 
-    invalidates: () => [getBalancesQueryKeyPrefix({ chainId, account }), activeRewardsQueryKey({ chainId, account })],
+    invalidates: () => [getBalancesQueryKeyPrefix({ chainId, account }), claimableRewardsQueryKey({ account })],
   }
 }
