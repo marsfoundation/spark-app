@@ -4,7 +4,7 @@ import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
-import { assert, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
+import { CheckedAddress, UnixTime, raise } from '@marsfoundation/common-universal'
 import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
 import { mainnet } from 'wagmi/chains'
 
@@ -20,7 +20,11 @@ export async function createSandbox(opts: {
     forkChainId: opts.forkChainId,
     apiUrl: `${apiUrl}/sandbox/create`,
   })
-  const testnetClient = getTenderlyClient(forkUrl, getSandboxChain(opts.originChainId), opts.forkChainId)
+  const testnetClient = getTenderlyClient(
+    forkUrl,
+    chainIdToChain[opts.originChainId] ?? raise('Only mainnet is supported as origin chain'),
+    opts.forkChainId,
+  )
   await testnetClient.setBalance(opts.userAddress, parseEther(opts.mintBalances.etherAmt.toString()))
 
   await Promise.all(
@@ -49,9 +53,4 @@ export function getChainIdWithPrefix(prefix: number, timestamp: UnixTime): numbe
 
 const chainIdToChain: Record<number, Chain> = {
   [mainnet.id]: mainnet,
-}
-function getSandboxChain(chainId: number): Chain {
-  const chain = chainIdToChain[chainId]
-  assert(chain, `Invalid chainId ${chainId} in sandbox`)
-  return chain
 }
