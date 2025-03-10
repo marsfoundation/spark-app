@@ -1,6 +1,8 @@
 import { randomHexId } from '@/utils/random'
 import { getEnv } from '@marsfoundation/common-nodejs/env'
 import { TenderlyTestnetFactory, TestnetClient } from '@marsfoundation/common-testnets'
+import { HttpClient } from '@marsfoundation/common-universal/http-client'
+import { Logger } from '@marsfoundation/common-universal/logger'
 import { Chain } from 'viem'
 
 interface TestnetContext {
@@ -33,11 +35,14 @@ export async function getTestnetContext({
   }
 
   const env = getEnv()
-  const factory = new TenderlyTestnetFactory({
-    account: env.string('TENDERLY_ACCOUNT'),
-    project: env.string('TENDERLY_PROJECT'),
-    apiKey: env.string('TENDERLY_API_KEY'),
-  })
+  const factory = new TenderlyTestnetFactory(
+    {
+      account: env.string('TENDERLY_ACCOUNT'),
+      project: env.string('TENDERLY_PROJECT'),
+      apiKey: env.string('TENDERLY_API_KEY'),
+    },
+    new HttpClient(Logger.SILENT),
+  )
 
   const testnetId = randomHexId()
   const { client, cleanup } = await factory.create({

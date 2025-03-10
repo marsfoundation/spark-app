@@ -1,6 +1,5 @@
 import { assert } from '@marsfoundation/common-universal'
 import { HttpClient } from '@marsfoundation/common-universal/http-client'
-import { Logger } from '@marsfoundation/common-universal/logger'
 import { v4 as uuidv4 } from 'uuid'
 import { Chain, numberToHex } from 'viem'
 import { z } from 'zod'
@@ -11,7 +10,7 @@ import { getTenderlyClient } from './TenderlyClient.js'
 export class TenderlyTestnetFactory implements TestnetFactory {
   constructor(
     private readonly opts: { apiKey: string; account: string; project: string },
-    private readonly httpClient = new HttpClient(Logger.SILENT),
+    private readonly httpClient: HttpClient,
   ) {}
 
   async create(args: CreateNetworkArgs): Promise<TestnetCreateResult> {
