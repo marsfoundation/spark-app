@@ -4,8 +4,8 @@ import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
-import { getTenderlyClient } from '@marsfoundation/common-testnets'
 import { assert, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
+import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
 import { mainnet } from 'wagmi/chains'
 
 export async function createSandbox(opts: {
@@ -20,20 +20,19 @@ export async function createSandbox(opts: {
     forkChainId: opts.forkChainId,
     apiUrl: `${apiUrl}/sandbox/create`,
   })
-  const tenderlyClient = getTenderlyClient(forkUrl, getSandboxChain(opts.originChainId), opts.forkChainId)
-
-  await tenderlyClient.setBalance(opts.userAddress, parseEther(opts.mintBalances.etherAmt.toString()))
+  const testnetClient = getTenderlyClient(forkUrl, getSandboxChain(opts.originChainId), opts.forkChainId)
+  await testnetClient.setBalance(opts.userAddress, parseEther(opts.mintBalances.etherAmt.toString()))
 
   await Promise.all(
     Object.values(opts.mintBalances.tokens).map(async (token) => {
       const units = parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals)
-      await tenderlyClient.setErc20Balance(token.address, opts.userAddress, units)
+      await testnetClient.setErc20Balance(token.address, opts.userAddress, units)
     }),
   )
 
   if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
     const { setupSparkRewards } = await import('./setupSparkRewards')
-    await setupSparkRewards({ forkUrl, account: CheckedAddress(opts.userAddress) })
+    await setupSparkRewards({ testnetClient, account: CheckedAddress(opts.userAddress) })
   }
 
   trackEvent('sandbox-created')
