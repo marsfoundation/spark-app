@@ -103,7 +103,6 @@
   "dependencies": {
     "chalk": "^5.3.0",
     "error-stack-parser": "^2.1.4",
-    "fetch-retry": "^5.0.6",
     "p-limit": "^6.1.0",
     "pretty-ms": "^9.2.0"
   }
