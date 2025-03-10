@@ -451,9 +451,6 @@ importers:
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4
-      fetch-retry:
-        specifier: ^5.0.6
-        version: 5.0.6
       p-limit:
         specifier: ^6.1.0
         version: 6.1.0
