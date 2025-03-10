@@ -1,5 +1,6 @@
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
+import { Address } from 'viem'
 import { getDefaultAppConfig } from './appConfig.default'
 import { getTestingAppConfig } from './appConfig.testing'
 
@@ -17,7 +18,7 @@ export interface AppConfig {
       tokenAmt: NormalizedUnitNumber
       tokens: {
         [name: string]: {
-          address: string
+          address: Address
           decimals: number
         }
       }

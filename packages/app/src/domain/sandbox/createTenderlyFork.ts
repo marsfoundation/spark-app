@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 import { randomHexId } from '@/utils/random'
-import { solidFetch } from '@marsfoundation/common-universal'
+import { HttpClient } from '@marsfoundation/common-universal/http-client'
+import { Logger } from '@marsfoundation/common-universal/logger'
 
 const createForkResponseSchema = z.object({
   simulation_fork: z.object({
@@ -28,19 +29,18 @@ export async function createTenderlyFork({
   forkChainId,
   namePrefix,
   blockNumber,
-  headers,
 }: CreateTenderlyForkArgs): Promise<CreateTenderlyForkResult> {
-  const response = await solidFetch(apiUrl, {
-    method: 'post',
-    headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  const httpClient = new HttpClient(Logger.BROWSER)
+  const response = await httpClient.post(
+    apiUrl,
+    {
       network_id: originChainId,
       block_number: blockNumber ? Number(blockNumber) : undefined,
       chain_config: { chain_id: forkChainId },
       alias: `${namePrefix}_${randomHexId()}`,
-    }),
-  })
+    },
+    createForkResponseSchema,
+  )
 
-  const data = createForkResponseSchema.parse(await response.json())
-  return { rpcUrl: data.simulation_fork.rpc_url }
+  return { rpcUrl: response.simulation_fork.rpc_url }
 }

@@ -2,14 +2,14 @@ import { spark2ApiUrl } from '@/config/consts'
 import { setSparkRewards } from '@/domain/spark-rewards/setSparkRewards'
 import { TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { randomHexId } from '@/utils/random'
+import { TestnetClient } from '@marsfoundation/common-testnets'
 import { CheckedAddress, NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { http, HttpResponse } from 'msw'
 import { setupWorker } from 'msw/browser'
-import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
 import { mainnet } from 'viem/chains'
 
 export interface SetupSparkRewardsParams {
-  forkUrl: string
+  testnetClient: TestnetClient
   account: CheckedAddress
 }
 
@@ -75,9 +75,7 @@ const CAMPAIGNS_CONFIG = [
   },
 ]
 
-export async function setupSparkRewards({ forkUrl, account }: SetupSparkRewardsParams): Promise<void> {
-  const testnetClient = getTenderlyClient(forkUrl, mainnet, mainnet.id)
-
+export async function setupSparkRewards({ testnetClient, account }: SetupSparkRewardsParams): Promise<void> {
   const rewards = REWARDS_CONFIG.map(({ rewardTokenSymbol, rewardTokenPrice, cumulativeAmount }) => {
     const tokenConfig = TOKENS_ON_FORK[mainnet.id][rewardTokenSymbol]
 
