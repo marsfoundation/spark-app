@@ -16,13 +16,13 @@ export class HttpClient {
     url: string,
     body: object,
     schema: T,
-    headers: Record<string, string> = applicationJsonHeader,
+    headers: Record<string, string>,
   ): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
     const result = await this.fetchWithRetries(url, {
       method: 'POST',
-      headers,
+      headers: { ...applicationJsonHeader, ...headers },
       body: JSON.stringify(body),
     })
     if (!result.ok) {
