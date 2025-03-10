@@ -65,6 +65,7 @@
   },
   "typesVersions": {
     "*": {
+      "http-client": ["dist/types/httpClient/index.d.ts"],
       "logger": ["dist/types/logger/index.d.ts"],
       "tracer": ["dist/types/tracer/index.d.ts"]
     }
