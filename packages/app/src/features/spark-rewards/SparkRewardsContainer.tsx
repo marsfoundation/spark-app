@@ -6,13 +6,13 @@ import { RewardsView } from './views/RewardsView'
 
 export function SparkRewardsContainer() {
   const rewards = useSparkRewards()
-  const { isConnected, isConnecting } = useAccount()
+  const { address: account, isConnecting } = useAccount()
 
-  if (isConnecting) {
+  if (isConnecting && account === undefined) {
     return <AccountConnectingView />
   }
 
-  if (isConnected === false) {
+  if (account === undefined) {
     return <GuestView ongoingCampaignsResult={rewards.ongoingCampaignsResult} />
   }
 
