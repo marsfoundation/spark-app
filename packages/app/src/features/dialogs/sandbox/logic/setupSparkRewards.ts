@@ -3,16 +3,17 @@ import { sparkRewardsAbi, sparkRewardsAddress } from '@/config/contracts-generat
 import { setSparkRewards } from '@/domain/spark-rewards/setSparkRewards'
 import { TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { randomHexId } from '@/utils/random'
-import { BaseUnitNumber, CheckedAddress, Hex, NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
+import { TestnetClient } from '@marsfoundation/common-testnets'
+import { BaseUnitNumber, Hex } from '@marsfoundation/common-universal'
+import { CheckedAddress, NormalizedUnitNumber, raise } from '@marsfoundation/common-universal'
 import { http, HttpResponse } from 'msw'
 import { setupWorker } from 'msw/browser'
-import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
 import { mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 
 export interface SetupSparkRewardsParams {
-  forkUrl: string
+  testnetClient: TestnetClient
   account: CheckedAddress
   wagmiConfig: Config
 }
@@ -85,9 +86,11 @@ const CAMPAIGNS_CONFIG = [
   },
 ]
 
-export async function setupSparkRewards({ forkUrl, account, wagmiConfig }: SetupSparkRewardsParams): Promise<void> {
-  const testnetClient = getTenderlyClient(forkUrl, mainnet, mainnet.id)
-
+export async function setupSparkRewards({
+  testnetClient,
+  account,
+  wagmiConfig,
+}: SetupSparkRewardsParams): Promise<void> {
   function prepareRewards(config: MockedRewardConfig[]): {
     tokenSymbol: string
     tokenAddress: CheckedAddress

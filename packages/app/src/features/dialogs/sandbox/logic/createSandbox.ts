@@ -1,12 +1,13 @@
-import { Address, parseEther, parseUnits } from 'viem'
-
 import { apiUrl } from '@/config/consts'
 import { AppConfig } from '@/config/feature-flags'
 import { trackEvent } from '@/domain/analytics/mixpanel'
 import { createTenderlyFork } from '@/domain/sandbox/createTenderlyFork'
-import { tenderlyRpcActions } from '@/domain/tenderly/TenderlyRpcActions'
-import { BaseUnitNumber, CheckedAddress, UnixTime } from '@marsfoundation/common-universal'
+import { CheckedAddress, UnixTime, raise } from '@marsfoundation/common-universal'
+import { getTenderlyClient } from 'node_modules/@marsfoundation/common-testnets/src/nodes/tenderly/TenderlyClient'
+import { Address, Chain, parseEther, parseUnits } from 'viem'
 import { Config } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+
 export async function createSandbox(opts: {
   originChainId: number
   forkChainId: number
@@ -20,23 +21,23 @@ export async function createSandbox(opts: {
     forkChainId: opts.forkChainId,
     apiUrl: `${apiUrl}/sandbox/create`,
   })
-
-  await tenderlyRpcActions.setBalance(
+  const testnetClient = getTenderlyClient(
     forkUrl,
-    opts.userAddress,
-    BaseUnitNumber(parseEther(opts.mintBalances.etherAmt.toString())),
+    chainIdToChain[opts.originChainId] ?? raise('Only mainnet is supported as origin chain'),
+    opts.forkChainId,
   )
+  await testnetClient.setBalance(opts.userAddress, parseEther(opts.mintBalances.etherAmt.toString()))
 
   await Promise.all(
     Object.values(opts.mintBalances.tokens).map(async (token) => {
-      const units = BaseUnitNumber(parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals))
-      await tenderlyRpcActions.setTokenBalance(forkUrl, token.address, opts.userAddress, units)
+      const units = parseUnits(opts.mintBalances.tokenAmt.toString(), token.decimals)
+      await testnetClient.setErc20Balance(token.address, opts.userAddress, units)
     }),
   )
 
   if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
     const { setupSparkRewards } = await import('./setupSparkRewards')
-    await setupSparkRewards({ forkUrl, account: CheckedAddress(opts.userAddress), wagmiConfig: opts.wagmiConfig })
+    await setupSparkRewards({ testnetClient, account: CheckedAddress(opts.userAddress), wagmiConfig: opts.wagmiConfig })
   }
 
   trackEvent('sandbox-created')
@@ -49,4 +50,8 @@ export async function createSandbox(opts: {
  */
 export function getChainIdWithPrefix(prefix: number, timestamp: UnixTime): number {
   return Number.parseInt(prefix.toString() + timestamp.toString())
+}
+
+const chainIdToChain: Record<number, Chain> = {
+  [mainnet.id]: mainnet,
 }
