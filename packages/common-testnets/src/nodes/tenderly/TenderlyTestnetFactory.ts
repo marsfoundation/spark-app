@@ -42,6 +42,7 @@ export class TenderlyTestnetFactory implements TestnetFactory {
         },
       },
       createVnetSchema,
+      { 'Content-Type': 'application/json', 'X-Access-Key': this.opts.apiKey },
     )
 
     const adminRpc = response.rpcs.find((rpc: any) => rpc.name === 'Admin RPC')

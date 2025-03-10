@@ -12,14 +12,17 @@ export class HttpClient {
     this.fetchWithRetries = fetchRetry(options)
   }
 
-  async post<T extends z.ZodTypeAny>(url: string, body: object, schema: T): Promise<z.infer<T>> {
+  async post<T extends z.ZodTypeAny>(
+    url: string,
+    body: object,
+    schema: T,
+    headers: Record<string, string> = applicationJsonHeader,
+  ): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
     const result = await this.fetchWithRetries(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(body),
     })
     if (!result.ok) {
@@ -32,9 +35,12 @@ export class HttpClient {
     return schema.parse(await result.json())
   }
 
-  async get<T extends z.ZodTypeAny>(url: string, schema: T): Promise<z.infer<T>> {
+  async get<T extends z.ZodTypeAny>(url: string, schema: T, headers?: Record<string, string>): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] GET request - ${url}`, { url })
-    const result = await this.fetchWithRetries(url)
+    const result = await this.fetchWithRetries(url, {
+      method: 'GET',
+      headers,
+    })
     if (!result.ok) {
       throw new HttpError('GET', url, result.status, await result.text())
     }
@@ -56,4 +62,8 @@ export class HttpError extends Error {
     super(`Failed ${method} ${url}: ${status} - ${textResult}`)
     this.name = 'HttpError'
   }
+}
+
+const applicationJsonHeader = {
+  'Content-Type': 'application/json',
 }
