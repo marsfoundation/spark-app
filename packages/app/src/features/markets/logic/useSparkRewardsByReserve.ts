@@ -2,6 +2,7 @@ import { Reserve } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
+import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
@@ -20,9 +21,10 @@ export type SparkRewardsByReserve = Record<
 export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsByReserveParams): SparkRewardsByReserve {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
+  const { data: vpnCheck } = useVpnCheck()
 
   const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId, countryCode: vpnCheck?.countryCode }),
     select: (data) => {
       const campaigns = data.filter((campaign) => campaign.chainId === chainId)
       return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {

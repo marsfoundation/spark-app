@@ -1,6 +1,4 @@
-import { apiUrl } from '@/config/consts'
 import { Path } from '@/config/paths'
-
 import { blockedPagesByCountryCode } from './consts'
 import { useVpnCheck } from './useVpnCheck'
 
@@ -9,7 +7,7 @@ export function useBlockedPages(): Path[] {
     return []
   }
   // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-  const vpnCheck = useVpnCheck({ authUrl: apiUrl })
+  const vpnCheck = useVpnCheck()
 
   if (vpnCheck.data?.countryCode && blockedPagesByCountryCode[vpnCheck.data.countryCode] !== undefined) {
     return blockedPagesByCountryCode[vpnCheck.data.countryCode]!

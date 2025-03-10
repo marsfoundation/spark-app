@@ -15,6 +15,7 @@ import { TokenSymbol } from '../types/TokenSymbol'
 export interface ClaimableRewardsQueryOptionsParams {
   wagmiConfig: Config
   account?: Address
+  countryCode: string | undefined
   isInSandbox: boolean
   sandboxChainId: number | undefined
 }
@@ -25,6 +26,7 @@ const SPARK_REWARDS_CHAIN_IDS = [mainnet.id]
 export function claimableRewardsQueryOptions({
   wagmiConfig,
   account,
+  countryCode,
   isInSandbox,
   sandboxChainId,
 }: ClaimableRewardsQueryOptionsParams) {
@@ -39,7 +41,9 @@ export function claimableRewardsQueryOptions({
       ? skipToken
       : async () =>
           (
-            await Promise.all(sparkRewardChainIds.map((chainId) => fetchChainRewards(chainId, wagmiConfig, account)))
+            await Promise.all(
+              sparkRewardChainIds.map((chainId) => fetchChainRewards({ chainId, wagmiConfig, account, countryCode })),
+            )
           ).flat(),
   })
 }
@@ -60,11 +64,19 @@ interface ClaimableRewardData {
   chainId: number
 }
 
-async function fetchChainRewards(
-  chainId: number,
-  wagmiConfig: Config,
-  account: Address,
-): Promise<ClaimableRewardData[]> {
+interface FetchChainRewardsParams {
+  chainId: number
+  wagmiConfig: Config
+  account: Address
+  countryCode: string | undefined
+}
+
+async function fetchChainRewards({
+  chainId,
+  wagmiConfig,
+  account,
+  countryCode,
+}: FetchChainRewardsParams): Promise<ClaimableRewardData[]> {
   const sparkRewardsAddress = getContractAddress(sparkRewardsConfig.address, chainId)
   const expectedMerkleRoot = await readContract(wagmiConfig, {
     address: sparkRewardsAddress,
@@ -79,7 +91,10 @@ async function fetchChainRewards(
     throw new Error('Failed to fetch rewards')
   }
 
-  const claimData = claimableRewardsResponseSchema.parse(await res.json())
+  const unfilteredClaimData = claimableRewardsResponseSchema.parse(await res.json())
+  const claimData = unfilteredClaimData.filter((claim) =>
+    claim.restricted_country_codes.every((code) => code !== countryCode),
+  )
 
   return Promise.all(
     claimData.map(async (claim) => {

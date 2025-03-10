@@ -1,5 +1,6 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
+import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
@@ -10,9 +11,10 @@ export type UseOngoingCampaignsResult = SimplifiedQueryResult<(OngoingCampaignRo
 export function useOngoingCampaigns(): UseOngoingCampaignsResult {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
+  const { data: vpnCheck } = useVpnCheck()
 
   return useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }),
+    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId, countryCode: vpnCheck?.countryCode }),
     select: (data) =>
       data.map((campaign) => ({
         ...campaign,
