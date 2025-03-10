@@ -29,11 +29,11 @@ export function SandboxDialogView({
     <div className="flex flex-col gap-5">
       <DialogTitle className="typography-heading-5 flex items-center gap-2 py-2 md:p-0">
         <MagicWand className="icon-sm text-secondary" />
-        Sandbox Mode
+        Sandbox
       </DialogTitle>
       <p className="typography-body-2 text-secondary">
-        Sandbox Mode is a risk-free environment where you can test the Spark App and understand how it works. When
-        you're ready, you can switch back to the real world. Have fun exploring!
+        Sandbox is a risk-free environment where you can test the Spark App and understand how it works. When you're
+        ready, you can switch back to the real world. Have fun exploring!
       </p>
       <ul className="flex flex-col gap-2.5">
         {[
@@ -50,7 +50,7 @@ export function SandboxDialogView({
       </ul>
       {isError && error && <Alert variant="warning">{error.message}</Alert>}
       <Button loading={isPending} onClick={onActionButtonClick} size="l">
-        Activate Sandbox Mode
+        Activate Sandbox
       </Button>
     </div>
   )

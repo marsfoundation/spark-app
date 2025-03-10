@@ -25,7 +25,7 @@ export const TopbarWalletButton = forwardRef<HTMLButtonElement, TopbarWalletButt
     if (mode === 'sandbox') {
       return (
         <Button {...buttonProps} className={cn(buttonProps.className, 'pointer-events-none justify-center gap-1')}>
-          Sandbox <span className="hidden sm:inline">Mode</span>
+          Sandbox
         </Button>
       )
     }

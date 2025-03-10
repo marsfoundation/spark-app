@@ -67,7 +67,7 @@ export function TopbarMenu({
           >
             <div className="flex w-full items-center gap-2">
               <MenuItemIcon icon={WandIcon} />
-              Sandbox Mode
+              Sandbox
               <Switch checked={isInSandbox} className="ml-auto" />
             </div>
             <div className="typography-label-3 text-secondary">
@@ -112,7 +112,7 @@ export function TopbarMenu({
         >
           <div className="flex w-full items-center gap-2">
             <DropdownMenuItemIcon icon={WandIcon} />
-            Sandbox Mode
+            Sandbox
             <Switch checked={isInSandbox} className="ml-auto" />
           </div>
           <div className="typography-label-3 text-secondary">
