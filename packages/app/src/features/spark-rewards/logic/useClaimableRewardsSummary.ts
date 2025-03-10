@@ -1,5 +1,6 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
+import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -23,9 +24,16 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
   const chainId = useChainId()
   const { address: account } = useAccount()
   const { isInSandbox, sandboxChainId } = useSandboxState()
+  const { data: vpnCheck } = useVpnCheck()
 
   return useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account, isInSandbox, sandboxChainId }),
+    ...claimableRewardsQueryOptions({
+      wagmiConfig,
+      account,
+      isInSandbox,
+      sandboxChainId,
+      countryCode: vpnCheck?.countryCode,
+    }),
     select: (data) => {
       const claimableRewards = data
         .filter((reward) => reward.chainId === chainId)

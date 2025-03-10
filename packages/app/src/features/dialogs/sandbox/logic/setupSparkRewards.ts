@@ -48,7 +48,7 @@ const CAMPAIGNS_CONFIG = [
     reward_token_address: '0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0',
     deposit_token_addresses: ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
     borrow_token_addresses: [],
-    restricted_country_codes: [],
+    restricted_country_codes: ['US'],
   },
   {
     campaign_uid: randomHexId(),
