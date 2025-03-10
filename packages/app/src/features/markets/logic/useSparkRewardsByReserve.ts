@@ -2,6 +2,7 @@ import { Reserve } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
+import { filterOngoingCampaigns } from '@/domain/spark-rewards/utils'
 import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -21,29 +22,32 @@ export type SparkRewardsByReserve = Record<
 export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsByReserveParams): SparkRewardsByReserve {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
-  const { data: vpnCheck } = useVpnCheck()
+  const { data: vpnCheck, isPending: isVpnCheckPending } = useVpnCheck()
+  const { data } = useQuery(ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }))
 
-  const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId, countryCode: vpnCheck?.countryCode }),
-    select: (data) => {
-      const campaigns = data.filter((campaign) => campaign.chainId === chainId)
-      return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
-        acc[reserve.token.address] = {
-          supply: assignMarketSparkRewards({
-            campaigns,
-            action: 'supply',
-            reserveTokenSymbol: reserve.token.symbol,
-          }),
-          borrow: assignMarketSparkRewards({
-            campaigns,
-            action: 'borrow',
-            reserveTokenSymbol: reserve.token.symbol,
-          }),
-        }
-        return acc
-      }, {})
-    },
+  if (isVpnCheckPending || !data) {
+    return {}
+  }
+
+  const campaigns = filterOngoingCampaigns({
+    campaigns: data,
+    chainId,
+    countryCode: vpnCheck?.countryCode,
   })
 
-  return data ?? {}
+  return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
+    acc[reserve.token.address] = {
+      supply: assignMarketSparkRewards({
+        campaigns,
+        action: 'supply',
+        reserveTokenSymbol: reserve.token.symbol,
+      }),
+      borrow: assignMarketSparkRewards({
+        campaigns,
+        action: 'borrow',
+        reserveTokenSymbol: reserve.token.symbol,
+      }),
+    }
+    return acc
+  }, {})
 }
