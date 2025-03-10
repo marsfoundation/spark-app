@@ -16,7 +16,7 @@ export class HttpClient {
     url: string,
     body: object,
     schema: T,
-    headers: Record<string, string>,
+    headers?: Record<string, string>,
   ): Promise<z.infer<T>> {
     this.logger.trace(`[HttpClient] POST request - ${url}`, { url, body })
 
