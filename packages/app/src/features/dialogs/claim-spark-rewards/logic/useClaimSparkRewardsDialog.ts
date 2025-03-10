@@ -3,6 +3,7 @@ import { Token } from '@/domain/types/Token'
 import { ClaimSparkRewardsObjective } from '@/features/actions/flavours/claim-spark-rewards/types'
 import { Objective } from '@/features/actions/logic/types'
 import { useState } from 'react'
+import { useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'
 import { SparkReward } from '../types'
 import { useClaimableRewards } from './useClaimableRewards'
@@ -14,6 +15,7 @@ export interface UseClaimSparkRewardsDialogResult {
   pageStatus: PageStatus
   rewardsToClaim: SparkReward[]
   objectives: Objective[]
+  chainId: number
 }
 
 export function useClaimSparkRewardsDialog({
@@ -21,6 +23,7 @@ export function useClaimSparkRewardsDialog({
 }: UseClaimSparkRewardsDialogParams): UseClaimSparkRewardsDialogResult {
   const [pageStatus, setPageStatus] = useState<PageState>('form')
   const { data: claimableRewards = [] } = useClaimableRewards()
+  const chainId = useChainId()
 
   const filteredRewards = claimableRewards.filter((reward) =>
     tokensToClaim.some((token) => token.address === reward.token.address),
@@ -49,5 +52,6 @@ export function useClaimSparkRewardsDialog({
     },
     rewardsToClaim,
     objectives,
+    chainId,
   }
 }
