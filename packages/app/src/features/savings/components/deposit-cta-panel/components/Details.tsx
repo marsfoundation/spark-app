@@ -16,7 +16,7 @@ export type DetailsProps = Pick<
 
 export function Details({ description, entryTokens, savingsToken, sparkRewardsSummary }: DetailsProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2 lg:gap-4">
       <div className="flex items-center gap-3">
         <div className={tokensRouteVariants({ bg: savingsTokenToAccountType(savingsToken) })}>
           <IconStack items={entryTokens} iconClassName="box-content border-2 border-[#1E3B33]" />

@@ -53,21 +53,17 @@ export function Header({
       return (
         <div>
           {depositText}
-          <br />
-          and earn {apyComponent} APY!
-          {apyExplainerComponent}
+          <br /> and earn {apyComponent} APY!{apyExplainerComponent}
         </div>
       )
     }
 
     return (
       <div>
-        {depositText} and earn <br />
-        <div className="flex items-center gap-1.5">
-          <div>
-            {apyComponent} APY{apyExplainerComponent} +{' '}
-          </div>
-          <img src={assets.page.sparkRewardsCircle} alt="Spark Rewards" className="size-10" />
+        {depositText} and earn
+        <br className="hidden sm:block" /> {apyComponent} APY{apyExplainerComponent}{' '}
+        <div className="inline-flex items-center gap-1.5">
+          + <img src={assets.page.sparkRewardsCircle} alt="Spark Rewards" className="size-10" />
           <div>
             <span className="bg-gradient-spark-rewards-1 bg-clip-text text-transparent">
               {formatPercentage(sparkRewardsSummary.totalApy, { minimumFractionDigits: 0 })}
@@ -79,7 +75,9 @@ export function Header({
     )
   })()
 
-  return <div className="typography-heading-2 inline-flex text-primary-inverse">{headerContent}</div>
+  return (
+    <div className="typography-heading-3 md:typography-heading-2 inline-flex text-primary-inverse">{headerContent}</div>
+  )
 }
 
 const apyBgVariants = cva('bg-clip-text', {

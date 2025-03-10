@@ -51,29 +51,29 @@ export function DepositCTAPanel({
     <Panel
       spacing="m"
       className={cn(
-        'grid grid-cols-1 gap-8 lg:grid-cols-[minmax(638px,auto)_1fr]',
+        'flex flex-col justify-between gap-4',
         panelBgVariants({ bg: savingsTokenToAccountType(savingsToken) }),
         className,
       )}
       data-testid={testIds.savings.account.depositCTA.panel}
     >
-      <div className="flex flex-col gap-4 lg:justify-between">
-        <Header
-          savingsRate={savingsRate}
-          savingsToken={savingsToken}
-          inputTokens={entryTokens}
-          apyExplainer={apyExplainer}
-          apyExplainerDocsLink={apyExplainerDocsLink}
-          sparkRewardsSummary={sparkRewardsSummary}
-        />
+      <Header
+        savingsRate={savingsRate}
+        savingsToken={savingsToken}
+        inputTokens={entryTokens}
+        apyExplainer={apyExplainer}
+        apyExplainerDocsLink={apyExplainerDocsLink}
+        sparkRewardsSummary={sparkRewardsSummary}
+      />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_2fr]">
         <Details
           entryTokens={entryTokens}
           savingsToken={savingsToken}
           description={description}
           sparkRewardsSummary={sparkRewardsSummary}
         />
+        <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />
       </div>
-      <Actions actions={actions} isInSandbox={isInSandbox} className="mt-auto" />
     </Panel>
   )
 }
