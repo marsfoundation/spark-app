@@ -33,16 +33,22 @@ export function getNodeTimestampQueryKey({ chainId }: { chainId: number }): Quer
 
 export interface UseNodeTimestampResult {
   timestamp: number
+  isFetching: boolean
   refresh: () => void
 }
 
 export function useNodeTimestamp({ chainId }: { chainId: number }): UseNodeTimestampResult {
   const wagmiConfig = useConfig()
-  const { data: timestamp, refetch } = useSuspenseQuery({
+  const {
+    data: timestamp,
+    isFetching,
+    refetch,
+  } = useSuspenseQuery({
     ...nodeTimestampQueryOptions({ wagmiConfig, chainId }),
   })
   return {
     timestamp: Number(timestamp),
+    isFetching,
     refresh: refetch,
   }
 }

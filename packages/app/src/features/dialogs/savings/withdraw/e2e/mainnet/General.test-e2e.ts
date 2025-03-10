@@ -57,12 +57,17 @@ test.describe('Without send mode', () => {
 
   test('can click max after switching tokens', async () => {
     await withdrawalDialog.expectInputValue('')
+
+    // wait for new timestamp to fetch
+    await withdrawalDialog.fillAmountAction(1)
+    await withdrawalDialog.actionsContainer.expectEnabledActionAtIndex(0)
+
     await withdrawalDialog.clickMaxAmountAction()
-    await withdrawalDialog.expectInputValue('1125.599162')
+    await withdrawalDialog.expectInputValue('1125.599178')
     await withdrawalDialog.selectAssetAction('USDC')
     await withdrawalDialog.expectInputValue('')
     await withdrawalDialog.clickMaxAmountAction()
-    await withdrawalDialog.expectInputValue('1125.599162')
+    await withdrawalDialog.expectInputValue('1125.599177')
   })
 })
 

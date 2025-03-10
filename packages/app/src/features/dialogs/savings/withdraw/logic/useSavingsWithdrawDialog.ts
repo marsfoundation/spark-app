@@ -47,14 +47,14 @@ export function useSavingsWithdrawDialog({
   savingsToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
-  const { timestamp, refresh } = useNodeTimestamp({ chainId })
+  const { timestamp, refresh, isFetching } = useNodeTimestamp({ chainId })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     refresh()
   }, [refresh, chainId])
 
-  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp })
+  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: timestamp - 1 }) // 1 second buffer
   const chainConfig = getChainConfigEntry(chainId)
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
@@ -117,7 +117,8 @@ export function useSavingsWithdrawDialog({
   const actionsEnabled =
     ((formValues.value.gt(0) && isFormValid) || formValues.isMaxSelected) &&
     !isDebouncing &&
-    (sendModeExtension?.enableActions ?? true)
+    (sendModeExtension?.enableActions ?? true) &&
+    !isFetching
 
   return {
     selectableAssets: filterInputTokens({ inputTokens: supportedStablecoins, savingsToken, tokenRepository }),
