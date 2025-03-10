@@ -41,7 +41,7 @@ export class EModeDialogPageObject extends DialogPageObject {
     await expect(tile).toContainText(status)
   }
   async expectEModeSuccessPage(eModeCategoryName: EModeCategoryName): Promise<void> {
-    await expect(this.page.getByTestId(testIds.component.SuccessViewContent)).toContainText('Congrats, all done!')
+    await expect(this.page.getByTestId(testIds.component.SuccessView.content)).toContainText('Congrats, all done!')
     await expect(this.page.getByTestId(testIds.dialog.success)).toContainText(eModeCategoryName)
     await expect(this.page.getByTestId(testIds.dialog.success)).toContainText('Option activated')
   }

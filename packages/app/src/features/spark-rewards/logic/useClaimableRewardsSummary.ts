@@ -1,5 +1,7 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
+import { useOpenDialog } from '@/domain/state/dialogs'
+import { claimSparkRewardsDialogConfig } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -23,6 +25,7 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
   const chainId = useChainId()
   const { address: account } = useAccount()
   const { isInSandbox, sandboxChainId } = useSandboxState()
+  const openDialog = useOpenDialog()
 
   return useQuery({
     ...claimableRewardsQueryOptions({ wagmiConfig, account, isInSandbox, sandboxChainId }),
@@ -58,13 +61,19 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
         ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).isEqualTo(0),
       )
 
+      function claimAll(): void {
+        openDialog(claimSparkRewardsDialogConfig, {
+          tokensToClaim: claimableRewards.map(({ token }) => token),
+        })
+      }
+
       return {
         usdSum,
         isClaimEnabled,
         claimableRewardsWithPrice,
         claimableRewardsWithoutPrice,
         chainId,
-        claimAll: () => {},
+        claimAll,
       }
     },
   })

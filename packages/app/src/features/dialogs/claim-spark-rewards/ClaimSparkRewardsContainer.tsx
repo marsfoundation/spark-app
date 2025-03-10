@@ -12,11 +12,13 @@ export function ClaimSparkRewardsDialogContentContainer({
   tokensToClaim,
   closeDialog,
 }: ClaimSparkRewardsDialogContentContainerProps) {
-  const { pageStatus, rewardsToClaim, objectives } = useClaimSparkRewardsDialog({ tokensToClaim })
+  const { pageStatus, rewardsToClaim, objectives, chainId } = useClaimSparkRewardsDialog({ tokensToClaim })
 
   if (pageStatus.state === 'success') {
-    return <SuccessView claimedRewards={rewardsToClaim} onClose={closeDialog} />
+    return <SuccessView claimedRewards={rewardsToClaim} chainId={chainId} onClose={closeDialog} />
   }
 
-  return <ClaimSparkRewardsView pageStatus={pageStatus} objectives={objectives} claims={rewardsToClaim} />
+  return (
+    <ClaimSparkRewardsView pageStatus={pageStatus} objectives={objectives} claims={rewardsToClaim} chainId={chainId} />
+  )
 }

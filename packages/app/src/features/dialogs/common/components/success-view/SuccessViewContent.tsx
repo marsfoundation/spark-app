@@ -11,7 +11,7 @@ export function SuccessViewContent({ children, className }: SuccessViewContentPr
   return (
     <div
       className={cn('flex flex-col items-center justify-center', className)}
-      data-testid={testIds.component.SuccessViewContent}
+      data-testid={testIds.component.SuccessView.content}
     >
       {children}
     </div>

@@ -61,7 +61,7 @@ export function ClaimAllPanel({ claimableRewardsSummaryResult, selectNetwork, cl
               'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
             )}
           >
-            <img src={getChainConfigEntry(chainId).meta.logo} className="size-4" />
+            <img src={getChainConfigEntry(chainId).meta.logo} alt="network logo" className="size-4" />
             {getChainConfigEntry(chainId).meta.name}
             <ChevronRightIcon className="icon-xs icon-secondary -ml-1.5" />
           </button>
