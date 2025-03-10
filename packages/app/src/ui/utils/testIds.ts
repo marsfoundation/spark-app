@@ -35,7 +35,15 @@ export const testIds = makeTestIds({
     },
     EModeButton: true,
     EModeBadge: true,
-    SuccessViewContent: true,
+    SuccessView: {
+      content: true,
+      row: (index: number) => index,
+      tokenRow: {
+        token: true,
+        amount: true,
+        amountUSD: true,
+      },
+    },
     AddressInput: {
       input: true,
       error: true,
