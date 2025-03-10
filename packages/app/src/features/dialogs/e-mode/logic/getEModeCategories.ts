@@ -19,7 +19,12 @@ export function getEModeCategories(
     return {
       name: eModeCategoryIdToName[eModeCategoryId],
       tokens: reserves
-        .filter((reserve) => (eModeCategoryId === 0 ? true : eModeCategoryId === reserve.eModeCategory?.id))
+        .filter((reserve) => reserve.status === 'active' || reserve.status === 'paused')
+        .filter((reserve) =>
+          eModeCategoryId === 0
+            ? reserve.eModeCategory?.id === undefined
+            : eModeCategoryId === reserve.eModeCategory?.id,
+        )
         .map((reserve) => reserve.token),
       isActive: currentEModeCategoryId === eModeCategoryId,
       isSelected: selectedEModeCategoryId === eModeCategoryId,
