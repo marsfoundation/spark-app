@@ -3,10 +3,9 @@ import { Token } from '@/domain/types/Token'
 import { ClaimSparkRewardsObjective } from '@/features/actions/flavours/claim-spark-rewards/types'
 import { Objective } from '@/features/actions/logic/types'
 import { useState } from 'react'
-import { useAccount, useChainId } from 'wagmi'
 import { PageState, PageStatus } from '../../common/types'
 import { SparkReward } from '../types'
-import { useActiveRewards } from './useActiveRewards'
+import { useClaimableRewards } from './useClaimableRewards'
 export interface UseClaimSparkRewardsDialogParams {
   tokensToClaim: Token[]
 }
@@ -20,13 +19,10 @@ export interface UseClaimSparkRewardsDialogResult {
 export function useClaimSparkRewardsDialog({
   tokensToClaim,
 }: UseClaimSparkRewardsDialogParams): UseClaimSparkRewardsDialogResult {
-  const chainId = useChainId()
-  const { address: account } = useAccount()
   const [pageStatus, setPageStatus] = useState<PageState>('form')
+  const { data: claimableRewards = [] } = useClaimableRewards()
 
-  const { data: activeRewards = [] } = useActiveRewards({ chainId, account })
-
-  const filteredRewards = activeRewards.filter((reward) =>
+  const filteredRewards = claimableRewards.filter((reward) =>
     tokensToClaim.some((token) => token.address === reward.token.address),
   )
   const objectives: ClaimSparkRewardsObjective[] = filteredRewards.map((reward) => ({

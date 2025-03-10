@@ -57,6 +57,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
         forkChainId,
         userAddress: account.address,
         mintBalances: sandboxConfig.mintBalances,
+        wagmiConfig: configRef.current,
       })
       setNetwork({
         originChainId: sandboxConfig.originChainId,
@@ -96,6 +97,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
         forkChainId,
         userAddress: address,
         mintBalances: sandboxConfig.mintBalances,
+        wagmiConfig: configRef.current,
       })
       setNetwork({
         originChainId: sandboxConfig.originChainId,
@@ -128,7 +130,7 @@ export function useSandboxDialog(mode: SandboxMode): UseSandboxDialogResult {
       await startSandboxAsync()
     } catch (e: any) {
       console.error(e)
-      throw new Error(`Could not enter sandbox mode: ${e.message}`)
+      throw new Error(`Could not enter Sandbox: ${e.message}`)
     }
   }
 

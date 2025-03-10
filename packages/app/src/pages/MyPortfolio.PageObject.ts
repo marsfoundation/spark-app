@@ -112,7 +112,7 @@ export class MyPortfolioPageObject extends BasePageObject {
       this.page.getByRole('heading', { name: 'Connect your wallet to use Spark', exact: true }),
     ).toBeVisible()
     await expect(this.page.getByRole('button', { name: 'Connect wallet', exact: true })).toBeVisible()
-    await expect(this.page.getByRole('button', { name: 'Try in Sandbox Mode', exact: true })).toBeVisible()
+    await expect(this.page.getByRole('button', { name: 'Try in Sandbox', exact: true })).toBeVisible()
   }
 
   async expectDepositTable(assets: Record<string, number>): Promise<void> {

@@ -17,7 +17,7 @@ export function ConnectOrSandboxCTAButtonGroup({
       <Button onClick={action}>{buttonText}</Button>
       <Button onClick={openSandboxModal} variant="secondary">
         <ButtonIcon icon={MagicWand} />
-        Try in Sandbox Mode
+        Try in Sandbox
       </Button>
     </div>
   )

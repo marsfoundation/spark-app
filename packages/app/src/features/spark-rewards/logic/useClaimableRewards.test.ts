@@ -12,7 +12,7 @@ import { times } from 'remeda'
 import { erc20Abi } from 'viem'
 import { mainnet } from 'viem/chains'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { useActiveRewards } from './useActiveRewards'
+import { useClaimableRewards } from './useClaimableRewards'
 
 const account = testAddresses.alice
 const chainId = mainnet.id
@@ -29,21 +29,18 @@ const merkleRoot = Hex.random()
 const chainIdCall = handlers.chainIdCall({ chainId })
 
 const hookRenderer = setupHookRenderer({
-  hook: useActiveRewards,
+  hook: useClaimableRewards,
   account,
   handlers: [chainIdCall],
-  args: {
-    account,
-    chainId,
-  },
+  args: undefined,
 })
 
-describe(useActiveRewards.name, () => {
+describe(useClaimableRewards.name, () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })
 
-  test('fetches active rewards', async () => {
+  test('fetches claimable rewards', async () => {
     const cumulativeAmountNormalized = NormalizedUnitNumber(123.45)
     const pendingAmountNormalized = NormalizedUnitNumber(10.23)
     const preClaimed = NormalizedUnitNumber(98.7654321)
@@ -113,7 +110,10 @@ describe(useActiveRewards.name, () => {
         token: rewardToken,
         amountPending: pendingAmountNormalized,
         amountToClaim: NormalizedUnitNumber(cumulativeAmountNormalized.minus(preClaimed)),
-        openClaimDialog: expect.any(Function),
+        action: expect.any(Function),
+        actionName: 'Claim',
+        isActionEnabled: true,
+        chainId,
       },
     ])
   })

@@ -1,4 +1,3 @@
-import { SupportedChainId } from '@/config/chain/types'
 import { spark2ApiUrl } from '@/config/consts'
 import { checkedAddressSchema, percentageSchema } from '@/domain/common/validation'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -11,8 +10,9 @@ import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
 
 export interface OngoingCampaignsQueryOptionsParams {
-  chainId: number
   wagmiConfig: Config
+  isInSandbox: boolean
+  sandboxChainId: number | undefined
 }
 
 export type OngoingCampaign = {
@@ -46,9 +46,13 @@ export type OngoingCampaign = {
 )
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCampaignsQueryOptionsParams) {
+export function ongoingCampaignsQueryOptions({
+  wagmiConfig,
+  isInSandbox,
+  sandboxChainId,
+}: OngoingCampaignsQueryOptionsParams) {
   return queryOptions<OngoingCampaign[]>({
-    queryKey: ['ongoing-campaigns', chainId],
+    queryKey: ['ongoing-campaigns', isInSandbox],
     queryFn: async () => {
       const response = await fetch(`${spark2ApiUrl}/rewards/campaigns/`)
       if (!response.ok) {
@@ -63,7 +67,7 @@ export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCa
               address,
               abi: erc20Abi,
               functionName: 'symbol',
-              chainId: domainToChainId(campaign.domain),
+              chainId: domainToChainId(campaign.domain, sandboxChainId),
             })
           }
           const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, depositToSavingsTokenSymbols] =
@@ -80,7 +84,7 @@ export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCa
             longDescription: campaign.long_description,
             restrictedCountryCodes: campaign.restricted_country_codes,
             rewardTokenSymbol: TokenSymbol(rewardTokenSymbol),
-            chainId: domainToChainId(campaign.domain),
+            chainId: domainToChainId(campaign.domain, sandboxChainId),
           }
 
           switch (campaign.type) {
@@ -121,7 +125,7 @@ export function ongoingCampaignsQueryOptions({ chainId, wagmiConfig }: OngoingCa
   })
 }
 
-const allowedDomains = ['mainnet', 'arbitrum', 'base', 'gnosis'] as const
+const allowedDomains = ['mainnet', 'arbitrum', 'base', 'gnosis', 'sandbox'] as const
 type Domain = (typeof allowedDomains)[number]
 
 const baseOngoingCampaignSchema = z.object({
@@ -158,7 +162,7 @@ const ongoingCampaignsResponseSchema = z.array(
   ]),
 )
 
-function domainToChainId(domain: Domain): SupportedChainId {
+function domainToChainId(domain: Domain, sandboxChainId: number | undefined): number {
   switch (domain) {
     case 'mainnet':
       return mainnet.id
@@ -168,6 +172,8 @@ function domainToChainId(domain: Domain): SupportedChainId {
       return base.id
     case 'gnosis':
       return gnosis.id
+    case 'sandbox':
+      return sandboxChainId ?? raise('Sandbox chain should be defined when returning sandbox campaigns')
     default:
       raise(`Unsupported domain: ${domain}`)
   }
