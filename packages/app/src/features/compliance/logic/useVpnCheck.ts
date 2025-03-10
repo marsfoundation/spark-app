@@ -1,7 +1,6 @@
+import { apiUrl } from '@/config/consts'
 import { useQuery } from '@tanstack/react-query'
-
 import { z } from 'zod'
-import { ReadHookParams } from './types'
 
 type VpnResponse = z.infer<typeof apiResponseSchema>
 
@@ -12,7 +11,7 @@ const apiResponseSchema = z
   })
   .transform(({ is_vpn, country_code }) => {
     return {
-      countryCode: country_code,
+      countryCode: country_code ?? undefined,
       isConnectedToVpn: is_vpn,
     }
   })
@@ -39,18 +38,11 @@ async function checkVpn(authUrl: string): Promise<VpnResponse> {
   return { countryCode, isConnectedToVpn }
 }
 
-type Props = ReadHookParams<VpnResponse> & { authUrl: string }
-
-export function useVpnCheck({
-  authUrl,
-  refetchInterval = 60000, // default to perform VPN check every 60 seconds
-  ...options
-}: Props): { data: VpnResponse | undefined; error: any | undefined; isLoading: boolean } {
+export function useVpnCheck(): { data: VpnResponse | undefined; error: any | undefined; isLoading: boolean } {
   const { data, error, isLoading } = useQuery({
     queryKey: ['vpn'],
-    queryFn: () => checkVpn(authUrl),
-    refetchInterval,
-    ...options,
+    queryFn: () => checkVpn(apiUrl),
+    refetchInterval: 60 * 1000, // default to perform VPN check every 60 seconds
   })
 
   return { data, error, isLoading: !data && isLoading }

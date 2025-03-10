@@ -13,6 +13,7 @@ export interface OngoingCampaignsQueryOptionsParams {
   wagmiConfig: Config
   isInSandbox: boolean
   sandboxChainId: number | undefined
+  countryCode: string | undefined
 }
 
 export type OngoingCampaign = {
@@ -50,6 +51,7 @@ export function ongoingCampaignsQueryOptions({
   wagmiConfig,
   isInSandbox,
   sandboxChainId,
+  countryCode,
 }: OngoingCampaignsQueryOptionsParams) {
   return queryOptions<OngoingCampaign[]>({
     queryKey: ['ongoing-campaigns', isInSandbox],
@@ -58,7 +60,10 @@ export function ongoingCampaignsQueryOptions({
       if (!response.ok) {
         throw new Error('Error fetching ongoing campaigns')
       }
-      const campaignsData = ongoingCampaignsResponseSchema.parse(await response.json())
+      const unfilteredCampaignsData = ongoingCampaignsResponseSchema.parse(await response.json())
+      const campaignsData = unfilteredCampaignsData.filter((campaign) =>
+        campaign.restricted_country_codes.every((code) => code !== countryCode),
+      )
 
       return Promise.all(
         campaignsData.map(async (campaign) => {

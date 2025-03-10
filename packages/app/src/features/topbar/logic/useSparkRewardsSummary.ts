@@ -1,5 +1,6 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
+import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
@@ -11,9 +12,16 @@ export interface UseSparkRewardsSummaryParams {
 export function useSparkRewardsSummary({ address }: UseSparkRewardsSummaryParams): SparkRewardsSummary {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
+  const { data: vpnCheck } = useVpnCheck()
 
   const { data } = useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account: address, isInSandbox, sandboxChainId }),
+    ...claimableRewardsQueryOptions({
+      wagmiConfig,
+      account: address,
+      isInSandbox,
+      sandboxChainId,
+      countryCode: vpnCheck?.countryCode,
+    }),
     select: (data) => {
       const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
         const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))

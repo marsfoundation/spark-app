@@ -47,7 +47,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     }
 
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    const vpnCheck = useVpnCheck({ authUrl: apiUrl })
+    const vpnCheck = useVpnCheck()
 
     if (vpnCheck.data?.isConnectedToVpn) {
       return { blocked: true, reason: 'vpn-detected' }
@@ -62,7 +62,7 @@ export function useIPAndAddressCheck(): UseIPAndAddressCheck {
     }
 
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    const vpnCheck = useVpnCheck({ authUrl: apiUrl })
+    const vpnCheck = useVpnCheck()
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     const isCurrentPageBlocked = useIsCurrentPageBlocked()
 
