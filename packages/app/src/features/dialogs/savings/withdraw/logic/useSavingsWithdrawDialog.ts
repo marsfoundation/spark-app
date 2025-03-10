@@ -54,7 +54,7 @@ export function useSavingsWithdrawDialog({
     refresh()
   }, [refresh, chainId])
 
-  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: timestamp - 1 }) // 1 second buffer
+  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: timestamp - 1 }) // 1 second buffer to mitigate potential calculation issues
   const chainConfig = getChainConfigEntry(chainId)
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
