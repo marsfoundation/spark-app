@@ -13,7 +13,7 @@ export interface UseUnsupportedChainResult {
 
 export function useUnsupportedChain(): UseUnsupportedChainResult {
   const openDialog = useOpenDialog()
-  const isGuestMode = useAccount().isConnected === false
+  const isGuestMode = useAccount().address === undefined
   const { openConnectModal = () => {} } = useConnectModal()
   const { openChainModal = () => {} } = useChainModal()
   const { switchChain } = useSwitchChain()

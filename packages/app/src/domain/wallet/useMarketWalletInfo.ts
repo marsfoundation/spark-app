@@ -26,7 +26,7 @@ export interface MarketWalletInfo {
 }
 
 export function useMarketWalletInfo({ chainId }: MarketWalletInfoParams): MarketWalletInfo {
-  const { address, isConnected } = useAccount()
+  const { address } = useAccount()
   const wagmiConfig = useConfig()
   const { marketInfo } = useMarketInfo({ chainId })
 
@@ -76,7 +76,7 @@ export function useMarketWalletInfo({ chainId }: MarketWalletInfoParams): Market
 
   return {
     walletBalances,
-    isConnected,
+    isConnected: address !== undefined,
     findWalletBalanceForToken,
     findWalletBalanceForSymbol,
   }
