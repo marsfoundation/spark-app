@@ -108,7 +108,13 @@ async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Pr
 }
 
 export async function overrideRoutes(page: Page): Promise<void> {
-  await page.route(`${import.meta.env.VITE_API_URL}/ip/status`, async (route) => {
+  await page.route('https://api.ipify.org/?format=json', async (route) => {
+    await route.fulfill({
+      status: 200,
+      body: JSON.stringify({ ip: '196.247.180.132' }),
+    })
+  })
+  await page.route(/ip\/status\?ip=196.247.180.132/, async (route) => {
     await route.fulfill({
       status: 200,
       body: JSON.stringify({ is_vpn: false, country_code: 'PL' }),
