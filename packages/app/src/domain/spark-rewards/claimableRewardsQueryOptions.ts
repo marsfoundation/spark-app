@@ -48,7 +48,7 @@ export function claimableRewardsQueryKey({ account }: { account?: Address }): Qu
   return ['claimable-spark-rewards', account]
 }
 
-interface ClaimableRewardData {
+export interface ClaimableRewardData {
   merkleRoot: Hex
   epoch: number
   rewardToken: Token

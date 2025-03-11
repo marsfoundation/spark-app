@@ -2,8 +2,7 @@ import { apiUrl } from '@/config/consts'
 import { queryOptions } from '@tanstack/react-query'
 import { z } from 'zod'
 
-type VpnResponse = z.infer<typeof apiResponseSchema>
-
+export type VpnResponse = z.infer<typeof apiResponseSchema>
 const apiResponseSchema = z
   .object({
     is_vpn: z.boolean(),

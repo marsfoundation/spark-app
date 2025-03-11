@@ -18,29 +18,28 @@ export function useSparkRewardsSummary({
 }: UseSparkRewardsSummaryParams): AccountSparkRewardsSummary {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
-  const { data: vpnCheck } = useVpnCheck()
+  const { data: vpnCheck, isPending: isVpnCheckPending } = useVpnCheck()
+  const { data } = useQuery(ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }))
 
-  const { data } = useQuery({
-    ...ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId, countryCode: vpnCheck?.countryCode }),
-    select: (data) => {
-      const campaigns = data
-        .filter((campaign) => campaign.chainId === chainId)
-        .filter((campaign) => campaign.type === 'savings')
-        .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
+  if (isVpnCheckPending || !data) {
+    return { totalApy: Percentage(0), rewards: [] }
+  }
 
-      const totalApy = campaigns.reduce(
-        (acc, campaign) => Percentage(acc.plus(campaign.apy ?? 0), { allowMoreThan1: true }),
-        Percentage(0),
-      )
+  const campaigns = data
+    .filter((campaign) => !campaign.restrictedCountryCodes.some((code) => code === vpnCheck?.countryCode))
+    .filter((campaign) => campaign.chainId === chainId)
+    .filter((campaign) => campaign.type === 'savings')
+    .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
 
-      const rewards = campaigns.map((campaign) => ({
-        rewardTokenSymbol: campaign.rewardTokenSymbol,
-        longDescription: campaign.longDescription,
-      }))
+  const totalApy = campaigns.reduce(
+    (acc, campaign) => Percentage(acc.plus(campaign.apy ?? 0), { allowMoreThan1: true }),
+    Percentage(0),
+  )
 
-      return { totalApy, rewards }
-    },
-  })
+  const rewards = campaigns.map((campaign) => ({
+    rewardTokenSymbol: campaign.rewardTokenSymbol,
+    longDescription: campaign.longDescription,
+  }))
 
-  return data ?? { totalApy: Percentage(0), rewards: [] }
+  return { totalApy, rewards }
 }
