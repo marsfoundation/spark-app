@@ -1,5 +1,7 @@
 import { SimplifiedQueryResult, transformSimplifiedQueryResult } from '@/domain/common/query'
 import { useClaimableRewardsQuery } from '@/domain/spark-rewards/useClaimableRewardsQuery'
+import { useOpenDialog } from '@/domain/state/dialogs'
+import { claimSparkRewardsDialogConfig } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { pipe, sumBy } from 'remeda'
 import { useChainId } from 'wagmi'
@@ -19,6 +21,7 @@ export interface ClaimableRewardsSummary {
 export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
   const chainId = useChainId()
   const claimableRewardsResult = useClaimableRewardsQuery()
+  const openDialog = useOpenDialog()
 
   return transformSimplifiedQueryResult(claimableRewardsResult, (data) => {
     const claimableRewards = data
@@ -52,13 +55,19 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
       ({ token, amountToClaim }) => amountToClaim.isGreaterThan(0) && token.toUSD(amountToClaim).isEqualTo(0),
     )
 
+    function claimAll(): void {
+      openDialog(claimSparkRewardsDialogConfig, {
+        tokensToClaim: claimableRewards.map(({ token }) => token),
+      })
+    }
+
     return {
       usdSum,
       isClaimEnabled,
       claimableRewardsWithPrice,
       claimableRewardsWithoutPrice,
       chainId,
-      claimAll: () => {},
+      claimAll,
     }
   })
 }
