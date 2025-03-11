@@ -39,9 +39,7 @@ export function useTopbar({ isMobileDisplay }: UseTopbarParams): TopbarProps {
     chainId: currentChainId,
     address: address && CheckedAddress(address),
   })
-  const sparkRewardsSummary = useSparkRewardsSummary({
-    address: address && CheckedAddress(address),
-  })
+  const sparkRewardsSummary = useSparkRewardsSummary()
 
   const airdropInfo = useAirdropInfo({ refreshIntervalInMs: 100 })
   const navigationInfo = useNavigationInfo({ chainId: currentChainId })

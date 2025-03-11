@@ -1,10 +1,7 @@
-import { useSandboxState } from '@/domain/sandbox/useSandboxState'
-import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
+import { transformSimplifiedQueryResult } from '@/domain/common/query'
+import { useOngoingCampaignsQuery } from '@/domain/spark-rewards/useOngoingCampaignsQuery'
 import { Token } from '@/domain/types/Token'
-import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { Percentage } from '@marsfoundation/common-universal'
-import { useQuery } from '@tanstack/react-query'
-import { useConfig } from 'wagmi'
 import { AccountSparkRewardsSummary } from '../types'
 
 export interface UseSparkRewardsSummaryParams {
@@ -16,30 +13,26 @@ export function useSparkRewardsSummary({
   chainId,
   savingsToken,
 }: UseSparkRewardsSummaryParams): AccountSparkRewardsSummary {
-  const wagmiConfig = useConfig()
-  const { isInSandbox, sandboxChainId } = useSandboxState()
-  const { data: vpnCheck, isPending: isVpnCheckPending } = useVpnCheck()
-  const { data } = useQuery(ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }))
+  const ongoingCampaignsResult = useOngoingCampaignsQuery()
 
-  if (isVpnCheckPending || !data) {
-    return { totalApy: Percentage(0), rewards: [] }
-  }
+  const { data } = transformSimplifiedQueryResult(ongoingCampaignsResult, (data) => {
+    const campaigns = data
+      .filter((campaign) => campaign.chainId === chainId)
+      .filter((campaign) => campaign.type === 'savings')
+      .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
 
-  const campaigns = data
-    .filter((campaign) => !campaign.restrictedCountryCodes.some((code) => code === vpnCheck?.countryCode))
-    .filter((campaign) => campaign.chainId === chainId)
-    .filter((campaign) => campaign.type === 'savings')
-    .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
+    const totalApy = campaigns.reduce(
+      (acc, campaign) => Percentage(acc.plus(campaign.apy ?? 0), { allowMoreThan1: true }),
+      Percentage(0),
+    )
 
-  const totalApy = campaigns.reduce(
-    (acc, campaign) => Percentage(acc.plus(campaign.apy ?? 0), { allowMoreThan1: true }),
-    Percentage(0),
-  )
+    const rewards = campaigns.map((campaign) => ({
+      rewardTokenSymbol: campaign.rewardTokenSymbol,
+      longDescription: campaign.longDescription,
+    }))
 
-  const rewards = campaigns.map((campaign) => ({
-    rewardTokenSymbol: campaign.rewardTokenSymbol,
-    longDescription: campaign.longDescription,
-  }))
+    return { totalApy, rewards }
+  })
 
-  return { totalApy, rewards }
+  return data ?? { totalApy: Percentage(0), rewards: [] }
 }

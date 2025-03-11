@@ -1,11 +1,8 @@
-import { useSandboxState } from '@/domain/sandbox/useSandboxState'
-import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
+import { SimplifiedQueryResult, transformSimplifiedQueryResult } from '@/domain/common/query'
+import { useClaimableRewardsQuery } from '@/domain/spark-rewards/useClaimableRewardsQuery'
 import { Token } from '@/domain/types/Token'
-import { vpnCheckQueryOptions } from '@/features/compliance/logic/vpnCheckQueryOptions'
-import { SimplifiedQueryResult } from '@/utils/types'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { useQueries } from '@tanstack/react-query'
-import { useAccount, useChainId, useConfig } from 'wagmi'
+import { useChainId } from 'wagmi'
 
 export type UseClaimableRewardsResult = SimplifiedQueryResult<ClaimableReward[]>
 
@@ -19,48 +16,22 @@ export interface ClaimableReward {
 }
 
 export function useClaimableRewards(): UseClaimableRewardsResult {
-  const wagmiConfig = useConfig()
   const chainId = useChainId()
-  const { address: account } = useAccount()
-  const { isInSandbox, sandboxChainId } = useSandboxState()
+  const claimableRewardsResult = useClaimableRewardsQuery()
 
-  return useQueries({
-    queries: [
-      claimableRewardsQueryOptions({
-        wagmiConfig,
-        account,
-        isInSandbox,
-        sandboxChainId,
+  return transformSimplifiedQueryResult(claimableRewardsResult, (data) =>
+    data
+      .filter((reward) => reward.chainId === chainId)
+      .map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
+        const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
+        return {
+          token: rewardToken,
+          amountToClaim,
+          cumulativeAmount,
+          epoch,
+          merkleRoot,
+          merkleProof,
+        }
       }),
-      vpnCheckQueryOptions(),
-    ],
-    combine: ([rewards, vpnCheck]) => {
-      if (rewards.isPending || vpnCheck.isPending) {
-        return { isPending: true, isError: false, error: null, data: undefined }
-      }
-
-      if (rewards.isError) {
-        return { isPending: false, isError: true, error: rewards.error }
-      }
-
-      const data = rewards.data
-        // In case of vpnCheck error or undefined country code, we are returning all campaigns
-        .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
-        .filter((reward) => reward.chainId === chainId)
-        .map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
-          const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
-
-          return {
-            token: rewardToken,
-            amountToClaim,
-            cumulativeAmount,
-            epoch,
-            merkleRoot,
-            merkleProof,
-          }
-        })
-
-      return { isPending: false, isError: false, error: null, data }
-    },
-  })
+  )
 }

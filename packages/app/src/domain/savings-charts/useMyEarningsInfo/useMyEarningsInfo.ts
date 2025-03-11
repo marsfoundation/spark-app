@@ -1,7 +1,7 @@
 import { MyEarningsQueryOptions } from '@/config/chain/types'
+import { SimplifiedQueryResult } from '@/domain/common/query'
 import { SavingsConverter } from '@/domain/savings-converters/types'
 import { Timeframe } from '@/ui/charts/defaults'
-import { SimplifiedQueryResult } from '@/utils/types'
 import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
