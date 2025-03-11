@@ -61,8 +61,8 @@ export async function setupSparkRewards({
               token_price: rewardTokenPrice?.toFixed() ?? null,
               pending_amount: '0',
               pending_amount_normalized: '0',
-              cumulative_amount: cumulativeAmountBaseUnit.toFixed(),
-              cumulative_amount_normalized: cumulativeAmount,
+              claimable_amount: cumulativeAmountBaseUnit.toFixed(),
+              claimable_amount_normalized: cumulativeAmount,
               proof:
                 proofs.find(({ token }) => token === tokenAddress)?.proof ??
                 raise(`Proof for token ${tokenSymbol} not found`),
