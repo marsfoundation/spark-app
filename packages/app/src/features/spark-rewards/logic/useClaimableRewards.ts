@@ -7,6 +7,7 @@ import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQueries } from '@tanstack/react-query'
 import { useAccount, useChainId, useConfig, useSwitchChain } from 'wagmi'
 import { ClaimableReward } from '../types'
+import { vpnCheckQueryOptions } from '@/features/compliance/logic/vpnCheckQueryOptions'
 
 export type UseClaimableRewardsResult = SimplifiedQueryResult<ClaimableRewardWithAction[]>
 export interface ClaimableRewardWithAction extends ClaimableReward {
@@ -31,10 +32,13 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
         isInSandbox,
         sandboxChainId,
       }),
-      // vpnCheckQueryOptions(),
+      vpnCheckQueryOptions(),
     ],
-    combine: ([rewards]) => {
-      if (rewards.isPending) {
+    combine: ([rewards, vpnCheck]) => {
+      console.log({
+        vpnCheckError: vpnCheck.error,
+      })
+      if (rewards.isPending || vpnCheck.isPending) {
         return { isPending: true, isError: false, error: null, data: undefined }
       }
 
