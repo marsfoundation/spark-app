@@ -24,25 +24,5 @@ export type Serializable<T> = T extends string | boolean | number
         ? Serializable<T[number]>[]
         : never
 
-export type SimplifiedQueryResult<T, E = unknown> =
-  | {
-      isPending: true
-      isError: false
-      error: null
-      data: undefined
-    }
-  | {
-      isPending: false
-      isError: false
-      error: null
-      data: T
-    }
-  | {
-      isPending: false
-      isError: true
-      error: E
-      data: T | undefined
-    }
-
 type RequiredKeys<T> = { [K in keyof T]: T[K] extends null | undefined ? never : K }[keyof T]
 export type RequiredProps<T> = { [K in RequiredKeys<T>]: Exclude<T[K], null | undefined> }

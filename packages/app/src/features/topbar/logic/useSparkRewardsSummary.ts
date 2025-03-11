@@ -1,29 +1,20 @@
-import { useSandboxState } from '@/domain/sandbox/useSandboxState'
-import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
-import { CheckedAddress, NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { useQuery } from '@tanstack/react-query'
-import { useConfig } from 'wagmi'
+import { transformSimplifiedQueryResult } from '@/domain/common/query'
+import { useClaimableRewardsQuery } from '@/domain/spark-rewards/useClaimableRewardsQuery'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { SparkRewardsSummary } from '../types'
-export interface UseSparkRewardsSummaryParams {
-  address: CheckedAddress | undefined
-}
 
-export function useSparkRewardsSummary({ address }: UseSparkRewardsSummaryParams): SparkRewardsSummary {
-  const wagmiConfig = useConfig()
-  const { isInSandbox, sandboxChainId } = useSandboxState()
+export function useSparkRewardsSummary(): SparkRewardsSummary {
+  const claimableRewardsResult = useClaimableRewardsQuery()
 
-  const { data } = useQuery({
-    ...claimableRewardsQueryOptions({ wagmiConfig, account: address, isInSandbox, sandboxChainId }),
-    select: (data) => {
-      const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
-        const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
-        return NormalizedUnitNumber(acc.plus(rewardToken.toUSD(amountToClaim)))
-      }, NormalizedUnitNumber(0))
+  const { data } = transformSimplifiedQueryResult(claimableRewardsResult, (data) => {
+    const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
+      const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
+      return NormalizedUnitNumber(acc.plus(rewardToken.toUSD(amountToClaim)))
+    }, NormalizedUnitNumber(0))
 
-      return {
-        totalUsdAmount,
-      }
-    },
+    return {
+      totalUsdAmount,
+    }
   })
 
   return data ?? {}

@@ -1,4 +1,4 @@
-import { SimplifiedQueryResult } from '@/utils/types'
+import { SimplifiedQueryResult } from '@/domain/common/query'
 import { useQuery } from '@tanstack/react-query'
 import { GeneralStatsQueryResult, generalStatsQueryOptions } from './generalStatsQueryOptions'
 
