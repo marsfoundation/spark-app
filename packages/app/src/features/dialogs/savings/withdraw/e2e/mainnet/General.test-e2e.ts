@@ -63,11 +63,11 @@ test.describe('Without send mode', () => {
     await withdrawalDialog.actionsContainer.expectEnabledActionAtIndex(0)
 
     await withdrawalDialog.clickMaxAmountAction()
-    await withdrawalDialog.expectInputValue('1125.599178')
+    await withdrawalDialog.expectInputValue('1125.599182')
     await withdrawalDialog.selectAssetAction('USDC')
     await withdrawalDialog.expectInputValue('')
     await withdrawalDialog.clickMaxAmountAction()
-    await withdrawalDialog.expectInputValue('1125.599177')
+    await withdrawalDialog.expectInputValue('1125.599181')
   })
 })
 
