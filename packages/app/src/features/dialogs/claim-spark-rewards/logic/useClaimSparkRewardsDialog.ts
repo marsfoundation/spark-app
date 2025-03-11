@@ -41,7 +41,7 @@ export function useClaimSparkRewardsDialog({
       token: reward.token,
       amountToClaim: reward.amountToClaim,
     })),
-    pageStatus === 'success',
+    claimableRewards.length > 0 || pageStatus === 'success',
   )
 
   return {
