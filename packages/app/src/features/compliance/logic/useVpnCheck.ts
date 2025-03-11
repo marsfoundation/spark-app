@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { vpnCheckQueryOptions } from './vpnCheckQueryOptions'
+import { UseQueryResult, useQuery } from '@tanstack/react-query'
+import { VpnResponse, vpnCheckQueryOptions } from './vpnCheckQueryOptions'
 
-export function useVpnCheck() {
+export function useVpnCheck(): UseQueryResult<VpnResponse> {
   return useQuery(vpnCheckQueryOptions())
 }

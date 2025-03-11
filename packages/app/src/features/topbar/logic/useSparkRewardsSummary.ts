@@ -12,27 +12,29 @@ export interface UseSparkRewardsSummaryParams {
 export function useSparkRewardsSummary({ address }: UseSparkRewardsSummaryParams): SparkRewardsSummary {
   const wagmiConfig = useConfig()
   const { isInSandbox, sandboxChainId } = useSandboxState()
-  const { data: vpnCheck } = useVpnCheck()
+  const { data: vpnCheck, isPending: isVpnCheckPending } = useVpnCheck()
 
-  const { data } = useQuery({
-    ...claimableRewardsQueryOptions({
+  const { data: claimableRewards } = useQuery(
+    claimableRewardsQueryOptions({
       wagmiConfig,
       account: address,
       isInSandbox,
       sandboxChainId,
-      countryCode: vpnCheck?.countryCode,
     }),
-    select: (data) => {
-      const totalUsdAmount = data.reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
-        const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
-        return NormalizedUnitNumber(acc.plus(rewardToken.toUSD(amountToClaim)))
-      }, NormalizedUnitNumber(0))
+  )
 
-      return {
-        totalUsdAmount,
-      }
-    },
-  })
+  if (isVpnCheckPending || !claimableRewards) {
+    return {}
+  }
 
-  return data ?? {}
+  const totalUsdAmount = claimableRewards
+    .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck?.countryCode))
+    .reduce((acc, { rewardToken, cumulativeAmount, preClaimed }) => {
+      const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))
+      return NormalizedUnitNumber(acc.plus(rewardToken.toUSD(amountToClaim)))
+    }, NormalizedUnitNumber(0))
+
+  return {
+    totalUsdAmount,
+  }
 }

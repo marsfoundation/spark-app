@@ -2,7 +2,6 @@ import { Reserve } from '@/domain/market-info/marketInfo'
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { assignMarketSparkRewards } from '@/domain/spark-rewards/assignMarketSparkRewards'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
-import { filterOngoingCampaigns } from '@/domain/spark-rewards/utils'
 import { useVpnCheck } from '@/features/compliance/logic/useVpnCheck'
 import { CheckedAddress } from '@marsfoundation/common-universal'
 import { useQuery } from '@tanstack/react-query'
@@ -29,11 +28,9 @@ export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsB
     return {}
   }
 
-  const campaigns = filterOngoingCampaigns({
-    campaigns: data,
-    chainId,
-    countryCode: vpnCheck?.countryCode,
-  })
+  const campaigns = data
+    .filter((campaign) => campaign.chainId === chainId)
+    .filter((campaign) => !campaign.restrictedCountryCodes.some((code) => code === vpnCheck?.countryCode))
 
   return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
     acc[reserve.token.address] = {
