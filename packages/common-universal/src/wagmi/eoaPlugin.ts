@@ -1,5 +1,5 @@
-import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Plugin } from '@wagmi/cli'
+import { CheckedAddress } from '../types/CheckedAddress.js'
 
 type Addresses = Record<number, CheckedAddress>
 
