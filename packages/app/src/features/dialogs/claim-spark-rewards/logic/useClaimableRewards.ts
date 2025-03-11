@@ -1,7 +1,6 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { Token } from '@/domain/types/Token'
-import { vpnCheckQueryOptions } from '@/features/compliance/logic/vpnCheckQueryOptions'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { useQueries } from '@tanstack/react-query'
@@ -32,10 +31,10 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
         isInSandbox,
         sandboxChainId,
       }),
-      vpnCheckQueryOptions(),
+      // vpnCheckQueryOptions(),
     ],
-    combine: ([rewards, vpnCheck]) => {
-      if (rewards.isPending || vpnCheck.isPending) {
+    combine: ([rewards]) => {
+      if (rewards.isPending) {
         return { isPending: true, isError: false, error: null, data: undefined }
       }
 
@@ -45,7 +44,7 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
 
       const data = rewards.data
         // In case of vpnCheck error or undefined country code, we are returning all campaigns
-        .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
+        // .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
         .filter((reward) => reward.chainId === chainId)
         .map(({ rewardToken, cumulativeAmount, epoch, preClaimed, merkleRoot, merkleProof }) => {
           const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))

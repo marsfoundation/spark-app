@@ -1,7 +1,6 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { claimableRewardsQueryOptions } from '@/domain/spark-rewards/claimableRewardsQueryOptions'
 import { useOpenDialog } from '@/domain/state/dialogs'
-import { vpnCheckQueryOptions } from '@/features/compliance/logic/vpnCheckQueryOptions'
 import { claimSparkRewardsDialogConfig } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
@@ -32,10 +31,10 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
         isInSandbox,
         sandboxChainId,
       }),
-      vpnCheckQueryOptions(),
+      // vpnCheckQueryOptions(),
     ],
-    combine: ([rewards, vpnCheck]) => {
-      if (rewards.isPending || vpnCheck.isPending) {
+    combine: ([rewards]) => {
+      if (rewards.isPending) {
         return { isPending: true, isError: false, error: null, data: undefined }
       }
 
@@ -44,7 +43,7 @@ export function useClaimableRewards(): UseClaimableRewardsResult {
       }
 
       const data = rewards.data
-        .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
+        // .filter((reward) => !reward.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
         .map(({ rewardToken, cumulativeAmount, pendingAmount, preClaimed, chainId }) => {
           const isConnectedChainReward = chainId === connectedChainId
           const amountToClaim = NormalizedUnitNumber(cumulativeAmount.minus(preClaimed))

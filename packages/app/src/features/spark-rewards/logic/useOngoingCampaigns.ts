@@ -1,6 +1,5 @@
 import { useSandboxState } from '@/domain/sandbox/useSandboxState'
 import { ongoingCampaignsQueryOptions } from '@/domain/spark-rewards/ongoingCampaignsQueryOptions'
-import { vpnCheckQueryOptions } from '@/features/compliance/logic/vpnCheckQueryOptions'
 import { SimplifiedQueryResult } from '@/utils/types'
 import { useQueries } from '@tanstack/react-query'
 import { useConfig } from 'wagmi'
@@ -13,9 +12,9 @@ export function useOngoingCampaigns(): UseOngoingCampaignsResult {
   const { isInSandbox, sandboxChainId } = useSandboxState()
 
   return useQueries({
-    queries: [ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }), vpnCheckQueryOptions()],
-    combine: ([campaigns, vpnCheck]) => {
-      if (campaigns.isPending || vpnCheck.isPending) {
+    queries: [ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId })],
+    combine: ([campaigns]) => {
+      if (campaigns.isPending) {
         return { isPending: true, isError: false, error: null, data: undefined }
       }
 
@@ -24,7 +23,7 @@ export function useOngoingCampaigns(): UseOngoingCampaignsResult {
       }
 
       const data = campaigns.data
-        .filter((campaign) => !campaign.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
+        // .filter((campaign) => !campaign.restrictedCountryCodes.some((code) => code === vpnCheck.data?.countryCode))
         .map((campaign) => ({
           ...campaign,
           involvedTokensSymbols:
