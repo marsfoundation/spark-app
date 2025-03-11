@@ -57,7 +57,7 @@ describe(useClaimableRewards.name, () => {
                 wallet_address: account,
                 token_address: rewardToken.address,
                 pending_amount_normalized: pendingAmountNormalized.toFixed(),
-                cumulative_amount_normalized: cumulativeAmountNormalized.toFixed(),
+                claimable_amount_normalized: cumulativeAmountNormalized.toFixed(),
                 proof: times(5, () => Hex.random()),
                 restricted_country_codes: ['US'],
               },
