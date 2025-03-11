@@ -109,6 +109,10 @@ export const mainnetConfig: ChainConfigEntry = {
       deposit: [],
       borrow: [TokenSymbol('SPK')],
     },
+    [TokenSymbol('USDS')]: {
+      deposit: [],
+      borrow: [TokenSymbol('SPK')],
+    },
   },
   markets: {
     defaultAssetToBorrow: {
