@@ -50,11 +50,9 @@ export function useContractAction({ action, context, enabled }: UseContractActio
     enabled,
   })
 
-  const { simulationBlockTag, ...writeArgs } = getWriteConfig(initialParams)
   const write = useWrite(
     {
-      ...writeArgs,
-      blockTag: simulationBlockTag,
+      ...getWriteConfig(initialParams),
       enabled,
     },
     {

@@ -2,7 +2,7 @@ import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useConditionalFreeze } from '@/domain/hooks/useConditionalFreeze'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
-import { useNodeTimestamp } from '@/domain/time/useNodeTimestamp'
+import { useSavingsTimestamps } from '@/domain/savings/useSavingsTimestamps'
 import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
@@ -47,14 +47,16 @@ export function useSavingsWithdrawDialog({
   savingsToken,
 }: UseSavingsWithdrawDialogParams): UseSavingsWithdrawDialogResults {
   const chainId = useChainId()
-  const { timestamp, refresh, isFetching } = useNodeTimestamp({ chainId })
+  const { uiTimestamp, simulationTimestamp, refresh, isFetching } = useSavingsTimestamps({ chainId })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     refresh()
   }, [refresh, chainId])
 
-  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: timestamp - 1 }) // 1 second buffer to mitigate potential calculation issues
+  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: uiTimestamp })
+  const simulationSavingsAccounts = useSavingsAccountRepository({ chainId, timestamp: simulationTimestamp })
+
   const chainConfig = getChainConfigEntry(chainId)
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'savings' })
   const selectedAccountConfig =
@@ -139,7 +141,7 @@ export function useSavingsWithdrawDialog({
     txOverview,
     actionsContext: {
       tokenRepository,
-      savingsAccounts,
+      savingsAccounts: simulationSavingsAccounts,
     },
     sendModeExtension,
     underlyingToken: selectedAccount.underlyingToken,

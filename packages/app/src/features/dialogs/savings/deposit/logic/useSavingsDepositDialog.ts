@@ -1,7 +1,7 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
-import { useNodeTimestamp } from '@/domain/time/useNodeTimestamp'
+import { useSavingsTimestamps } from '@/domain/savings/useSavingsTimestamps'
 import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
 import { Token } from '@/domain/types/Token'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
@@ -42,7 +42,7 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const chainId = useChainId()
-  const { timestamp, refresh, isFetching } = useNodeTimestamp({ chainId })
+  const { uiTimestamp, simulationTimestamp, refresh, isFetching } = useSavingsTimestamps({ chainId })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -57,7 +57,9 @@ export function useSavingsDepositDialog({
   const supportedStablecoins = selectedAccountConfig.supportedStablecoins.map((symbol) =>
     tokenRepository.findOneTokenWithBalanceBySymbol(symbol),
   )
-  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: timestamp - 1 }) // 1 second buffer to mitigate potential calculation issues
+  const savingsAccounts = useSavingsAccountRepository({ chainId, timestamp: uiTimestamp })
+  const simulationSavingsAccounts = useSavingsAccountRepository({ chainId, timestamp: simulationTimestamp })
+
   const savingsAccount = savingsAccounts.findOneBySavingsToken(savingsToken)
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
@@ -120,7 +122,7 @@ export function useSavingsDepositDialog({
     },
     actionsContext: {
       tokenRepository,
-      savingsAccounts,
+      savingsAccounts: simulationSavingsAccounts,
     },
   }
 }
