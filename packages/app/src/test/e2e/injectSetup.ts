@@ -106,3 +106,12 @@ async function isSudcDeployed(testnetClient: TestnetClient, chainId: number): Pr
   const susdcBytecode = await testnetClient.getCode({ address: susdcAddress })
   return susdcBytecode !== undefined && susdcBytecode.length > 2
 }
+
+export async function overrideRoutes(page: Page): Promise<void> {
+  await page.route(`${import.meta.env.VITE_API_URL}/ip/status`, async (route) => {
+    await route.fulfill({
+      status: 200,
+      body: JSON.stringify({ is_vpn: false, country_code: 'PL' }),
+    })
+  })
+}
