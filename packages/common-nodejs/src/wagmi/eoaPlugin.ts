@@ -1,5 +1,5 @@
+import { CheckedAddress } from '@marsfoundation/common-universal'
 import { Plugin } from '@wagmi/cli'
-import { CheckedAddress } from '../types/CheckedAddress.js'
 
 type Addresses = Record<number, CheckedAddress>
 
@@ -11,11 +11,14 @@ export function eoa(input: Record<string, Addresses>): Plugin {
         if (!isValidVariableName(name)) {
           throw new Error(`Invalid name: ${name}`)
         }
-        const parts = Object.entries(addresses).map(([chain, address]) => `  ${chain}: "${address.toString()}",`)
+        const parts = Object.entries(addresses).map(
+          ([chain, address]) => `  ${chain}: CheckedAddress('${address.toString()}'),`,
+        )
         return [`export const ${name}Address = {`, ...parts, '} as const'].join('\n')
       })
       return {
         content: result.join('\n'),
+        imports: "import { CheckedAddress } from '@marsfoundation/common-universal'\n",
       }
     },
   }
