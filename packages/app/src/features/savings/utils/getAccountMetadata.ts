@@ -44,5 +44,8 @@ function getDocsLink({ underlyingToken, chainId }: GetAccountMetadataArgs): stri
   if (underlyingToken === TokenSymbol('DAI')) {
     return links.docs.savings.sdai
   }
+  if (underlyingToken === TokenSymbol('USDC')) {
+    return links.docs.savings.susdc
+  }
   return links.docs.savings.susds
 }
