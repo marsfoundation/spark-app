@@ -1,34 +1,26 @@
 import { paths } from '@/config/paths'
 import { usePageChainId } from '@/domain/hooks/usePageChainId'
+import { IconButton } from '@/ui/atoms/icon-button/IconButton'
 import { cn } from '@/ui/utils/style'
 import { XIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { arbitrum } from 'viem/chains'
-import { useChainId, useSwitchChain } from 'wagmi'
-import { IconButton } from '../icon-button/IconButton'
 
-interface ArbitrumSavingsTopBannerProps {
+interface UsdcSavingsTopBannerProps {
   onClose: () => void
   className?: string
 }
 
-export const ARBITRUM_SAVINGS_TOP_BANNER_ID = 'savings-on-arbitrum-top-banner'
+export const USDC_SAVINGS_TOP_BANNER_ID = 'usdc-savings-top-banner'
 
-export function ArbitrumSavingsTopBanner({ onClose, className }: ArbitrumSavingsTopBannerProps) {
+export function UsdcSavingsTopBanner({ onClose, className }: UsdcSavingsTopBannerProps) {
   const { activePathGroup } = usePageChainId()
-  const chainId = useChainId()
-  const { switchChain } = useSwitchChain()
   const navigate = useNavigate()
   function onBannerClick() {
-    if (chainId !== arbitrum.id) {
-      switchChain({ chainId: arbitrum.id })
-    }
-
     if (activePathGroup !== 'savings') {
       navigate(paths.savings)
     }
   }
-  const clickable = activePathGroup !== 'savings' || chainId !== arbitrum.id
+  const clickable = activePathGroup !== 'savings'
 
   return (
     <div
@@ -42,8 +34,8 @@ export function ArbitrumSavingsTopBanner({ onClose, className }: ArbitrumSavings
       onClick={clickable ? onBannerClick : undefined}
     >
       <div className="typography-body-3 flex max-w-[80%] items-center text-primary-inverse">
-        Now supporting Arbitrum! <br className="sm:hidden" /> Enjoy fast and cost-efficient transactions on the Savings
-        Page.
+        Welcome USDC Savings! <br className="sm:hidden" /> The easiest way to earn interest on USDC. Start saving
+        effortlessly today!
       </div>
 
       <IconButton
