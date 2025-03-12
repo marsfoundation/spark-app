@@ -6,6 +6,7 @@ import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { sort } from 'd3-array'
 import { mainnet } from 'wagmi/chains'
 import { z } from 'zod'
+import { MyEarningsResult } from './types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function myEarningsQueryOptions(wallet: CheckedAddress) {
@@ -46,8 +47,6 @@ const myEarningsDataResponseSchema = z
   })
 
 type MyEarningsDataResponseSchema = z.infer<typeof myEarningsDataResponseSchema>
-
-export type MyEarningsResult = { date: Date; balance: NormalizedUnitNumber }[]
 
 function sdaiSelectQuery(data: MyEarningsDataResponseSchema): MyEarningsResult {
   return data.map(({ date, sdaiBalance }) => ({ date, balance: sdaiBalance ?? NormalizedUnitNumber(0) }))

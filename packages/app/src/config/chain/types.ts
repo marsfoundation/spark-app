@@ -1,5 +1,5 @@
 import { OracleInfoFetcherParams, OracleInfoFetcherResult } from '@/domain/oracles/oracleInfoFetchers'
-import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/mainnet'
+import { MyEarningsResult } from '@/domain/savings-charts/my-earnings-query/types'
 import { SavingsRateQueryResult } from '@/domain/savings-charts/savings-rate-query/query'
 import { SavingsRateChartData } from '@/domain/savings-charts/savings-rate-query/types'
 import { SavingsConverterQueryOptions, SavingsConverterQueryParams } from '@/domain/savings-converters/types'
