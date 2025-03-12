@@ -10,7 +10,7 @@ export interface TestTokenWithValue {
 
 export function expectAssets(summary: string, assets: TestTokenWithValue[]): void {
   for (const asset of assets) {
-    expect(summary).toMatch(`${asset.asset}${asset.amount} ${asset.usdValue}`)
+    expect(summary).toMatch(`${asset.asset}${asset.amount}${asset.usdValue}`)
   }
 }
 

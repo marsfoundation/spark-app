@@ -27,7 +27,12 @@ export class ClaimRewardsDialogPageObject extends DialogPageObject {
 
   async expectClaimRewardsSuccessPage(rows: Reward[]): Promise<void> {
     await expect(this.page.getByRole('heading', { name: 'Congrats, all done!' })).toBeVisible()
-    await this.expectRewards(rows, this.page.getByTestId(testIds.dialog.success))
+    for (const [index, row] of rows.entries()) {
+      const rowLocator = this.page.getByTestId(testIds.component.SuccessView.row(index))
+      await expect(rowLocator.getByTestId(testIds.component.SuccessView.tokenRow.token)).toHaveText(row.tokenSymbol)
+      await expect(rowLocator.getByTestId(testIds.component.SuccessView.tokenRow.amount)).toHaveText(row.amount)
+      await expect(rowLocator.getByTestId(testIds.component.SuccessView.tokenRow.amountUSD)).toHaveText(row.amountUSD)
+    }
   }
   // #endregion assertions
 }

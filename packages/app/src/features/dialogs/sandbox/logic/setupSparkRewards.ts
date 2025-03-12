@@ -22,19 +22,31 @@ type MockedRewardConfig = {
   rewardTokenSymbol: keyof (typeof TOKENS_ON_FORK)[typeof mainnet.id]
   cumulativeAmount: NormalizedUnitNumber
   rewardTokenPrice?: NormalizedUnitNumber
+  restrictedCountryCodes: string[]
 }
 
 const REWARDS_CONFIG: MockedRewardConfig[] = [
-  { rewardTokenSymbol: 'USDC', cumulativeAmount: NormalizedUnitNumber(152), rewardTokenPrice: NormalizedUnitNumber(1) },
+  {
+    rewardTokenSymbol: 'USDC',
+    cumulativeAmount: NormalizedUnitNumber(152),
+    rewardTokenPrice: NormalizedUnitNumber(1),
+    restrictedCountryCodes: [],
+  },
   {
     rewardTokenSymbol: 'wstETH',
     cumulativeAmount: NormalizedUnitNumber(0.0178),
     rewardTokenPrice: NormalizedUnitNumber(2893.09),
+    restrictedCountryCodes: ['US'],
   },
 ]
 
 const MAINNET_REWARDS_CONFIG: MockedRewardConfig[] = [
-  { rewardTokenSymbol: 'USDS', cumulativeAmount: NormalizedUnitNumber(83), rewardTokenPrice: NormalizedUnitNumber(1) },
+  {
+    rewardTokenSymbol: 'USDS',
+    cumulativeAmount: NormalizedUnitNumber(83),
+    rewardTokenPrice: NormalizedUnitNumber(1),
+    restrictedCountryCodes: [],
+  },
 ]
 
 const CAMPAIGNS_CONFIG = [
@@ -48,7 +60,7 @@ const CAMPAIGNS_CONFIG = [
     reward_token_address: '0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0',
     deposit_token_addresses: ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
     borrow_token_addresses: [],
-    restricted_country_codes: [],
+    restricted_country_codes: ['US'],
   },
   {
     campaign_uid: randomHexId(),
@@ -97,8 +109,9 @@ export async function setupSparkRewards({
     cumulativeAmount: NormalizedUnitNumber
     cumulativeAmountBaseUnit: BaseUnitNumber
     rewardTokenPrice?: NormalizedUnitNumber
+    restrictedCountryCodes: string[]
   }[] {
-    return config.map(({ rewardTokenSymbol, rewardTokenPrice, cumulativeAmount }) => {
+    return config.map(({ rewardTokenSymbol, rewardTokenPrice, cumulativeAmount, restrictedCountryCodes }) => {
       const tokenConfig = TOKENS_ON_FORK[mainnet.id][rewardTokenSymbol]
 
       return {
@@ -107,6 +120,7 @@ export async function setupSparkRewards({
         cumulativeAmount,
         cumulativeAmountBaseUnit: NormalizedUnitNumber.toBaseUnit(cumulativeAmount, tokenConfig.decimals),
         rewardTokenPrice,
+        restrictedCountryCodes,
       }
     })
   }
@@ -133,38 +147,49 @@ export async function setupSparkRewards({
   const worker = setupWorker(
     http.get(`${spark2ApiUrl}/rewards/roots/${merkleRoot}/${account}/`, async () => {
       return HttpResponse.json(
-        rewards.map(({ tokenAddress, tokenSymbol, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
-          root_hash: merkleRoot,
-          epoch: 1,
-          wallet_address: account,
-          token_address: tokenAddress,
-          token_price: rewardTokenPrice?.toFixed() ?? null,
-          pending_amount: '0',
-          pending_amount_normalized: '0',
-          claimable_amount: cumulativeAmountBaseUnit.toFixed(),
-          claimable_amount_normalized: cumulativeAmount.toFixed(),
-          proof:
-            proofs.find(({ token }) => token === tokenAddress)?.proof ??
-            raise(`Proof for token ${tokenSymbol} not found`),
-          restricted_country_codes: [],
-        })),
+        rewards.map(
+          ({
+            tokenAddress,
+            tokenSymbol,
+            rewardTokenPrice,
+            cumulativeAmount,
+            cumulativeAmountBaseUnit,
+            restrictedCountryCodes,
+          }) => ({
+            root_hash: merkleRoot,
+            epoch: 1,
+            wallet_address: account,
+            token_address: tokenAddress,
+            token_price: rewardTokenPrice?.toFixed() ?? null,
+            pending_amount: '0',
+            pending_amount_normalized: '0',
+            claimable_amount: cumulativeAmountBaseUnit.toFixed(),
+            claimable_amount_normalized: cumulativeAmount.toFixed(),
+            proof:
+              proofs.find(({ token }) => token === tokenAddress)?.proof ??
+              raise(`Proof for token ${tokenSymbol} not found`),
+            restricted_country_codes: restrictedCountryCodes,
+          }),
+        ),
       )
     }),
     http.get(`${spark2ApiUrl}/rewards/roots/${mainnetMerkleRoot}/${account}/`, async () => {
       return HttpResponse.json(
-        mainnetRewards.map(({ tokenAddress, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit }) => ({
-          root_hash: mainnetMerkleRoot,
-          epoch: 1,
-          wallet_address: account,
-          token_address: tokenAddress,
-          token_price: rewardTokenPrice?.toFixed() ?? null,
-          pending_amount: '0',
-          pending_amount_normalized: '0',
-          claimable_amount: cumulativeAmountBaseUnit.toFixed(),
-          claimable_amount_normalized: cumulativeAmount.toFixed(),
-          proof: [Hex.random()],
-          restricted_country_codes: [],
-        })),
+        mainnetRewards.map(
+          ({ tokenAddress, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit, restrictedCountryCodes }) => ({
+            root_hash: mainnetMerkleRoot,
+            epoch: 1,
+            wallet_address: account,
+            token_address: tokenAddress,
+            token_price: rewardTokenPrice?.toFixed() ?? null,
+            pending_amount: '0',
+            pending_amount_normalized: '0',
+            claimable_amount: cumulativeAmountBaseUnit.toFixed(),
+            claimable_amount_normalized: cumulativeAmount.toFixed(),
+            proof: [Hex.random()],
+            restricted_country_codes: restrictedCountryCodes,
+          }),
+        ),
       )
     }),
     http.get(`${spark2ApiUrl}/rewards/campaigns/`, async () => {

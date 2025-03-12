@@ -1,7 +1,7 @@
 import { SavingsRateQueryOptions } from '@/config/chain/types'
+import { SimplifiedQueryResult } from '@/domain/common/query'
 import { Timeframe } from '@/ui/charts/defaults'
 import { filterDataByTimeframe } from '@/ui/charts/utils'
-import { SimplifiedQueryResult } from '@/utils/types'
 import { skipToken, useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { SavingsRateChartData } from '../savings-rate-query/types'

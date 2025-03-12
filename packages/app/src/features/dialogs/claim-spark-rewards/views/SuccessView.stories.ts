@@ -4,7 +4,8 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { SuccessView } from './SuccessView'
+import { mainnet } from 'viem/chains'
+import { SuccessView, SuccessViewProps } from './SuccessView'
 
 const meta: Meta<typeof SuccessView> = {
   title: 'Features/Dialogs/Views/ClaimSparkRewards/Success',
@@ -21,7 +22,9 @@ const meta: Meta<typeof SuccessView> = {
         amountToClaim: NormalizedUnitNumber(0.0003498),
       },
     ],
-  },
+    chainId: mainnet.id,
+    onClose: () => {},
+  } satisfies SuccessViewProps,
 }
 
 export default meta

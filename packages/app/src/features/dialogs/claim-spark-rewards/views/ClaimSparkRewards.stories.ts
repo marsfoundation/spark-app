@@ -7,7 +7,8 @@ import { encodeFunctionResult, zeroAddress } from 'viem'
 import { Hex, NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { incentiveControllerAbi } from '@/config/abis/incentiveControllerAbi'
-import { ClaimSparkRewardsView } from './ClaimSparkRewardsView'
+import { mainnet } from 'viem/chains'
+import { ClaimSparkRewardsView, ClaimSparkRewardsViewProps } from './ClaimSparkRewardsView'
 
 const meta: Meta<typeof ClaimSparkRewardsView> = {
   title: 'Features/Dialogs/Views/ClaimSparkRewards',
@@ -26,12 +27,21 @@ const meta: Meta<typeof ClaimSparkRewardsView> = {
     WithClassname('max-w-xl'),
   ],
   args: {
+    chainId: mainnet.id,
     objectives: [
       {
         type: 'claimSparkRewards',
         token: tokens.RED,
         epoch: 1,
         cumulativeAmount: NormalizedUnitNumber(1000),
+        merkleRoot: Hex.random(),
+        merkleProof: Array.from({ length: 7 }, () => Hex.random()),
+      },
+      {
+        type: 'claimSparkRewards',
+        token: tokens.USDS,
+        epoch: 1,
+        cumulativeAmount: NormalizedUnitNumber(250),
         merkleRoot: Hex.random(),
         merkleProof: Array.from({ length: 7 }, () => Hex.random()),
       },
@@ -51,7 +61,7 @@ const meta: Meta<typeof ClaimSparkRewardsView> = {
         amountToClaim: NormalizedUnitNumber(1000),
       },
     ],
-  },
+  } satisfies ClaimSparkRewardsViewProps,
 }
 
 export default meta

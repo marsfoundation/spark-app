@@ -43,7 +43,7 @@ export class DialogPageObject extends BasePageObject {
   }
 
   async viewInMyPortfolioAction(): Promise<void> {
-    const successViewContent = this.page.getByTestId(testIds.component.SuccessViewContent)
+    const successViewContent = this.page.getByTestId(testIds.component.SuccessView.content)
     await successViewContent.getByRole('button', { name: 'View in portfolio' }).click()
     await successViewContent.waitFor({
       state: 'detached',
