@@ -6,8 +6,8 @@ import { CheckedAddress } from '../types/CheckedAddress.js'
 import { eoa } from './eoaPlugin.js'
 
 describe(eoa.name, () => {
-  const firstAddress = CheckedAddress('0x0000000000000000000000000000000000000001')
-  const secondAddress = CheckedAddress('0x0000000000000000000000000000000000000002')
+  const firstAddress = CheckedAddress.random()
+  const secondAddress = CheckedAddress.random()
 
   it('returns record with single address', async () => {
     const plugin = eoa({
@@ -17,11 +17,7 @@ describe(eoa.name, () => {
     })
 
     const result = await plugin.run?.(testRunConfig)
-    const lines = [
-      'export const someEoaAddress = {',
-      '  1: "0x0000000000000000000000000000000000000000",',
-      '} as const',
-    ].join('\n')
+    const lines = ['export const someEoaAddress = {', `  1: "${zeroAddress}",`, '} as const'].join('\n')
     expect(result?.content).toEqual(lines)
   })
 
@@ -40,12 +36,12 @@ describe(eoa.name, () => {
     const result = await plugin.run?.(testRunConfig)
     const lines = [
       'export const firstEoaAddress = {',
-      '  1: "0x0000000000000000000000000000000000000000",',
-      '  8453: "0x0000000000000000000000000000000000000001",',
+      `  1: "${zeroAddress}",`,
+      `  8453: "${firstAddress}",`,
       '} as const',
       'export const secondEoaAddress = {',
-      '  1: "0x0000000000000000000000000000000000000001",',
-      '  8453: "0x0000000000000000000000000000000000000002",',
+      `  1: "${firstAddress}",`,
+      `  8453: "${secondAddress}",`,
       '} as const',
     ].join('\n')
     expect(result?.content).toEqual(lines)
