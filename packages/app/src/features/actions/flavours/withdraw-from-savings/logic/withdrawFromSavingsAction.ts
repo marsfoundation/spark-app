@@ -141,7 +141,6 @@ export function createWithdrawFromSavingsActionConfig(
                 receiver,
                 SPARK_UI_REFERRAL_CODE_BIGINT,
               ],
-              simulationBlockTag: 'pending',
             })
           }
 
@@ -166,7 +165,6 @@ export function createWithdrawFromSavingsActionConfig(
               receiver,
               SPARK_UI_REFERRAL_CODE_BIGINT,
             ],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -177,15 +175,11 @@ export function createWithdrawFromSavingsActionConfig(
             // @note: Assumes no psm fees
             const minAssetsOut = action.token.toBaseUnit(converter.convertToAssets({ shares: action.amount }))
 
-            // @note: We need simulationBlockTag to be 'pending' because we calculate minAssetsOut based
-            // on the timestamp from the browser. It may be bigger than the timestamp from the
-            // blockchain so the simulation based on the latest block may fail.
             return ensureConfigTypes({
               address: savingsToken.address,
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
-              simulationBlockTag: 'pending',
             })
           }
 
@@ -196,15 +190,11 @@ export function createWithdrawFromSavingsActionConfig(
             }),
           )
 
-          // @note: We need simulationBlockTag to be 'pending' because we calculate maxShares based
-          // on the timestamp from the browser. It may be bigger than the timestamp from the
-          // blockchain so the simulation based on the latest block may fail.
           return ensureConfigTypes({
             address: savingsToken.address,
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, toBigInt(maxSharesIn)],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -222,7 +212,6 @@ export function createWithdrawFromSavingsActionConfig(
               abi: usdcVaultAbi,
               functionName: 'redeem',
               args: [argsAmount, receiver, account, toBigInt(minAssetsOut)],
-              simulationBlockTag: 'pending',
             })
           }
 
@@ -240,7 +229,6 @@ export function createWithdrawFromSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'withdraw',
             args: [argsAmount, receiver, account, maxShares],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -337,7 +325,6 @@ function getUsdcWithdrawConfig({
       abi: psmActionsConfig.abi,
       functionName: 'redeemAndSwap',
       args: [receiver, argsAmount, gemMinAmountOut],
-      simulationBlockTag: 'pending',
     })
   }
 

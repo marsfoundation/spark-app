@@ -84,7 +84,6 @@ export function createDepositToSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'deposit',
             args: [assetsAmount, account, minAmountOut, SPARK_UI_REFERRAL_CODE],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -112,7 +111,6 @@ export function createDepositToSavingsActionConfig(
             abi: usdcVaultAbi,
             functionName: 'deposit',
             args: [assetsAmount, account, minAmountOutFormatted, SPARK_UI_REFERRAL_CODE],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -187,7 +185,6 @@ export function createDepositToSavingsActionConfig(
               account,
               SPARK_UI_REFERRAL_CODE_BIGINT,
             ],
-            simulationBlockTag: 'pending',
           })
         }
 
@@ -265,7 +262,6 @@ function getUsdcDepositConfig({
     abi: psmActionsConfig.abi,
     functionName: 'swapAndDeposit',
     args: [account, assetsAmount, assetsMinAmountOut],
-    simulationBlockTag: 'pending',
   })
 }
 
