@@ -1,5 +1,8 @@
 import { usdcVaultAddress } from '@/config/contracts-generated'
-import { psm3SavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/psm3-savings'
+import {
+  baseSusdcMyEarningsQueryOptions,
+  baseSusdsMyEarningsQueryOptions,
+} from '@/domain/savings-charts/my-earnings-query/base'
 import { baseSusdsSavingsRateQueryOptions } from '@/domain/savings-charts/savings-rate-query/base'
 import { ssrAuthOracleConverterQueryOptions } from '@/domain/savings-converters/ssrAuthOracleConverter'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
@@ -57,7 +60,7 @@ export const baseConfig: ChainConfigEntry = {
         supportedStablecoins: [usds.symbol, usdc.symbol],
         fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
-        myEarningsQueryOptions: psm3SavingsMyEarningsQueryOptions,
+        myEarningsQueryOptions: baseSusdsMyEarningsQueryOptions,
       },
       ...(USDC_ACCOUNT_ENABLED
         ? [
@@ -67,7 +70,7 @@ export const baseConfig: ChainConfigEntry = {
               supportedStablecoins: [usdc.symbol],
               fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
               savingsRateQueryOptions: baseSusdsSavingsRateQueryOptions,
-              myEarningsQueryOptions: undefined,
+              myEarningsQueryOptions: baseSusdcMyEarningsQueryOptions,
             },
           ]
         : []),

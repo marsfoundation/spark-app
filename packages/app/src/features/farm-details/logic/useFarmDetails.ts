@@ -56,7 +56,9 @@ export interface UseFarmDetailsResult {
 }
 
 export function useFarmDetails(): UseFarmDetailsResult {
-  const { address: account, isConnected: walletConnected } = useAccount()
+  const { address: account } = useAccount()
+  const walletConnected = account !== undefined
+
   const params = useFarmDetailsParams()
   const { address: farmAddress, chainId } = params
 
