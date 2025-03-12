@@ -17,19 +17,8 @@ describe(eoa.name, () => {
     })
 
     const result = await plugin.run?.(testRunConfig)
-    const lines = ['export const someEoaAddress = {', `  1: CheckedAddress('${zeroAddress}'),`, '} as const'].join('\n')
+    const lines = ['export const someEoaAddress = {', `  1: '${zeroAddress}',`, '} as const'].join('\n')
     expect(result?.content).toEqual(lines)
-  })
-
-  it('returns correct import', async () => {
-    const plugin = eoa({
-      someEoa: {
-        [mainnet.id]: CheckedAddress(zeroAddress),
-      },
-    })
-
-    const result = await plugin.run?.(testRunConfig)
-    expect(result?.imports).toEqual("import { CheckedAddress } from '@marsfoundation/common-universal'\n")
   })
 
   it('returns multiple records with multiple addresses', async () => {
@@ -47,12 +36,12 @@ describe(eoa.name, () => {
     const result = await plugin.run?.(testRunConfig)
     const lines = [
       'export const firstEoaAddress = {',
-      `  1: CheckedAddress('${zeroAddress}'),`,
-      `  8453: CheckedAddress('${firstAddress}'),`,
+      `  1: '${zeroAddress}',`,
+      `  8453: '${firstAddress}',`,
       '} as const',
       'export const secondEoaAddress = {',
-      `  1: CheckedAddress('${firstAddress}'),`,
-      `  8453: CheckedAddress('${secondAddress}'),`,
+      `  1: '${firstAddress}',`,
+      `  8453: '${secondAddress}',`,
       '} as const',
     ].join('\n')
     expect(result?.content).toEqual(lines)
