@@ -22,6 +22,18 @@
         "types": "./dist/types/env/index.d.ts",
         "default": "./dist/cjs/env/index.js"
       }
+    },
+    "./wagmi": {
+      "import": {
+        "@marsfoundation/local-spark-monorepo": "./src/wagmi/index.ts",
+        "types": "./dist/types/wagmi/index.d.ts",
+        "default": "./dist/esm/wagmi/index.js"
+      },
+      "require": {
+        "@marsfoundation/local-spark-monorepo": "./src/wagmi/index.ts",
+        "types": "./dist/types/wagmi/index.d.ts",
+        "default": "./dist/cjs/wagmi/index.js"
+      }
     }
   },
   "typesVersions": {
