@@ -383,9 +383,6 @@ importers:
       uuid:
         specifier: ^11.0.3
         version: 11.0.3
-      viem:
-        specifier: ^2.0.0
-        version: 2.22.8(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
@@ -402,6 +399,9 @@ importers:
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
+      viem:
+        specifier: ^2.0.0
+        version: 2.22.8(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@6.0.3)(zod@3.22.4)
 
   packages/common-testnets:
     dependencies:
