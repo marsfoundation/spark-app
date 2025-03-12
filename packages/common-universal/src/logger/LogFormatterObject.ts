@@ -1,3 +1,4 @@
+import { omitBy } from 'remeda'
 import { LogEntry, LogFormatter } from './types.js'
 
 export class LogFormatterObject implements LogFormatter {
@@ -5,11 +6,12 @@ export class LogFormatterObject implements LogFormatter {
     const core = {
       time: entry.time.toISOString(),
       level: entry.level,
-      ...(entry.service && { service: entry.service }),
-      ...(entry.message && { message: entry.message }),
-      ...(entry.resolvedError && { error: entry.resolvedError }),
+      service: entry.service,
+      message: entry.message,
+      error: entry.resolvedError,
     }
+    const filteredCore = omitBy(core, (value) => !value)
 
-    return { ...core, parameters: entry.parameters }
+    return entry.parameters ? { ...filteredCore, parameters: entry.parameters } : filteredCore
   }
 }
