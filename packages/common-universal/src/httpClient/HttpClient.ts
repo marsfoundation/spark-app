@@ -1,12 +1,12 @@
 import { mergeDeep } from 'remeda'
 import { ZodString, z } from 'zod'
-import { Logger } from '../logger/Logger.js'
+import { ILogger } from '../logger/Logger.js'
 import { RetryOptions, defaultRetryOptions, fetchRetry } from './fetchRetry.js'
 
 export class HttpClient {
-  private readonly logger: Logger
+  private readonly logger: ILogger
   private readonly fetchWithRetries: typeof fetch
-  constructor(logger: Logger, retryOptions: Partial<RetryOptions> = {}) {
+  constructor(logger: ILogger, retryOptions: Partial<RetryOptions> = {}) {
     this.logger = logger.for(this)
     const options = mergeDeep(defaultRetryOptions, retryOptions) as RetryOptions
     this.fetchWithRetries = fetchRetry(options)
