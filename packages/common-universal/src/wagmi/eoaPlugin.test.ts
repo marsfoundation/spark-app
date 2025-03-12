@@ -6,8 +6,8 @@ import { CheckedAddress } from '../types/CheckedAddress.js'
 import { eoa } from './eoaPlugin.js'
 
 describe(eoa.name, () => {
-  const firstAddress = CheckedAddress.random()
-  const secondAddress = CheckedAddress.random()
+  const firstAddress = CheckedAddress.random('first')
+  const secondAddress = CheckedAddress.random('second')
 
   it('returns record with single address', async () => {
     const plugin = eoa({
