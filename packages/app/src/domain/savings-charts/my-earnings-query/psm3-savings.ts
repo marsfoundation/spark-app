@@ -31,6 +31,8 @@ const myEarningsDataResponseSchema = z
     z.object({
       datetime: dateSchema,
       balance: normalizedUnitNumberSchema.optional(),
+      susds_balance: normalizedUnitNumberSchema.optional(),
+      susdc_balance: normalizedUnitNumberSchema.optional(),
     }),
   )
   .transform((data) => {
@@ -39,5 +41,8 @@ const myEarningsDataResponseSchema = z
     return sortedData.map((item) => ({
       date: item.datetime,
       balance: item.balance ?? NormalizedUnitNumber(0),
+      susdcBalance: item.susdc_balance ?? NormalizedUnitNumber(0),
     }))
   })
+
+export type Psm3MyEarningsDataResponseSchema = z.infer<typeof myEarningsDataResponseSchema>

@@ -1,5 +1,8 @@
 import { usdcVaultAddress } from '@/config/contracts-generated'
-import { psm3SavingsMyEarningsQueryOptions } from '@/domain/savings-charts/my-earnings-query/psm3-savings'
+import {
+  arbitrumSusdcMyEarningsQueryOptions,
+  arbitrumSusdsMyEarningsQueryOptions,
+} from '@/domain/savings-charts/my-earnings-query/arbitrum'
 import {
   arbitrumSusdcSavingsRateQueryOptions,
   arbitrumSusdsSavingsRateQueryOptions,
@@ -61,7 +64,7 @@ export const arbitrumConfig: ChainConfigEntry = {
         supportedStablecoins: [usds.symbol, usdc.symbol],
         fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
         savingsRateQueryOptions: arbitrumSusdsSavingsRateQueryOptions,
-        myEarningsQueryOptions: psm3SavingsMyEarningsQueryOptions,
+        myEarningsQueryOptions: arbitrumSusdsMyEarningsQueryOptions,
       },
       ...(USDC_ACCOUNT_ENABLED
         ? [
@@ -71,7 +74,7 @@ export const arbitrumConfig: ChainConfigEntry = {
               supportedStablecoins: [usdc.symbol],
               fetchConverterQuery: ssrAuthOracleConverterQueryOptions,
               savingsRateQueryOptions: arbitrumSusdcSavingsRateQueryOptions,
-              myEarningsQueryOptions: undefined,
+              myEarningsQueryOptions: arbitrumSusdcMyEarningsQueryOptions,
             },
           ]
         : []),
