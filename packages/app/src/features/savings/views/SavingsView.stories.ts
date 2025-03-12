@@ -156,8 +156,8 @@ const savingsUsdcAccountDefinition = {
       'Deposit your stablecoins into USDC Savings to tap into the Sky Savings Rate, which grants you a predictable APY in USDC.',
     apyExplainer:
       'Current annual interest in the Sky Savings Module. It is determined on-chain by the Sky Ecosystem Governance. Please note that these protocol mechanisms are subject to change.',
-    apyExplainerDocsLink: links.docs.savings.susds,
-    descriptionDocsLink: links.docs.savings.susds,
+    apyExplainerDocsLink: links.docs.savings.susdc,
+    descriptionDocsLink: links.docs.savings.susdc,
   },
   sparkRewardsSummary: {
     totalApy: Percentage(0),

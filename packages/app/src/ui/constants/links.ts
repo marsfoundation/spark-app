@@ -14,6 +14,7 @@ export const links = {
       upgradeSdai: 'https://docs.spark.fi/user-guides/upgrading-to-usds-and-susds/upgrading-to-susds',
       newSavings: 'https://docs.spark.fi/user-guides/upgrading-to-usds-and-susds',
       susds: 'https://docs.spark.fi/user-guides/earning-savings/susds',
+      susdc: 'https://docs.spark.fi/user-guides/earning-savings/susdc',
       sdai: 'https://docs.spark.fi/user-guides/earning-savings/sdai',
       withdrawSavings: 'https://docs.spark.fi/user-guides/earning-savings/#withdraw-savings',
       sparkPSM: 'https://docs.spark.fi/user-guides/spark-liquidity-layer/#cross-chain-liquidity-using-spark-psm',
