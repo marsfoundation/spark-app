@@ -17,6 +17,8 @@ export type OngoingCampaignRow = {
   rewardChainId: number
   involvedTokensSymbols: TokenSymbol[]
   restrictedCountryCodes: string[]
+  engageButtonText: string
+  onEngageButtonClick: () => void
 } & (
   | {
       type: 'sparklend'

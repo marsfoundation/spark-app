@@ -35,31 +35,43 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
   return (
     <Panel spacing="m" className={cn('flex flex-col gap-6', className)}>
       <Header />
-      <Accordion type="multiple">
-        <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary">
+      <Accordion type="multiple" className={cn('grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto]')}>
+        <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary sm:col-span-full">
           <div>Task</div>
           <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
         {ongoingCampaignsResult.data.map((campaign) => (
-          <AccordionItem key={campaign.id} value={campaign.id} className="border-primary border-t">
+          <AccordionItem
+            key={campaign.id}
+            value={campaign.id}
+            className="col-span-full grid grid-cols-subgrid border-primary border-t"
+          >
             <AccordionTrigger
               className={cn(
-                'grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-3 py-6',
-                'sm:grid-cols-[auto_1fr_auto_auto] [&[data-state=open]>svg]:rotate-180',
+                'col-span-full grid grid-cols-subgrid items-center gap-x-3 py-6',
+                '[&[data-state=open]>svg]:rotate-180',
                 'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring',
                 'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
-                isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
-              <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
-              <Title campaign={campaign} />
-              {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.engage} />}
+              <div className="flex items-center gap-x-3">
+                <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
+                <Title campaign={campaign} />
+              </div>
+              {!isGuestMode && (
+                <EngagementButton
+                  className="hidden sm:block"
+                  onClick={campaign.onEngageButtonClick}
+                  text={campaign.engageButtonText}
+                />
+              )}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
             </AccordionTrigger>
             <AccordionContent
               className={cn(
                 'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
                 'overflow-hidden transition-all',
+                'col-span-full',
               )}
             >
               <div className="flex flex-col gap-4 pb-6">
@@ -67,7 +79,13 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
                   <div className="typography-body-4 text-primary sm:hidden">{campaign.shortDescription}</div>
                   <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
                 </div>
-                {!isGuestMode && <EngagementButton className="w-full sm:hidden" onClick={campaign.engage} />}
+                {!isGuestMode && (
+                  <EngagementButton
+                    className="w-full sm:hidden"
+                    onClick={campaign.onEngageButtonClick}
+                    text={campaign.engageButtonText}
+                  />
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -150,7 +168,10 @@ function Title({ campaign }: { campaign: OngoingCampaignRow }) {
   )
 }
 
-function EngagementButton(props: ButtonProps) {
+interface EngagementButtonProps extends ButtonProps {
+  text: string
+}
+function EngagementButton(props: EngagementButtonProps) {
   return (
     <Button
       {...props}
@@ -161,7 +182,7 @@ function EngagementButton(props: ButtonProps) {
         props.onClick?.(e)
       }}
     >
-      Engage
+      {props.text}
     </Button>
   )
 }
