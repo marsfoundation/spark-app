@@ -35,8 +35,8 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
   return (
     <Panel spacing="m" className={cn('flex flex-col gap-6', className)}>
       <Header />
-      <Accordion type="multiple" className={cn('grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto]')}>
-        <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary sm:col-span-full">
+      <Accordion type="multiple">
+        <div className="typography-label-4 flex items-center justify-between gap-6 pb-2 text-secondary">
           <div>Task</div>
           <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
@@ -48,16 +48,15 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
           >
             <AccordionTrigger
               className={cn(
-                'col-span-full grid grid-cols-subgrid items-center gap-x-3 py-6',
-                '[&[data-state=open]>svg]:rotate-180',
+                'grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-3 py-6',
+                'sm:grid-cols-[auto_1fr_auto_auto] [&[data-state=open]>svg]:rotate-180',
                 'focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring',
                 'focus-visible:ring-primary-200 focus-visible:ring-offset-0',
+                isGuestMode && 'sm:grid-cols-[auto_1fr_auto]',
               )}
             >
-              <div className="flex items-center gap-x-3">
-                <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
-                <Title campaign={campaign} />
-              </div>
+              <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
+              <Title campaign={campaign} />
               {!isGuestMode && (
                 <EngagementButton
                   className="hidden sm:block"
@@ -71,7 +70,6 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
               className={cn(
                 'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
                 'overflow-hidden transition-all',
-                'col-span-full',
               )}
             >
               <div className="flex flex-col gap-4 pb-6">
