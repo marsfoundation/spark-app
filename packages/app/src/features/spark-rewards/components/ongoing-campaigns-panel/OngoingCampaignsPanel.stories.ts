@@ -31,7 +31,6 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [],
     restrictedCountryCodes: ['US'],
-    engageButtonText: 'Go to X',
     onEngageButtonClick: () => {},
   },
   {
@@ -45,7 +44,6 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SKY.symbol,
     involvedTokensSymbols: [tokens.wstETH.symbol, tokens.USDS.symbol],
     restrictedCountryCodes: ['US'],
-    engageButtonText: 'Go to My Portfolio',
     onEngageButtonClick: () => {},
   },
   {
@@ -59,7 +57,6 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.RED.symbol,
     involvedTokensSymbols: [tokens.USDS.symbol],
     restrictedCountryCodes: ['US'],
-    engageButtonText: 'Go to My Portfolio',
     onEngageButtonClick: () => {},
   },
   {
@@ -73,7 +70,6 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [tokens.sUSDS.symbol],
     restrictedCountryCodes: ['US'],
-    engageButtonText: 'Go to Savings',
     onEngageButtonClick: () => {},
   },
   {
@@ -87,7 +83,6 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [],
     restrictedCountryCodes: ['US'],
-    engageButtonText: 'Go to website',
     onEngageButtonClick: () => {},
   },
 ]

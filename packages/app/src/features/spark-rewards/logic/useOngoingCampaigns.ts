@@ -22,54 +22,66 @@ export function useOngoingCampaigns(): UseOngoingCampaignsResult {
         campaign.type === 'sparklend'
           ? [...campaign.depositTokenSymbols, ...campaign.borrowTokenSymbols]
           : campaign.type === 'savings'
-            ? campaign.depositToSavingsTokenSymbols
+            ? campaign.savingsTokenSymbols
             : [],
-      ...getEngageButtonProps({ campaign, navigate, switchChain }),
+      onEngageButtonClick: getOnEngageButtonClick({ campaign, navigate, switchChain }),
     })),
   )
 }
 
-interface GetEngageButtonPropsParams {
+interface GetOnEngageButtonClickParams {
   campaign: OngoingCampaign
   navigate: NavigateFunction
   switchChain: SwitchChainMutate<Config, unknown>
 }
-function getEngageButtonProps({
+function getOnEngageButtonClick({
   campaign,
   navigate,
   switchChain,
-}: GetEngageButtonPropsParams): Pick<OngoingCampaignRow, 'engageButtonText' | 'onEngageButtonClick'> {
+}: GetOnEngageButtonClickParams): OngoingCampaignRow['onEngageButtonClick'] {
   if (campaign.type === 'external' || campaign.type === 'social') {
-    return {
-      engageButtonText: `Go to ${campaign.type === 'social' ? capitalizeFirstLetter(campaign.platform) : 'website'}`,
-      onEngageButtonClick: () => {
-        window.open(campaign.link, '_blank')
-      },
+    return () => {
+      window.open(campaign.link, '_blank')
     }
   }
 
   if (campaign.type === 'sparklend') {
-    return {
-      engageButtonText: 'Go to My Portfolio',
-      onEngageButtonClick: () => {
-        navigate(generatePath(paths.myPortfolio))
+    if (campaign.depositTokenAddresses.length === 1 && campaign.borrowTokenAddresses.length === 0) {
+      return () => {
+        navigate(
+          generatePath(paths.marketDetails, {
+            chainId: campaign.chainId.toString(),
+            asset: campaign.depositTokenAddresses[0]!,
+          }),
+        )
         switchChain({ chainId: campaign.chainId })
-      },
+      }
+    }
+
+    if (campaign.depositTokenAddresses.length === 0 && campaign.borrowTokenAddresses.length === 1) {
+      return () => {
+        navigate(
+          generatePath(paths.marketDetails, {
+            chainId: campaign.chainId.toString(),
+            asset: campaign.borrowTokenAddresses[0]!,
+          }),
+        )
+        switchChain({ chainId: campaign.chainId })
+      }
+    }
+
+    return () => {
+      navigate(generatePath(paths.myPortfolio))
+      switchChain({ chainId: campaign.chainId })
     }
   }
 
   if (campaign.type === 'savings') {
-    return {
-      engageButtonText: 'Go to Savings',
-      onEngageButtonClick: () => {
-        navigate(generatePath(paths.savings))
-      },
+    return () => {
+      navigate(generatePath(paths.savings))
+      switchChain({ chainId: campaign.chainId })
     }
   }
 
   assertNever(campaign)
-}
-
-function capitalizeFirstLetter(val: string): string {
-  return String(val).charAt(0).toUpperCase() + String(val).slice(1)
 }

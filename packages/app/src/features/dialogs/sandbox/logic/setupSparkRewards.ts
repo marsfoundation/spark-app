@@ -88,7 +88,7 @@ function getCampaignsConfig(sandboxChainId: number) {
       type: 'savings',
       apy: '0.005',
       reward_token_address: '0xdc035d45d973e3ec169d2276ddab16f1e407384f',
-      deposit_to_token_addresses: ['0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'],
+      savings_token_addresses: ['0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD'],
       restricted_country_codes: [],
     },
     {

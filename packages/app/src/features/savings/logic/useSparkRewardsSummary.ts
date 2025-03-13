@@ -19,7 +19,7 @@ export function useSparkRewardsSummary({
     const campaigns = data
       .filter((campaign) => campaign.type === 'savings')
       .filter((campaign) => campaign.chainId === chainId)
-      .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
+      .filter((campaign) => campaign.savingsTokenSymbols.includes(savingsToken.symbol))
 
     const totalApy = campaigns.reduce(
       (acc, campaign) => Percentage(acc.plus(campaign.apy ?? 0), { allowMoreThan1: true }),

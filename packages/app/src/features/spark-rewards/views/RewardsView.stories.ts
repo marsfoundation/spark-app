@@ -28,7 +28,6 @@ const meta: Meta<typeof RewardsView> = {
           rewardTokenSymbol: tokens.SPK.symbol,
           involvedTokensSymbols: [tokens.sUSDS.symbol],
           restrictedCountryCodes: [],
-          engageButtonText: 'Go to My Portfolio',
           onEngageButtonClick: () => Promise.resolve(),
         },
         {
@@ -42,7 +41,6 @@ const meta: Meta<typeof RewardsView> = {
           rewardTokenSymbol: tokens.SPK.symbol,
           involvedTokensSymbols: [],
           restrictedCountryCodes: [],
-          engageButtonText: 'Go to X',
           onEngageButtonClick: () => Promise.resolve(),
         },
       ],

@@ -3,7 +3,7 @@ import { checkedAddressSchema, percentageSchema } from '@/domain/common/validati
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { Percentage, assertNever } from '@marsfoundation/common-universal'
 import { queryOptions } from '@tanstack/react-query'
-import { Address, erc20Abi } from 'viem'
+import { Address, erc20Abi, isAddressEqual, zeroAddress } from 'viem'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
@@ -26,12 +26,15 @@ export type OngoingCampaign = {
       apy?: Percentage
       depositTokenSymbols: TokenSymbol[]
       borrowTokenSymbols: TokenSymbol[]
+      depositTokenAddresses: Address[]
+      borrowTokenAddresses: Address[]
       chainId: number
     }
   | {
       type: 'savings'
       apy?: Percentage
-      depositToSavingsTokenSymbols: TokenSymbol[]
+      savingsTokenSymbols: TokenSymbol[]
+      savingsTokenAddresses: Address[]
       chainId: number
     }
   | {
@@ -59,6 +62,10 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
       return Promise.all(
         campaignsData.map(async (campaign) => {
           async function fetchTokenSymbol(chainId: number, address: Address): Promise<string> {
+            if (isAddressEqual(address, zeroAddress)) {
+              return 'RED'
+            }
+
             return readContract(wagmiConfig, {
               address,
               abi: erc20Abi,
@@ -67,25 +74,24 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
             })
           }
 
-          const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, depositToSavingsTokenSymbols] =
-            await Promise.all([
-              fetchTokenSymbol(campaign.reward_chain_id, campaign.reward_token_address),
-              Promise.all(
-                campaign.type === 'sparklend'
-                  ? campaign.deposit_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-              Promise.all(
-                campaign.type === 'sparklend'
-                  ? campaign.borrow_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-              Promise.all(
-                campaign.type === 'savings'
-                  ? campaign.deposit_to_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-            ])
+          const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, savingsTokenSymbols] = await Promise.all([
+            fetchTokenSymbol(campaign.reward_chain_id, campaign.reward_token_address),
+            Promise.all(
+              campaign.type === 'sparklend'
+                ? campaign.deposit_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                : [],
+            ),
+            Promise.all(
+              campaign.type === 'sparklend'
+                ? campaign.borrow_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                : [],
+            ),
+            Promise.all(
+              campaign.type === 'savings'
+                ? campaign.savings_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                : [],
+            ),
+          ])
 
           const commonProps = {
             id: campaign.campaign_uid,
@@ -104,6 +110,8 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
                 apy: campaign.apy ? Percentage(campaign.apy) : undefined,
                 depositTokenSymbols: depositTokenSymbols.map(TokenSymbol),
                 borrowTokenSymbols: borrowTokenSymbols.map(TokenSymbol),
+                depositTokenAddresses: campaign.deposit_token_addresses,
+                borrowTokenAddresses: campaign.borrow_token_addresses,
                 chainId: campaign.chain_id,
               }
             case 'savings':
@@ -111,7 +119,8 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
                 ...commonProps,
                 type: campaign.type,
                 apy: campaign.apy ? Percentage(campaign.apy) : undefined,
-                depositToSavingsTokenSymbols: depositToSavingsTokenSymbols.map(TokenSymbol),
+                savingsTokenSymbols: savingsTokenSymbols.map(TokenSymbol),
+                savingsTokenAddresses: campaign.savings_token_addresses,
                 chainId: campaign.chain_id,
               }
             case 'social':
@@ -157,7 +166,7 @@ const ongoingCampaignsResponseSchema = z.array(
     baseOngoingCampaignSchema.extend({
       type: z.literal('savings'),
       apy: percentageSchema.nullable(),
-      deposit_to_token_addresses: z.array(checkedAddressSchema),
+      savings_token_addresses: z.array(checkedAddressSchema),
       chain_id: z.number(),
     }),
     baseOngoingCampaignSchema.extend({

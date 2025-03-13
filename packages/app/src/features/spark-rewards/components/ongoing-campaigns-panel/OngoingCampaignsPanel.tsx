@@ -53,13 +53,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
             >
               <IconStack {...getStackIcons(campaign)} size="base" iconBorder="white" />
               <Title campaign={campaign} />
-              {!isGuestMode && (
-                <EngagementButton
-                  className="hidden sm:block"
-                  onClick={campaign.onEngageButtonClick}
-                  text={campaign.engageButtonText}
-                />
-              )}
+              {!isGuestMode && <EngagementButton className="hidden sm:block" onClick={campaign.onEngageButtonClick} />}
               <ChevronDownIcon className="icon-secondary icon-sm transition-transform duration-200" />
             </AccordionTrigger>
             <AccordionContent
@@ -74,11 +68,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
                   <div className="typography-body-4 max-w-[72ch] text-secondary">{campaign.longDescription}</div>
                 </div>
                 {!isGuestMode && (
-                  <EngagementButton
-                    className="w-full sm:hidden"
-                    onClick={campaign.onEngageButtonClick}
-                    text={campaign.engageButtonText}
-                  />
+                  <EngagementButton className="w-full sm:hidden" onClick={campaign.onEngageButtonClick} />
                 )}
               </div>
             </AccordionContent>
@@ -162,21 +152,19 @@ function Title({ campaign }: { campaign: OngoingCampaignRow }) {
   )
 }
 
-interface EngagementButtonProps extends ButtonProps {
-  text: string
-}
-function EngagementButton(props: EngagementButtonProps) {
+function EngagementButton(props: ButtonProps) {
   return (
     <Button
       {...props}
       variant="secondary"
       size="s"
+      className={cn(props.className, 'px-6')}
       onClick={(e) => {
         e.stopPropagation()
         props.onClick?.(e)
       }}
     >
-      {props.text}
+      Start
     </Button>
   )
 }
