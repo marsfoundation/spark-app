@@ -9,10 +9,10 @@ export type UseOngoingCampaignsQueryResult = SimplifiedQueryResult<OngoingCampai
 
 export function useOngoingCampaignsQuery(): UseOngoingCampaignsQueryResult {
   const wagmiConfig = useConfig()
-  const { isInSandbox, sandboxChainId } = useSandboxState()
+  const { isInSandbox } = useSandboxState()
 
   return useQueries({
-    queries: [ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox, sandboxChainId }), vpnCheckQueryOptions()],
+    queries: [ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }), vpnCheckQueryOptions()],
     combine: ([campaigns, vpnCheck]) => {
       if (campaigns.isPending || vpnCheck.isPending) {
         return { isPending: true, isError: false, error: null, data: undefined }

@@ -1,10 +1,9 @@
 import { spark2ApiUrl } from '@/config/consts'
 import { checkedAddressSchema, percentageSchema } from '@/domain/common/validation'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Percentage, assertNever, raise } from '@marsfoundation/common-universal'
+import { Percentage, assertNever } from '@marsfoundation/common-universal'
 import { queryOptions } from '@tanstack/react-query'
 import { Address, erc20Abi } from 'viem'
-import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { Config } from 'wagmi'
 import { readContract } from 'wagmi/actions'
 import { z } from 'zod'
@@ -12,7 +11,6 @@ import { z } from 'zod'
 export interface OngoingCampaignsQueryOptionsParams {
   wagmiConfig: Config
   isInSandbox: boolean
-  sandboxChainId: number | undefined
 }
 
 export type OngoingCampaign = {
@@ -20,7 +18,7 @@ export type OngoingCampaign = {
   shortDescription: string
   longDescription: string
   rewardTokenSymbol: TokenSymbol
-  chainId: number
+  rewardChainId: number
   restrictedCountryCodes: string[]
 } & (
   | {
@@ -28,11 +26,13 @@ export type OngoingCampaign = {
       apy?: Percentage
       depositTokenSymbols: TokenSymbol[]
       borrowTokenSymbols: TokenSymbol[]
+      chainId: number
     }
   | {
       type: 'savings'
       apy?: Percentage
       depositToSavingsTokenSymbols: TokenSymbol[]
+      chainId: number
     }
   | {
       type: 'social'
@@ -46,11 +46,7 @@ export type OngoingCampaign = {
 )
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function ongoingCampaignsQueryOptions({
-  wagmiConfig,
-  isInSandbox,
-  sandboxChainId,
-}: OngoingCampaignsQueryOptionsParams) {
+export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: OngoingCampaignsQueryOptionsParams) {
   return queryOptions<OngoingCampaign[]>({
     queryKey: ['ongoing-campaigns', isInSandbox],
     queryFn: async () => {
@@ -62,20 +58,33 @@ export function ongoingCampaignsQueryOptions({
 
       return Promise.all(
         campaignsData.map(async (campaign) => {
-          async function fetchTokenSymbol(address: Address): Promise<string> {
+          async function fetchTokenSymbol(chainId: number, address: Address): Promise<string> {
             return readContract(wagmiConfig, {
               address,
               abi: erc20Abi,
               functionName: 'symbol',
-              chainId: domainToChainId(campaign.domain, sandboxChainId),
+              chainId,
             })
           }
+
           const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, depositToSavingsTokenSymbols] =
             await Promise.all([
-              fetchTokenSymbol(campaign.reward_token_address),
-              Promise.all(campaign.type === 'sparklend' ? campaign.deposit_token_addresses.map(fetchTokenSymbol) : []),
-              Promise.all(campaign.type === 'sparklend' ? campaign.borrow_token_addresses.map(fetchTokenSymbol) : []),
-              Promise.all(campaign.type === 'savings' ? campaign.deposit_to_token_addresses.map(fetchTokenSymbol) : []),
+              fetchTokenSymbol(campaign.reward_chain_id, campaign.reward_token_address),
+              Promise.all(
+                campaign.type === 'sparklend'
+                  ? campaign.deposit_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                  : [],
+              ),
+              Promise.all(
+                campaign.type === 'sparklend'
+                  ? campaign.borrow_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                  : [],
+              ),
+              Promise.all(
+                campaign.type === 'savings'
+                  ? campaign.deposit_to_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                  : [],
+              ),
             ])
 
           const commonProps = {
@@ -84,7 +93,7 @@ export function ongoingCampaignsQueryOptions({
             longDescription: campaign.long_description,
             restrictedCountryCodes: campaign.restricted_country_codes,
             rewardTokenSymbol: TokenSymbol(rewardTokenSymbol),
-            chainId: domainToChainId(campaign.domain, sandboxChainId),
+            rewardChainId: campaign.reward_chain_id,
           }
 
           switch (campaign.type) {
@@ -95,6 +104,7 @@ export function ongoingCampaignsQueryOptions({
                 apy: campaign.apy ? Percentage(campaign.apy) : undefined,
                 depositTokenSymbols: depositTokenSymbols.map(TokenSymbol),
                 borrowTokenSymbols: borrowTokenSymbols.map(TokenSymbol),
+                chainId: campaign.chain_id,
               }
             case 'savings':
               return {
@@ -102,6 +112,7 @@ export function ongoingCampaignsQueryOptions({
                 type: campaign.type,
                 apy: campaign.apy ? Percentage(campaign.apy) : undefined,
                 depositToSavingsTokenSymbols: depositToSavingsTokenSymbols.map(TokenSymbol),
+                chainId: campaign.chain_id,
               }
             case 'social':
               return {
@@ -125,16 +136,13 @@ export function ongoingCampaignsQueryOptions({
   })
 }
 
-const allowedDomains = ['mainnet', 'arbitrum', 'base', 'gnosis', 'sandbox'] as const
-type Domain = (typeof allowedDomains)[number]
-
 const baseOngoingCampaignSchema = z.object({
   campaign_uid: z.string(),
   short_description: z.string(),
   long_description: z.string(),
-  domain: z.enum(allowedDomains),
   restricted_country_codes: z.array(z.string()),
   reward_token_address: checkedAddressSchema,
+  reward_chain_id: z.number(),
 })
 
 const ongoingCampaignsResponseSchema = z.array(
@@ -144,11 +152,13 @@ const ongoingCampaignsResponseSchema = z.array(
       apy: percentageSchema.nullable(),
       deposit_token_addresses: z.array(checkedAddressSchema),
       borrow_token_addresses: z.array(checkedAddressSchema),
+      chain_id: z.number(),
     }),
     baseOngoingCampaignSchema.extend({
       type: z.literal('savings'),
       apy: percentageSchema.nullable(),
       deposit_to_token_addresses: z.array(checkedAddressSchema),
+      chain_id: z.number(),
     }),
     baseOngoingCampaignSchema.extend({
       type: z.literal('social'),
@@ -161,20 +171,3 @@ const ongoingCampaignsResponseSchema = z.array(
     }),
   ]),
 )
-
-function domainToChainId(domain: Domain, sandboxChainId: number | undefined): number {
-  switch (domain) {
-    case 'mainnet':
-      return mainnet.id
-    case 'arbitrum':
-      return arbitrum.id
-    case 'base':
-      return base.id
-    case 'gnosis':
-      return gnosis.id
-    case 'sandbox':
-      return sandboxChainId ?? raise('Sandbox chain should be defined when returning sandbox campaigns')
-    default:
-      raise(`Unsupported domain: ${domain}`)
-  }
-}

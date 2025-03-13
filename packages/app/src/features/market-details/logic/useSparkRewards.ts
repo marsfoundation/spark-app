@@ -15,7 +15,9 @@ export function useSparkRewards({ chainId, reserve }: UseSparkRewardsParams): Us
   const ongoingCampaignsResult = useOngoingCampaignsQuery()
 
   const { data } = transformSimplifiedQueryResult(ongoingCampaignsResult, (data) => {
-    const campaigns = data.filter((campaign) => campaign.chainId === chainId)
+    const campaigns = data
+      .filter((campaign) => campaign.type === 'sparklend')
+      .filter((campaign) => campaign.chainId === chainId)
     return [
       ...assignMarketSparkRewards({ campaigns, action: 'supply', reserveTokenSymbol: reserve.token.symbol }),
       ...assignMarketSparkRewards({ campaigns, action: 'borrow', reserveTokenSymbol: reserve.token.symbol }),

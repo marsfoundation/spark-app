@@ -47,7 +47,7 @@ export async function setupSparkRewards({
   })
 
   await page.route(
-    `https://spark2-api.blockanalitica.com/api/v1/rewards/roots/${merkleRoot}/${account}/`,
+    `https://spark2-api.blockanalitica.com/api/v1/rewards/roots/${mainnet.id}/${merkleRoot}/${account}/`,
     async (route) => {
       await route.fulfill({
         status: 200,

@@ -17,8 +17,8 @@ export function useSparkRewardsSummary({
 
   const { data } = transformSimplifiedQueryResult(ongoingCampaignsResult, (data) => {
     const campaigns = data
-      .filter((campaign) => campaign.chainId === chainId)
       .filter((campaign) => campaign.type === 'savings')
+      .filter((campaign) => campaign.chainId === chainId)
       .filter((campaign) => campaign.depositToSavingsTokenSymbols.includes(savingsToken.symbol))
 
     const totalApy = campaigns.reduce(
