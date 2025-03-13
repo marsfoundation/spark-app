@@ -41,6 +41,7 @@ export function useContractAction({ action, context, enabled }: UseContractActio
     getWriteConfig,
     verifyTransactionQueryOptions = defaultVerifyTransactionQueryOptions,
     invalidates,
+    onSuccessfulAction,
   } = config
 
   const queryClient = useQueryClient()
@@ -58,6 +59,7 @@ export function useContractAction({ action, context, enabled }: UseContractActio
     {
       onTransactionSettled: (txReceipt) => {
         invalidates().map((queryKey) => void queryClient.invalidateQueries({ queryKey }))
+        onSuccessfulAction?.()
         context.txReceipts.push([action, txReceipt])
       },
     },

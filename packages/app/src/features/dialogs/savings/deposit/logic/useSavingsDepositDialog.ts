@@ -1,5 +1,6 @@
 import { getChainConfigEntry } from '@/config/chain'
 import { TokenWithBalance, TokenWithValue } from '@/domain/common/types'
+import { useWalletType } from '@/domain/hooks/useWalletType'
 import { useSavingsAccountRepository } from '@/domain/savings/useSavingsAccountRepository'
 import { useSavingsTimestamps } from '@/domain/savings/useSavingsTimestamps'
 import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
@@ -42,6 +43,7 @@ export function useSavingsDepositDialog({
   initialToken,
 }: UseSavingsDepositDialogParams): UseSavingsDepositDialogResults {
   const chainId = useChainId()
+  const walletType = useWalletType()
   const { uiTimestamp, simulationTimestamp, refresh, isFetching } = useSavingsTimestamps({ chainId })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -123,6 +125,7 @@ export function useSavingsDepositDialog({
     actionsContext: {
       tokenRepository,
       savingsAccounts: simulationSavingsAccounts,
+      walletType,
     },
   }
 }
