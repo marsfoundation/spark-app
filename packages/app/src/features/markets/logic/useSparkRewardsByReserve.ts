@@ -19,7 +19,9 @@ export function useSparkRewardsByReserve({ chainId, reserves }: UseSparkRewardsB
   const ongoingCampaignsResult = useOngoingCampaignsQuery()
 
   const { data } = transformSimplifiedQueryResult(ongoingCampaignsResult, (data) => {
-    const campaigns = data.filter((campaign) => campaign.type === 'sparklend' && campaign.chainId === chainId)
+    const campaigns = data
+      .filter((campaign) => campaign.type === 'sparklend')
+      .filter((campaign) => campaign.chainId === chainId)
 
     return reserves.reduce<SparkRewardsByReserve>((acc, reserve) => {
       acc[reserve.token.address] = {

@@ -4,7 +4,7 @@ import { OngoingCampaign } from './ongoingCampaignsQueryOptions'
 import { MarketSparkRewards } from './types'
 
 export interface AssignMarketSparkRewardsArgs {
-  campaigns: OngoingCampaign[]
+  campaigns: Extract<OngoingCampaign, { type: 'sparklend' }>[]
   action: 'supply' | 'borrow'
   reserveTokenSymbol: TokenSymbol
 }
@@ -30,10 +30,5 @@ export function assignMarketSparkRewards({
         : campaign.borrowTokenSymbols.includes(tokenSymbol)
   }
 
-  return pipe(
-    campaigns,
-    filter((campaign) => campaign.type === 'sparklend'),
-    filter(includesReserve(reserveTokenSymbol, action)),
-    map(campaignToReward(action)),
-  )
+  return pipe(campaigns, filter(includesReserve(reserveTokenSymbol, action)), map(campaignToReward(action)))
 }
