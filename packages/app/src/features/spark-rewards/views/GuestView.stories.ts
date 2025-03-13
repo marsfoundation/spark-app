@@ -19,6 +19,7 @@ const meta: Meta<typeof GuestView> = {
         {
           id: 'campaign-1',
           type: 'sparklend',
+          rewardChainId: mainnet.id,
           chainId: mainnet.id,
           shortDescription: 'Early Bird Rewards',
           longDescription: 'Earn rewards for being an early adopter',
@@ -30,7 +31,7 @@ const meta: Meta<typeof GuestView> = {
         {
           id: 'campaign-2',
           type: 'social',
-          chainId: mainnet.id,
+          rewardChainId: mainnet.id,
           platform: 'x',
           link: 'https://x.com/marsfoundation',
           shortDescription: 'Social Media Rewards',

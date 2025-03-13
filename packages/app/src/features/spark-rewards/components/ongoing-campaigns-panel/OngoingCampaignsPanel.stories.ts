@@ -22,7 +22,7 @@ const data: OngoingCampaignRow[] = [
   {
     id: '1',
     type: 'social',
-    chainId: mainnet.id,
+    rewardChainId: mainnet.id,
     platform: 'x',
     link: 'https://x.com/marsfoundation',
     shortDescription: 'Follow us on X/Twitter and get SPK tokens',
@@ -35,6 +35,7 @@ const data: OngoingCampaignRow[] = [
   {
     id: '2',
     type: 'sparklend',
+    rewardChainId: mainnet.id,
     chainId: arbitrum.id,
     shortDescription: 'Deposit wstETH, Borrow USDS or USDC on Arbitrum. Get SKY tokens. Limited time offer.',
     longDescription:
@@ -46,6 +47,7 @@ const data: OngoingCampaignRow[] = [
   {
     id: '3',
     type: 'sparklend',
+    rewardChainId: mainnet.id,
     chainId: mainnet.id,
     shortDescription: 'Borrow USDS and get RED airdrop',
     longDescription:
@@ -57,6 +59,7 @@ const data: OngoingCampaignRow[] = [
   {
     id: '4',
     type: 'savings',
+    rewardChainId: mainnet.id,
     chainId: base.id,
     shortDescription: 'Deposit USDS and get SPK tokens',
     longDescription:
@@ -68,7 +71,7 @@ const data: OngoingCampaignRow[] = [
   {
     id: '5',
     type: 'external',
-    chainId: mainnet.id,
+    rewardChainId: mainnet.id,
     link: 'https://www.google.com',
     shortDescription: 'Search the web and get SPK tokens',
     longDescription:
