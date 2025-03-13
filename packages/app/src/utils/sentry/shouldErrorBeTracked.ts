@@ -27,17 +27,25 @@ function isIgnoredMessage(error: Error): boolean {
     'Connector not connected',
     'connector.getChainId is not a function',
     'provider.disconnect is not a function',
+    '.getAccounts',
     'not found for connector',
     '.disconnect is not a function',
     'does not support programmatic chain switching',
     "does not match the connection's chain",
+    "Cannot read properties of null (reading 'disconnect')",
+    'redefine non-configurable property',
 
     // Wallet user interaction errors
     'User rejected the request',
+    'user reject this request',
     'User rejected methods',
+    'User rejected transaction',
     'Transaction was rejected',
     'User disapproved requested methods',
     'does not match the target chain for the transaction',
+    'nonce too high',
+    'nonce too low',
+    'method has not been authorized by the user',
 
     // Allowance errors
     '"approve" reverted',
@@ -48,9 +56,20 @@ function isIgnoredMessage(error: Error): boolean {
 
     // Gas errors
     'to pay the network fees',
+
+    // RPC errors
+    'Internal JSON-RPC error',
+    'JsonRpcEngine',
+    "Non-200 status code: '429'",
+    'Unexpected error',
+    'Response has no error or result for request',
+    'HTTP request failed',
+
+    // Other
+    'non-configurable data property on the proxy target',
   ]
 
-  return ignoredMessages.some((message) => error.message?.includes(message))
+  return ignoredMessages.some((message) => error.message?.toLowerCase().includes(message.toLowerCase()))
 }
 
 function isIgnoredStackTrace(error: Error): boolean {
