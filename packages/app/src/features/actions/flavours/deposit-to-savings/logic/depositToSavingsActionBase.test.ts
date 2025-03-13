@@ -83,7 +83,11 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usds, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
+        context: {
+          tokenRepository: mockTokenRepository,
+          savingsAccounts: savingsAccountsWithSusds,
+          walletType: 'browser-injected',
+        },
       },
       chain: base,
       extraHandlers: [
@@ -136,7 +140,11 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusds },
+        context: {
+          tokenRepository: mockTokenRepository,
+          savingsAccounts: savingsAccountsWithSusds,
+          walletType: 'browser-injected',
+        },
       },
       chain: base,
       extraHandlers: [
@@ -188,7 +196,11 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
+        context: {
+          tokenRepository: mockTokenRepository,
+          savingsAccounts: savingsAccountsWithSusdc,
+          walletType: 'browser-injected',
+        },
       },
       chain: base,
       extraHandlers: [

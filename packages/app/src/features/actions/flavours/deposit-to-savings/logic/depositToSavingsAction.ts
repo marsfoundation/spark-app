@@ -10,6 +10,7 @@ import {
   usdcVaultAbi,
   usdsPsmActionsConfig,
 } from '@/config/contracts-generated'
+import { trackEvent } from '@/domain/analytics/mixpanel'
 import { getContractAddress } from '@/domain/hooks/useContractAddress'
 import { ensureConfigTypes } from '@/domain/hooks/useWrite'
 import { EPOCH_LENGTH } from '@/domain/market-info/consts'
@@ -230,6 +231,17 @@ export function createDepositToSavingsActionConfig(
         default:
           assertNever(actionPath)
       }
+    },
+
+    onSuccessfulAction: () => {
+      assert(context.walletType, 'Wallet type is required to track deposit to savings action')
+      trackEvent(actionPath, {
+        walletType: context.walletType,
+        savingsToken: action.savingsToken.symbol,
+        underlyingToken: action.token.symbol,
+        amount: action.value.toNumber(),
+        chainId,
+      })
     },
   }
 }

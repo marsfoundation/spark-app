@@ -1,4 +1,5 @@
 import { PotSavingsConverter } from '@/domain/savings-converters/PotSavingsConverter'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { testAddresses } from '@/test/integration/constants'
 import { bigNumberify } from '@marsfoundation/common-universal'
@@ -40,6 +41,14 @@ const mockSavingsDaiInfo = new PotSavingsConverter({
   },
   currentTimestamp: timestamp + 24 * 60 * 60,
 })
+
+const mockSavingsAccounts = new SavingsAccountRepository([
+  {
+    converter: mockSavingsDaiInfo,
+    savingsToken: sdai,
+    underlyingToken: dai,
+  },
+])
 
 const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
   selectableAssets: [
@@ -92,7 +101,7 @@ const withdrawArgs: Partial<SavingsWithdrawViewProps> = {
     skyBadgeToken: tokens.DAI,
     outTokenAmount: NormalizedUnitNumber(925.75),
   },
-  actionsContext: { tokenRepository: mockTokenRepository, savingsDaiInfo: mockSavingsDaiInfo },
+  actionsContext: { tokenRepository: mockTokenRepository, savingsAccounts: mockSavingsAccounts },
   underlyingToken: tokens.DAI,
 }
 

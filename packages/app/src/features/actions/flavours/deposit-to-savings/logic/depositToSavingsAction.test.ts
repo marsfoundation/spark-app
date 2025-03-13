@@ -86,7 +86,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository },
+        context: { tokenRepository: mockTokenRepository, walletType: 'browser-injected' },
       },
       chain: mainnet,
       extraHandlers: [
@@ -126,7 +126,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository },
+        context: { tokenRepository: mockTokenRepository, walletType: 'browser-injected' },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -168,7 +168,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository },
+        context: { tokenRepository: mockTokenRepository, walletType: 'browser-injected' },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -211,7 +211,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susds, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository },
+        context: { tokenRepository: mockTokenRepository, walletType: 'browser-injected' },
       },
       extraHandlers: [
         handlers.contractCall({
@@ -258,7 +258,11 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: usdc, savingsToken: susdc, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository, savingsAccounts: savingsAccountsWithSusdc },
+        context: {
+          tokenRepository: mockTokenRepository,
+          savingsAccounts: savingsAccountsWithSusdc,
+          walletType: 'browser-injected',
+        },
       },
       extraHandlers: [
         handlers.contractCall({

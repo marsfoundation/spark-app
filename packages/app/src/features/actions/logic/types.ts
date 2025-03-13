@@ -1,7 +1,8 @@
 import { FarmsInfo } from '@/domain/farms/farmsInfo'
+import { WalletType } from '@/domain/hooks/useWalletType'
 import { WriteErrorKind } from '@/domain/hooks/useWrite'
 import { MarketInfo } from '@/domain/market-info/marketInfo'
-import { SavingsAccountRepository, SavingsConverter } from '@/domain/savings-converters/types'
+import { SavingsAccountRepository } from '@/domain/savings-converters/types'
 import { TokenRepository } from '@/domain/token-repository/TokenRepository'
 import { QueryKey, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 import { Address, ContractFunctionParameters, TransactionReceipt } from 'viem'
@@ -96,16 +97,12 @@ export interface BatchActionHandler {
   onAction: () => void
 }
 
-export interface ActionContext {
-  marketInfo?: MarketInfo
-  tokenRepository?: TokenRepository
-  savingsAccounts?: SavingsAccountRepository
-  permitStore?: PermitStore
-  farmsInfo?: FarmsInfo
+export interface ActionContext extends InjectedActionsContext {
   txReceipts: [Action, TransactionReceipt][]
   wagmiConfig: Config
   account: Address
   chainId: number
+  permitStore?: PermitStore
 }
 
 export type InitialParamsBase = { canBeSkipped: boolean }
@@ -123,13 +120,13 @@ export interface ActionConfig {
   verifyTransactionQueryOptions?: () => VerifyTransactionQueryOptions
   invalidates: () => QueryKey[]
   beforeWriteCheck?: () => void
+  onSuccessfulAction?: () => void
 }
 
 export interface InjectedActionsContext {
   marketInfo?: MarketInfo
   tokenRepository?: TokenRepository
-  savingsDaiInfo?: SavingsConverter
-  savingsUsdsInfo?: SavingsConverter
   farmsInfo?: FarmsInfo
   savingsAccounts?: SavingsAccountRepository
+  walletType?: WalletType
 }

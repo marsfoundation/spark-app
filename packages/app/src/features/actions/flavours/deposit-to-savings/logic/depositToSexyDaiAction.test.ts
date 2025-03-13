@@ -48,7 +48,7 @@ describe(createDepositToSavingsActionConfig.name, () => {
       args: {
         action: { type: 'depositToSavings', token: dai, savingsToken: sdai, value: depositValue },
         enabled: true,
-        context: { tokenRepository: mockTokenRepository },
+        context: { tokenRepository: mockTokenRepository, walletType: 'browser-injected' },
       },
       extraHandlers: [
         handlers.contractCall({
