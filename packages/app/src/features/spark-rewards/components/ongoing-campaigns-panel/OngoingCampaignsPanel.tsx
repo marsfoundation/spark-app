@@ -41,11 +41,7 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
           <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
         {ongoingCampaignsResult.data.map((campaign) => (
-          <AccordionItem
-            key={campaign.id}
-            value={campaign.id}
-            className="col-span-full grid grid-cols-subgrid border-primary border-t"
-          >
+          <AccordionItem key={campaign.id} value={campaign.id} className="border-primary border-t">
             <AccordionTrigger
               className={cn(
                 'grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-3 py-6',
