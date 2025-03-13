@@ -46,7 +46,7 @@ describe(useClaimableRewards.name, () => {
     const preClaimed = NormalizedUnitNumber(98.7654321)
 
     vi.stubGlobal('fetch', (...args: Parameters<typeof fetch>) => {
-      if (args[0] === `${spark2ApiUrl}/rewards/roots/${merkleRoot}/${account}/`) {
+      if (args[0] === `${spark2ApiUrl}/rewards/roots/${chainId}/${merkleRoot}/${account}/`) {
         return Promise.resolve({
           ok: true,
           json: () =>

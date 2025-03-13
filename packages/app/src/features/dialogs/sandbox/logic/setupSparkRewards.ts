@@ -16,6 +16,7 @@ export interface SetupSparkRewardsParams {
   testnetClient: TestnetClient
   account: CheckedAddress
   wagmiConfig: Config
+  sandboxChainId: number
 }
 
 type MockedRewardConfig = {
@@ -49,12 +50,13 @@ const MAINNET_REWARDS_CONFIG: MockedRewardConfig[] = [
   },
 ]
 
-const CAMPAIGNS_CONFIG = [
+const getCampaignsConfig = (sandboxChainId: number) => [
   {
     campaign_uid: randomHexId(),
     short_description: 'Supply WETH and get wstETH',
     long_description: 'Supply WETH and get wstETH',
-    domain: 'sandbox',
+    reward_chain_id: sandboxChainId,
+    chain_id: sandboxChainId,
     type: 'sparklend',
     apy: '0.012',
     reward_token_address: '0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0',
@@ -66,7 +68,8 @@ const CAMPAIGNS_CONFIG = [
     campaign_uid: randomHexId(),
     short_description: 'Borrow USDS and get USDC',
     long_description: 'Borrow USDS and get USDC',
-    domain: 'sandbox',
+    reward_chain_id: sandboxChainId,
+    chain_id: sandboxChainId,
     type: 'sparklend',
     apy: '0.008',
     reward_token_address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
@@ -78,7 +81,8 @@ const CAMPAIGNS_CONFIG = [
     campaign_uid: randomHexId(),
     short_description: 'Deposit USDS to Savings and get USDS',
     long_description: 'Deposit USDS to Savings and get USDS',
-    domain: 'sandbox',
+    reward_chain_id: sandboxChainId,
+    chain_id: sandboxChainId,
     type: 'savings',
     apy: '0.005',
     reward_token_address: '0xdc035d45d973e3ec169d2276ddab16f1e407384f',
@@ -89,7 +93,8 @@ const CAMPAIGNS_CONFIG = [
     campaign_uid: randomHexId(),
     short_description: 'Follow us on X and get USDS',
     long_description: 'Follow us on X and get USDS',
-    domain: 'mainnet',
+    reward_chain_id: mainnet.id,
+    chain_id: mainnet.id,
     type: 'social',
     platform: 'x',
     link: 'https://x.com/sparkdotfi',
@@ -102,6 +107,7 @@ export async function setupSparkRewards({
   testnetClient,
   account,
   wagmiConfig,
+  sandboxChainId,
 }: SetupSparkRewardsParams): Promise<void> {
   function prepareRewards(config: MockedRewardConfig[]): {
     tokenSymbol: string
@@ -145,7 +151,7 @@ export async function setupSparkRewards({
   })
 
   const worker = setupWorker(
-    http.get(`${spark2ApiUrl}/rewards/roots/${merkleRoot}/${account}/`, async () => {
+    http.get(`${spark2ApiUrl}/rewards/roots/${sandboxChainId}/${merkleRoot}/${account}/`, async () => {
       return HttpResponse.json(
         rewards.map(
           ({
@@ -173,7 +179,7 @@ export async function setupSparkRewards({
         ),
       )
     }),
-    http.get(`${spark2ApiUrl}/rewards/roots/${mainnetMerkleRoot}/${account}/`, async () => {
+    http.get(`${spark2ApiUrl}/rewards/roots/${mainnet.id}/${mainnetMerkleRoot}/${account}/`, async () => {
       return HttpResponse.json(
         mainnetRewards.map(
           ({ tokenAddress, rewardTokenPrice, cumulativeAmount, cumulativeAmountBaseUnit, restrictedCountryCodes }) => ({
@@ -193,7 +199,7 @@ export async function setupSparkRewards({
       )
     }),
     http.get(`${spark2ApiUrl}/rewards/campaigns/`, async () => {
-      return HttpResponse.json(CAMPAIGNS_CONFIG)
+      return HttpResponse.json(getCampaignsConfig(sandboxChainId))
     }),
   )
   await worker.start({

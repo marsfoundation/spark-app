@@ -74,7 +74,7 @@ async function fetchChainRewards(
   })
 
   // @todo: Add chainId parameter to the API call
-  const res = await fetch(`${spark2ApiUrl}/rewards/roots/${expectedMerkleRoot}/${account}/`)
+  const res = await fetch(`${spark2ApiUrl}/rewards/roots/${chainId}/${expectedMerkleRoot}/${account}/`)
   if (!res.ok) {
     throw new Error('Failed to fetch rewards')
   }

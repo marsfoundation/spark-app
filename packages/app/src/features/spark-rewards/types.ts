@@ -14,15 +14,17 @@ export type OngoingCampaignRow = {
   shortDescription: string
   longDescription: string
   rewardTokenSymbol: TokenSymbol
-  chainId: number
+  rewardChainId: number
   involvedTokensSymbols: TokenSymbol[]
   restrictedCountryCodes: string[]
 } & (
   | {
       type: 'sparklend'
+      chainId: number
     }
   | {
       type: 'savings'
+      chainId: number
     }
   | {
       type: 'social'

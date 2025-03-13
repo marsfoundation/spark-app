@@ -37,7 +37,12 @@ export async function createSandbox(opts: {
 
   if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'staging') {
     const { setupSparkRewards } = await import('./setupSparkRewards')
-    await setupSparkRewards({ testnetClient, account: CheckedAddress(opts.userAddress), wagmiConfig: opts.wagmiConfig })
+    await setupSparkRewards({
+      testnetClient,
+      account: CheckedAddress(opts.userAddress),
+      wagmiConfig: opts.wagmiConfig,
+      sandboxChainId: opts.forkChainId,
+    })
   }
 
   trackEvent('sandbox-created')
