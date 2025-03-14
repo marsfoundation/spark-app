@@ -53,6 +53,10 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
   return queryOptions<OngoingCampaign[]>({
     queryKey: ['ongoing-campaigns', isInSandbox],
     queryFn: async () => {
+      if (import.meta.env.VITE_DEV_SPARK_REWARDS !== '1' && import.meta.env.MODE !== 'test') {
+        return []
+      }
+
       const response = await fetch(`${spark2ApiUrl}/rewards/campaigns/`)
       if (!response.ok) {
         throw new Error('Error fetching ongoing campaigns')

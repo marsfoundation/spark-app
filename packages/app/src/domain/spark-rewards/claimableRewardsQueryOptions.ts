@@ -65,6 +65,10 @@ async function fetchChainRewards(
   wagmiConfig: Config,
   account: Address,
 ): Promise<ClaimableRewardData[]> {
+  if (import.meta.env.VITE_DEV_SPARK_REWARDS !== '1' && import.meta.env.MODE !== 'test') {
+    return []
+  }
+
   const sparkRewardsAddress = getContractAddress(sparkRewardsConfig.address, chainId)
   const expectedMerkleRoot = await readContract(wagmiConfig, {
     address: sparkRewardsAddress,
