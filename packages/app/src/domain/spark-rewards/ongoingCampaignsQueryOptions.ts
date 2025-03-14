@@ -1,7 +1,7 @@
 import { spark2ApiUrl } from '@/config/consts'
 import { checkedAddressSchema, percentageSchema } from '@/domain/common/validation'
 import { TokenSymbol } from '@/domain/types/TokenSymbol'
-import { Percentage, assertNever } from '@marsfoundation/common-universal'
+import { CheckedAddress, Percentage, assertNever } from '@marsfoundation/common-universal'
 import { queryOptions } from '@tanstack/react-query'
 import { Address, erc20Abi } from 'viem'
 import { Config } from 'wagmi'
@@ -26,12 +26,15 @@ export type OngoingCampaign = {
       apy?: Percentage
       depositTokenSymbols: TokenSymbol[]
       borrowTokenSymbols: TokenSymbol[]
+      depositTokenAddresses: Address[]
+      borrowTokenAddresses: Address[]
       chainId: number
     }
   | {
       type: 'savings'
       apy?: Percentage
-      depositToSavingsTokenSymbols: TokenSymbol[]
+      savingsTokenSymbols: TokenSymbol[]
+      savingsTokenAddresses: Address[]
       chainId: number
     }
   | {
@@ -57,80 +60,86 @@ export function ongoingCampaignsQueryOptions({ wagmiConfig, isInSandbox }: Ongoi
       const campaignsData = ongoingCampaignsResponseSchema.parse(await response.json())
 
       return Promise.all(
-        campaignsData.map(async (campaign) => {
-          async function fetchTokenSymbol(chainId: number, address: Address): Promise<string> {
-            return readContract(wagmiConfig, {
-              address,
-              abi: erc20Abi,
-              functionName: 'symbol',
-              chainId,
-            })
-          }
+        campaignsData
+          .filter((campaign) => campaign.reward_token_address !== CheckedAddress.ZERO())
+          .map(async (campaign) => {
+            async function fetchTokenSymbol(chainId: number, address: Address): Promise<string> {
+              return readContract(wagmiConfig, {
+                address,
+                abi: erc20Abi,
+                functionName: 'symbol',
+                chainId,
+              })
+            }
 
-          const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, depositToSavingsTokenSymbols] =
-            await Promise.all([
-              fetchTokenSymbol(campaign.reward_chain_id, campaign.reward_token_address),
-              Promise.all(
-                campaign.type === 'sparklend'
-                  ? campaign.deposit_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-              Promise.all(
-                campaign.type === 'sparklend'
-                  ? campaign.borrow_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-              Promise.all(
-                campaign.type === 'savings'
-                  ? campaign.deposit_to_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
-                  : [],
-              ),
-            ])
+            const [rewardTokenSymbol, depositTokenSymbols, borrowTokenSymbols, savingsTokenSymbols] = await Promise.all(
+              [
+                fetchTokenSymbol(campaign.reward_chain_id, campaign.reward_token_address),
+                Promise.all(
+                  campaign.type === 'sparklend'
+                    ? campaign.deposit_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                    : [],
+                ),
+                Promise.all(
+                  campaign.type === 'sparklend'
+                    ? campaign.borrow_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                    : [],
+                ),
+                Promise.all(
+                  campaign.type === 'savings'
+                    ? campaign.savings_token_addresses.map((address) => fetchTokenSymbol(campaign.chain_id, address))
+                    : [],
+                ),
+              ],
+            )
 
-          const commonProps = {
-            id: campaign.campaign_uid,
-            shortDescription: campaign.short_description,
-            longDescription: campaign.long_description,
-            restrictedCountryCodes: campaign.restricted_country_codes,
-            rewardTokenSymbol: TokenSymbol(rewardTokenSymbol),
-            rewardChainId: campaign.reward_chain_id,
-          }
+            const commonProps = {
+              id: campaign.campaign_uid,
+              shortDescription: campaign.short_description,
+              longDescription: campaign.long_description,
+              restrictedCountryCodes: campaign.restricted_country_codes,
+              rewardTokenSymbol: TokenSymbol(rewardTokenSymbol),
+              rewardChainId: campaign.reward_chain_id,
+            }
 
-          switch (campaign.type) {
-            case 'sparklend':
-              return {
-                ...commonProps,
-                type: campaign.type,
-                apy: campaign.apy ? Percentage(campaign.apy) : undefined,
-                depositTokenSymbols: depositTokenSymbols.map(TokenSymbol),
-                borrowTokenSymbols: borrowTokenSymbols.map(TokenSymbol),
-                chainId: campaign.chain_id,
-              }
-            case 'savings':
-              return {
-                ...commonProps,
-                type: campaign.type,
-                apy: campaign.apy ? Percentage(campaign.apy) : undefined,
-                depositToSavingsTokenSymbols: depositToSavingsTokenSymbols.map(TokenSymbol),
-                chainId: campaign.chain_id,
-              }
-            case 'social':
-              return {
-                ...commonProps,
-                type: 'social',
-                platform: campaign.platform,
-                link: campaign.link,
-              }
-            case 'external':
-              return {
-                ...commonProps,
-                type: 'external',
-                link: campaign.link,
-              }
-            default:
-              assertNever(campaign)
-          }
-        }),
+            switch (campaign.type) {
+              case 'sparklend':
+                return {
+                  ...commonProps,
+                  type: campaign.type,
+                  apy: campaign.apy ? Percentage(campaign.apy) : undefined,
+                  depositTokenSymbols: depositTokenSymbols.map(TokenSymbol),
+                  borrowTokenSymbols: borrowTokenSymbols.map(TokenSymbol),
+                  depositTokenAddresses: campaign.deposit_token_addresses,
+                  borrowTokenAddresses: campaign.borrow_token_addresses,
+                  chainId: campaign.chain_id,
+                }
+              case 'savings':
+                return {
+                  ...commonProps,
+                  type: campaign.type,
+                  apy: campaign.apy ? Percentage(campaign.apy) : undefined,
+                  savingsTokenSymbols: savingsTokenSymbols.map(TokenSymbol),
+                  savingsTokenAddresses: campaign.savings_token_addresses,
+                  chainId: campaign.chain_id,
+                }
+              case 'social':
+                return {
+                  ...commonProps,
+                  type: 'social',
+                  platform: campaign.platform,
+                  link: campaign.link,
+                }
+              case 'external':
+                return {
+                  ...commonProps,
+                  type: 'external',
+                  link: campaign.link,
+                }
+              default:
+                assertNever(campaign)
+            }
+          }),
       )
     },
   })
@@ -157,7 +166,7 @@ const ongoingCampaignsResponseSchema = z.array(
     baseOngoingCampaignSchema.extend({
       type: z.literal('savings'),
       apy: percentageSchema.nullable(),
-      deposit_to_token_addresses: z.array(checkedAddressSchema),
+      savings_token_addresses: z.array(checkedAddressSchema),
       chain_id: z.number(),
     }),
     baseOngoingCampaignSchema.extend({

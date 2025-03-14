@@ -28,7 +28,7 @@ const meta: Meta<typeof RewardsView> = {
           rewardTokenSymbol: tokens.SPK.symbol,
           involvedTokensSymbols: [tokens.sUSDS.symbol],
           restrictedCountryCodes: [],
-          engage: () => Promise.resolve(),
+          onEngageButtonClick: () => Promise.resolve(),
         },
         {
           id: 'campaign-2',
@@ -41,7 +41,7 @@ const meta: Meta<typeof RewardsView> = {
           rewardTokenSymbol: tokens.SPK.symbol,
           involvedTokensSymbols: [],
           restrictedCountryCodes: [],
-          engage: () => Promise.resolve(),
+          onEngageButtonClick: () => Promise.resolve(),
         },
       ],
       isPending: false,

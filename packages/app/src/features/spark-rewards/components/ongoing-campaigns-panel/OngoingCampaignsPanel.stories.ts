@@ -31,6 +31,7 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [],
     restrictedCountryCodes: ['US'],
+    onEngageButtonClick: () => {},
   },
   {
     id: '2',
@@ -43,6 +44,7 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SKY.symbol,
     involvedTokensSymbols: [tokens.wstETH.symbol, tokens.USDS.symbol],
     restrictedCountryCodes: ['US'],
+    onEngageButtonClick: () => {},
   },
   {
     id: '3',
@@ -55,6 +57,7 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.RED.symbol,
     involvedTokensSymbols: [tokens.USDS.symbol],
     restrictedCountryCodes: ['US'],
+    onEngageButtonClick: () => {},
   },
   {
     id: '4',
@@ -67,6 +70,7 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [tokens.sUSDS.symbol],
     restrictedCountryCodes: ['US'],
+    onEngageButtonClick: () => {},
   },
   {
     id: '5',
@@ -79,6 +83,7 @@ const data: OngoingCampaignRow[] = [
     rewardTokenSymbol: tokens.SPK.symbol,
     involvedTokensSymbols: [],
     restrictedCountryCodes: ['US'],
+    onEngageButtonClick: () => {},
   },
 ]
 
@@ -86,7 +91,7 @@ const args: Story['args'] = {
   ongoingCampaignsResult: {
     data: data.map((campaign) => ({
       ...campaign,
-      engage: () => Promise.resolve(),
+      onEngageButtonClick: () => Promise.resolve(),
     })),
     isPending: false,
     isError: false,
