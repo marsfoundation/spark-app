@@ -17,7 +17,7 @@ export function getDepositableAssets(positions: UserPosition[], walletInfo: Mark
   )
 }
 
-const whitelistedBorrowableAssets = ['DAI', 'WXDAI', 'USDS']
+const whitelistedBorrowableAssets = ['DAI', 'WXDAI', 'USDS', 'USDC']
 
 export function getBorrowableAssets(reserves: Reserve[], walletInfo: MarketWalletInfo): TokenWithBalance[] {
   return reserves

@@ -368,6 +368,48 @@ test.describe('Borrow page', () => {
     await expectHFOnMyPortfolio(testContext, borrowPage, '1.81')
   })
 
+  test('borrows usdc', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: USDS_RESERVE_ACTIVE_BLOCK_NUMBER,
+      },
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          wstETH: 10,
+        },
+      },
+    })
+
+    const borrowPage = new BorrowPageObject(testContext)
+    const actionsContainer = new ActionsPageObject(testContext)
+
+    await borrowPage.fillDepositAssetAction(0, 'wstETH', 10)
+    await borrowPage.selectBorrowAction('USDC')
+    await borrowPage.fillBorrowAssetAction(10_000)
+    await borrowPage.submitAction()
+
+    await actionsContainer.acceptAllActionsAction(3)
+    await borrowPage.expectSuccessPage({
+      deposited: [
+        {
+          asset: 'wstETH',
+          amount: '10.00',
+          usdValue: '$22,648.67',
+        },
+      ],
+      borrowed: {
+        asset: 'USDC',
+        amount: '10,000.00',
+        usdValue: '$10,000.00',
+      },
+    })
+
+    await expectHFOnMyPortfolio(testContext, borrowPage, '1.81')
+  })
+
   test.describe('no wallet connected', () => {
     let borrowPage: BorrowPageObject
     const deposit = {
