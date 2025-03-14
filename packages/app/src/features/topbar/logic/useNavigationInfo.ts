@@ -12,12 +12,18 @@ interface UseNavigationInfoParams {
 export function useNavigationInfo({ chainId }: UseNavigationInfoParams): TopbarNavigationProps {
   const blockedPages = useBlockedPages()
   const savingsConverter = useSavingsConverter()
-  const { daiSymbol, usdsSymbol } = getChainConfigEntry(chainId)
+  const tokens = getChainConfigEntry(chainId)?.markets?.highlightedTokensToBorrow
+
+  const borrowLabelTokens = tokens
+    ? tokens.length > 1
+      ? `${tokens.slice(0, -1).join(', ')} or ${tokens.slice(-1)}`
+      : tokens[0]
+    : ''
 
   const borrowSubLinks = [
     {
       to: paths.easyBorrow,
-      label: `Borrow ${daiSymbol ?? ''}${usdsSymbol ? ` and ${usdsSymbol}` : ''}`,
+      label: `Borrow ${borrowLabelTokens}`,
     },
     {
       to: paths.myPortfolio,

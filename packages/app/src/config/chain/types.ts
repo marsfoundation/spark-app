@@ -65,13 +65,9 @@ export type ReserveOracleType =
 
 export type SavingsConverterQuery = (args: SavingsConverterQueryParams) => SavingsConverterQueryOptions
 
-export interface DefaultAssetToBorrowConfig {
-  symbol: TokenSymbol
-  upgradeOptions: TokenSymbol[] | undefined
-}
-
 export interface MarketsConfig {
-  defaultAssetToBorrow: DefaultAssetToBorrowConfig
+  defaultAssetToBorrow: TokenSymbol
+  highlightedTokensToBorrow: TokenSymbol[]
   nativeAssetInfo: NativeAssetInfo
   tokenSymbolToReplacedName: TokenSymbolToNameReplacement
   oracles: Record<TokenSymbol, ReserveOracleType>

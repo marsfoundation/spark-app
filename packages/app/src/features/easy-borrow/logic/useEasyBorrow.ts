@@ -12,7 +12,6 @@ import { updatePositionSummary } from '@/domain/market-info/updatePositionSummar
 import { useMarketInfo } from '@/domain/market-info/useMarketInfo'
 import { useOpenDialog } from '@/domain/state/dialogs'
 import { useTokenRepositoryForFeature } from '@/domain/token-repository/useTokenRepositoryForFeature'
-import { TokenSymbol } from '@/domain/types/TokenSymbol'
 import { useMarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { InjectedActionsContext, Objective } from '@/features/actions/logic/types'
 import { sandboxDialogConfig } from '@/features/dialogs/sandbox/SandboxDialog'
@@ -34,13 +33,9 @@ import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validat
 import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
-import { useUpgradeOptions } from './useUpgradeOptions'
 
 export interface BorrowDetails {
   borrowRate: Percentage
-  dai: TokenSymbol
-  usds?: TokenSymbol
-  isUpgradingToUsds: boolean
 }
 
 export interface UseEasyBorrowResults {
@@ -72,16 +67,11 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { aaveData } = useAaveDataLayer({ chainId })
   const { marketInfo } = useMarketInfo({ chainId })
   const { marketInfo: marketInfoIn1Epoch } = useMarketInfo({ timeAdvance: EPOCH_LENGTH, chainId })
-  const { daiSymbol, usdsSymbol, markets } = getChainConfigEntry(marketInfo.chainId)
+  const { markets } = getChainConfigEntry(marketInfo.chainId)
   const { nativeAssetInfo, defaultAssetToBorrow } = markets ?? {}
-  assert(
-    nativeAssetInfo && defaultAssetToBorrow && daiSymbol,
-    'Markets config and dai symbol are required for easy borrow',
-  )
+  assert(nativeAssetInfo && defaultAssetToBorrow, 'nativeAssetInfo, defaultAssetToBorrow are required for easy borrow')
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'borrow' })
   const walletInfo = useMarketWalletInfo({ chainId })
-
-  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol, tokenRepository })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -107,7 +97,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   )
 
   const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions, walletInfo))
-  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo, upgradeOptions)
+  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo, chainId)
   const formAssets = [...depositableAssets, ...borrowableAssets]
 
   assert(depositableAssets.length > 0, 'No depositable assets')
@@ -120,7 +110,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
         marketInfo,
         aaveData,
         formAssets,
-        upgradeOptions,
         guestMode,
         alreadyDeposited,
         nativeAssetInfo,
@@ -153,12 +142,9 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   const actions = useCreateObjectives(formValues)
 
-  // @note: There is no usds market. When usds is borrowed, upgrade action is performed after borrowing dai.
-  // Thus, for calculation connected to markets (updating user summary, liquidation price), we treat usds as dai.
   const formValuesAsUnderlyingReserves = mapFormTokensToReserves({
     formValues,
     marketInfo,
-    upgradeOptions,
   })
   const updatedUserSummary = useConditionalFreeze(
     updatePositionSummary({
@@ -182,11 +168,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   })
 
   const borrowDetails = {
-    dai: daiSymbol,
-    usds: usdsSymbol,
-    borrowRate:
-      marketInfo.findOneReserveBySymbol(defaultAssetToBorrow.symbol).variableBorrowApy ?? raise('No borrow rate'),
-    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === usdsSymbol,
+    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

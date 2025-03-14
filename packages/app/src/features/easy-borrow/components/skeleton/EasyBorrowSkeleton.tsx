@@ -5,7 +5,7 @@ export function EasyBorrowSkeleton() {
   return (
     <PageLayout className="gap-8">
       <Skeleton className="h-[60px] w-56" />
-      <div className="mt-8 hidden h-full grid-cols-[67%_calc(33%-18px)] gap-[18px] xl:grid">
+      <div className="hidden h-full grid-cols-[67%_calc(33%-18px)] gap-[18px] xl:grid">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-[180px]" />
           <Skeleton className="h-[224px]" />

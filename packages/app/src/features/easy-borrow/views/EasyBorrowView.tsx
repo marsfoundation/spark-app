@@ -35,11 +35,8 @@ export interface EasyBorrowViewProps {
 export function EasyBorrowView(props: EasyBorrowViewProps) {
   return (
     <PageLayout>
-      <div className="typography-heading-1 text-primary">
-        Borrow {props.borrowDetails.dai}
-        {props.borrowDetails.usds ? ` or ${props.borrowDetails.usds}` : ''}
-      </div>
-      <div className="mt-8 xl:grid xl:grid-cols-[67%_calc(33%-18px)] xl:gap-[18px]">
+      <div className="typography-heading-1 text-primary">Easy Borrow</div>
+      <div className="xl:grid xl:grid-cols-[67%_calc(33%-18px)] xl:gap-[18px]">
         <EasyBorrowPanel {...props} />
         <div className="sticky top-2 hidden h-fit xl:block">
           <EasyBorrowSidePanel

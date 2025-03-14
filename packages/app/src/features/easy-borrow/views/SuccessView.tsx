@@ -10,17 +10,14 @@ import { PageLayout } from '@/ui/layouts/PageLayout'
 import { Confetti } from '@/ui/molecules/confetti/Confetti'
 import { cn } from '@/ui/utils/style'
 import { testIds } from '@/ui/utils/testIds'
-import { UsdsUpgradeAlert } from '../components/UsdsUpgradeAlert'
-import { BorrowDetails } from '../logic/useEasyBorrow'
 
 export interface SuccessViewProps {
   deposited: TokenWithValue[]
   borrowed: TokenWithValue[]
-  borrowDetails: BorrowDetails
   runConfetti: boolean
 }
 
-export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }: SuccessViewProps) {
+export function SuccessView({ deposited, borrowed, runConfetti }: SuccessViewProps) {
   return (
     <PageLayout className="items-center justify-center">
       <Confetti run={runConfetti} recycle={false} numberOfPieces={1000} data-testid="react-confetti" />
@@ -43,9 +40,6 @@ export function SuccessView({ deposited, borrowed, runConfetti, borrowDetails }:
               ))}
             </div>
           </div>
-          {borrowDetails.isUpgradingToUsds && (
-            <UsdsUpgradeAlert borrowDetails={borrowDetails} variant="success" className="mt-2" />
-          )}
           <LinkButton size="l" className="mt-8 w-full" to={paths.myPortfolio}>
             View in portfolio
           </LinkButton>

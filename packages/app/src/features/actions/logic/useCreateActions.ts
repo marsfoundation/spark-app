@@ -132,31 +132,6 @@ export function useCreateActions({
           return [approveDelegationAction, borrowAction]
         }
 
-        if (objective.token.symbol === chainConfig.usdsSymbol) {
-          const marketInfo = context.marketInfo ?? raise('Market info is required for borrow action')
-
-          const borrowAction: BorrowAction = {
-            type: 'borrow',
-            token: marketInfo.DAI,
-            value: objective.value,
-          }
-          const approveAction: ApproveAction = {
-            type: 'approve',
-            token: marketInfo.DAI,
-            spender: getContractAddress(migrationActionsConfig.address, chainId),
-            value: objective.value,
-          }
-
-          const upgradeAction: UpgradeAction = {
-            type: 'upgrade',
-            fromToken: marketInfo.DAI,
-            toToken: objective.token,
-            amount: objective.value,
-          }
-
-          return [borrowAction, approveAction, upgradeAction]
-        }
-
         const borrowAction: BorrowAction = {
           type: 'borrow',
           token: objective.token,

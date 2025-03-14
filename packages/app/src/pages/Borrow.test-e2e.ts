@@ -1,13 +1,12 @@
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { ActionsPageObject } from '@/features/actions/ActionsContainer.PageObject'
 import { CollateralDialogPageObject } from '@/features/dialogs/collateral/CollateralDialog.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
-import { TestContext, buildUrl, setup } from '@/test/e2e/setup'
+import { DEFAULT_BLOCK_NUMBER, USDS_RESERVE_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 import { BorrowPageObject } from './Borrow.PageObject'
 import { MyPortfolioPageObject } from './MyPortfolio.PageObject'
-import { SavingsPageObject } from './Savings.PageObject'
 
 test.describe('Borrow page', () => {
   test.describe('deposit ETH, borrow DAI', () => {
@@ -331,7 +330,7 @@ test.describe('Borrow page', () => {
     const testContext = await setup(page, {
       blockchain: {
         chain: mainnet,
-        blockNumber: DEFAULT_BLOCK_NUMBER,
+        blockNumber: USDS_RESERVE_ACTIVE_BLOCK_NUMBER,
       },
       initialPage: 'easyBorrow',
       account: {
@@ -350,14 +349,13 @@ test.describe('Borrow page', () => {
     await borrowPage.fillBorrowAssetAction(10_000)
     await borrowPage.submitAction()
 
-    await borrowPage.expectUsdsBorrowAlert()
-    await actionsContainer.acceptAllActionsAction(5)
+    await actionsContainer.acceptAllActionsAction(3)
     await borrowPage.expectSuccessPage({
       deposited: [
         {
           asset: 'wstETH',
           amount: '10.00',
-          usdValue: '$46,654.64',
+          usdValue: '$22,648.67',
         },
       ],
       borrowed: {
@@ -367,11 +365,49 @@ test.describe('Borrow page', () => {
       },
     })
 
-    await expectHFOnMyPortfolio(testContext, borrowPage, '3.73')
+    await expectHFOnMyPortfolio(testContext, borrowPage, '1.81')
+  })
 
-    await page.goto(buildUrl('savings'))
-    const savingsPage = new SavingsPageObject(testContext)
-    await savingsPage.expectSupportedStablecoinBalance('USDS', '10,000')
+  test('borrows usdc', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        chain: mainnet,
+        blockNumber: USDS_RESERVE_ACTIVE_BLOCK_NUMBER,
+      },
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected-random',
+        assetBalances: {
+          wstETH: 10,
+        },
+      },
+    })
+
+    const borrowPage = new BorrowPageObject(testContext)
+    const actionsContainer = new ActionsPageObject(testContext)
+
+    await borrowPage.fillDepositAssetAction(0, 'wstETH', 10)
+    await borrowPage.selectBorrowAction('USDC')
+    await borrowPage.fillBorrowAssetAction(10_000)
+    await borrowPage.submitAction()
+
+    await actionsContainer.acceptAllActionsAction(3)
+    await borrowPage.expectSuccessPage({
+      deposited: [
+        {
+          asset: 'wstETH',
+          amount: '10.00',
+          usdValue: '$22,648.67',
+        },
+      ],
+      borrowed: {
+        asset: 'USDC',
+        amount: '10,000.00',
+        usdValue: '$10,000.00',
+      },
+    })
+
+    await expectHFOnMyPortfolio(testContext, borrowPage, '1.81')
   })
 
   test.describe('no wallet connected', () => {
@@ -624,7 +660,7 @@ test.describe('Borrow page', () => {
       const testContext = await setup(page, {
         blockchain: {
           chain: mainnet,
-          blockNumber: DEFAULT_BLOCK_NUMBER,
+          blockNumber: USDS_RESERVE_ACTIVE_BLOCK_NUMBER,
         },
         initialPage: 'easyBorrow',
         account: {
@@ -637,18 +673,18 @@ test.describe('Borrow page', () => {
       const borrowPage = new BorrowPageObject(testContext)
       await borrowPage.fillDepositAssetAction(0, 'wstETH', 2)
       await borrowPage.selectBorrowAction('USDS')
-      await borrowPage.fillBorrowAssetAction(3400)
+      await borrowPage.fillBorrowAssetAction(1400)
       await borrowPage.submitAction()
 
       const actionsPage = new ActionsPageObject(testContext)
 
       await actionsPage.acceptBatchedActions()
       await borrowPage.expectSuccessPage({
-        deposited: [{ asset: 'wstETH', amount: '2.00', usdValue: '$9,330.93' }],
-        borrowed: { asset: 'USDS', amount: '3,400.00', usdValue: '$3,400.00' },
+        deposited: [{ asset: 'wstETH', amount: '2.00', usdValue: '$4,529.73' }],
+        borrowed: { asset: 'USDS', amount: '1,400.00', usdValue: '$1,400.00' },
       })
 
-      await expectHFOnMyPortfolio(testContext, borrowPage, '2.2')
+      await expectHFOnMyPortfolio(testContext, borrowPage, '2.59')
     })
   })
 })

@@ -14,6 +14,12 @@ const xdai = defineToken({
   symbol: TokenSymbol('XDAI'),
 })
 
+const wxdai = defineToken({
+  address: CheckedAddress('0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'),
+  oracleType: 'fixed-usd',
+  symbol: TokenSymbol('WXDAI'),
+})
+
 const sdai = defineToken({
   address: CheckedAddress('0xaf204776c7245bF4147c2612BF6e5972Ee483701'),
   oracleType: 'vault',
@@ -43,10 +49,8 @@ export const gnosisConfig: ChainConfigEntry = {
   },
   airdrop: {},
   markets: {
-    defaultAssetToBorrow: {
-      symbol: xdai.symbol,
-      upgradeOptions: undefined,
-    },
+    defaultAssetToBorrow: wxdai.symbol,
+    highlightedTokensToBorrow: [wxdai.symbol],
     nativeAssetInfo: {
       nativeAssetName: 'XDAI',
       wrappedNativeAssetSymbol: TokenSymbol('WXDAI'),
@@ -114,5 +118,5 @@ export const gnosisConfig: ChainConfigEntry = {
     psmStables: undefined,
   },
   farms: undefined,
-  definedTokens: [xdai, sdai],
+  definedTokens: [xdai, wxdai, sdai],
 }

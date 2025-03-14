@@ -14,7 +14,6 @@ import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
 import { NormalizedUnitNumber, parseBigNumber } from '@marsfoundation/common-universal'
 import { z } from 'zod'
 import { ExistingPosition } from '../types'
-import { UpgradeOptions } from '../useUpgradeOptions'
 import { mapFormTokensToReserves } from './mapFormTokensToReserves'
 import { normalizeFormValues } from './normalization'
 
@@ -77,7 +76,6 @@ export interface GetEasyBorrowFormValidatorOptions {
   walletInfo: MarketWalletInfo
   marketInfo: MarketInfo
   formAssets: TokenWithBalance[]
-  upgradeOptions?: UpgradeOptions
   aaveData: AaveData
   guestMode: boolean
   alreadyDeposited: ExistingPosition
@@ -89,7 +87,6 @@ export function getEasyBorrowFormValidator({
   walletInfo,
   marketInfo,
   formAssets,
-  upgradeOptions,
   aaveData,
   guestMode,
   alreadyDeposited,
@@ -107,7 +104,6 @@ export function getEasyBorrowFormValidator({
       const { borrows, deposits } = mapFormTokensToReserves({
         formValues,
         marketInfo,
-        upgradeOptions,
       })
       const updatedUserSummary = updatePositionSummary({
         borrows,

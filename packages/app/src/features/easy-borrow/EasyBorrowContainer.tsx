@@ -1,8 +1,6 @@
+import { withSuspense } from '@/ui/utils/withSuspense'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useChainId } from 'wagmi'
-
-import { withSuspense } from '@/ui/utils/withSuspense'
-
 import { EasyBorrowSkeleton } from './components/skeleton/EasyBorrowSkeleton'
 import { useEasyBorrow } from './logic/useEasyBorrow'
 import { EasyBorrowView } from './views/EasyBorrowView'
@@ -32,9 +30,7 @@ function EasyBorrowContainer() {
   const { openConnectModal = () => {} } = useConnectModal()
 
   if (pageStatus.state === 'success') {
-    return (
-      <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} borrowDetails={borrowDetails} runConfetti />
-    )
+    return <SuccessView deposited={tokensToDeposit} borrowed={tokensToBorrow} runConfetti />
   }
 
   return (

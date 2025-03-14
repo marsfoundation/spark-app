@@ -1,10 +1,11 @@
+import { getChainConfigEntry } from '@/config/chain'
 import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketInfo'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { UpgradeOptions } from './useUpgradeOptions'
+import { assert } from '@marsfoundation/common-universal'
 
-const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
+const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI', 'USDS']
 export function getDepositableAssets(positions: UserPosition[], walletInfo: MarketWalletInfo): TokenWithBalance[] {
   return (
     positions
@@ -18,18 +19,16 @@ export function getDepositableAssets(positions: UserPosition[], walletInfo: Mark
   )
 }
 
-const whitelistedBorrowableAssets = ['DAI', 'WXDAI']
-
 export function getBorrowableAssets(
   reserves: Reserve[],
   walletInfo: MarketWalletInfo,
-  upgradeOptions?: UpgradeOptions,
+  chainId: number,
 ): TokenWithBalance[] {
-  const usds = upgradeOptions?.usds
-  const marketTokens = reserves
-    .filter((r) => whitelistedBorrowableAssets.includes(r.token.symbol))
+  const { markets } = getChainConfigEntry(chainId)
+  assert(markets, 'Markets config required for easy borrow page')
+  return reserves
+    .filter((r) => markets.highlightedTokensToBorrow.includes(r.token.symbol))
     .map((r) => ({ token: r.token, balance: walletInfo.findWalletBalanceForToken(r.token) }))
-  return usds ? [...marketTokens, usds] : marketTokens
 }
 
 export function sortByDecreasingBalances(tokens: TokenWithBalance[]): TokenWithBalance[] {
