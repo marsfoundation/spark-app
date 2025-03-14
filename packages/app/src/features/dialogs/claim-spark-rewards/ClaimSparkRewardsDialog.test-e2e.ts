@@ -3,6 +3,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { SparkRewardsPageObject } from '@/pages/SparkRewards.PageObject'
+import { SPARK_REWARDS_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 import { ClaimSparkRewardsDialogPageObject } from './ClaimSparkRewardsDialog.PageObject'
 
@@ -13,7 +14,7 @@ test.describe('Spark Rewards', () => {
 
     test.beforeEach(async ({ page }) => {
       testContext = await setup(page, {
-        blockchain: { blockNumber: 21926420n, chain: mainnet },
+        blockchain: { blockNumber: SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, chain: mainnet },
         initialPage: 'sparkRewards',
         account: {
           type: 'connected-random',
@@ -59,7 +60,7 @@ test.describe('Spark Rewards', () => {
 
       test.beforeEach(async ({ page }) => {
         testContext = await setup(page, {
-          blockchain: { blockNumber: 21926420n, chain: mainnet },
+          blockchain: { blockNumber: SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, chain: mainnet },
           initialPage: 'sparkRewards',
           account: {
             type: 'connected-random',
@@ -104,6 +105,26 @@ test.describe('Spark Rewards', () => {
         await sparkRewardsPage.expectAmountToClaim(0, '0.00')
         await sparkRewardsPage.expectAmountToClaim(1, '0.00')
       })
+
+      test('can claim all after claiming one', async () => {
+        await sparkRewardsPage.expectAmountToClaim(0, '101.00')
+        await sparkRewardsPage.expectAmountToClaim(1, '202.00')
+        await sparkRewardsPage.clickClaimButton(0)
+
+        const claimDialog = new ClaimSparkRewardsDialogPageObject(testContext)
+
+        await claimDialog.actionsContainer.acceptAllActionsAction(1)
+        await claimDialog.clickCloseButtonAction()
+        await sparkRewardsPage.expectAmountToClaim(0, '0.00')
+        await sparkRewardsPage.expectAmountToClaim(1, '202.00')
+
+        await sparkRewardsPage.clickClaimAllButton()
+
+        await claimDialog.actionsContainer.acceptAllActionsAction(1)
+        await claimDialog.clickCloseButtonAction()
+        await sparkRewardsPage.expectAmountToClaim(0, '0.00')
+        await sparkRewardsPage.expectAmountToClaim(1, '0.00')
+      })
     })
 
     test.describe('Wallet batching', () => {
@@ -112,7 +133,7 @@ test.describe('Spark Rewards', () => {
 
       test.beforeEach(async ({ page }) => {
         testContext = await setup(page, {
-          blockchain: { blockNumber: 21926420n, chain: mainnet },
+          blockchain: { blockNumber: SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, chain: mainnet },
           initialPage: 'sparkRewards',
           account: {
             type: 'connected-random',

@@ -3,7 +3,7 @@ import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
 import { SparkRewardsPageObject } from '@/pages/SparkRewards.PageObject'
-import { TOKENS_ON_FORK } from '@/test/e2e/constants'
+import { SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 test.describe('Spark Rewards', () => {
@@ -12,7 +12,7 @@ test.describe('Spark Rewards', () => {
 
   test.beforeEach(async ({ page }) => {
     testContext = await setup(page, {
-      blockchain: { blockNumber: 21926420n, chain: mainnet },
+      blockchain: { blockNumber: SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'sparkRewards',
       account: {
         type: 'connected-random',
