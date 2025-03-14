@@ -168,8 +168,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   })
 
   const borrowDetails = {
-    borrowRate:
-      marketInfo.findOneReserveBySymbol(defaultAssetToBorrow.symbol).variableBorrowApy ?? raise('No borrow rate'),
+    borrowRate: marketInfo.findOneReserveBySymbol(defaultAssetToBorrow).variableBorrowApy ?? raise('No borrow rate'),
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

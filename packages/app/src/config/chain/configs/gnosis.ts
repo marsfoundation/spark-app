@@ -49,10 +49,7 @@ export const gnosisConfig: ChainConfigEntry = {
   },
   airdrop: {},
   markets: {
-    defaultAssetToBorrow: {
-      symbol: xdai.symbol,
-      upgradeOptions: undefined,
-    },
+    defaultAssetToBorrow: wxdai.symbol,
     highlightedTokensToBorrow: [wxdai.symbol],
     nativeAssetInfo: {
       nativeAssetName: 'XDAI',
@@ -121,5 +118,5 @@ export const gnosisConfig: ChainConfigEntry = {
     psmStables: undefined,
   },
   farms: undefined,
-  definedTokens: [xdai, sdai],
+  definedTokens: [xdai, wxdai, sdai],
 }
