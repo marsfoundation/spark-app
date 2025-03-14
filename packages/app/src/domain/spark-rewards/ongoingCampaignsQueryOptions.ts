@@ -154,7 +154,7 @@ const baseOngoingCampaignSchema = z.object({
   reward_chain_id: z.number(),
 })
 
-const ongoingCampaignsResponseSchema = z.array(
+export const ongoingCampaignsResponseSchema = z.array(
   z.discriminatedUnion('type', [
     baseOngoingCampaignSchema.extend({
       type: z.literal('sparklend'),
