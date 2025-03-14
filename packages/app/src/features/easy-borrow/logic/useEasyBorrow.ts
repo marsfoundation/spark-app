@@ -103,7 +103,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   )
 
   const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions, walletInfo))
-  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo)
+  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo, chainId)
   const formAssets = [...depositableAssets, ...borrowableAssets]
 
   assert(depositableAssets.length > 0, 'No depositable assets')
