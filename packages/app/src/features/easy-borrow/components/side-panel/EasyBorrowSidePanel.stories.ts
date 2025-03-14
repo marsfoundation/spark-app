@@ -12,8 +12,6 @@ const meta: Meta<typeof EasyBorrowSidePanel> = {
   decorators: [WithTooltipProvider(), WithClassname('max-w-[425px]')],
   args: {
     borrowRate: Percentage(0.05),
-    dai: TokenSymbol('DAI'),
-    usds: TokenSymbol('USDS'),
   },
 }
 

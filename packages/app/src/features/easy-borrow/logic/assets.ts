@@ -27,7 +27,7 @@ export function getBorrowableAssets(
   const { markets } = getChainConfigEntry(chainId)
   assert(markets, 'Markets config required for easy borrow page')
   return reserves
-    .filter((r) => markets.whitelistedAssetsToBorrow.includes(r.token.symbol))
+    .filter((r) => markets.highlightedTokensToBorrow.includes(r.token.symbol))
     .map((r) => ({ token: r.token, balance: walletInfo.findWalletBalanceForToken(r.token) }))
 }
 

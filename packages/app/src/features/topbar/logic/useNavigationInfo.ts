@@ -12,7 +12,7 @@ interface UseNavigationInfoParams {
 export function useNavigationInfo({ chainId }: UseNavigationInfoParams): TopbarNavigationProps {
   const blockedPages = useBlockedPages()
   const savingsConverter = useSavingsConverter()
-  const tokens = getChainConfigEntry(chainId)?.markets?.whitelistedAssetsToBorrow
+  const tokens = getChainConfigEntry(chainId)?.markets?.highlightedTokensToBorrow
 
   const borrowLabelTokens = tokens
     ? tokens.length > 1

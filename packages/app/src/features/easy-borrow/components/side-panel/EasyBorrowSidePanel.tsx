@@ -11,7 +11,7 @@ export interface EasyBorrowSidePanelProps extends BorrowDetails {
   liquidationDetails?: LiquidationDetails
 }
 
-export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, usds }: EasyBorrowSidePanelProps) {
+export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate }: EasyBorrowSidePanelProps) {
   return (
     <Panel variant="secondary" spacing="none" className="grid h-fit grid-cols-1 sm:grid-cols-[3fr_2fr] xl:grid-cols-1">
       {hf && (
@@ -28,10 +28,7 @@ export function EasyBorrowSidePanel({ hf, liquidationDetails, borrowRate, dai, u
           >
             {formatPercentage(borrowRate, { skipSign: true })}%
           </h3>
-          <div className="typography-body-3">
-            Borrow {dai}
-            {usds ? ` or ${usds}` : ''} directly from SKY
-          </div>
+          <div className="typography-body-3">Borrow assets directly from SKY</div>
         </div>
       </Panel>
     </Panel>

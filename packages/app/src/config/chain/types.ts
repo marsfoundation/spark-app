@@ -72,7 +72,7 @@ export interface DefaultAssetToBorrowConfig {
 
 export interface MarketsConfig {
   defaultAssetToBorrow: DefaultAssetToBorrowConfig
-  whitelistedAssetsToBorrow: TokenSymbol[]
+  highlightedTokensToBorrow: TokenSymbol[]
   nativeAssetInfo: NativeAssetInfo
   tokenSymbolToReplacedName: TokenSymbolToNameReplacement
   oracles: Record<TokenSymbol, ReserveOracleType>

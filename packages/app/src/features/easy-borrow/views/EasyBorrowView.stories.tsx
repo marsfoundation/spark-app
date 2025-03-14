@@ -182,7 +182,6 @@ const meta: Meta<typeof EasyBorrowViewStory> = {
     },
     guestMode: false,
     borrowDetails: {
-      dai: tokens.DAI.symbol,
       borrowRate: Percentage(0.0553),
     },
     actions: [],
@@ -261,8 +260,6 @@ const borrowUsdsArgs: Partial<EasyBorrowViewStoryProps> = {
     totalLiquidityUSD: NormalizedUnitNumber(2000),
   },
   borrowDetails: {
-    dai: tokens.DAI.symbol,
-    usds: tokens.USDS.symbol,
     borrowRate: Percentage(0.0553),
   },
   actions: [

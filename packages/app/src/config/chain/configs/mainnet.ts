@@ -119,7 +119,7 @@ export const mainnetConfig: ChainConfigEntry = {
       symbol: dai.symbol,
       upgradeOptions: [usds.symbol],
     },
-    whitelistedAssetsToBorrow: [dai.symbol, usds.symbol, usdc.symbol],
+    highlightedTokensToBorrow: [dai.symbol, usds.symbol, usdc.symbol],
     nativeAssetInfo: {
       nativeAssetName: 'Ethereum',
       wrappedNativeAssetSymbol: TokenSymbol('WETH'),
