@@ -79,11 +79,14 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
   )
 }
 
-// @todo: Rewards - ask for tooltip text
 function Header() {
   return (
     <h3 className="typography-heading-5 flex items-baseline gap-1">
-      Earn rewards <Info>Tooltip text</Info>
+      Earn rewards
+      <Info>
+        Earn rewards by participating in the following incentivized actions and campaigns. Explore available
+        opportunities and start accumulating rewards!
+      </Info>
     </h3>
   )
 }
