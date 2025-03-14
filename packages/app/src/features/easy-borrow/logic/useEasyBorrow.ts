@@ -34,13 +34,11 @@ import { EasyBorrowFormSchema, getEasyBorrowFormValidator } from './form/validat
 import { ExistingPosition, PageState, PageStatus } from './types'
 import { useCreateObjectives } from './useCreateObjectives'
 import { useLiquidationDetails } from './useLiquidationDetails'
-import { useUpgradeOptions } from './useUpgradeOptions'
 
 export interface BorrowDetails {
   borrowRate: Percentage
   dai: TokenSymbol
   usds?: TokenSymbol
-  isUpgradingToUsds: boolean
 }
 
 export interface UseEasyBorrowResults {
@@ -76,12 +74,10 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   const { nativeAssetInfo, defaultAssetToBorrow } = markets ?? {}
   assert(
     nativeAssetInfo && defaultAssetToBorrow && daiSymbol,
-    'Markets config and dai symbol are required for easy borrow',
+    'nativeAssetInfo, defaultAssetToBorrow and daiSymbol are required for easy borrow',
   )
   const { tokenRepository } = useTokenRepositoryForFeature({ chainId, featureGroup: 'borrow' })
   const walletInfo = useMarketWalletInfo({ chainId })
-
-  const upgradeOptions = useUpgradeOptions({ chainId, daiSymbol, tokenRepository })
 
   const [pageStatus, setPageStatus] = useState<PageState>('form')
 
@@ -107,7 +103,7 @@ export function useEasyBorrow(): UseEasyBorrowResults {
   )
 
   const depositableAssets = sortByDecreasingBalances(getDepositableAssets(userPositions, walletInfo))
-  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo, upgradeOptions)
+  const borrowableAssets = getBorrowableAssets(marketInfo.reserves, walletInfo)
   const formAssets = [...depositableAssets, ...borrowableAssets]
 
   assert(depositableAssets.length > 0, 'No depositable assets')
@@ -120,7 +116,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
         marketInfo,
         aaveData,
         formAssets,
-        upgradeOptions,
         guestMode,
         alreadyDeposited,
         nativeAssetInfo,
@@ -153,12 +148,9 @@ export function useEasyBorrow(): UseEasyBorrowResults {
 
   const actions = useCreateObjectives(formValues)
 
-  // @note: There is no usds market. When usds is borrowed, upgrade action is performed after borrowing dai.
-  // Thus, for calculation connected to markets (updating user summary, liquidation price), we treat usds as dai.
   const formValuesAsUnderlyingReserves = mapFormTokensToReserves({
     formValues,
     marketInfo,
-    upgradeOptions,
   })
   const updatedUserSummary = useConditionalFreeze(
     updatePositionSummary({
@@ -186,7 +178,6 @@ export function useEasyBorrow(): UseEasyBorrowResults {
     usds: usdsSymbol,
     borrowRate:
       marketInfo.findOneReserveBySymbol(defaultAssetToBorrow.symbol).variableBorrowApy ?? raise('No borrow rate'),
-    isUpgradingToUsds: formValues.borrows[0]?.token.symbol === usdsSymbol,
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

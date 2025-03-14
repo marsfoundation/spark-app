@@ -123,10 +123,6 @@ export class BorrowPageObject extends BasePageObject {
     await expect(this.page.locator('main').getByRole('button', { name: 'Borrow' })).toBeEnabled()
   }
 
-  async expectUsdsBorrowAlert(): Promise<void> {
-    await expect(this.page.getByTestId(testIds.easyBorrow.form.usdsBorrowAlert)).toBeVisible()
-  }
-
   async expectSuccessPage({
     deposited,
     borrowed,

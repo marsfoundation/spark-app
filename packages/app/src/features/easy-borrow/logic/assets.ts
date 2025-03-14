@@ -2,9 +2,8 @@ import { NativeAssetInfo } from '@/config/chain/types'
 import { TokenWithBalance } from '@/domain/common/types'
 import { MarketInfo, Reserve, UserPosition } from '@/domain/market-info/marketInfo'
 import { MarketWalletInfo } from '@/domain/wallet/useMarketWalletInfo'
-import { UpgradeOptions } from './useUpgradeOptions'
 
-const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI']
+const blacklistedDepositableAssets = ['USDC', 'USDT', 'DAI', 'sDAI', 'XDAI', 'USDS']
 export function getDepositableAssets(positions: UserPosition[], walletInfo: MarketWalletInfo): TokenWithBalance[] {
   return (
     positions
@@ -18,18 +17,12 @@ export function getDepositableAssets(positions: UserPosition[], walletInfo: Mark
   )
 }
 
-const whitelistedBorrowableAssets = ['DAI', 'WXDAI']
+const whitelistedBorrowableAssets = ['DAI', 'WXDAI', 'USDS']
 
-export function getBorrowableAssets(
-  reserves: Reserve[],
-  walletInfo: MarketWalletInfo,
-  upgradeOptions?: UpgradeOptions,
-): TokenWithBalance[] {
-  const usds = upgradeOptions?.usds
-  const marketTokens = reserves
+export function getBorrowableAssets(reserves: Reserve[], walletInfo: MarketWalletInfo): TokenWithBalance[] {
+  return reserves
     .filter((r) => whitelistedBorrowableAssets.includes(r.token.symbol))
     .map((r) => ({ token: r.token, balance: walletInfo.findWalletBalanceForToken(r.token) }))
-  return usds ? [...marketTokens, usds] : marketTokens
 }
 
 export function sortByDecreasingBalances(tokens: TokenWithBalance[]): TokenWithBalance[] {

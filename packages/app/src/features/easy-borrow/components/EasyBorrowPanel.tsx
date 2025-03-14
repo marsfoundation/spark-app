@@ -15,7 +15,6 @@ import { FormFieldsForAssetClass } from '../logic/form/form'
 import { EasyBorrowFormSchema } from '../logic/form/validation'
 import { ExistingPosition, PageStatus } from '../logic/types'
 import { BorrowDetails } from '../logic/useEasyBorrow'
-import { UsdsUpgradeAlert } from './UsdsUpgradeAlert'
 import { EasyBorrowForm } from './form/EasyBorrowForm'
 import { EasyBorrowSidePanel } from './side-panel/EasyBorrowSidePanel'
 
@@ -62,16 +61,13 @@ export function EasyBorrowPanel(props: EasyBorrowPanelProps) {
 
           {pageStatus.state === 'confirmation' && (
             <div className="flex flex-col gap-3">
-              {(!!props.riskAcknowledgement.warning || !!props.borrowDetails.isUpgradingToUsds) && (
+              {!!props.riskAcknowledgement.warning && (
                 <Panel className="flex flex-col gap-6">
                   {props.riskAcknowledgement.warning && (
                     <RiskAcknowledgement
                       onStatusChange={props.riskAcknowledgement.onStatusChange}
                       warning={props.riskAcknowledgement.warning}
                     />
-                  )}
-                  {props.borrowDetails.isUpgradingToUsds && (
-                    <UsdsUpgradeAlert borrowDetails={props.borrowDetails} variant="borrow" />
                   )}
                 </Panel>
               )}

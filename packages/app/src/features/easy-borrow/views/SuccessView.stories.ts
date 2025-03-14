@@ -3,7 +3,7 @@ import { getMobileStory, getTabletStory } from '@sb/viewports'
 import { Meta, StoryObj } from '@storybook/react'
 import { withRouter } from 'storybook-addon-remix-react-router'
 
-import { NormalizedUnitNumber, Percentage } from '@marsfoundation/common-universal'
+import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
 
 import { SuccessView } from './SuccessView'
 
@@ -29,11 +29,6 @@ const meta: Meta<typeof SuccessView> = {
       },
     ],
     runConfetti: false,
-    borrowDetails: {
-      dai: tokens.DAI.symbol,
-      borrowRate: Percentage(0.0553),
-      isUpgradingToUsds: false,
-    },
   },
 }
 
@@ -66,12 +61,6 @@ export const Usds: Story = {
         value: NormalizedUnitNumber(10_000),
       },
     ],
-    borrowDetails: {
-      dai: tokens.DAI.symbol,
-      usds: tokens.USDS.symbol,
-      borrowRate: Percentage(0.0553),
-      isUpgradingToUsds: true,
-    },
   },
 }
 export const UsdsMobile = getMobileStory(Usds)

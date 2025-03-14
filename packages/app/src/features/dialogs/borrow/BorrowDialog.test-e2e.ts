@@ -1,7 +1,7 @@
 import { borrowValidationIssueToMessage } from '@/domain/market-validators/validateBorrow'
 import { BorrowPageObject } from '@/pages/Borrow.PageObject'
 import { MyPortfolioPageObject } from '@/pages/MyPortfolio.PageObject'
-import { DEFAULT_BLOCK_NUMBER } from '@/test/e2e/constants'
+import { DEFAULT_BLOCK_NUMBER, USDS_RESERVE_ACTIVE_BLOCK_NUMBER } from '@/test/e2e/constants'
 import { setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
@@ -427,6 +427,42 @@ test.describe('Borrow dialog', () => {
       await borrowDialog.fillAmountAction(0)
       await borrowDialog.expectAssetInputError(borrowValidationIssueToMessage['value-not-positive'])
       await borrowDialog.expectLiquidationRiskWarningNotVisible()
+    })
+  })
+
+  test('borrows usds', async ({ page }) => {
+    const testContext = await setup(page, {
+      blockchain: {
+        blockNumber: USDS_RESERVE_ACTIVE_BLOCK_NUMBER,
+        chain: mainnet,
+      },
+      initialPage: 'easyBorrow',
+      account: {
+        type: 'connected-random',
+        assetBalances: { ...initialBalances },
+      },
+    })
+
+    const borrowPage = new BorrowPageObject(testContext)
+    const myPortfolioPage = new MyPortfolioPageObject(testContext)
+    const borrowDialog = new DialogPageObject({ testContext, header })
+
+    await borrowPage.depositWithoutBorrowActions({
+      assetsToDeposit: { rETH: 2 },
+    })
+    await myPortfolioPage.goToMyPortfolioAction()
+    await myPortfolioPage.expectDepositedAssets('$4,282')
+    await myPortfolioPage.clickBorrowButtonAction('USDS')
+
+    await borrowDialog.fillAmountAction(100)
+    await borrowDialog.actionsContainer.acceptAllActionsAction(1)
+    await borrowDialog.expectSuccessPage({
+      tokenWithValue: [{ asset: 'USDS', amount: '100.00', usdValue: '$100.00' }],
+    })
+    await borrowDialog.viewInMyPortfolioAction()
+
+    await myPortfolioPage.expectBorrowTable({
+      USDS: 100,
     })
   })
 })
