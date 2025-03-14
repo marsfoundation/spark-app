@@ -58,7 +58,7 @@ test.describe('Spark Rewards', () => {
   })
 
   test('displays ongoing campaigns', async () => {
-    await sparkRewardsPage.expectOngoingCampaignsRow(0, 'Borrow wstETH get USDS1')
+    await sparkRewardsPage.expectOngoingCampaignsRow(0, 'Borrow wstETH get USDS')
     await sparkRewardsPage.expectOngoingCampaignsRow(1, 'Deposit into sUSDS get USDS')
   })
 
