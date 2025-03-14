@@ -28,7 +28,7 @@ export function EarnRewardsBanner({ className }: EarnRewardsBannerProps) {
             powered by strategic partnerships. Start earning today!
           </div>
         </div>
-        <LinkButton variant="secondary" size="l" className="w-full" to={links.docs.sparkRewards}>
+        <LinkButton external to={links.docs.sparkRewards} variant="secondary" size="l" className="w-full">
           Learn more <ExternalLinkIcon className="icon-sm" />
         </LinkButton>
       </div>
