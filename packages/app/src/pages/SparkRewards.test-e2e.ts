@@ -2,9 +2,9 @@ import { TestContext, setup } from '@/test/e2e/setup'
 import { test } from '@playwright/test'
 import { mainnet } from 'viem/chains'
 
-import { ClaimSparkRewardsDialogPageObject } from '@/features/dialogs/claim-spark-rewards/ClaimSparkRewardsDialog.PageObject'
+import { SparkRewardsPageObject } from '@/pages/SparkRewards.PageObject'
+import { SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, TOKENS_ON_FORK } from '@/test/e2e/constants'
 import { NormalizedUnitNumber } from '@marsfoundation/common-universal'
-import { SparkRewardsPageObject } from './SparkRewards.PageObject'
 
 test.describe('Spark Rewards', () => {
   let sparkRewardsPage: SparkRewardsPageObject
@@ -12,7 +12,7 @@ test.describe('Spark Rewards', () => {
 
   test.beforeEach(async ({ page }) => {
     testContext = await setup(page, {
-      blockchain: { blockNumber: 21926420n, chain: mainnet },
+      blockchain: { blockNumber: SPARK_REWARDS_ACTIVE_BLOCK_NUMBER, chain: mainnet },
       initialPage: 'sparkRewards',
       account: {
         type: 'connected-random',
@@ -23,19 +23,47 @@ test.describe('Spark Rewards', () => {
           },
         ],
       },
+      sparkRewards: {
+        ongoingCampaigns: [
+          {
+            type: 'sparklend',
+            campaign_uid: '1',
+            short_description: 'Borrow wstETH get USDS',
+            long_description: 'Borrow wstETH get USDS',
+            restricted_country_codes: [],
+            reward_token_address: TOKENS_ON_FORK[mainnet.id].USDS.address,
+            reward_chain_id: 1,
+            deposit_token_addresses: [TOKENS_ON_FORK[mainnet.id].wstETH.address],
+            borrow_token_addresses: [],
+            chain_id: 1,
+            apy: '0.005',
+          },
+          {
+            type: 'savings',
+            campaign_uid: '1',
+            short_description: 'Deposit into sUSDS get USDS',
+            long_description: 'Deposit into sUSDS get USDS',
+            restricted_country_codes: [],
+            reward_token_address: TOKENS_ON_FORK[mainnet.id].USDS.address,
+            reward_chain_id: 1,
+            savings_token_addresses: [TOKENS_ON_FORK[mainnet.id].sUSDS.address],
+            chain_id: 1,
+            apy: '0.005',
+          },
+        ],
+      },
     })
 
     sparkRewardsPage = new SparkRewardsPageObject(testContext)
   })
 
-  test('can claim', async () => {
-    await sparkRewardsPage.clickClaimButton()
-    await sparkRewardsPage.expectAmountToClaim('101.00')
+  test('displays ongoing campaigns', async () => {
+    await sparkRewardsPage.expectOngoingCampaignsRow(0, 'Borrow wstETH get USDS')
+    await sparkRewardsPage.expectOngoingCampaignsRow(1, 'Deposit into sUSDS get USDS')
+  })
 
-    const claimDialog = new ClaimSparkRewardsDialogPageObject(testContext)
-
-    await claimDialog.actionsContainer.acceptAllActionsAction(1)
-    await claimDialog.clickCloseButtonAction()
-    await sparkRewardsPage.expectAmountToClaim('0.00')
+  test('click start redirects to market details', async () => {
+    await sparkRewardsPage.clickStartCampaignButton(0)
+    await sparkRewardsPage.expectToBeRedirectedToMarketDetails(TOKENS_ON_FORK[mainnet.id].wstETH.address)
   })
 })

@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, isTouchScreen } from '@/ui/ato
 import { IconStack } from '@/ui/molecules/icon-stack/IconStack'
 import { Info } from '@/ui/molecules/info/Info'
 import { cn } from '@/ui/utils/style'
+import { testIds } from '@/ui/utils/testIds'
 import { useIsTruncated } from '@/ui/utils/useIsTruncated'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion'
 import { AlertTriangleIcon, ChevronDownIcon } from 'lucide-react'
@@ -40,8 +41,13 @@ export function OngoingCampaignsPanel({ ongoingCampaignsResult, isGuestMode, cla
           <div>Task</div>
           <div className="hidden sm:mr-8 sm:block">Action</div>
         </div>
-        {ongoingCampaignsResult.data.map((campaign) => (
-          <AccordionItem key={campaign.id} value={campaign.id} className="border-primary border-t">
+        {ongoingCampaignsResult.data.map((campaign, index) => (
+          <AccordionItem
+            key={campaign.id}
+            value={campaign.id}
+            className="border-primary border-t"
+            data-testid={testIds.sparkRewards.ongoingCampaignsPanel.row(index)}
+          >
             <AccordionTrigger
               className={cn(
                 'grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-3 py-6',
@@ -162,6 +168,7 @@ function EngagementButton(props: ButtonProps) {
       variant="secondary"
       size="s"
       className={cn(props.className, 'px-6')}
+      data-testid={testIds.sparkRewards.ongoingCampaignsPanel.startButton}
       onClick={(e) => {
         e.stopPropagation()
         props.onClick?.(e)

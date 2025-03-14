@@ -35,6 +35,7 @@ export function useClaimableRewardsSummary(): UseClaimableRewardsSummaryResult {
           chainId,
         }
       })
+      .filter(({ amountToClaim }) => amountToClaim.isGreaterThan(0))
 
     const claimableRewardsWithPrice = claimableRewards.filter(({ token, amountToClaim }) =>
       token.toUSD(amountToClaim).isGreaterThan(0),

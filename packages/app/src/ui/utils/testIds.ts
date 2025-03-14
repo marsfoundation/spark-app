@@ -305,6 +305,10 @@ export const testIds = makeTestIds({
     claimableRewardsPanel: {
       amountToClaim: true,
     },
+    ongoingCampaignsPanel: {
+      row: (index: number) => index,
+      startButton: true,
+    },
   },
 })
 
