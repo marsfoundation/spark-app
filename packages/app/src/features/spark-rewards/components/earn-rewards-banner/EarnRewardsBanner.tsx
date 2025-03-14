@@ -1,10 +1,10 @@
 import { assets } from '@/ui/assets'
 import { LinkButton } from '@/ui/atoms/link-button/LinkButton'
 import { Panel } from '@/ui/atoms/panel/Panel'
+import { links } from '@/ui/constants/links'
 import { cn } from '@/ui/utils/style'
 import { ExternalLinkIcon } from 'lucide-react'
 
-// @todo: Rewards: Ask for copy and button link
 export interface EarnRewardsBannerProps {
   className?: string
 }
@@ -24,11 +24,11 @@ export function EarnRewardsBanner({ className }: EarnRewardsBannerProps) {
         <div className="flex flex-col gap-2">
           <div className="typography-heading-3 text-primary-inverse">Earn Spark Rewards</div>
           <div className="typography-body-3 text-tertiary">
-            Lorem ipsum dolor sit amet consectetur. Ultrices senectus dignissim dui varius porta curabitur. Cursus odio
-            lobortis ut erat habitant ac tellus. Posuere eget tellus tellus maecenas consectetur habitasse massa.{' '}
+            Earn rewards by participating in campaigns. Rewards accrue in real time and are distributed periodically,
+            powered by strategic partnerships. Start earning today!
           </div>
         </div>
-        <LinkButton variant="secondary" size="l" className="w-full" to="/">
+        <LinkButton external to={links.docs.sparkRewards} variant="secondary" size="l" className="w-full">
           Learn more <ExternalLinkIcon className="icon-sm" />
         </LinkButton>
       </div>

@@ -89,11 +89,14 @@ export function ClaimableRewardsPanel({ claimableRewardsResult }: ClaimableRewar
   )
 }
 
-// @todo: Rewards - ask for tooltip text
 function Header() {
   return (
     <h3 className="typography-heading-5 flex items-baseline gap-1">
-      Claimable rewards <Info>Tooltip text</Info>
+      Claimable rewards
+      <Info>
+        Claimable Rewards show rewards you can claim. While rewards accrue in real time, they are distributed
+        periodically. Check back regularly to claim what's available.
+      </Info>
     </h3>
   )
 }
