@@ -1,8 +1,8 @@
 import { assert } from '@marsfoundation/common-universal'
 import { TestnetClient, TestnetClientHelperActions } from '../TestnetClient.js'
-import { OnTransactionHandler } from '../TestnetFactory.js'
+import { CreateClientFromUrlParamsInternal } from '../TestnetFactory.js'
 
-export function extendWithTestnetHelpers(creationArgs: { forkChainId: number; onTransaction?: OnTransactionHandler }) {
+export function extendWithTestnetHelpers(creationArgs: CreateClientFromUrlParamsInternal) {
   return (
     c: Pick<TestnetClient, 'snapshot' | 'revert' | 'writeContract' | 'waitForTransactionReceipt' | 'sendTransaction'>,
   ): TestnetClientHelperActions => {
@@ -33,9 +33,7 @@ export function extendWithTestnetHelpers(creationArgs: { forkChainId: number; on
 
         assert(receipt.status === 'success', `Transaction failed: ${summaryText}`)
 
-        if (creationArgs.onTransaction) {
-          await creationArgs.onTransaction({ forkChainId: creationArgs.forkChainId, receipt, txHash })
-        }
+        await creationArgs.onTransaction({ forkChainId: creationArgs.forkChainId, receipt, txHash })
 
         return receipt
       },
@@ -48,9 +46,7 @@ export function extendWithTestnetHelpers(creationArgs: { forkChainId: number; on
 
         assert(receipt.status === 'success', `Transaction failed: ${txHash}`)
 
-        if (creationArgs.onTransaction) {
-          await creationArgs.onTransaction({ forkChainId: creationArgs.forkChainId, receipt, txHash })
-        }
+        await creationArgs.onTransaction({ forkChainId: creationArgs.forkChainId, receipt, txHash })
 
         return receipt
       },

@@ -1,17 +1,22 @@
 import { assert } from '@marsfoundation/common-universal'
 import { TestnetClient } from '../../TestnetClient.js'
-import { CreateNetworkArgs, OnTransactionHandler, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
+import {
+  CreateClientFromUrlParams,
+  CreateNetworkParams,
+  TestnetCreateResult,
+  TestnetFactory,
+} from '../../TestnetFactory.js'
 
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'
-import { http, Chain, createPublicClient } from 'viem'
+import { http, createPublicClient } from 'viem'
 import { arbitrum, base, gnosis, mainnet } from 'viem/chains'
 import { getAnvilClient } from './AnvilClient.js'
 
 export class AnvilTestnetFactory implements TestnetFactory {
   constructor(private readonly opts: { alchemyApiKey: string }) {}
 
-  async create(args: CreateNetworkArgs): Promise<TestnetCreateResult> {
+  async create(args: CreateNetworkParams): Promise<TestnetCreateResult> {
     const { originChain, forkChainId, blockNumber } = args
 
     const forkUrl = originChainIdToForkUrl(originChain.id, this.opts.alchemyApiKey)
@@ -42,12 +47,18 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     assert(anvil.status === 'listening', `Anvil failed to start: ${anvil.status}`)
 
-    const client = getAnvilClient(rpcUrl, originChain, forkChainId, args.onTransaction)
+    const client = getAnvilClient({
+      rpcUrl,
+      originChain,
+      forkChainId,
+      onTransaction: args.onTransaction ?? (async () => {}),
+    })
 
     const lastBlockTimestamp = (await client.getBlock()).timestamp
     await client.setNextBlockTimestamp(lastBlockTimestamp + 1n) // mineBlocks does not respect interval for the first block
     await client.mineBlocks(2n)
 
+    // eslint-disable-next-line
     const cleanup = async () => {
       await anvil.stop()
     }
@@ -60,13 +71,8 @@ export class AnvilTestnetFactory implements TestnetFactory {
     }
   }
 
-  createClientFromUrl(
-    rpcUrl: string,
-    chain: Chain,
-    forkChainId: number,
-    onTransaction?: OnTransactionHandler,
-  ): TestnetClient {
-    return getAnvilClient(rpcUrl, chain, forkChainId, onTransaction)
+  createClientFromUrl(args: CreateClientFromUrlParams): TestnetClient {
+    return getAnvilClient({ ...args, onTransaction: args.onTransaction ?? (async () => {}) })
   }
 }
 
