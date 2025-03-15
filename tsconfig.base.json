@@ -9,6 +9,6 @@
     "strict": true,
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
-    "lib": ["esnext.disposable"]
+    "lib": ["esnext.disposable", "DOM"]
   }
 }
