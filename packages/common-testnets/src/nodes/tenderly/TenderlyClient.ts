@@ -1,9 +1,15 @@
 import { Hash } from '@marsfoundation/common-universal'
 import { http, Address, Chain, Hex, createTestClient, numberToHex, publicActions, walletActions } from 'viem'
 import { TestnetClient } from '../../TestnetClient.js'
+import { OnTransactionHandler } from '../../TestnetFactory.js'
 import { extendWithTestnetHelpers } from '../extendWithTestnetHelpers.js'
 
-export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient {
+export function getTenderlyClient(
+  rpcUrl: string,
+  chain: Chain,
+  forkChainId: number,
+  onTransaction?: OnTransactionHandler,
+): TestnetClient {
   return createTestClient({
     chain: { ...chain, id: forkChainId },
     mode: 'anvil',
@@ -29,6 +35,10 @@ export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: num
             method: 'tenderly_setStorageAt',
             params: [addr.toString(), slot, value],
           } as any)
+
+          if (onTransaction) {
+            await onTransaction({ forkChainId: forkChainId })
+          }
         },
         async snapshot(): Promise<string> {
           return c.request({
@@ -69,5 +79,5 @@ export function getTenderlyClient(rpcUrl: string, chain: Chain, forkChainId: num
     })
     .extend(walletActions)
     .extend(publicActions)
-    .extend(extendWithTestnetHelpers)
+    .extend(extendWithTestnetHelpers({ forkChainId, onTransaction }))
 }

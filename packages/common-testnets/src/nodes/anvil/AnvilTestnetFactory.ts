@@ -1,6 +1,6 @@
 import { assert } from '@marsfoundation/common-universal'
 import { TestnetClient } from '../../TestnetClient.js'
-import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
+import { CreateNetworkArgs, OnTransactionHandler, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
 
 import { createAnvil } from '@viem/anvil'
 import getPort from 'get-port'
@@ -42,23 +42,31 @@ export class AnvilTestnetFactory implements TestnetFactory {
 
     assert(anvil.status === 'listening', `Anvil failed to start: ${anvil.status}`)
 
-    const client = getAnvilClient(rpcUrl, originChain, forkChainId)
+    const client = getAnvilClient(rpcUrl, originChain, forkChainId, args.onTransaction)
 
     const lastBlockTimestamp = (await client.getBlock()).timestamp
     await client.setNextBlockTimestamp(lastBlockTimestamp + 1n) // mineBlocks does not respect interval for the first block
     await client.mineBlocks(2n)
 
+    const cleanup = async () => {
+      await anvil.stop()
+    }
+
     return {
       client,
       rpcUrl,
-      cleanup: async () => {
-        await anvil.stop()
-      },
+      cleanup,
+      [Symbol.asyncDispose]: cleanup,
     }
   }
 
-  createClientFromUrl(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient {
-    return getAnvilClient(rpcUrl, chain, forkChainId)
+  createClientFromUrl(
+    rpcUrl: string,
+    chain: Chain,
+    forkChainId: number,
+    onTransaction?: OnTransactionHandler,
+  ): TestnetClient {
+    return getAnvilClient(rpcUrl, chain, forkChainId, onTransaction)
   }
 }
 

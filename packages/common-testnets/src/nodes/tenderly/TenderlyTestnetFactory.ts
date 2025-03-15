@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Chain, numberToHex } from 'viem'
 import { z } from 'zod'
 import { TestnetClient } from '../../TestnetClient.js'
-import { CreateNetworkArgs, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
+import { CreateNetworkArgs, OnTransactionHandler, TestnetCreateResult, TestnetFactory } from '../../TestnetFactory.js'
 import { getTenderlyClient } from './TenderlyClient.js'
 
 export class TenderlyTestnetFactory implements TestnetFactory {
@@ -14,7 +14,7 @@ export class TenderlyTestnetFactory implements TestnetFactory {
   ) {}
 
   async create(args: CreateNetworkArgs): Promise<TestnetCreateResult> {
-    const { id, displayName, originChain, forkChainId, blockNumber } = args
+    const { id, displayName, originChain, forkChainId, blockNumber, onTransaction } = args
     const uniqueId = uuidv4()
 
     const response = await this.httpClient.post(
@@ -48,7 +48,7 @@ export class TenderlyTestnetFactory implements TestnetFactory {
     const publicRpc = response.rpcs.find((rpc: any) => rpc.name === 'Public RPC')
     assert(adminRpc && publicRpc, 'Missing admin or public RPC')
 
-    const client = this.createClientFromUrl(adminRpc.url, originChain, forkChainId)
+    const client = this.createClientFromUrl(adminRpc.url, originChain, forkChainId, onTransaction)
     const legacyClient = client.extend((c) => ({
       async legacySetNextBlockTimestamp(timestamp: bigint) {
         await c.request({
@@ -63,16 +63,24 @@ export class TenderlyTestnetFactory implements TestnetFactory {
 
     await legacyClient.legacySetNextBlockTimestamp(nextBlockTimestamp)
 
+    const cleanup = async () => {}
+
     return {
       client,
       rpcUrl: adminRpc.url,
       publicRpcUrl: publicRpc.url,
-      cleanup: () => Promise.resolve(),
+      cleanup,
+      [Symbol.asyncDispose]: cleanup,
     }
   }
 
-  createClientFromUrl(rpcUrl: string, chain: Chain, forkChainId: number): TestnetClient {
-    return getTenderlyClient(rpcUrl, chain, forkChainId)
+  createClientFromUrl(
+    rpcUrl: string,
+    chain: Chain,
+    forkChainId: number,
+    onTransaction?: OnTransactionHandler,
+  ): TestnetClient {
+    return getTenderlyClient(rpcUrl, chain, forkChainId, onTransaction)
   }
 }
 
